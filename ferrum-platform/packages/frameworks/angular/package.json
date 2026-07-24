@@ -1,0 +1,36 @@
+{
+  "name": "@ferrum/angular",
+  "version": "0.0.1",
+  "description": "Angular framework adapter for Ferrum Platform",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ferrum/tokens": "workspace:*"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=17",
+    "rxjs": ">=7"
+  },
+  "devDependencies": {
+    "@angular/core": "^17.0.0",
+    "rxjs": "^7.8.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
+  },
+  "license": "MIT"
+}

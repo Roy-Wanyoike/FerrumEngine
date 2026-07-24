@@ -1,8 +1,17 @@
 # FerrumEngine Project
 
-A comprehensive full-stack web application built with modern technologies for AI-powered services and intelligent workflows.
+A comprehensive full-stack web application built with modern technologies and best practices.
 
-## 🚀 Features
+## � Documentation
+
+**Start here for complete guides:**
+- ⭐ [**QUICK_REFERENCE.md**](QUICK_REFERENCE.md) - 5-minute overview & setup
+- 📚 [**DOCUMENTATION.md**](DOCUMENTATION.md) - Index of all guides
+- 🛠️ [**SETUP.md**](SETUP.md) - Complete setup instructions- 🚀 [**SUPABASE_SETUP.md**](SUPABASE_SETUP.md) - PostgreSQL database setup- 📁 [**PROJECT_ORGANIZATION.md**](PROJECT_ORGANIZATION.md) - Folder structure & architecture
+- 🔌 [**API_GUIDE.md**](API_GUIDE.md) - Creating API endpoints
+- ⚙️ [**.env.example**](.env.example) - Environment variables template
+
+## �🚀 Features
 
 - **Next.js Framework** - Fast, production-ready React framework with server-side rendering
 - **TypeScript** - Type-safe development with full type checking
@@ -11,7 +20,6 @@ A comprehensive full-stack web application built with modern technologies for AI
 - **Turbo Monorepo** - Efficient monorepo management with optimized builds
 - **ESLint & Prettier** - Code quality and formatting standards
 - **Multiple Micro-services** - Scalable architecture with mini-services
-- **AI Integration** - Support for AI-powered features and workflows
 - **WebSocket Support** - Real-time communication capabilities
 
 ## 📋 Project Structure
@@ -21,27 +29,22 @@ FerrumEngine-project/
 ├── ferrum-platform/          # Main monorepo with packages
 │   ├── packages/            # Shared packages and modules
 │   └── pnpm-workspace.yaml  # PNPM workspace configuration
-├── src/                     # Source code (components, pages, utilities)
-├── prisma/                  # Database schema and migrations
+├── src/                     # Source code
+│   ├── app/                # Next.js app (Frontend + Backend API)
+│   │   ├── page.tsx       # Homepage
+│   │   ├── api/           # Backend API routes
+│   │   └── layout.tsx     # Root layout
+│   ├── components/         # React UI components
+│   ├── hooks/             # Custom React hooks
+│   └── lib/               # Utility functions
+├── prisma/                # Database (SQLite)
 │   └── schema.prisma
-├── scripts/                 # Automation and utility scripts
-│   ├── Python scripts for data processing
-│   ├── ferrum_ai_body.py   # AI-related functionality
-│   └── generate-roycss.py  # Style generation
-├── skills/                  # AI skills and specialized modules
-│   ├── coding-agent/       # Coding assistance
-│   ├── image-generation/   # Image generation capabilities
-│   ├── LLM/               # Language model integration
-│   └── [many more skills...]
-├── mini-services/          # Microservices architecture
-├── public/                 # Static assets
-│   └── ferrum-effects.css
-├── download/              # Sample data and search results
-├── examples/              # Example implementations
-│   └── websocket/        # WebSocket examples
-├── db/                    # Database files
-└── upload/               # User upload directory
+├── public/                # Static assets
+├── download/              # Sample images
+└── scripts/              # Automation scripts
 ```
+
+For detailed structure, see [PROJECT_ORGANIZATION.md](PROJECT_ORGANIZATION.md)
 
 ## 🛠 Tech Stack
 
@@ -70,56 +73,27 @@ FerrumEngine-project/
 
 ## 📦 Getting Started
 
+### Quick Setup (5 minutes)
+```bash
+# 1. Install dependencies
+pnpm install
+
+# 2. Create environment file
+cp .env.example .env.local
+
+# 3. Initialize database
+pnpm exec prisma migrate dev --name init
+
+# 4. Start dev server
+pnpm dev
+```
+
+**⚠️ Important:** See [SETUP.md](SETUP.md) for complete configuration guide including required environment variables.
+
 ### Prerequisites
 - Node.js 18+ or higher
 - PNPM 8+
 - Git
-
-### Installation
-
-1. **Clone the repository**
-```bash
-git clone <repository-url>
-cd FerrumEngine-project
-```
-
-2. **Install dependencies**
-```bash
-pnpm install
-```
-
-3. **Set up environment variables**
-```bash
-cp .env.example .env.local
-# Edit .env.local with your configuration
-```
-
-4. **Set up the database**
-```bash
-pnpm exec prisma migrate dev
-pnpm exec prisma generate
-```
-
-### Development
-
-Start the development server:
-```bash
-pnpm dev
-```
-
-The application will be available at `http://localhost:3000`
-
-### Building for Production
-
-Build the project:
-```bash
-pnpm build
-```
-
-Start production server:
-```bash
-pnpm start
-```
 
 ## 🧪 Testing
 
@@ -152,17 +126,6 @@ The project uses **Tailwind CSS** for styling with custom configurations:
 - Tailwind configuration in `tailwind.config.ts`
 - PostCSS processing in `postcss.config.mjs`
 
-## 🤖 AI & Skills System
-
-The `skills/` directory contains specialized AI modules including:
-- **coding-agent** - Code generation and analysis
-- **image-generation** - AI image creation
-- **image-search** - Image searching capabilities
-- **LLM** - Language model integration
-- **interview-prep** - Interview preparation tools
-- **content-strategy** - Content planning and optimization
-- And 20+ additional specialized skills
-
 ## 🌐 API & Services
 
 ### WebSocket Support
@@ -173,10 +136,31 @@ Mini-services located in `mini-services/` directory for scalable functionality
 
 ## 📚 Database
 
-Prisma ORM is used for database management:
-- Schema defined in `prisma/schema.prisma`
-- Automatic migrations with `prisma migrate`
-- Type-safe database queries in application code
+**Type:** PostgreSQL via Supabase (scalable, production-ready)  
+**ORM:** Prisma (type-safe database access)  
+**Setup:** https://supabase.com (free tier)  
+**Schema:** `prisma/schema.prisma`
+
+### Database Commands
+```bash
+# Deploy migrations to Supabase
+pnpm exec prisma migrate deploy
+
+# Push schema changes
+pnpm exec prisma db push
+
+# View GUI dashboard
+pnpm exec prisma studio
+
+# Generate types
+pnpm exec prisma generate
+```
+
+### Models
+- **User** - User accounts with email, name
+- **Post** - Blog posts with title, content, author
+
+Supabase PostgreSQL works for both development and production. [See SETUP.md](SETUP.md) for configuration.
 
 ## 🔧 Configuration Files
 
@@ -188,6 +172,25 @@ Prisma ORM is used for database management:
 - **Caddyfile** - Caddy web server configuration
 - **pnpm-workspace.yaml** - PNPM workspace setup
 - **turbo.json** - Turbo build configuration
+
+## 🔐 Environment Variables
+
+**Setup:** See [SETUP.md](SETUP.md) for complete guide
+
+### Required
+```env
+DATABASE_URL="postgresql://user:password@db.supabase.co:5432/postgres"  # Supabase
+NODE_ENV="development"
+```
+
+### Optional (For Features)
+```env
+NEXT_PUBLIC_API_BASE_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret"        # Authentication
+STRIPE_SECRET_KEY="your-key"         # Payments
+```
+
+⚠️ **Security:** Never commit `.env.local` - it's in `.gitignore`
 
 ## 📸 Screenshots
 

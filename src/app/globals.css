@@ -1,0 +1,883 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ═══════════════════════════════════════════════════════════════
+   FERRUM ANIMATION SYSTEM
+   Keyframes, utilities, and effects inspired by animos.app,
+   magicUI, universe.io — production-ready CSS animations
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Gradient shift (animated gradient text / bg) ─── */
+@keyframes ferrum-gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ─── Utility keyframes (used by docs-view, nav, etc.) ─── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Aurora (hero background) ─── */
+@keyframes ferrum-aurora-1 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.5; }
+  25% { transform: translate(80px, -40px) scale(1.1) rotate(5deg); opacity: 0.7; }
+  50% { transform: translate(-30px, 60px) scale(0.95) rotate(-3deg); opacity: 0.4; }
+  75% { transform: translate(-60px, -20px) scale(1.05) rotate(2deg); opacity: 0.6; }
+}
+@keyframes ferrum-aurora-2 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.4; }
+  33% { transform: translate(-60px, 30px) scale(1.08) rotate(-4deg); opacity: 0.6; }
+  66% { transform: translate(40px, -50px) scale(0.92) rotate(6deg); opacity: 0.35; }
+}
+@keyframes ferrum-aurora-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+  50% { transform: translate(50px, 40px) scale(1.15); opacity: 0.5; }
+}
+
+.ferrum-aurora {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.ferrum-aurora-1 { animation: ferrum-aurora-1 18s ease-in-out infinite; }
+.ferrum-aurora-2 { animation: ferrum-aurora-2 22s ease-in-out infinite; }
+.ferrum-aurora-3 { animation: ferrum-aurora-3 15s ease-in-out infinite; }
+
+/* ─── Mesh gradient drift ─── */
+@keyframes ferrum-mesh-1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(40px, -30px) rotate(180deg); }
+}
+@keyframes ferrum-mesh-2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-50px, 40px) rotate(-180deg); }
+}
+@keyframes ferrum-mesh-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, 30px) scale(1.2); }
+}
+
+/* ─── Ripple (button click) ─── */
+@keyframes ferrum-ripple {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(20); opacity: 0; }
+}
+
+/* ─── Border gradient rotation ─── */
+@keyframes ferrum-border-rotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ─── Float / levitate ─── */
+@keyframes ferrum-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes ferrum-float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-8px) rotate(1deg); }
+  66% { transform: translateY(-16px) rotate(-1deg); }
+}
+
+/* ─── Glow pulse ─── */
+@keyframes ferrum-glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px -5px rgba(168, 85, 247, 0.2); }
+  50% { box-shadow: 0 0 40px -5px rgba(168, 85, 247, 0.4), 0 0 80px -10px rgba(236, 72, 153, 0.15); }
+}
+
+/* ─── Shimmer line ─── */
+@keyframes ferrum-line-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+.ferrum-shimmer-line {
+  position: relative;
+  overflow: hidden;
+}
+.ferrum-shimmer-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.15), transparent);
+  animation: ferrum-line-shimmer 3s ease-in-out infinite;
+}
+
+/* ─── Gradient border animation ─── */
+@keyframes ferrum-border-dance {
+  0%, 100% { border-color: rgba(168, 85, 247, 0.2); }
+  25% { border-color: rgba(236, 72, 153, 0.2); }
+  50% { border-color: rgba(249, 115, 22, 0.2); }
+  75% { border-color: rgba(59, 130, 246, 0.2); }
+}
+.ferrum-border-dance {
+  animation: ferrum-border-dance 6s ease-in-out infinite;
+}
+
+/* ─── Text reveal / typewriter cursor ─── */
+@keyframes ferrum-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* ─── Scale breathe ─── */
+@keyframes ferrum-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* ─── Noise texture overlay ─── */
+.ferrum-noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Particle dots ─── */
+@keyframes ferrum-particle-drift {
+  0% { transform: translate(0, 0) scale(1); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translate(var(--px, 100px), var(--py, -200px)) scale(0.3); opacity: 0; }
+}
+
+/* ─── Spotlight cursor follow ─── */
+@keyframes ferrum-spotlight-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+/* ─── Spin slow (for decorative elements) ─── */
+@keyframes ferrum-spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Marquee (scrolling text/badges) ─── */
+@keyframes ferrum-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.ferrum-marquee {
+  animation: ferrum-marquee 30s linear infinite;
+}
+.ferrum-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Underline draw ─── */
+@keyframes ferrum-underline-draw {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* ─── Blur in ─── */
+@keyframes ferrum-blur-in {
+  from { opacity: 0; filter: blur(12px); transform: scale(0.95); }
+  to { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+.ferrum-blur-in {
+  animation: ferrum-blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ─── Stagger delay utilities ─── */
+.ferrum-delay-75 { animation-delay: 75ms; }
+.ferrum-delay-100 { animation-delay: 100ms; }
+.ferrum-delay-150 { animation-delay: 150ms; }
+.ferrum-delay-200 { animation-delay: 200ms; }
+.ferrum-delay-300 { animation-delay: 300ms; }
+.ferrum-delay-400 { animation-delay: 400ms; }
+.ferrum-delay-500 { animation-delay: 500ms; }
+
+/* ─── Card hover lift with shadow ─── */
+.ferrum-card-lift {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+.ferrum-card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3), 0 0 30px -10px rgba(168, 85, 247, 0.1);
+}
+
+/* ─── Glass card hover ─── */
+.ferrum-glass-hover {
+  transition: background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
+}
+.ferrum-glass-hover:hover {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px) saturate(1.3);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ─── Icon bounce on hover ─── */
+.ferrum-icon-bounce {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.ferrum-icon-bounce:hover {
+  transform: scale(1.15) rotate(-3deg);
+}
+
+/* ─── Section divider glow line ─── */
+.ferrum-divider-glow {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(168, 85, 247, 0.3) 20%,
+    rgba(236, 72, 153, 0.3) 50%,
+    rgba(168, 85, 247, 0.3) 80%,
+    transparent 100%
+  );
+  position: relative;
+}
+.ferrum-divider-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  animation: ferrum-line-shimmer 4s ease-in-out infinite;
+}
+
+/* ─── Gradient text static ─── */
+.ferrum-text-gradient-purple {
+  background: linear-gradient(135deg, #a855f7, #ec4899, #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FERRUM DESIGN TOKENS v1.0
+   Premium Frontend Experience Platform
+   ═══════════════════════════════════════════════════════════════ */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  /* Ferrum brand colors */
+  --color-ferrum: var(--ferrum);
+  --color-ferrum-foreground: var(--ferrum-foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-subtle: var(--subtle);
+}
+
+/* ─── Light Theme ─── */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(0.985 0.002 260);
+  --foreground: oklch(0.13 0.02 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.13 0.02 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.13 0.02 260);
+  --primary: oklch(0.55 0.2 30);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.965 0.005 260);
+  --secondary-foreground: oklch(0.2 0.02 260);
+  --muted: oklch(0.965 0.005 260);
+  --muted-foreground: oklch(0.5 0.01 260);
+  --accent: oklch(0.965 0.01 30);
+  --accent-foreground: oklch(0.2 0.02 260);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.91 0.005 260);
+  --input: oklch(0.91 0.005 260);
+  --ring: oklch(0.55 0.2 30);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0.002 260);
+  --sidebar-foreground: oklch(0.13 0.02 260);
+  --sidebar-primary: oklch(0.55 0.2 30);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.965 0.005 260);
+  --sidebar-accent-foreground: oklch(0.2 0.02 260);
+  --sidebar-border: oklch(0.91 0.005 260);
+  --sidebar-ring: oklch(0.55 0.2 30);
+  /* Ferrum brand */
+  --ferrum: oklch(0.55 0.2 30);
+  --ferrum-foreground: oklch(0.99 0 0);
+  --surface: oklch(0.995 0 0);
+  --surface-2: oklch(0.975 0.003 260);
+  --subtle: oklch(0.94 0.008 260);
+}
+
+/* ─── Dark Theme ─── */
+.dark {
+  --background: oklch(0.11 0.005 260);
+  --foreground: oklch(0.96 0.005 260);
+  --card: oklch(0.155 0.008 260);
+  --card-foreground: oklch(0.96 0.005 260);
+  --popover: oklch(0.155 0.008 260);
+  --popover-foreground: oklch(0.96 0.005 260);
+  --primary: oklch(0.7 0.18 30);
+  --primary-foreground: oklch(0.13 0.02 260);
+  --secondary: oklch(0.2 0.01 260);
+  --secondary-foreground: oklch(0.9 0.005 260);
+  --muted: oklch(0.2 0.01 260);
+  --muted-foreground: oklch(0.6 0.01 260);
+  --accent: oklch(0.2 0.015 30);
+  --accent-foreground: oklch(0.9 0.005 260);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.7 0.18 30);
+  --chart-1: oklch(0.7 0.18 30);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.13 0.005 260);
+  --sidebar-foreground: oklch(0.96 0.005 260);
+  --sidebar-primary: oklch(0.7 0.18 30);
+  --sidebar-primary-foreground: oklch(0.13 0.02 260);
+  --sidebar-accent: oklch(0.2 0.01 260);
+  --sidebar-accent-foreground: oklch(0.9 0.005 260);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.7 0.18 30);
+  /* Ferrum brand */
+  --ferrum: oklch(0.7 0.18 30);
+  --ferrum-foreground: oklch(0.13 0.02 260);
+  --surface: oklch(0.13 0.006 260);
+  --surface-2: oklch(0.18 0.008 260);
+  --subtle: oklch(0.22 0.01 260);
+  /* Dark mode readability — ensure minimum contrast */
+  --ferrum-text-min: oklch(0.65 0.005 260);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  ::selection {
+    background: oklch(0.7 0.18 30 / 30%);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FERRUMCSS UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Glassmorphism */
+.ferrum-glass {
+  background: oklch(1 0 0 / 3%);
+  backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid oklch(1 0 0 / 8%);
+}
+.dark .ferrum-glass {
+  background: oklch(1 0 0 / 4%);
+  border: 1px solid oklch(1 0 0 / 6%);
+}
+
+/* Mesh gradient background */
+.ferrum-mesh {
+  position: relative;
+  overflow: hidden;
+}
+.ferrum-mesh::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 40%, oklch(0.7 0.18 30 / 8%), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 20%, oklch(0.6 0.15 280 / 6%), transparent),
+    radial-gradient(ellipse 50% 60% at 60% 80%, oklch(0.65 0.2 50 / 5%), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Gradient text */
+.ferrum-text-gradient {
+  background: linear-gradient(135deg, oklch(0.75 0.18 30), oklch(0.7 0.15 50), oklch(0.65 0.12 280));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtle glow */
+.ferrum-glow {
+  box-shadow: 0 0 60px -15px oklch(0.7 0.18 30 / 25%);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Offset for fixed navbar (h-16 = 4rem) */
+[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Premium scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.5 0 0 / 20%);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.5 0 0 / 35%);
+}
+
+/* Code block styling */
+.ferrum-code {
+  font-family: var(--font-geist-mono), 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  tab-size: 2;
+}
+
+/* Section padding */
+.ferrum-section {
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+
+/* Fade-in animation for scroll reveal */
+@keyframes ferrum-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ferrum-reveal {
+  animation: ferrum-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Staggered children */
+.ferrum-stagger > * {
+  opacity: 0;
+  animation: ferrum-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.ferrum-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.ferrum-stagger > *:nth-child(2) { animation-delay: 60ms; }
+.ferrum-stagger > *:nth-child(3) { animation-delay: 120ms; }
+.ferrum-stagger > *:nth-child(4) { animation-delay: 180ms; }
+.ferrum-stagger > *:nth-child(5) { animation-delay: 240ms; }
+.ferrum-stagger > *:nth-child(6) { animation-delay: 300ms; }
+.ferrum-stagger > *:nth-child(7) { animation-delay: 360ms; }
+.ferrum-stagger > *:nth-child(8) { animation-delay: 420ms; }
+.ferrum-stagger > *:nth-child(9) { animation-delay: 480ms; }
+
+/* Animated mesh background */
+@keyframes mesh-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+.ferrum-mesh-animated::before {
+  animation: mesh-drift 20s ease-in-out infinite;
+}
+
+/* Grid pattern */
+.ferrum-grid {
+  background-image:
+    linear-gradient(oklch(1 0 0 / 3%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(1 0 0 / 3%) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.dark .ferrum-grid {
+  background-image:
+    linear-gradient(oklch(1 0 0 / 4%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(1 0 0 / 4%) 1px, transparent 1px);
+}
+
+/* Dot pattern */
+.ferrum-dots {
+  background-image: radial-gradient(oklch(1 0 0 / 15%) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.dark .ferrum-dots {
+  background-image: radial-gradient(oklch(1 0 0 / 8%) 1px, transparent 1px);
+}
+
+/* Shimmer effect */
+@keyframes ferrum-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.ferrum-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(1 0 0 / 5%) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: ferrum-shimmer 2s ease-in-out infinite;
+}
+
+/* Focus ring */
+.ferrum-focus-ring:focus-visible {
+  outline: 2px solid oklch(0.7 0.18 30);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE ADJUSTMENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Noise overlay — subtler in light mode */
+:not(.dark) .ferrum-noise::before {
+  opacity: 0.015;
+}
+
+/* Aurora blobs — slightly more opaque in light mode for visibility */
+:not(.dark) .ferrum-aurora-1 { opacity: 0.6; }
+:not(.dark) .ferrum-aurora-2 { opacity: 0.5; }
+:not(.dark) .ferrum-aurora-3 { opacity: 0.4; }
+
+/* Shimmer line — use foreground-tinted shimmer in light mode */
+:not(.dark) .ferrum-shimmer-line::after {
+  background: linear-gradient(90deg, transparent, oklch(0.5 0.02 260 / 8%), transparent);
+}
+
+/* Glow pulse — softer in light mode */
+:not(.dark) .ferrum-glow-pulse-active {
+  box-shadow: 0 0 30px -5px oklch(0.7 0.18 30 / 15%);
+}
+
+/* Card lift — lighter shadow in light mode */
+:not(.dark) .ferrum-card-lift:hover {
+  box-shadow: 0 20px 40px -15px oklch(0.2 0.01 260 / 15%), 0 0 30px -10px oklch(0.7 0.18 30 / 8%);
+}
+
+/* Glass hover — adjusted for light bg */
+:not(.dark) .ferrum-glass-hover:hover {
+  background: oklch(0.5 0.01 260 / 4%);
+  border-color: oklch(0.5 0.01 260 / 15%);
+}
+
+/* Divider glow — softer in light mode */
+:not(.dark) .ferrum-divider-glow {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(0.7 0.18 30 / 15%) 20%,
+    oklch(0.65 0.15 330 / 15%) 50%,
+    oklch(0.7 0.18 30 / 15%) 80%,
+    transparent 100%
+  );
+}
+:not(.dark) .ferrum-divider-glow::after {
+  background: linear-gradient(90deg, transparent, oklch(0.5 0.01 260 / 6%), transparent);
+}
+
+/* Shimmer bg utility */
+:not(.dark) .ferrum-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(0.5 0.01 260 / 4%) 50%,
+    transparent 100%
+  );
+}
+
+/* Grid pattern — darker lines in light mode */
+:not(.dark) .ferrum-grid {
+  background-image:
+    linear-gradient(oklch(0.3 0 0 / 6%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.3 0 0 / 6%) 1px, transparent 1px);
+}
+
+/* Dot pattern */
+:not(.dark) .ferrum-dots {
+  background-image: radial-gradient(oklch(0.3 0 0 / 12%) 1px, transparent 1px);
+}
+
+/* Glassmorphism — light mode */
+.ferrum-glass {
+  background: oklch(1 0 0 / 60%);
+  backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid oklch(0.5 0.01 260 / 12%);
+}
+.dark .ferrum-glass {
+  background: oklch(1 0 0 / 4%);
+  border: 1px solid oklch(1 0 0 / 6%);
+}
+
+/* Gradient text — richer in light mode */
+:not(.dark) .ferrum-text-gradient {
+  background: linear-gradient(135deg, oklch(0.55 0.2 30), oklch(0.5 0.18 50), oklch(0.45 0.15 280));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+:not(.dark) .ferrum-text-gradient-purple {
+  background: linear-gradient(135deg, #7c3aed, #db2777, #ea580c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE — ADDITIONAL ADJUSTMENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Aurora blobs — boost intensity in light mode for visibility */
+:not(.dark) .ferrum-aurora.ferrum-aurora-1 { opacity: 0.8; }
+:not(.dark) .ferrum-aurora.ferrum-aurora-2 { opacity: 0.7; }
+:not(.dark) .ferrum-aurora.ferrum-aurora-3 { opacity: 0.6; }
+
+/* Section label — use deeper purple in light mode for contrast */
+/* (applied via Tailwind dark: variants in components) */
+:not(.dark) .ferrum-section-label {
+  color: oklch(0.5 0.2 290 / 70%);
+}
+
+/* Card hover glow — subtler in light mode */
+:not(.dark) .ferrum-card-lift {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.4s ease,
+              border-color 0.3s ease;
+}
+:not(.dark) .ferrum-card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px -12px oklch(0.2 0.01 260 / 10%),
+              0 0 20px -8px oklch(0.7 0.18 30 / 6%);
+  border-color: oklch(0.5 0.01 260 / 15%);
+}
+
+/* Icon bounce — scale down in light mode for subtlety */
+:not(.dark) .ferrum-icon-bounce:hover {
+  transform: scale(1.08) rotate(-2deg);
+}
+
+/* Glow pulse keyframe — softer in light mode */
+@keyframes ferrum-glow-pulse-light {
+  0%, 100% { box-shadow: 0 0 15px -5px rgba(124, 58, 237, 0.1); }
+  50% { box-shadow: 0 0 25px -5px rgba(124, 58, 237, 0.2), 0 0 50px -10px rgba(219, 39, 119, 0.08); }
+}
+:not(.dark) .ferrum-glow-pulse-active {
+  animation: ferrum-glow-pulse-light 3s ease-in-out infinite;
+}
+
+/* Selection — adjusted for light mode */
+:not(.dark) ::selection {
+  background: oklch(0.55 0.2 30 / 25%);
+}
+
+/* Scrollbar — darker thumb in light mode */
+:not(.dark) ::-webkit-scrollbar-thumb {
+  background: oklch(0.3 0 0 / 18%);
+  border-radius: 3px;
+}
+:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.3 0 0 / 30%);
+}
+
+/* AnimatedCard spotlight — reduce intensity in light mode */
+:not(.dark) [data-spotlight]::before {
+  opacity: 0.6 !important;
+}
+
+/* Border dance — softer in light mode */
+@keyframes ferrum-border-dance-light {
+  0%, 100% { border-color: rgba(124, 58, 237, 0.15); }
+  25% { border-color: rgba(219, 39, 119, 0.15); }
+  50% { border-color: rgba(234, 88, 12, 0.15); }
+  75% { border-color: rgba(37, 99, 235, 0.15); }
+}
+:not(.dark) .ferrum-border-dance {
+  animation-name: ferrum-border-dance-light;
+}
+
+/* Particle drift — more visible in light mode */
+:not(.dark) [style*="ferrum-particle-drift"] {
+  opacity: 0.6;
+}
+
+/* Footer link hover — better contrast in light mode */
+:not(.dark) footer a:hover,
+:not(.dark) footer button:hover {
+  color: oklch(0.2 0.02 260);
+}
+
+/* Status badge pills — slightly richer in light mode */
+:not(.dark) .bg-green-500\/10 {
+  background: oklch(0.65 0.2 150 / 12%);
+}
+:not(.dark) .bg-blue-500\/10 {
+  background: oklch(0.65 0.18 250 / 12%);
+}
+:not(.dark) .bg-amber-500\/10 {
+  background: oklch(0.7 0.18 80 / 12%);
+}
+:not(.dark) .bg-purple-500\/10 {
+  background: oklch(0.6 0.2 290 / 12%);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SCROLL-DRIVEN FADE ANIMATIONS (animation-timeline: view())
+   ═══════════════════════════════════════════════════════════════ */
+
+@supports (animation-timeline: view()) {
+  /* Fade up on scroll */
+  .scroll-fade-up {
+    animation: scroll-fade-up-keyframes linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+  @keyframes scroll-fade-up-keyframes {
+    from { opacity: 0; transform: translateY(32px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Fade in from left */
+  .scroll-fade-left {
+    animation: scroll-fade-left-keyframes linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+  @keyframes scroll-fade-left-keyframes {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Fade in from right */
+  .scroll-fade-right {
+    animation: scroll-fade-right-keyframes linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+  @keyframes scroll-fade-right-keyframes {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Scale in on scroll */
+  .scroll-fade-scale {
+    animation: scroll-fade-scale-keyframes linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+  @keyframes scroll-fade-scale-keyframes {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Staggered children — each child fades up with incremental delay */
+  .scroll-stagger > * {
+    animation: scroll-fade-up-keyframes linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 45%;
+  }
+  .scroll-stagger > *:nth-child(1) { animation-range: entry 0% entry 35%; }
+  .scroll-stagger > *:nth-child(2) { animation-range: entry 2% entry 37%; }
+  .scroll-stagger > *:nth-child(3) { animation-range: entry 4% entry 39%; }
+  .scroll-stagger > *:nth-child(4) { animation-range: entry 6% entry 41%; }
+  .scroll-stagger > *:nth-child(5) { animation-range: entry 8% entry 43%; }
+  .scroll-stagger > *:nth-child(6) { animation-range: entry 10% entry 45%; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CUSTOM ACCENT COLOR — ColorCustomizer integration
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --ferrum-accent: #a855f7;
+}
+
+/* Effects that use --ferrum-accent for dynamic theming */
+.rc-float,
+.rc-glow,
+.rc-shimmer,
+.rc-border-glow {
+  --accent-color: var(--ferrum-accent);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DARK MODE — Minimum contrast enforcement
+   ═══════════════════════════════════════════════════════════════ */
+
+.dark {
+  /* Ensure minimum foreground visibility in dark mode */
+  --ferrum-min-text: oklch(0.65 0.005 260);
+  --ferrum-min-text-dim: oklch(0.55 0.005 260);
+}
