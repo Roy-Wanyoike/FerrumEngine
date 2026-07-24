@@ -20,6 +20,8 @@ node_modules
 # production
 /build
 
+# scripts
+/.zscripts
 # misc
 .DS_Store
 *.pem
