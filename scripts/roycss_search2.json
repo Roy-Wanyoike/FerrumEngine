@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.w3schools.com/css/css3_animations.asp",
+    "name": "CSS Animations - W3Schools",
+    "snippet": "An animation lets an element gradually change from one style to another. You can change as many CSS properties you want, as many times as you want. Missing: roycss. categories",
+    "host_name": "www.w3schools.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/css/comments/181fecr/list_of_css_animation_types",
+    "name": "List of CSS Animation types? - Reddit",
+    "snippet": "I am just starting to learn how to do animations with CSS. I cannot for the life of me find a resource that lists all the kinds of animations and their syntax. Missing: roycss. categories",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Animations",
+    "name": "CSS animations - MDN Web Docs",
+    "snippet": "The CSS animations module lets you animate the values of CSS properties, such as background-position and transform, over time by using ... Missing: roycss. categories",
+    "host_name": "developer.mozilla.org",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://animate.style",
+    "name": "Animate.css | A cross-browser library of CSS animations.",
+    "snippet": "Animate.css is a library of ready-to-use, cross-browser animations for use in your web projects. Great for emphasis, home pages, sliders, and attention-guiding ... Missing: roycss. | Show results with: roycss.",
+    "host_name": "animate.style",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://prismic.io/blog/css-animation-examples",
+    "name": "39 Awesome CSS Animation Examples with Demos + Live Code",
+    "snippet": "The CSS animation kit offers over 30 categories of animations and comes with 120+ unique types of effects. It allows you to configure animation ... Missing: roycss. | Show results with: roycss.",
+    "host_name": "prismic.io",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://css-tricks.com/css-animation-libraries",
+    "name": "CSS Animation Libraries",
+    "snippet": "A collection of CSS3 powered hover effects to be applied to links, buttons, logos, SVG, featured images and so on. Easily apply to your own ...",
+    "host_name": "css-tricks.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://web.dev/learn/css/animations",
+    "name": "Animations | web.dev",
+    "snippet": "You can use CSS to set an animation sequence with keyframes. These sequences can be basic, one-state animations or complex, time-based sequences ...",
+    "host_name": "web.dev",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@gupta_chinmay/modern-css-animations-by-chinmay-gupta-36c3c3da0073",
+    "name": "Modern CSS Animations | by Chinmay Gupta - Medium",
+    "snippet": "In this article, we round up some of the coolest CSS animation examples we've seen, and show you how to recreate them.",
+    "host_name": "medium.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://animista.net",
+    "name": "Animista - On-Demand CSS Animations Library",
+    "snippet": "Animista is a CSS animation library and a place where you can play with a collection of ready-made CSS animations and download only those you will use.",
+    "host_name": "animista.net",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.awwwards.com/awwwards/collections/css-js-animations",
+    "name": "CSS & JS Animations - Awwwards",
+    "snippet": "CSS & JS ANIMATIONS. Examples of stunning CSS3 and Javascript animation examples. Featuring UI elements, scroll triggered animations, SVG and much more. Missing: roycss. | Show results with: roycss.",
+    "host_name": "www.awwwards.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

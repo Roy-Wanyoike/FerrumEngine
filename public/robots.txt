@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /cloud/
+
+Sitemap: https://ferrumcss.space-z.ai/sitemap.xml

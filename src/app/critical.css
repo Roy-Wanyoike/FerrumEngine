@@ -1,0 +1,16 @@
+/* Critical anti-FOUC styles — loaded before any JS.
+   Sets dark background immediately so users never see a white flash.
+   Once Tailwind CSS hydrates via its lazy chunk, these are superseded. */
+html {
+  background-color: #0a0a0a;
+  color: #fafafa;
+  color-scheme: dark;
+}
+html.light {
+  background-color: #ffffff;
+  color: #0a0a0a;
+  color-scheme: light;
+}
+body {
+  margin: 0;
+}

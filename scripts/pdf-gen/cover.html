@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=794px, height=1123px">
+<title>Ferrum Studio Product Architecture</title>
+<style>
+  @page {
+    size: 794px 1123px;
+    margin: 0;
+  }
+
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #f1f0ef;
+    width: 794px;
+    height: 1123px;
+  }
+
+  .cover-page {
+    position: relative;
+    width: 794px;
+    height: 1123px;
+    background: #f1f0ef;
+  }
+
+  /* ── Layer 0: Background ── */
+  .layer-0 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 794px;
+    height: 1123px;
+    background: #f1f0ef;
+    z-index: 0;
+  }
+
+  /* ── Layer 1: Grid Pattern ── */
+  .layer-1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 794px;
+    height: 1123px;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .layer-1 svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 794px;
+    height: 1123px;
+  }
+
+  /* ── Layer 2: Vertical Anchor Line ── */
+  .layer-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 794px;
+    height: 1123px;
+    z-index: 2;
+  }
+
+  .anchor-line {
+    position: absolute;
+    top: 112.3px;
+    left: 95.28px;
+    width: 6px;
+    height: 898.4px;
+    background: #63593d;
+  }
+
+  /* ── Layer 3: Content ── */
+  .layer-3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 794px;
+    height: 1123px;
+    z-index: 3;
+  }
+
+  .kicker {
+    position: absolute;
+    top: 168.45px;
+    left: 125.28px;
+    font-family: 'FreeSerif', 'Georgia', serif;
+    font-size: 16pt;
+    font-weight: 400;
+    letter-spacing: 3pt;
+    text-transform: uppercase;
+    color: #63593d;
+    opacity: 0.6;
+    line-height: 1;
+  }
+
+  .hero-title {
+    position: absolute;
+    top: 336.9px;
+    left: 125.28px;
+    font-family: 'FreeSerif', 'Georgia', serif;
+    font-size: 58pt;
+    font-weight: 900;
+    color: #272623;
+    line-height: 1.15;
+  }
+
+  .summary {
+    position: absolute;
+    top: 561.5px;
+    left: 125.28px;
+    max-width: 476.4px;
+    font-family: 'FreeSerif', 'Georgia', serif;
+    font-size: 16pt;
+    font-weight: 400;
+    color: #272623;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  .meta {
+    position: absolute;
+    top: 875.94px;
+    left: 125.28px;
+    font-family: 'FreeSerif', 'Georgia', serif;
+    font-size: 16pt;
+    font-weight: 400;
+    color: #78766f;
+    line-height: 1;
+  }
+</style>
+</head>
+<body>
+<div class="cover-page">
+
+  <!-- Layer 0: Background -->
+  <div class="layer-0"></div>
+
+  <!-- Layer 1: Grid Pattern -->
+  <div class="layer-1">
+    <svg xmlns="http://www.w3.org/2000/svg" width="794" height="1123">
+      <defs>
+        <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+          <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#63593d" stroke-width="0.5" stroke-opacity="0.02"/>
+        </pattern>
+      </defs>
+      <rect width="794" height="1123" fill="url(#grid)"/>
+    </svg>
+  </div>
+
+  <!-- Layer 2: Vertical Anchor Line -->
+  <div class="layer-2">
+    <div class="anchor-line"></div>
+  </div>
+
+  <!-- Layer 3: Content -->
+  <div class="layer-3">
+    <div class="kicker">PRODUCT ARCHITECTURE</div>
+    <div class="hero-title">FERRUM STUDIO</div>
+    <div class="summary">A next-generation visual development environment where designers and engineers build production-ready interfaces visually. The Unreal Engine Blueprint for user interfaces.</div>
+    <div class="meta">Ferrum Universal UI Engine  |  July 2025</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+/* Anti-FOUC: prevents white flash before Tailwind CSS loads via JS.
+   This file is linked as a blocking <link> in layout.tsx <head>.
+   Once Tailwind CSS hydrates, its rules take precedence. */
+html { background-color: #0a0a0a; color: #fafafa; color-scheme: dark; }
+html.light { background-color: #ffffff; color: #0a0a0a; color-scheme: light; }

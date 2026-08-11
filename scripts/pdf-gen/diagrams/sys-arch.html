@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px;
+    font-family: system-ui, sans-serif;
+    background: #ffffff;
+    color: #1e293b;
+    padding: 40px 50px 50px 50px;
+  }
+
+  .diagram-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    text-align: center;
+    margin-bottom: 36px;
+    letter-spacing: 0.02em;
+  }
+
+  .layer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 0;
+    position: relative;
+  }
+
+  .layer-label {
+    position: absolute;
+    left: -2px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: left center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .layer-row {
+    position: relative;
+    padding-left: 32px;
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .node {
+    background: #EFF6FF;
+    border: 1.5px solid #93C5FD;
+    border-radius: 8px;
+    padding: 14px 18px;
+    width: 240px;
+    text-align: center;
+  }
+
+  .node.green { background: #F0FDF4; border-color: #86EFAC; }
+  .node.yellow { background: #FEF3C7; border-color: #FCD34D; }
+  .node.purple { background: #F3E8FF; border-color: #C4B5FD; }
+
+  .node-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
+  }
+
+  .node-desc {
+    font-size: 11px;
+    color: #475569;
+    line-height: 1.4;
+  }
+
+  .arrows-section {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .arrows-section svg {
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div class="diagram-title">System Architecture Overview</div>
+
+<!-- Top Layer: User Interface -->
+<div class="layer-row">
+  <div class="layer-label">User Interface</div>
+  <div class="layer">
+    <div class="node">
+      <div class="node-title">Design Canvas</div>
+      <div class="node-desc">Visual layout editor with drag-and-drop</div>
+    </div>
+    <div class="node">
+      <div class="node-title">Motion Editor</div>
+      <div class="node-desc">Timeline-based animation choreography</div>
+    </div>
+    <div class="node">
+      <div class="node-title">AI Assistant Panel</div>
+      <div class="node-desc">Natural language design instructions</div>
+    </div>
+    <div class="node">
+      <div class="node-title">Component Inspector</div>
+      <div class="node-desc">Property and style editing panel</div>
+    </div>
+  </div>
+</div>
+
+<!-- Arrows Top -> Middle -->
+<div class="arrows-section">
+  <svg width="1100" height="44" viewBox="0 0 1100 44">
+    <!-- Vertical lines from top nodes down -->
+    <line x1="188" y1="2" x2="188" y2="20" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="440" y1="2" x2="440" y2="20" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="692" y1="2" x2="692" y2="20" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="944" y1="2" x2="944" y2="20" stroke="#94A3B8" stroke-width="1.5"/>
+    <!-- Horizontal bus -->
+    <line x1="188" y1="20" x2="944" y2="20" stroke="#94A3B8" stroke-width="1.5"/>
+    <!-- Vertical lines down to middle nodes -->
+    <line x1="150" y1="20" x2="150" y2="42" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="335" y1="20" x2="335" y2="42" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="565" y1="20" x2="565" y2="42" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="750" y1="20" x2="750" y2="42" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="950" y1="20" x2="950" y2="42" stroke="#94A3B8" stroke-width="1.5"/>
+    <!-- Arrowheads -->
+    <polygon points="150,42 146,34 154,34" fill="#94A3B8"/>
+    <polygon points="335,42 331,34 339,34" fill="#94A3B8"/>
+    <polygon points="565,42 561,34 569,34" fill="#94A3B8"/>
+    <polygon points="750,42 746,34 754,34" fill="#94A3B8"/>
+    <polygon points="950,42 946,34 954,34" fill="#94A3B8"/>
+  </svg>
+</div>
+
+<!-- Middle Layer: Core Engine -->
+<div class="layer-row">
+  <div class="layer-label">Core Engine</div>
+  <div class="layer">
+    <div class="node green">
+      <div class="node-title">Component System</div>
+      <div class="node-desc">Tree-based component hierarchy</div>
+    </div>
+    <div class="node green">
+      <div class="node-title">Motion Engine</div>
+      <div class="node-desc">Physics-based animation runtime</div>
+    </div>
+    <div class="node green">
+      <div class="node-title">State Manager</div>
+      <div class="node-desc">Reactive state and data binding</div>
+    </div>
+    <div class="node green">
+      <div class="node-title">Renderer</div>
+      <div class="node-desc">Dual-path rendering pipeline</div>
+    </div>
+    <div class="node green">
+      <div class="node-title">Code Generator</div>
+      <div class="node-desc">AST-based framework output</div>
+    </div>
+  </div>
+</div>
+
+<!-- Arrows Middle -> Bottom -->
+<div class="arrows-section">
+  <svg width="1100" height="44" viewBox="0 0 1100 44">
+    <line x1="150" y1="2" x2="150" y2="20" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="335" y1="2" x2="335" y2="20" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="565" y1="2" x2="565" y2="20" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="750" y1="2" x2="750" y2="20" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="950" y1="2" x2="950" y2="20" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="150" y1="20" x2="950" y2="20" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="188" y1="20" x2="188" y2="42" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="440" y1="20" x2="440" y2="42" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="692" y1="20" x2="692" y2="42" stroke="#94A3B8" stroke-width="1.5"/>
+    <line x1="944" y1="20" x2="944" y2="42" stroke="#94A3B8" stroke-width="1.5"/>
+    <polygon points="188,42 184,34 192,34" fill="#94A3B8"/>
+    <polygon points="440,42 436,34 444,34" fill="#94A3B8"/>
+    <polygon points="692,42 688,34 696,34" fill="#94A3B8"/>
+    <polygon points="944,42 940,34 948,34" fill="#94A3B8"/>
+  </svg>
+</div>
+
+<!-- Bottom Layer: Infrastructure -->
+<div class="layer-row">
+  <div class="layer-label">Infrastructure</div>
+  <div class="layer">
+    <div class="node yellow">
+      <div class="node-title">Plugin SDK</div>
+      <div class="node-desc">Extensible plugin architecture</div>
+    </div>
+    <div class="node yellow">
+      <div class="node-title">Collaboration Engine</div>
+      <div class="node-desc">Real-time CRDT-based sync</div>
+    </div>
+    <div class="node yellow">
+      <div class="node-title">File System</div>
+      <div class="node-desc">Virtual file system and I/O</div>
+    </div>
+    <div class="node purple">
+      <div class="node-title">AI Service</div>
+      <div class="node-desc">ML model inference and prompting</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

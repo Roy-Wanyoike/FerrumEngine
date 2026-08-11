@@ -1,0 +1,318 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ═══ CRITICAL: Anti-FOUC fallback ═══
+   Sets a dark background on html/body BEFORE Tailwind CSS custom properties
+   resolve. The .dark class is added by next-themes' blocking script in <body>.
+   Without this, the page shows a white flash while CSS loads on dark theme.
+   Once Tailwind processes @layer base, these rules are superseded by the
+   theme-aware bg-background/text-foreground utilities. */
+html {
+  background-color: #0a0a0a;
+  color-scheme: dark;
+}
+html.light {
+  background-color: #ffffff;
+  color-scheme: light;
+}
+
+/* FERRUM ANIMATION SYSTEM — Keyframes, utilities, effects */
+
+/* Gradient shift: animates background-position (paint property, repaint not GPU-composited.
+   Acceptable for gradient text shimmer on low-priority elements.) */
+@keyframes ferrum-gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Utility keyframes (docs-view, nav) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Aurora (hero background) */
+@keyframes ferrum-aurora-1 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.5; }
+  25% { transform: translate(80px, -40px) scale(1.1) rotate(5deg); opacity: 0.7; }
+  50% { transform: translate(-30px, 60px) scale(0.95) rotate(-3deg); opacity: 0.4; }
+  75% { transform: translate(-60px, -20px) scale(1.05) rotate(2deg); opacity: 0.6; }
+}
+@keyframes ferrum-aurora-2 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.4; }
+  33% { transform: translate(-60px, 30px) scale(1.08) rotate(-4deg); opacity: 0.6; }
+  66% { transform: translate(40px, -50px) scale(0.92) rotate(6deg); opacity: 0.35; }
+}
+@keyframes ferrum-aurora-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+  50% { transform: translate(50px, 40px) scale(1.15); opacity: 0.5; }
+}
+
+.ferrum-aurora {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.ferrum-aurora-1 { animation: ferrum-aurora-1 18s ease-in-out infinite; }
+.ferrum-aurora-2 { animation: ferrum-aurora-2 22s ease-in-out infinite; }
+.ferrum-aurora-3 { animation: ferrum-aurora-3 15s ease-in-out infinite; }
+
+/* Particle dots */
+@keyframes ferrum-particle-drift {
+  0% { transform: translate(0, 0) scale(1); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translate(var(--px, 100px), var(--py, -200px)) scale(0.3); opacity: 0; }
+}
+
+/* Marquee (scrolling text/badges) */
+@keyframes ferrum-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.ferrum-marquee {
+  animation: ferrum-marquee 30s linear infinite;
+}
+.ferrum-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Line shimmer (divider-glow) */
+@keyframes ferrum-line-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+/* Noise texture overlay (hero background) */
+.ferrum-noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Divider glow (section separators) */
+.ferrum-divider-glow {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(168, 85, 247, 0.3) 20%,
+    rgba(236, 72, 153, 0.3) 50%,
+    rgba(168, 85, 247, 0.3) 80%,
+    transparent 100%
+  );
+  position: relative;
+}
+.ferrum-divider-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  animation: ferrum-line-shimmer 4s ease-in-out infinite;
+}
+
+/* FERRUM DESIGN TOKENS v1.0 */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(0.985 0.002 260);
+  --foreground: oklch(0.13 0.02 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.13 0.02 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.13 0.02 260);
+  --primary: oklch(0.55 0.2 30);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.965 0.005 260);
+  --secondary-foreground: oklch(0.2 0.02 260);
+  --muted: oklch(0.965 0.005 260);
+  --muted-foreground: oklch(0.25 0.015 260);
+  --accent: oklch(0.965 0.01 30);
+  --accent-foreground: oklch(0.2 0.02 260);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.91 0.005 260);
+  --input: oklch(0.91 0.005 260);
+  --ring: oklch(0.55 0.2 30);
+  --ferrum-accent: #a855f7;
+}
+
+.dark {
+  --background: oklch(0.11 0.005 260);
+  --foreground: oklch(0.96 0.005 260);
+  --card: oklch(0.155 0.008 260);
+  --card-foreground: oklch(0.96 0.005 260);
+  --popover: oklch(0.155 0.008 260);
+  --popover-foreground: oklch(0.96 0.005 260);
+  --primary: oklch(0.7 0.18 30);
+  --primary-foreground: oklch(0.13 0.02 260);
+  --secondary: oklch(0.2 0.01 260);
+  --secondary-foreground: oklch(0.9 0.005 260);
+  --muted: oklch(0.2 0.01 260);
+  --muted-foreground: oklch(0.70 0.008 260);
+  --accent: oklch(0.2 0.015 30);
+  --accent-foreground: oklch(0.9 0.005 260);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.7 0.18 30);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  img {
+    content-visibility: auto;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.5 0 0 / 20%);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.5 0 0 / 35%);
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.5 0 0 / 20%) transparent;
+  }
+}
+
+/* LIGHT MODE ADJUSTMENTS */
+
+:not(.dark) .ferrum-aurora-1 { opacity: 0.8; }
+:not(.dark) .ferrum-aurora-2 { opacity: 0.7; }
+:not(.dark) .ferrum-aurora-3 { opacity: 0.6; }
+
+:not(.dark) .ferrum-noise::before { opacity: 0.015; }
+
+:not(.dark) .ferrum-divider-glow {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(0.7 0.18 30 / 15%) 20%,
+    oklch(0.65 0.15 330 / 15%) 50%,
+    oklch(0.7 0.18 30 / 15%) 80%,
+    transparent 100%
+  );
+}
+:not(.dark) .ferrum-divider-glow::after {
+  background: linear-gradient(90deg, transparent, oklch(0.5 0.01 260 / 6%), transparent);
+}
+
+:not(.dark) ::-webkit-scrollbar-thumb {
+  background: oklch(0.3 0 0 / 18%);
+  border-radius: 3px;
+}
+:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.3 0 0 / 30%);
+}
+
+:not(.dark) [style*="ferrum-particle-drift"] { opacity: 0.6; }
+
+:not(.dark) footer a:hover,
+:not(.dark) footer button:hover {
+  color: oklch(0.2 0.02 260);
+}
+
+:not(.dark) .bg-green-500\/10 { background: oklch(0.65 0.2 150 / 12%); }
+:not(.dark) .bg-blue-500\/10 { background: oklch(0.65 0.18 250 / 12%); }
+:not(.dark) .bg-amber-500\/10 { background: oklch(0.7 0.18 80 / 12%); }
+:not(.dark) .bg-purple-500\/10 { background: oklch(0.6 0.2 290 / 12%); }
+
+/* WCAG 2.3.3 — Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .ferrum-aurora, .ferrum-aurora-1, .ferrum-aurora-2, .ferrum-aurora-3 {
+    animation: none !important;
+  }
+}
+
+/* Focus visible — Linear/Vercel style */
+:focus-visible {
+  outline: 2px solid rgb(168, 85, 247);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+::selection { background-color: rgba(168, 85, 247, 0.3); color: inherit; }
+
+/* Hero & playground keyframes — extracted from inline <style> tags */
+
+/* ferrum-grid-drift: animates background-position (paint property, repaint) */
+@keyframes ferrum-grid-drift { 0% { background-position: 0 0; } 100% { background-position: 64px 64px; } }
+@keyframes ferrum-shimmer-bar { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+@keyframes ferrum-pipeline-pulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* No-scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
