@@ -40,6 +40,7 @@ export const docsMenu: MegaMenuGroup[] = [
     items: [
       { icon: "BookOpen", label: "Getting Started", description: "Quick setup guide", view: "docs" },
       { icon: "GraduationCap", label: "Learning Center", description: "Interface engineering principles", view: "learning" },
+      { icon: "Play", label: "Interactive Docs", description: "Learn by doing", view: "interactive-docs" },
     ],
   },
   {
@@ -47,6 +48,12 @@ export const docsMenu: MegaMenuGroup[] = [
     items: [
       { icon: "Terminal", label: "Architecture", description: "System design deep-dive", view: "architecture" },
       { icon: "Layers", label: "Platform Architecture", description: "Ecosystem diagrams & subsystems", view: "platform-architecture" },
+    ],
+  },
+  {
+    heading: "News",
+    items: [
+      { icon: "FileText", label: "Blog", description: "News & engineering posts", view: "blog" },
     ],
   },
 ];
@@ -73,6 +80,12 @@ export const moreMenu: MegaMenuGroup[] = [
     items: [
       { icon: "Trophy", label: "Hall of Fame", description: "Flagship demo concepts", view: "hall-of-fame" },
       { icon: "Blocks", label: "Enterprise Components", description: "Business component roadmap", view: "enterprise-components" },
+    ],
+  },
+  {
+    heading: "History",
+    items: [
+      { icon: "ScrollText", label: "Changelog", description: "Release history & updates", view: "changelog" },
     ],
   },
 ];

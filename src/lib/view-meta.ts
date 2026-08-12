@@ -66,6 +66,18 @@ export const VIEW_META: Record<string, { title: string; description: string }> =
     title: "CSS Effects Playground — FerrumEngine",
     description: "Interactive CSS effects playground: preview, customize, and export 542+ effects with live editing. Real-time code output, zero setup required.",
   },
+  blog: {
+    title: "Blog — FerrumEngine",
+    description: "Latest news, engineering deep-dives, and release announcements from the FerrumEngine team.",
+  },
+  changelog: {
+    title: "Changelog — FerrumEngine",
+    description: "FerrumEngine release history: new features, bug fixes, and improvements across all versions.",
+  },
+  "interactive-docs": {
+    title: "Interactive Docs — Learn by Doing — FerrumEngine",
+    description: "Hands-on interactive lessons for FerrumEngine effects. Edit code, see live results, and master CSS motion.",
+  },
 };
 
 /* ═══════════════════════════════════════════════════════════════
@@ -76,7 +88,8 @@ export const VALID_VIEWS: ViewId[] = [
   "home", "principles", "architecture", "platform-architecture",
   "hall-of-fame", "showcase", "learning", "community", "story",
   "enterprise", "enterprise-components", "vision",
-  "effects", "docs", "playground",
+  "effects", "docs", "playground", "blog", "changelog",
+  "interactive-docs",
 ];
 
 export function pathnameToView(pathname: string): ViewId | null {

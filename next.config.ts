@@ -20,6 +20,9 @@ const SPA_ROUTES = [
   "docs",
   "playground",
   "community",
+  "blog",
+  "changelog",
+  "interactive-docs",
 ];
 
 const nextConfig: NextConfig = {

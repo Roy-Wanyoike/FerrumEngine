@@ -69,3 +69,66 @@ Stage Summary:
 - Registry: 7 JSON files in /registry/
 - Dead code removed: AnimatedCard (-114 LOC), Prisma schema
 - Risk level: Medium (no critical issues, well-engineered codebase)
+
+---
+Task ID: FEATURES-AND-TESTS
+Agent: Main Agent + Subagents
+Task: Add Blog, Changelog, Interactive Docs features + Fix 17 skipped API integration tests
+
+Work Log:
+- Created Blog feature (`src/components/ferrum/blog-view.tsx`, 496 LOC):
+  - 6 realistic blog posts (Announcing 2.0, Zero-Dependency CSS, GPU Motion, Framework Agnostic, 542 Effects, Future of Animation)
+  - Search bar + category filter pills (All, Engineering, Design, Release, Community)
+  - Featured post hero card with gradient background
+  - Responsive post grid (1/2/3 columns)
+  - Full article detail view with styled prose, author info, tags, prev/next navigation
+
+- Created Changelog feature (`src/components/ferrum/changelog-view.tsx`, 511 LOC):
+  - 8 realistic changelog entries (v2.1.0 through v1.0.0)
+  - "What's New" hero section with latest release highlight
+  - Timeline-style layout with color-coded version nodes (major=orange, minor=purple, patch=emerald)
+  - Filter bar for change types (Added, Fixed, Changed, Deprecated, Removed, Security)
+
+- Created Interactive Docs feature (`src/components/ferrum/interactive-docs-view.tsx`, 1523 LOC):
+  - 8 interactive lessons across 4 categories (Getting Started, Hover Effects, Entrance Animations, Advanced Techniques)
+  - Split-panel layout: explanation + code editor + live iframe preview
+  - Resizable panels, device size toggles (desktop/tablet/mobile)
+  - Controls: Run, Reset, Show Solution, Copy Code
+  - Progress tracking with completion percentage bar
+  - Difficulty badges: beginner=emerald, intermediate=amber, advanced=red
+
+- Registered all 3 features in SPA router:
+  - `src/lib/types.ts` — Added "blog", "changelog", "interactive-docs" to ViewId union
+  - `src/lib/view-meta.ts` — Added VIEW_META entries and VALID_VIEWS
+  - `next.config.ts` — Added to SPA_ROUTES rewrites
+  - `src/components/ferrum/nav-data.ts` — Blog in Docs menu, Changelog in More menu, Interactive Docs in Learn menu
+  - `src/app/home-client.tsx` — Dynamic imports + view rendering for all 3
+  - `src/lib/icon-resolver.tsx` — Added FileText, ScrollText, Play icons
+
+- Fixed TypeScript errors in changelog-view (latestEntry null guard) and interactive-docs-view (firstLesson non-null assertion)
+
+- Fixed 17 skipped API integration tests:
+  - Changed from external server dependency to self-contained in-process testing
+  - Uses Next.js programmatic API via `import("next")` + HTTP server in test process
+  - Set env vars (CLOUD_API_TOKEN, CLOUD_ADMIN_PASSWORD, NODE_ENV) at module level before imports
+  - Fixed effect name: rc-fade-in → roycss-fade-in (correct prefix)
+  - Result: 95/95 tests pass, 0 skipped
+
+- Created lightweight static server (`scripts/static-server.js`):
+  - Serves pre-rendered HTML from .next/server/app/
+  - Serves static assets from .next/static/ and public/
+  - Health endpoint at /api/health
+  - SPA fallback for client-side routes
+  - Avoids sandbox process-killing issue
+
+- Production build: ✅ Compiled in 4.5s, 14 static pages, TypeScript clean
+- Full test suite: ✅ 95/95 pass (78 unit + 17 integration), 0 skipped, 0 failures
+
+Stage Summary:
+- New features: Blog (496 LOC), Changelog (511 LOC), Interactive Docs (1523 LOC)
+- Total new code: ~2,530 LOC across 3 components
+- SPA routes: 21 (was 18), added blog, changelog, interactive-docs
+- Tests: 95/95 passing (was 78/95), eliminated all skipped tests
+- Build: ✅ Clean, 4.5s compile time
+- TypeScript: ✅ 0 errors
+- ESLint: ✅ 0 errors

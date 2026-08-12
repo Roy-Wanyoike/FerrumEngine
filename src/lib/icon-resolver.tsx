@@ -23,15 +23,17 @@ import {
   Square, MousePointerClick, Maximize, LayoutDashboard, Navigation,
   Star, Type, Crown, Loader2, Wind, Gauge, Target,
   BarChart3, Tablet, Smartphone, Code, Activity,
+  // Nav icons
+  FileText, ScrollText,
 } from "lucide-react";
 import { forwardRef } from "react";
 
 /** String union of all icon names used across data modules */
 export type LucideIconName =
   | "Activity" | "BarChart3" | "Blocks" | "BookOpen" | "Cpu" | "Crown"
-  | "Eye" | "Gauge" | "Github" | "GraduationCap" | "Layers" | "LayoutDashboard"
+  | "Eye" | "FileText" | "Gauge" | "Github" | "GraduationCap" | "Layers" | "LayoutDashboard"
   | "Lightbulb" | "Loader2" | "Maximize" | "MousePointerClick" | "Navigation"
-  | "Palette" | "Play" | "Smartphone" | "Sparkles" | "Square" | "Star"
+  | "Palette" | "Play" | "ScrollText" | "Smartphone" | "Sparkles" | "Square" | "Star"
   | "Tablet" | "Target" | "Terminal" | "Trophy" | "Type" | "Wind" | "Zap"
   | "Code";
 
@@ -44,6 +46,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Cpu,
   Crown,
   Eye,
+  FileText,
   Gauge,
   Github,
   GraduationCap,
@@ -68,6 +71,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Wind,
   Zap,
   Code,
+  ScrollText,
 };
 
 /** Lightweight fallback for unknown icon names */

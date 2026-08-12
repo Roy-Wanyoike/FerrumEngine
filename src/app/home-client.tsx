@@ -76,6 +76,18 @@ const EnterpriseComponentLibrary = dynamic(
   () => import("@/components/ferrum/sections/enterprise-components").then((m) => ({ default: m.EnterpriseComponentLibrary })),
   { ssr: false }
 );
+const BlogView = dynamic(
+  () => import("@/components/ferrum/blog-view").then((m) => ({ default: m.BlogView })),
+  { ssr: false }
+);
+const ChangelogView = dynamic(
+  () => import("@/components/ferrum/changelog-view").then((m) => ({ default: m.ChangelogView })),
+  { ssr: false }
+);
+const InteractiveDocsView = dynamic(
+  () => import("@/components/ferrum/interactive-docs-view").then((m) => ({ default: m.InteractiveDocsView })),
+  { ssr: false }
+);
 
 /* Nav is the heaviest sync import (~678 LOC with megamenu).
    Defer it via dynamic import — ssr:false avoids pulling Radix primitives
@@ -295,6 +307,17 @@ function ViewRouter() {
     );
   }
 
+  if (currentView === "interactive-docs") {
+    return (
+      <ViewErrorBoundary>
+        <Nav currentView={currentView} onNavigate={navigate} />
+        <Suspense fallback={<ViewSkeleton />}>
+          <InteractiveDocsView />
+        </Suspense>
+      </ViewErrorBoundary>
+    );
+  }
+
   if (currentView === "playground") {
     return (
       <ViewErrorBoundary>
@@ -400,6 +423,14 @@ function ViewRouter() {
 
       {currentView === "community" && (
         <Suspense fallback={<ViewSkeleton />}><CommunitySection /><Footer /></Suspense>
+      )}
+
+      {currentView === "blog" && (
+        <Suspense fallback={<ViewSkeleton />}><BlogView /><Footer /></Suspense>
+      )}
+
+      {currentView === "changelog" && (
+        <Suspense fallback={<ViewSkeleton />}><ChangelogView /><Footer /></Suspense>
       )}
 
       {currentView === "effects" && (
