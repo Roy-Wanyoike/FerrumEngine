@@ -10,6 +10,31 @@ export default defineConfig({
     setupFiles: ["./__tests__/setup.ts"],
     include: ["__tests__/**/*.test.{ts,tsx}"],
     css: true,
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "text-summary", "lcov", "json-summary"],
+      reportsDirectory: "coverage",
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: [
+        "src/components/ui/**",
+        "src/app/global-error.tsx",
+        "src/app/error.tsx",
+        "src/app/not-found.tsx",
+        "src/app/layout.tsx",
+        "src/lib/ferrum-effects-data.ts",
+        "src/lib/ferrum-effects-index.ts",
+        "src/lib/ferrum-tokens/**",
+        "**/*.d.ts",
+        "**/types.ts",
+        "**/types/**",
+      ],
+      thresholds: {
+        statements: 60,
+        branches: 50,
+        functions: 60,
+        lines: 60,
+      },
+    },
   },
   resolve: {
     alias: {
