@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-01-01T00:00:00.000Z",
+  "generatedAt": "2026-08-12T00:00:00.000Z",
   "totalRoutes": 19,
   "routes": [
     {
@@ -9,7 +9,7 @@
       "rendering": "hybrid",
       "component": "src/app/page.tsx",
       "clientComponent": "src/app/home-client.tsx",
-      "spaViews": ["/principles", "/architecture", "/platform-architecture", "/effects", "/playground", "/docs", "/hall-of-fame", "/showcase", "/learning", "/community", "/story", "/enterprise", "/enterprise-components", "/vision"],
+      "spaViews": ["/principles", "/architecture", "/platform-architecture", "/effects", "/playground", "/docs", "/hall-of-fame", "/showcase", "/learning", "/community", "/story", "/enterprise", "/enterprise-components", "/vision", "/blog", "/changelog", "/interactive-docs"],
       "status": "active",
       "hasStaticGeneration": true
     },

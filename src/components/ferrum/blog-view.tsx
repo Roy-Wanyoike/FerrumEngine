@@ -375,6 +375,7 @@ export function BlogView() {
             <input
               type="text"
               placeholder="Search posts..."
+              aria-label="Search blog posts"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full h-10 pl-10 pr-4 rounded-xl bg-foreground/[0.03] border border-border/50 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"

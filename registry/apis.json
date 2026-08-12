@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2025-01-01T00:00:00.000Z",
-  "totalApis": 17,
+  "generatedAt": "2026-08-12T00:00:00.000Z",
+  "totalApis": 18,
   "apis": [
     {
       "id": "A001",
@@ -168,13 +168,24 @@
       "calledBy": ["src/hooks/use-cloud-data.ts"]
     },
     {
+      "id": "A015b",
+      "path": "/api/cloud/projects/[projectId]/tokens",
+      "method": "POST",
+      "component": "src/app/api/cloud/projects/[projectId]/tokens/route.ts",
+      "auth": true,
+      "rateLimit": "100 req/min per IP (middleware)",
+      "description": "Create a new token for a project",
+      "status": "active",
+      "calledBy": ["src/app/cloud/cloud-modals.tsx"]
+    },
+    {
       "id": "A016",
       "path": "/api/cloud/tokens/[tokenId]",
-      "method": "GET",
+      "method": "PUT",
       "component": "src/app/api/cloud/tokens/[tokenId]/route.ts",
       "auth": true,
       "rateLimit": "100 req/min per IP (middleware)",
-      "description": "Get a single token by ID",
+      "description": "Update a token by ID (name, value, namespace)",
       "status": "active",
       "calledBy": ["src/hooks/use-cloud-data.ts"]
     },

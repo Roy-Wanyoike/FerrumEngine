@@ -1,5 +1,7 @@
 {
-  "generatedAt": "2025-01-01T00:00:00.000Z",
+  "generatedAt": "2026-08-12T00:00:00.000Z",
+  "lastVerified": "2026-08-12",
+  "verifiedBy": "Phase 17-18 Agent",
   "totalFeatures": 21,
   "features": [
     {
@@ -15,7 +17,8 @@
       "dependencies": ["next-themes", "lucide-react"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/theme-toggle.tsx", "src/components/theme-provider.tsx"]
     },
     {
       "id": "F002",
@@ -30,7 +33,8 @@
       "dependencies": ["lucide-react"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/color-customizer.tsx"]
     },
     {
       "id": "F003",
@@ -42,10 +46,11 @@
       "tests": "Not tested",
       "status": "active",
       "owner": "platform",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["lucide-react", "next"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/nav.tsx"]
     },
     {
       "id": "F004",
@@ -54,13 +59,14 @@
       "category": "navigation",
       "implementation": ["src/components/ferrum/nav-mega-menu.tsx", "src/components/ferrum/nav-data.ts"],
       "documentation": "Inline comments (nav-mega-menu.tsx:119-161)",
-      "tests": "Not tested",
+      "tests": "Tested in __tests__/nav-data.test.ts",
       "status": "active",
       "owner": "platform",
       "dependencies": ["lucide-react"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/nav-mega-menu.tsx", "src/components/ferrum/nav-data.ts"]
     },
     {
       "id": "F005",
@@ -75,7 +81,8 @@
       "dependencies": ["lucide-react"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/nav-mobile.tsx"]
     },
     {
       "id": "F006",
@@ -90,7 +97,8 @@
       "dependencies": ["lucide-react"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/scroll-progress.tsx"]
     },
     {
       "id": "F007",
@@ -102,10 +110,11 @@
       "tests": "Not tested",
       "status": "active",
       "owner": "platform",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["lucide-react", "next"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/sections/home/hero-section.tsx"]
     },
     {
       "id": "F008",
@@ -114,13 +123,14 @@
       "category": "effects",
       "implementation": ["src/components/ferrum/effects-view.tsx", "src/components/ferrum/effect-preview.tsx"],
       "documentation": "Inline section comment (effects-view.tsx:3-8)",
-      "tests": "Not tested",
+      "tests": "Tested in __tests__/effects-data.test.ts",
       "status": "active",
       "owner": "platform",
       "dependencies": ["lucide-react"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/effects-view.tsx", "src/components/ferrum/effect-preview.tsx"]
     },
     {
       "id": "F009",
@@ -135,7 +145,8 @@
       "dependencies": ["lucide-react", "sonner"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/effects-detail-modal.tsx"]
     },
     {
       "id": "F010",
@@ -150,7 +161,8 @@
       "dependencies": ["lucide-react", "sonner"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/collection-drawer.tsx"]
     },
     {
       "id": "F011",
@@ -174,7 +186,17 @@
       "dependencies": ["lucide-react", "sonner"],
       "version": "2.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": [
+        "src/components/ferrum/playground/index.tsx",
+        "src/components/ferrum/playground/code-editor.tsx",
+        "src/components/ferrum/playground/controls-panel.tsx",
+        "src/components/ferrum/playground/preview-panel.tsx",
+        "src/components/ferrum/playground/toolbar.tsx",
+        "src/components/ferrum/playground/effect-sidebar.tsx",
+        "src/components/ferrum/playground/types.ts",
+        "src/components/ferrum/playground-v2-data.ts"
+      ]
     },
     {
       "id": "F012",
@@ -189,7 +211,8 @@
       "dependencies": ["lucide-react"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/architecture-deep-dive.tsx", "src/components/ferrum/architecture-data.ts"]
     },
     {
       "id": "F013",
@@ -198,13 +221,14 @@
       "category": "documentation",
       "implementation": ["src/components/ferrum/docs-view.tsx", "src/lib/docs-data.ts"],
       "documentation": "Inline section comments (docs-view.tsx:239-240, 369-371)",
-      "tests": "Not tested",
+      "tests": "Tested in __tests__/docs-data.test.ts",
       "status": "active",
       "owner": "platform",
       "dependencies": ["lucide-react", "sonner"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/docs-view.tsx", "src/lib/docs-data.ts"]
     },
     {
       "id": "F014",
@@ -213,13 +237,14 @@
       "category": "seo",
       "implementation": ["src/app/layout.tsx", "src/components/ferrum/seo-content.tsx", "src/lib/view-meta.ts"],
       "documentation": "JSDoc comments (layout.tsx:117-118, seo-content.tsx:3-16)",
-      "tests": "Not tested",
+      "tests": "Tested in __tests__/view-meta.test.ts",
       "status": "active",
       "owner": "platform",
       "dependencies": [],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "server"
+      "rendering": "server",
+      "sourcePaths": ["src/app/layout.tsx", "src/components/ferrum/seo-content.tsx", "src/lib/view-meta.ts"]
     },
     {
       "id": "F015",
@@ -234,7 +259,8 @@
       "dependencies": ["lucide-react"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/sections/footer.tsx"]
     },
     {
       "id": "F016",
@@ -257,7 +283,16 @@
       "dependencies": [],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": [
+        "src/components/ferrum/nav.tsx",
+        "src/components/ferrum/nav-mobile.tsx",
+        "src/components/ferrum/effects-detail-modal.tsx",
+        "src/components/ferrum/collection-drawer.tsx",
+        "src/components/ferrum/animated-components.tsx",
+        "src/lib/body-scroll-lock.ts",
+        "src/hooks/use-focus-trap.ts"
+      ]
     },
     {
       "id": "F017",
@@ -279,7 +314,15 @@
       "dependencies": ["lucide-react"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "hybrid"
+      "rendering": "hybrid",
+      "sourcePaths": [
+        "src/app/error.tsx",
+        "src/app/global-error.tsx",
+        "src/app/not-found.tsx",
+        "src/app/loading.tsx",
+        "src/components/error-page-content.tsx",
+        "src/app/home-client.tsx"
+      ]
     },
     {
       "id": "F018",
@@ -295,21 +338,38 @@
         "src/app/cloud/cloud-modals.tsx",
         "src/app/cloud/tab-panels.tsx",
         "src/hooks/use-cloud-data.ts",
-        "src/hooks/use-cloud-auth.ts"
+        "src/hooks/use-cloud-auth.ts",
+        "src/lib/cloud-store.ts",
+        "src/lib/api-types.ts",
+        "src/middleware.ts"
       ],
-      "documentation": "Not documented",
-      "tests": "Not tested",
+      "documentation": "JSDoc in middleware.ts:3-6, api/cloud/auth/route.ts:4-10, api/health/route.ts:7-25",
+      "tests": "Tested in __tests__/cloud-store.test.ts, __tests__/api-routes.test.ts, __tests__/rate-limit.test.ts, __tests__/persistence.test.ts, __tests__/api-types.test.ts",
       "status": "active",
       "owner": "platform",
-      "dependencies": [],
+      "dependencies": ["lucide-react", "sonner"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "hybrid"
+      "rendering": "hybrid",
+      "sourcePaths": [
+        "src/app/cloud/page.tsx",
+        "src/app/cloud/layout.tsx",
+        "src/app/cloud/cloud-dashboard-client.tsx",
+        "src/app/cloud/cloud-loader.tsx",
+        "src/app/cloud/cloud-breadcrumb.tsx",
+        "src/app/cloud/cloud-modals.tsx",
+        "src/app/cloud/tab-panels.tsx",
+        "src/hooks/use-cloud-data.ts",
+        "src/hooks/use-cloud-auth.ts",
+        "src/lib/cloud-store.ts",
+        "src/lib/api-types.ts",
+        "src/middleware.ts"
+      ]
     },
     {
       "id": "F019",
       "name": "Blog",
-      "description": "News, engineering deep-dives, and release announcements with rich content rendering and reading experience",
+      "description": "Blog with 6 posts, search, category filter, and full article view with rich content rendering",
       "category": "content",
       "implementation": ["src/components/ferrum/blog-view.tsx"],
       "documentation": "VIEW_META entry in src/lib/view-meta.ts",
@@ -319,12 +379,13 @@
       "dependencies": ["lucide-react"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/blog-view.tsx"]
     },
     {
       "id": "F020",
       "name": "Changelog",
-      "description": "Release history and update log showing new features, bug fixes, and improvements across all versions",
+      "description": "Release history and update log with 8 version entries, timeline layout, and type filters",
       "category": "content",
       "implementation": ["src/components/ferrum/changelog-view.tsx"],
       "documentation": "VIEW_META entry in src/lib/view-meta.ts",
@@ -334,14 +395,22 @@
       "dependencies": ["lucide-react"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": ["src/components/ferrum/changelog-view.tsx"]
     },
     {
       "id": "F021",
       "name": "Interactive Docs",
-      "description": "Hands-on interactive lessons where users edit code, see live results, and master CSS motion effects by doing",
+      "description": "Hands-on interactive lessons where users edit code, see live results, and master CSS motion effects. 8 lessons with code editor, iframe live preview, device size toggles, and progress tracking",
       "category": "documentation",
-      "implementation": ["src/components/ferrum/interactive-docs-view.tsx"],
+      "implementation": [
+        "src/components/ferrum/interactive-docs-view.tsx",
+        "src/components/ferrum/interactive-docs/explanation-panel.tsx",
+        "src/components/ferrum/interactive-docs/lesson-sidebar.tsx",
+        "src/components/ferrum/interactive-docs/code-playground.tsx",
+        "src/components/ferrum/interactive-docs/lessons-data.ts",
+        "src/components/ferrum/interactive-docs/types.ts"
+      ],
       "documentation": "VIEW_META entry in src/lib/view-meta.ts",
       "tests": "Not tested",
       "status": "active",
@@ -349,7 +418,15 @@
       "dependencies": ["lucide-react"],
       "version": "1.0.0",
       "deprecation": null,
-      "rendering": "client"
+      "rendering": "client",
+      "sourcePaths": [
+        "src/components/ferrum/interactive-docs-view.tsx",
+        "src/components/ferrum/interactive-docs/explanation-panel.tsx",
+        "src/components/ferrum/interactive-docs/lesson-sidebar.tsx",
+        "src/components/ferrum/interactive-docs/code-playground.tsx",
+        "src/components/ferrum/interactive-docs/lessons-data.ts",
+        "src/components/ferrum/interactive-docs/types.ts"
+      ]
     }
   ]
 }

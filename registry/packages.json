@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-01-01T00:00:00.000Z",
+  "generatedAt": "2026-08-12T00:00:00.000Z",
   "totalPackages": 17,
   "packages": [
     {
@@ -147,7 +147,7 @@
     {
       "id": "P008",
       "name": "@radix-ui/react-slot",
-      "version": "^1.2.3",
+      "version": "^1.3.3",
       "type": "runtime",
       "importCount": 2,
       "filesUsing": [
@@ -161,7 +161,7 @@
     {
       "id": "P009",
       "name": "@radix-ui/react-label",
-      "version": "^2.1.7",
+      "version": "^2.1.15",
       "type": "runtime",
       "importCount": 1,
       "filesUsing": ["src/components/ui/label.tsx"],
