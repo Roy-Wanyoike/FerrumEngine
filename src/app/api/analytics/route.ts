@@ -1,5 +1,14 @@
 import { type NextRequest, NextResponse } from "next/server";
 
+/*
+ * SECURITY NOTE — Rate Limiting Limitations:
+ * ──────────────────────────────────────────────
+ * This is an in-memory, best-effort rate limiter. See middleware.ts for full
+ * documentation of limitations (IP spoofing, serverless ephemeral store,
+ * no distributed coordination). This is a first line of defense, not a
+ * replacement for a production-grade rate limiting service (Redis / Upstash).
+ */
+
 // Simple in-memory rate limiter for analytics endpoint
 const analyticsAttempts = new Map<string, { count: number; resetAt: number }>();
 const ANALYTICS_WINDOW_MS = 60 * 1000; // 1 minute
@@ -30,11 +39,24 @@ function checkAnalyticsRateLimit(ip: string): boolean {
   return existing.count <= ANALYTICS_MAX_REQUESTS;
 }
 
+/**
+ * Extract client IP from trusted reverse proxy headers.
+ * Fallback chain: x-real-ip > first entry of x-forwarded-for > "unknown".
+ * See middleware.ts for full security documentation.
+ */
+function getClientIP(request: NextRequest): string {
+  const xri = request.headers.get("x-real-ip");
+  if (xri && xri.length > 0) return xri;
+  const xff = request.headers.get("x-forwarded-for");
+  if (xff && xff.length > 0) return xff.split(",")[0] ?? "unknown";
+  return "unknown";
+}
+
 const EXPECTED_FIELDS = ["name", "value", "rating", "id"];
 
 export async function POST(request: NextRequest) {
   try {
-    const clientIP = request.headers.get("x-real-ip") || "unknown";
+    const clientIP = getClientIP(request);
 
     // Rate limiting
     if (!checkAnalyticsRateLimit(clientIP)) {

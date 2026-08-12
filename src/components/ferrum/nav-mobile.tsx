@@ -10,7 +10,7 @@ import { PulsingDot } from "@/components/ferrum/animated-components";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/body-scroll-lock";
 import { resolveIcon } from "@/lib/icon-resolver";
-import { platformMenu, moreMenu, GITHUB_REPO } from "./nav-data";
+import { platformMenu, docsMenu, moreMenu, GITHUB_REPO } from "./nav-data";
 import type { ViewId, MegaMenuGroup } from "@/lib/types";
 
 /* ═══════════════════════════════════════════════════════════════
@@ -75,13 +75,13 @@ export function MobileNav({
   }, [open, onClose]);
 
   return open ? (
-    <div id="mobile-menu" ref={menuRef} role="menu" className="lg:hidden border-t border-border/50 bg-background/95 backdrop-blur-2xl max-h-[calc(100vh-4rem)] overflow-y-auto" aria-label="Mobile navigation">
+    <div id="mobile-menu" ref={menuRef} role="navigation" className="lg:hidden border-t border-border/50 bg-background/95 backdrop-blur-2xl max-h-[calc(100vh-4rem)] overflow-y-auto" aria-label="Mobile navigation">
       <div className="max-w-7xl mx-auto px-6 py-4 space-y-1">
             {/* Mobile: Platform-first items */}
             {mobileNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = currentView === item.id;
-              const isMega = item.id === "platform" || item.id === "more";
+              const isMega = item.id === "platform" || item.id === "docs" || item.id === "more";
               return (
                 <button
                   key={item.id}
@@ -117,6 +117,10 @@ export function MobileNav({
               <MobileMegaGroup groups={platformMenu} onNavigate={handleNav} />
             )}
 
+            {activeMenu === "docs" && (
+              <MobileMegaGroup groups={docsMenu} onNavigate={handleNav} />
+            )}
+
             {activeMenu === "more" && (
               <MobileMegaGroup groups={moreMenu} onNavigate={handleNav} />
             )}
@@ -124,7 +128,7 @@ export function MobileNav({
             {/* Mobile bottom actions */}
             <div className="pt-3 mt-2 border-t border-border/30 flex items-center gap-3 px-2">
               <ThemeToggle variant="dropdown" />
-              <a href={GITHUB_REPO} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-muted-foreground/50 hover:text-foreground transition-colors">
+              <a href={GITHUB_REPO} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-muted-foreground/65 hover:text-foreground transition-colors">
                 <Github className="w-4 h-4" />
                 GitHub
               </a>
@@ -166,7 +170,7 @@ function MobileMegaGroup({
     <>
       {groups.map((group) => (
         <div key={group.heading} className="pl-4 pb-2 space-y-3 border-l border-border/30 ml-4 mt-1">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground/50 mb-1.5 px-2">{group.heading}</p>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground/65 mb-1.5 px-2">{group.heading}</p>
           {group.items.map((item) => {
             const Icon = resolveIcon(item.icon);
             const hasAction = item.view || (item.href && item.href !== "#");
@@ -181,7 +185,7 @@ function MobileMegaGroup({
                     window.open(item.href, "_blank", "noopener,noreferrer");
                   }
                 }}
-                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-muted-foreground/50 hover:text-foreground hover:bg-foreground/[0.03] transition-all disabled:opacity-50 disabled:cursor-default"
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-muted-foreground/65 hover:text-foreground hover:bg-foreground/[0.03] transition-all disabled:opacity-50 disabled:cursor-default"
               >
                 <Icon className="w-3.5 h-3.5" />
                 {item.label}

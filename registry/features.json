@@ -1,6 +1,6 @@
 {
   "generatedAt": "2025-01-01T00:00:00.000Z",
-  "totalFeatures": 18,
+  "totalFeatures": 21,
   "features": [
     {
       "id": "F001",
@@ -305,6 +305,51 @@
       "version": "1.0.0",
       "deprecation": null,
       "rendering": "hybrid"
+    },
+    {
+      "id": "F019",
+      "name": "Blog",
+      "description": "News, engineering deep-dives, and release announcements with rich content rendering and reading experience",
+      "category": "content",
+      "implementation": ["src/components/ferrum/blog-view.tsx"],
+      "documentation": "VIEW_META entry in src/lib/view-meta.ts",
+      "tests": "Not tested",
+      "status": "active",
+      "owner": "platform",
+      "dependencies": ["lucide-react"],
+      "version": "1.0.0",
+      "deprecation": null,
+      "rendering": "client"
+    },
+    {
+      "id": "F020",
+      "name": "Changelog",
+      "description": "Release history and update log showing new features, bug fixes, and improvements across all versions",
+      "category": "content",
+      "implementation": ["src/components/ferrum/changelog-view.tsx"],
+      "documentation": "VIEW_META entry in src/lib/view-meta.ts",
+      "tests": "Not tested",
+      "status": "active",
+      "owner": "platform",
+      "dependencies": ["lucide-react"],
+      "version": "1.0.0",
+      "deprecation": null,
+      "rendering": "client"
+    },
+    {
+      "id": "F021",
+      "name": "Interactive Docs",
+      "description": "Hands-on interactive lessons where users edit code, see live results, and master CSS motion effects by doing",
+      "category": "documentation",
+      "implementation": ["src/components/ferrum/interactive-docs-view.tsx"],
+      "documentation": "VIEW_META entry in src/lib/view-meta.ts",
+      "tests": "Not tested",
+      "status": "active",
+      "owner": "platform",
+      "dependencies": ["lucide-react"],
+      "version": "1.0.0",
+      "deprecation": null,
+      "rendering": "client"
     }
   ]
 }

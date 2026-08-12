@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useSyncExternalStore } from "react";
 
 export interface FerrumLogoProps extends React.SVGAttributes<SVGElement> {
   /** Width/height in pixels; defaults to 32 */
@@ -12,8 +12,23 @@ export interface FerrumLogoProps extends React.SVGAttributes<SVGElement> {
  *
  * Gradient IDs are prefixed with "fl-" (ferrum-logo) to avoid
  * collisions when multiple instances are rendered on the same page.
+ *
+ * SMIL animations are conditionally rendered based on prefers-reduced-motion.
  */
+
+const hasMatchMedia = typeof window !== "undefined" && typeof window.matchMedia === "function";
+const subscribe = (callback: () => void) => {
+  if (!hasMatchMedia) return () => {};
+  const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mql.addEventListener("change", callback);
+  return () => mql.removeEventListener("change", callback);
+};
+const getSnapshot = () => hasMatchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
+const getServerSnapshot = () => false;
+
 export function FerrumLogo({ size = 32, className, ...rest }: FerrumLogoProps) {
+  const prefersReducedMotion = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +128,7 @@ export function FerrumLogo({ size = 32, className, ...rest }: FerrumLogoProps) {
           fill="url(#fl-mark)"
         />
 
-        {/* Speed lines */}
+        {/* Speed lines — SMIL only when user allows motion */}
         <line
           x1="86"
           y1="38"
@@ -124,12 +139,14 @@ export function FerrumLogo({ size = 32, className, ...rest }: FerrumLogoProps) {
           strokeLinecap="round"
           opacity={0.7}
         >
-          <animate
-            attributeName="opacity"
-            values="0.7;0.2;0.7"
-            dur="2.5s"
-            repeatCount="indefinite"
-          />
+          {!prefersReducedMotion && (
+            <animate
+              attributeName="opacity"
+              values="0.7;0.2;0.7"
+              dur="2.5s"
+              repeatCount="indefinite"
+            />
+          )}
         </line>
         <line
           x1="92"
@@ -141,13 +158,15 @@ export function FerrumLogo({ size = 32, className, ...rest }: FerrumLogoProps) {
           strokeLinecap="round"
           opacity={0.5}
         >
-          <animate
-            attributeName="opacity"
-            values="0.5;0.1;0.5"
-            dur="3s"
-            begin="0.4s"
-            repeatCount="indefinite"
-          />
+          {!prefersReducedMotion && (
+            <animate
+              attributeName="opacity"
+              values="0.5;0.1;0.5"
+              dur="3s"
+              begin="0.4s"
+              repeatCount="indefinite"
+            />
+          )}
         </line>
         <line
           x1="90"
@@ -159,16 +178,18 @@ export function FerrumLogo({ size = 32, className, ...rest }: FerrumLogoProps) {
           strokeLinecap="round"
           opacity={0.35}
         >
-          <animate
-            attributeName="opacity"
-            values="0.35;0.08;0.35"
-            dur="2.8s"
-            begin="0.8s"
-            repeatCount="indefinite"
-          />
+          {!prefersReducedMotion && (
+            <animate
+              attributeName="opacity"
+              values="0.35;0.08;0.35"
+              dur="2.8s"
+              begin="0.8s"
+              repeatCount="indefinite"
+            />
+          )}
         </line>
 
-        {/* Orbital rings */}
+        {/* Orbital rings — SMIL only when user allows motion */}
         <circle
           cx="64"
           cy="64"
@@ -179,14 +200,16 @@ export function FerrumLogo({ size = 32, className, ...rest }: FerrumLogoProps) {
           strokeDasharray="3 12"
           opacity={0.2}
         >
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            from="0 64 64"
-            to="360 64 64"
-            dur="40s"
-            repeatCount="indefinite"
-          />
+          {!prefersReducedMotion && (
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="0 64 64"
+              to="360 64 64"
+              dur="40s"
+              repeatCount="indefinite"
+            />
+          )}
         </circle>
         <circle
           cx="64"
@@ -198,14 +221,16 @@ export function FerrumLogo({ size = 32, className, ...rest }: FerrumLogoProps) {
           strokeDasharray="2 18"
           opacity={0.12}
         >
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            from="360 64 64"
-            to="0 64 64"
-            dur="30s"
-            repeatCount="indefinite"
-          />
+          {!prefersReducedMotion && (
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="360 64 64"
+              to="0 64 64"
+              dur="30s"
+              repeatCount="indefinite"
+            />
+          )}
         </circle>
       </g>
 

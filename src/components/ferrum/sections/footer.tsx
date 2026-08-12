@@ -84,7 +84,7 @@ export function Footer() {
                         <a
                           href={l.href}
                           onClick={(e) => scrollToHash(e, l.hash)}
-                          className="text-sm text-muted-foreground/50 hover:text-foreground transition-colors"
+                          className="text-sm text-muted-foreground/65 hover:text-foreground transition-colors"
                         >
                           {l.label}
                         </a>
@@ -95,7 +95,7 @@ export function Footer() {
                     <li key={l.label}>
                       <Link
                         href={l.href}
-                        className="text-sm text-muted-foreground/50 hover:text-foreground transition-colors"
+                        className="text-sm text-muted-foreground/65 hover:text-foreground transition-colors"
                         {...(l.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       >
                         {l.label}
@@ -110,20 +110,20 @@ export function Footer() {
 
         <div className="mt-16 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <p className="text-xs text-muted-foreground/50">MIT License · Open Source</p>
+            <p className="text-xs text-muted-foreground/65">MIT License · Open Source</p>
             <span className="text-muted-foreground/40">|</span>
             <a
               href="https://github.com/roy-wanyoike/FerrumEngine"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-muted-foreground/50 hover:text-purple-400 transition-colors"
+              className="flex items-center gap-1.5 text-xs text-muted-foreground/65 hover:text-purple-400 transition-colors"
             >
               <GitBranch className="w-3 h-3" />
               github.com/roy-wanyoike/FerrumEngine
             </a>
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground/50">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground/65">
               <span>Built with</span>
               <Heart className="w-3 h-3 text-pink-400/60 fill-pink-400/60" />
               <span>by</span>

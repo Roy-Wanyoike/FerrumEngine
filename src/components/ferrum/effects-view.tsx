@@ -107,7 +107,7 @@ const EffectCard = memo(function EffectCard({ effect, onOpenCode, onAddCollectio
         </div>
         <div className="flex items-center gap-2">
           <code className="text-[11px] font-mono text-muted-foreground/40 bg-foreground/[0.04] px-2 py-0.5 rounded">{effect.className}</code>
-          <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4 bg-foreground/[0.04] text-muted-foreground/40 hover:bg-foreground/[0.06]">{effect.category}</Badge>
+          <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4 bg-foreground/[0.04] text-muted-foreground/65 hover:bg-foreground/[0.06]">{effect.category}</Badge>
         </div>
       </div>
     </div>
@@ -163,7 +163,7 @@ function VirtualGrid({ effects, onOpenCode, onAddCollection, isInCollection }: {
       <div ref={loaderRef} className="h-8" />
       {hasMore && (
         <div className="flex justify-center py-6">
-          <div className="flex items-center gap-2 text-muted-foreground/40 text-xs"><Loader2 className="w-3.5 h-3.5 animate-spin" />Loading...</div>
+          <div className="flex items-center gap-2 text-muted-foreground/65 text-xs"><Loader2 className="w-3.5 h-3.5 animate-spin" />Loading...</div>
         </div>
       )}
     </>
@@ -223,8 +223,8 @@ export function EffectsView({
           <div className="flex items-center gap-3 mb-3">
             <div className="relative flex-1">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40" />
-              <Input placeholder="Search effects..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 bg-foreground/[0.04] border-border text-foreground placeholder:text-muted-foreground/40 focus:border-purple-500/40 focus:ring-purple-500/10 h-10 rounded-xl text-sm" />
-              {search && <button onClick={() => setSearch("")} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/40 hover:text-muted-foreground text-xs">Clear</button>}
+              <Input placeholder="Search effects..." aria-label="Search effects" value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 bg-foreground/[0.04] border-border text-foreground placeholder:text-muted-foreground/40 focus:border-purple-500/40 focus:ring-purple-500/10 h-10 rounded-xl text-sm" />
+              {search && <button onClick={() => setSearch("")} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/65 hover:text-muted-foreground text-xs">Clear</button>}
             </div>
             <button onClick={() => setCollectionOpen(true)} className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-foreground/[0.04] border border-border text-muted-foreground hover:text-foreground hover:border-border transition-all shrink-0 relative" aria-label={`Saved effects${collection.length > 0 ? `, ${collection.length} saved` : ""}`}>
               <Heart className="w-4 h-4" />
@@ -245,13 +245,13 @@ export function EffectsView({
           filtered.length > 0 ? (
             <>
               <VirtualGrid effects={filtered} onOpenCode={handleOpenCode} onAddCollection={add} isInCollection={isIn} />
-              <div className="mt-8 text-center text-xs text-muted-foreground/50" aria-live="polite">Showing {filtered.length} of {effectsIndex.length} effects</div>
+              <div className="mt-8 text-center text-xs text-muted-foreground/65" aria-live="polite">Showing {filtered.length} of {effectsIndex.length} effects</div>
             </>
           ) : (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <Search className="w-12 h-12 text-foreground/[0.06] mb-4" aria-hidden="true" />
               <h3 className="text-lg font-medium text-muted-foreground/70">No effects found</h3>
-              <p className="text-sm text-muted-foreground/50 mt-1">Try a different search or category</p>
+              <p className="text-sm text-muted-foreground/65 mt-1">Try a different search or category</p>
               <button onClick={() => { setSearch(""); setActiveCategory("all"); }} className="mt-4 px-4 py-2 rounded-xl bg-purple-500/10 text-sm text-purple-400 hover:text-purple-300 hover:bg-purple-500/20 transition-colors">Clear filters</button>
             </div>
           )

@@ -1,6 +1,6 @@
 {
   "generatedAt": "2025-01-01T00:00:00.000Z",
-  "totalComponents": 71,
+  "totalComponents": 69,
   "components": [
     {
       "id": "C001",
@@ -376,21 +376,6 @@
       "hasTests": false,
       "status": "active",
       "accessibility": []
-    },
-    {
-      "id": "C026",
-      "name": "AnimatedCard",
-      "path": "src/components/ferrum/animated-components.tsx",
-      "type": "pattern",
-      "layer": "pattern",
-      "exports": ["AnimatedCard"],
-      "dependents": [],
-      "dependencies": [],
-      "lineCount": 134,
-      "hasTypes": true,
-      "hasTests": false,
-      "status": "active",
-      "accessibility": ["reduced-motion", "aria-hidden"]
     },
     {
       "id": "C027",
@@ -867,21 +852,6 @@
       "dependents": [],
       "dependencies": [],
       "lineCount": 349,
-      "hasTypes": false,
-      "hasTests": false,
-      "status": "active",
-      "accessibility": []
-    },
-    {
-      "id": "C059",
-      "name": "PlatformHomepage",
-      "path": "src/components/ferrum/sections/platform-homepage.tsx",
-      "type": "component",
-      "layer": "component",
-      "exports": [],
-      "dependents": [],
-      "dependencies": [],
-      "lineCount": 12,
       "hasTypes": false,
       "hasTests": false,
       "status": "active",

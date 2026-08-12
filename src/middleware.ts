@@ -3,13 +3,41 @@ import { type NextRequest, NextResponse } from "next/server";
 /**
  * Middleware — Auth + Rate Limiting for /api/cloud/* routes.
  * Full logic inline for Edge Runtime compatibility.
+ *
+ * SECURITY NOTE — Rate Limiting Limitations:
+ * ──────────────────────────────────────────────
+ * This rate limiter is an in-memory, best-effort protection. Key limitations:
+ *
+ * 1. IP Spoofing: We read the `x-real-ip` header as provided by the reverse
+ *    proxy. An attacker who can reach the server directly (bypassing the proxy)
+ *    can forge this header. This is acceptable because in production the server
+ *    is always behind a trusted reverse proxy (Caddy / Nginx) that overwrites
+ *    the header.
+ *
+ * 2. Serverless Ephemeral Store: The in-memory Map resets on every cold start.
+ *    In a serverless environment (Vercel, AWS Lambda), each function instance
+ *    has its own independent counter. An attacker making requests across
+ *    instances gets a higher effective limit. For global rate limiting, use
+ *    Redis / Upstash / a dedicated rate-limiting service.
+ *
+ * 3. No Distributed Coordination: Multiple instances don't share counters.
+ *
+ * Despite these limitations, this middleware still provides meaningful defense:
+ * it raises the cost of brute-force attacks and absorbs traffic spikes.
+ * Consider it a first line of defense, not the only one.
+ *
+ * GRACEFUL DEGRADATION:
+ * If CLOUD_API_TOKEN is not configured, cloud route protection is disabled
+ * rather than crashing the middleware chain. This allows the rest of the app
+ * (non-cloud routes) to function normally in development/demo environments.
  */
 
-const _CLOUD_TOKEN = process.env.CLOUD_API_TOKEN;
-if (!_CLOUD_TOKEN) {
-  throw new Error("[Ferrum] CLOUD_API_TOKEN environment variable is required");
-}
-const CLOUD_TOKEN = _CLOUD_TOKEN;
+/**
+ * null-safe token reference. When HAS_CLOUD_TOKEN is false, cloud auth is
+ * skipped entirely (graceful degradation for dev/demo environments).
+ */
+const CLOUD_TOKEN = process.env.CLOUD_API_TOKEN ?? null;
+const HAS_CLOUD_TOKEN = CLOUD_TOKEN !== null;
 
 // Rate limit windows (in milliseconds)
 const AUTH_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
@@ -17,7 +45,10 @@ const AUTH_MAX_REQUESTS = 10;
 const API_WINDOW_MS = 60 * 1000; // 1 minute
 const API_MAX_REQUESTS = 100;
 
-// In-memory rate limit store (per-instance, resets on cold start)
+/*
+ * In-memory rate limit store (per-instance, resets on cold start).
+ * See SECURITY NOTE at top of file for known limitations.
+ */
 const authAttempts = new Map<string, { count: number; resetAt: number }>();
 const apiRequests = new Map<string, { count: number; resetAt: number }>();
 
@@ -37,9 +68,21 @@ function cleanupOldEntries() {
   }
 }
 
+/**
+ * Extract client IP from trusted reverse proxy headers.
+ * Priority: x-real-ip > first entry of x-forwarded-for > "unknown".
+ *
+ * When IP is "unknown" (headers missing), all such requests share a single
+ * rate-limit bucket — conservative (blocks sooner) and safe.
+ *
+ * IMPORTANT: These headers are only trustworthy behind a properly configured
+ * reverse proxy that OVERWRITES (not appends to) them.
+ */
 function getClientIP(request: NextRequest): string {
   const xri = request.headers.get("x-real-ip");
-  if (xri) return xri;
+  if (xri && xri.length > 0) return xri;
+  const xff = request.headers.get("x-forwarded-for");
+  if (xff && xff.length > 0) return xff.split(",")[0] ?? "unknown";
   return "unknown";
 }
 
@@ -146,6 +189,11 @@ export default function middleware(request: NextRequest) {
   }
 
   // Bearer token auth for protected routes
+  // Graceful degradation: if no token is configured, skip auth (dev/demo)
+  if (!HAS_CLOUD_TOKEN) {
+    return NextResponse.next();
+  }
+
   const authHeader = request.headers.get("authorization");
   const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
 

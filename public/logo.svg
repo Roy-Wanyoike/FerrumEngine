@@ -1,4 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <style>
+    .fl-speed-1 { animation: fl-pulse-1 2.5s ease-in-out infinite; }
+    .fl-speed-2 { animation: fl-pulse-2 3s ease-in-out 0.4s infinite; }
+    .fl-speed-3 { animation: fl-pulse-3 2.8s ease-in-out 0.8s infinite; }
+    .fl-orbit-1 { animation: fl-spin-cw 40s linear infinite; transform-origin: 64px 64px; }
+    .fl-orbit-2 { animation: fl-spin-ccw 30s linear infinite; transform-origin: 64px 64px; }
+    @keyframes fl-pulse-1 { 0%, 100% { opacity: 0.7; } 50% { opacity: 0.2; } }
+    @keyframes fl-pulse-2 { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.1; } }
+    @keyframes fl-pulse-3 { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.08; } }
+    @keyframes fl-spin-cw { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes fl-spin-ccw { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+    @media (prefers-reduced-motion: reduce) {
+      .fl-speed-1, .fl-speed-2, .fl-speed-3, .fl-orbit-1, .fl-orbit-2 { animation: none !important; }
+    }
+  </style>
   <defs>
     <linearGradient id="mark" x1="20" y1="20" x2="108" y2="108" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#c084fc"/>
@@ -40,28 +55,16 @@
     <!-- Central F — the mark -->
     <path d="M44 38h40v9H55v12h22v9H55v22h-11V38z" fill="url(#mark)"/>
 
-    <!-- Speed lines (energy leaving the engine) -->
-    <line x1="86" y1="38" x2="96" y2="32" stroke="#f97316" stroke-width="1.8" stroke-linecap="round" opacity="0.7">
-      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.5s" repeatCount="indefinite"/>
-    </line>
-    <line x1="92" y1="50" x2="104" y2="48" stroke="#d946ef" stroke-width="1.3" stroke-linecap="round" opacity="0.5">
-      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="3s" begin="0.4s" repeatCount="indefinite"/>
-    </line>
-    <line x1="90" y1="62" x2="100" y2="64" stroke="#a855f7" stroke-width="1" stroke-linecap="round" opacity="0.35">
-      <animate attributeName="opacity" values="0.35;0.08;0.35" dur="2.8s" begin="0.8s" repeatCount="indefinite"/>
-    </line>
+    <!-- Speed lines (CSS animations, respects prefers-reduced-motion) -->
+    <line class="fl-speed-1" x1="86" y1="38" x2="96" y2="32" stroke="#f97316" stroke-width="1.8" stroke-linecap="round" opacity="0.7"/>
+    <line class="fl-speed-2" x1="92" y1="50" x2="104" y2="48" stroke="#d946ef" stroke-width="1.3" stroke-linecap="round" opacity="0.5"/>
+    <line class="fl-speed-3" x1="90" y1="62" x2="100" y2="64" stroke="#a855f7" stroke-width="1" stroke-linecap="round" opacity="0.35"/>
 
-    <!-- Orbital ring (engine rhythm) -->
-    <circle cx="64" cy="64" r="48" fill="none" stroke="url(#mark)" stroke-width="0.5"
-            stroke-dasharray="3 12" opacity="0.2">
-      <animateTransform attributeName="transform" type="rotate"
-                        from="0 64 64" to="360 64 64" dur="40s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="64" cy="64" r="38" fill="none" stroke="url(#mark)" stroke-width="0.35"
-            stroke-dasharray="2 18" opacity="0.12">
-      <animateTransform attributeName="transform" type="rotate"
-                        from="360 64 64" to="0 64 64" dur="30s" repeatCount="indefinite"/>
-    </circle>
+    <!-- Orbital ring (CSS animations, respects prefers-reduced-motion) -->
+    <circle class="fl-orbit-1" cx="64" cy="64" r="48" fill="none" stroke="url(#mark)" stroke-width="0.5"
+            stroke-dasharray="3 12" opacity="0.2"/>
+    <circle class="fl-orbit-2" cx="64" cy="64" r="38" fill="none" stroke="url(#mark)" stroke-width="0.35"
+            stroke-dasharray="2 18" opacity="0.12"/>
   </g>
 
   <!-- Corner accents -->

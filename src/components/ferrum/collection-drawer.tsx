@@ -107,7 +107,7 @@ const CollectionDrawer = memo(function CollectionDrawer({ open, onClose, collect
         )}
         <div className="overflow-y-auto" style={{ maxHeight: "calc(100vh - 200px)" }}>
           <div className="space-y-1">
-            {collection.length === 0 && <p className="text-sm text-muted-foreground/40 text-center py-8">No saved effects yet. Click the heart icon on any effect to save it.</p>}
+            {collection.length === 0 && <p className="text-sm text-muted-foreground/65 text-center py-8">No saved effects yet. Click the heart icon on any effect to save it.</p>}
             {collection.map((cn) => {
               const e = effectsIndex.find((x) => x.className === cn);
               return (

@@ -164,9 +164,9 @@ function ApiBlock({ name, desc, params, returns }: { name: string; desc: string;
               <div key={p.name} className="flex gap-3 items-start">
                 <code className="text-[12px] font-mono text-emerald-400/70 shrink-0 mt-0.5 min-w-[140px]">{p.name}</code>
                 <div className="flex-1">
-                  <span className="text-[11px] font-mono text-muted-foreground/40 mr-2">({p.type})</span>
+                  <span className="text-[11px] font-mono text-muted-foreground/65 mr-2">({p.type})</span>
                   {p.required && <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-amber-500/30 text-amber-400/70 mr-2">required</Badge>}
-                  {p.default && <span className="text-[11px] text-muted-foreground/40 mr-2">default: <code className="text-purple-300/60">{p.default}</code></span>}
+                  {p.default && <span className="text-[11px] text-muted-foreground/65 mr-2">default: <code className="text-purple-300/60">{p.default}</code></span>}
                   <span className="text-[13px] text-muted-foreground">{p.desc}</span>
                 </div>
               </div>
@@ -175,7 +175,7 @@ function ApiBlock({ name, desc, params, returns }: { name: string; desc: string;
         )}
         {returns && (
           <div className="mt-4 pt-3 border-t border-border/50">
-            <span className="text-[11px] text-muted-foreground/40">Returns: </span>
+            <span className="text-[11px] text-muted-foreground/65">Returns: </span>
             <code className="text-[12px] font-mono text-blue-300/70">{returns}</code>
           </div>
         )}
@@ -334,8 +334,8 @@ function DocsSidebar({
 
       {/* Footer */}
       <div className="p-4 border-t border-border">
-        <p className="text-[10px] text-muted-foreground/50">FerrumEngine v{process.env.NEXT_PUBLIC_VERSION || "1.0.0"}</p>
-        <p className="text-[10px] text-muted-foreground/40 mt-0.5"><a href="https://github.com/roy-wanyoike/FerrumEngine/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="hover:text-muted-foreground/60 transition-colors">MIT License</a></p>
+        <p className="text-[10px] text-muted-foreground/65">FerrumEngine v{process.env.NEXT_PUBLIC_VERSION || "1.0.0"}</p>
+        <p className="text-[10px] text-muted-foreground/65 mt-0.5"><a href="https://github.com/roy-wanyoike/FerrumEngine/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="hover:text-muted-foreground/60 transition-colors">MIT License</a></p>
       </div>
     </div>
   );
@@ -489,7 +489,7 @@ export function DocsView({ onBack }: { onBack: () => void }) {
                       >
                         <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
                         <div className="text-left">
-                          <div className="text-[10px] text-muted-foreground/50 uppercase tracking-wider">Previous</div>
+                          <div className="text-[10px] text-muted-foreground/65 uppercase tracking-wider">Previous</div>
                           <div>{prev.title}</div>
                         </div>
                       </button>
@@ -500,7 +500,7 @@ export function DocsView({ onBack }: { onBack: () => void }) {
                         className="flex items-center gap-2 text-sm text-muted-foreground/70 hover:text-foreground/60 transition-colors group ml-auto"
                       >
                         <div className="text-right">
-                          <div className="text-[10px] text-muted-foreground/50 uppercase tracking-wider">Next</div>
+                          <div className="text-[10px] text-muted-foreground/65 uppercase tracking-wider">Next</div>
                           <div>{next.title}</div>
                         </div>
                         <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />

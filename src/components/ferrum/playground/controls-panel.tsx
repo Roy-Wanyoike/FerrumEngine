@@ -61,7 +61,7 @@ export function ControlsPanel({
           aria-expanded={open}
           className="w-full flex items-center gap-2 px-4 py-3 text-left hover:bg-foreground/[0.02] transition-colors"
         >
-          <Icon size={14} className="text-muted-foreground/50" />
+          <Icon size={14} className="text-muted-foreground/65" />
           <span className="text-xs font-medium text-foreground/80 flex-1">{label}</span>
           <ChevronRight
             size={14}
@@ -92,7 +92,7 @@ export function ControlsPanel({
           <div className="space-y-4">
             <div>
               <div className="flex justify-between text-[10px] mb-1.5">
-                <span className="text-muted-foreground/50">Duration</span>
+                <span className="text-muted-foreground/65">Duration</span>
                 <span className="text-foreground/60 font-mono">{motion.duration.toFixed(1)}s</span>
               </div>
               <Slider
@@ -107,7 +107,7 @@ export function ControlsPanel({
             </div>
             <div>
               <div className="flex justify-between text-[10px] mb-1.5">
-                <span className="text-muted-foreground/50">Delay</span>
+                <span className="text-muted-foreground/65">Delay</span>
                 <span className="text-foreground/60 font-mono">{motion.delay.toFixed(1)}s</span>
               </div>
               <Slider
@@ -121,7 +121,7 @@ export function ControlsPanel({
               />
             </div>
             <div>
-              <div className="text-[10px] text-muted-foreground/50 mb-1.5">Easing</div>
+              <div className="text-[10px] text-muted-foreground/65 mb-1.5">Easing</div>
               <Select
                 value={motion.easing}
                 onValueChange={(v: string) => {
@@ -157,7 +157,7 @@ export function ControlsPanel({
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <div className="text-[10px] text-muted-foreground/50 mb-1.5">Iterations</div>
+                <div className="text-[10px] text-muted-foreground/65 mb-1.5">Iterations</div>
                 <Select
                   value={motion.iterations}
                   onValueChange={(v: string) => onMotionChange({ iterations: v })}
@@ -171,7 +171,7 @@ export function ControlsPanel({
                 </Select>
               </div>
               <div>
-                <div className="text-[10px] text-muted-foreground/50 mb-1.5">Direction</div>
+                <div className="text-[10px] text-muted-foreground/65 mb-1.5">Direction</div>
                 <Select
                   value={motion.direction}
                   onValueChange={(v: string) => onMotionChange({ direction: v })}
@@ -184,7 +184,7 @@ export function ControlsPanel({
               </div>
             </div>
             <div>
-              <div className="text-[10px] text-muted-foreground/50 mb-1.5">Fill Mode</div>
+              <div className="text-[10px] text-muted-foreground/65 mb-1.5">Fill Mode</div>
               <Select
                 value={motion.fillMode}
                 onValueChange={(v: string) => onMotionChange({ fillMode: v })}
@@ -203,7 +203,7 @@ export function ControlsPanel({
           <div className="space-y-4">
             <div>
               <div className="flex justify-between text-[10px] mb-1.5">
-                <span className="text-muted-foreground/50">Tension</span>
+                <span className="text-muted-foreground/65">Tension</span>
                 <span className="text-foreground/60 font-mono">{physics.tension}</span>
               </div>
               <Slider
@@ -218,7 +218,7 @@ export function ControlsPanel({
             </div>
             <div>
               <div className="flex justify-between text-[10px] mb-1.5">
-                <span className="text-muted-foreground/50">Friction</span>
+                <span className="text-muted-foreground/65">Friction</span>
                 <span className="text-foreground/60 font-mono">{physics.friction}</span>
               </div>
               <Slider
@@ -233,7 +233,7 @@ export function ControlsPanel({
             </div>
             <div>
               <div className="flex justify-between text-[10px] mb-1.5">
-                <span className="text-muted-foreground/50">Mass</span>
+                <span className="text-muted-foreground/65">Mass</span>
                 <span className="text-foreground/60 font-mono">{physics.mass.toFixed(1)}</span>
               </div>
               <Slider
@@ -248,7 +248,7 @@ export function ControlsPanel({
             </div>
             <div>
               <div className="flex justify-between text-[10px] mb-1.5">
-                <span className="text-muted-foreground/50">Bounce</span>
+                <span className="text-muted-foreground/65">Bounce</span>
                 <span className="text-foreground/60 font-mono">{physics.bounce.toFixed(2)}</span>
               </div>
               <Slider
@@ -280,7 +280,7 @@ export function ControlsPanel({
         {section("theme", Palette, "Theme", (
           <div className="space-y-3">
             <div>
-              <div className="text-[10px] text-muted-foreground/50 mb-1.5">Primary Color</div>
+              <div className="text-[10px] text-muted-foreground/65 mb-1.5">Primary Color</div>
               <div className="flex items-center gap-2">
                 <input
                   type="color"
@@ -299,7 +299,7 @@ export function ControlsPanel({
               </div>
             </div>
             <div>
-              <div className="text-[10px] text-muted-foreground/50 mb-1.5">Secondary Color</div>
+              <div className="text-[10px] text-muted-foreground/65 mb-1.5">Secondary Color</div>
               <div className="flex items-center gap-2">
                 <input
                   type="color"
@@ -319,7 +319,7 @@ export function ControlsPanel({
             </div>
             <div>
               <div className="flex justify-between text-[10px] mb-1.5">
-                <span className="text-muted-foreground/50">Border Radius</span>
+                <span className="text-muted-foreground/65">Border Radius</span>
                 <span className="text-foreground/60 font-mono">{theme.radius}px</span>
               </div>
               <Slider
@@ -334,7 +334,7 @@ export function ControlsPanel({
             </div>
             <div>
               <div className="flex justify-between text-[10px] mb-1.5">
-                <span className="text-muted-foreground/50">Shadow Intensity</span>
+                <span className="text-muted-foreground/65">Shadow Intensity</span>
                 <span className="text-foreground/60 font-mono">{theme.shadow.toFixed(2)}</span>
               </div>
               <Slider
@@ -351,7 +351,7 @@ export function ControlsPanel({
               onClick={() => {
                 onThemeChange(DEFAULT_THEME);
               }}
-              className="w-full text-[11px] text-muted-foreground/50 hover:text-foreground/70 py-2 border border-border rounded-lg hover:bg-foreground/[0.04] transition-colors flex items-center justify-center gap-1.5"
+              className="w-full text-[11px] text-muted-foreground/65 hover:text-foreground/70 py-2 border border-border rounded-lg hover:bg-foreground/[0.04] transition-colors flex items-center justify-center gap-1.5"
             >
               <RotateCcw size={11} /> Reset to Default
             </button>
@@ -374,7 +374,7 @@ export function ControlsPanel({
               </button>
             </div>
             <div className="space-y-2">
-              <div className="text-[10px] text-muted-foreground/50 mb-1">Contrast Ratios</div>
+              <div className="text-[10px] text-muted-foreground/65 mb-1">Contrast Ratios</div>
               {[
                 { label: "Primary on BG", ratio: computeContrast(theme.primary, theme.bg), grade: "" },
                 { label: "Secondary on BG", ratio: computeContrast(theme.secondary, theme.bg), grade: "" },
@@ -384,7 +384,7 @@ export function ControlsPanel({
                 const gradeColor = grade === "AAA" ? "#22c55e" : grade === "AA" || grade === "AA Large" ? "#eab308" : "#ef4444";
                 return (
                   <div key={item.label} className="flex items-center justify-between text-[11px]">
-                    <span className="text-muted-foreground/50">{item.label}</span>
+                    <span className="text-muted-foreground/65">{item.label}</span>
                     <div className="flex items-center gap-1.5">
                       <span className="font-mono text-foreground/60">{item.ratio}</span>
                       <span className="text-[9px] px-1.5 py-0.5 rounded font-medium" style={{ background: `${gradeColor}18`, color: gradeColor }}>
@@ -400,7 +400,7 @@ export function ControlsPanel({
               <div className="space-y-1.5">
                 {["Primary Button", "Secondary Button", "Close Action"].map((item, i) => (
                   <div key={item} className="flex items-center gap-2 text-[11px]">
-                    <span className="w-4 h-4 rounded text-[9px] flex items-center justify-center bg-foreground/[0.08] text-muted-foreground/50 font-mono">{i + 1}</span>
+                    <span className="w-4 h-4 rounded text-[9px] flex items-center justify-center bg-foreground/[0.08] text-muted-foreground/65 font-mono">{i + 1}</span>
                     <span className="text-muted-foreground/60">{item}</span>
                   </div>
                 ))}

@@ -331,7 +331,7 @@ export function BlogView() {
               >
                 <ChevronLeft className="w-4 h-4 text-muted-foreground/50 group-hover:-translate-x-1 transition-transform" />
                 <div className="min-w-0">
-                  <p className="text-xs text-muted-foreground/50 mb-0.5">Previous</p>
+                  <p className="text-xs text-muted-foreground/65 mb-0.5">Previous</p>
                   <p className="text-sm font-medium text-foreground truncate">{prevPost.title}</p>
                 </div>
               </button>
@@ -343,7 +343,7 @@ export function BlogView() {
               >
                 <ChevronRight className="w-4 h-4 text-muted-foreground/50 group-hover:translate-x-1 transition-transform" />
                 <div className="min-w-0">
-                  <p className="text-xs text-muted-foreground/50 mb-0.5">Next</p>
+                  <p className="text-xs text-muted-foreground/65 mb-0.5">Next</p>
                   <p className="text-sm font-medium text-foreground truncate">{nextPost.title}</p>
                 </div>
               </button>
@@ -451,7 +451,7 @@ export function BlogView() {
                   <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
                     {post.category}
                   </span>
-                  <span className="text-xs text-muted-foreground/40">{post.readTime}</span>
+                  <span className="text-xs text-muted-foreground/65">{post.readTime}</span>
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-purple-300 transition-colors line-clamp-2">
                   {post.title}
@@ -460,7 +460,7 @@ export function BlogView() {
                   {post.excerpt}
                 </p>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground/40">
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground/65">
                     <Calendar className="w-3 h-3" />
                     <span>{formatDate(post.date)}</span>
                   </div>
@@ -482,7 +482,7 @@ export function BlogView() {
           </div>
         ) : (
           <div className="text-center py-20">
-            <p className="text-muted-foreground/50 text-lg">No posts found matching your criteria.</p>
+            <p className="text-muted-foreground/65 text-lg">No posts found matching your criteria.</p>
             <button
               onClick={() => { setSearchQuery(""); setActiveCategory("All"); }}
               className="mt-3 text-sm text-purple-400 hover:text-purple-300 transition-colors"

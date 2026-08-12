@@ -82,7 +82,7 @@ export function Nav({ currentView, onNavigate }: NavProps) {
               <span className="text-white font-bold text-xs">Fe</span>
             </div>
             <span className="text-sm font-semibold text-foreground tracking-tight">
-              Ferrum<span className="text-muted-foreground/50 font-normal">Engine</span>
+              Ferrum<span className="text-muted-foreground/65 font-normal">Engine</span>
             </span>
           </button>
 

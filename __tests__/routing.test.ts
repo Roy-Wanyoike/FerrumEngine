@@ -1,42 +1,9 @@
 import { describe, it, expect } from "vitest";
+import { VALID_VIEWS, pathnameToView } from "@/lib/view-meta";
+import type { ViewId } from "@/lib/types";
 
 /* ════════════════════════════════════════════════════════════════
-   pathnameToView — URL segment → ViewId mapping
-   This function is embedded in page.tsx so we test the logic here.
-   ════════════════════════════════════════════════════════════════ */
-
-type ViewId =
-  | "home"
-  | "principles"
-  | "architecture"
-  | "platform-architecture"
-  | "hall-of-fame"
-  | "showcase"
-  | "learning"
-  | "story"
-  | "enterprise"
-  | "enterprise-components"
-  | "vision"
-  | "effects"
-  | "docs"
-  | "playground";
-
-const VALID_VIEWS: ViewId[] = [
-  "home", "principles", "architecture", "platform-architecture",
-  "hall-of-fame", "showcase", "learning", "story",
-  "enterprise", "enterprise-components", "vision",
-  "effects", "docs", "playground",
-];
-
-function pathnameToView(pathname: string): ViewId {
-  const segment = pathname.replace(/^\//, "").replace(/\/+$/, "");
-  if (segment === "" || segment === "home") return "home";
-  if (VALID_VIEWS.includes(segment as ViewId)) return segment as ViewId;
-  return "home";
-}
-
-/* ════════════════════════════════════════════════════════════════
-   Tests
+   Tests — pathnameToView imported from @/lib/view-meta (source of truth)
    ════════════════════════════════════════════════════════════════ */
 
 describe("pathnameToView", () => {
@@ -48,13 +15,8 @@ describe("pathnameToView", () => {
     expect(pathnameToView("/home")).toBe("home");
   });
 
-  it("maps all 13 non-home routes correctly", () => {
-    const nonHomeViews: ViewId[] = [
-      "principles", "architecture", "platform-architecture",
-      "hall-of-fame", "showcase", "learning", "story",
-      "enterprise", "enterprise-components", "vision",
-      "effects", "docs", "playground",
-    ];
+  it(`maps all ${VALID_VIEWS.length - 1} non-home routes correctly`, () => {
+    const nonHomeViews: ViewId[] = VALID_VIEWS.filter((v) => v !== "home");
 
     for (const view of nonHomeViews) {
       expect(pathnameToView(`/${view}`)).toBe(view);
@@ -66,10 +28,10 @@ describe("pathnameToView", () => {
     expect(pathnameToView("/effects//")).toBe("effects");
   });
 
-  it("falls back to 'home' for unknown routes", () => {
-    expect(pathnameToView("/unknown-page")).toBe("home");
-    expect(pathnameToView("/api/something")).toBe("home");
-    expect(pathnameToView("/ferrum")).toBe("home");
+  it("falls back to null for unknown routes", () => {
+    expect(pathnameToView("/unknown-page")).toBe(null);
+    expect(pathnameToView("/api/something")).toBe(null);
+    expect(pathnameToView("/ferrum")).toBe(null);
   });
 
   it("handles empty string", () => {
