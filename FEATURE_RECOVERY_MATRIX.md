@@ -1,251 +1,179 @@
-# Feature Recovery Matrix — FerrumEngine Platform
+# Feature Recovery Matrix — FerrumEngine/FerrumCSS Platform
 
-**Generated**: 2026-08-12
-**Commit**: `88fa612` (main)
-**Baseline**: `db3a4c9` (initial commit)
-
----
-
-## Legend
-- **Status**: EXISTS | MISSING | PARTIAL | BROKEN
-- **Decision**: KEEP | RESTORE | REFACTOR | REPLACE | DEPRECATE | REMOVE
+> Generated: Task ID 2 — Feature Recovery Engineer
+> Last verified: 2026-08-12 (Documentation Reconciliation — Task ID: 10)
+> Source commits: `db3a4c9` (initial), `522c2d1` (scripts deletion), `8788fec` (dead code deletion)
+> Total deleted files analyzed: **68** (66 unique + 2 renamed duplicates)
 
 ---
 
-## 1. Navigation & Layout Features
+## Summary
 
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| NAV-001 | Main Navigation Bar | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| NAV-002 | Mega Menu (Platform, Docs, More) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| NAV-003 | Mobile Navigation Overlay | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| NAV-004 | Scroll Progress Bar | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| NAV-005 | Skip Link (Accessibility) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| NAV-006 | SPA Client-Side Router | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| NAV-007 | SEO Meta Tag Updates (per-view) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| NAV-008 | URL-to-View Mapping (18 routes) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 2. Theme & Appearance Features
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| THM-001 | Dark/Light/System Theme Toggle | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| THM-002 | Color Customizer (accent color) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| THM-003 | Theme Provider (next-themes) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| THM-004 | Anti-FOUC CSS | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 3. Homepage Sections
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| HOM-001 | Hero Section with Aurora Animation | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| HOM-002 | Problem Statement Section | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| HOM-003 | Platform Marquee (tech logos) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| HOM-004 | Playground Teaser Section | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| HOM-005 | Platform Overview Section | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| HOM-006 | Architecture Summary Section | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| HOM-007 | Developer Journey Section | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| HOM-008 | Live Examples Section | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| HOM-009 | Enterprise Teaser Section | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| HOM-010 | Roadmap Section | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| HOM-011 | Community Section | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| HOM-012 | Platform Footer | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 4. Effects System
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| FFX-001 | Effects Data (542 effects, 35 categories) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| FFX-002 | Effects CSS (24,141 LOC pre-built) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| FFX-003 | Effects Gallery View (search + filter) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| FFX-004 | Effect Detail Modal (code + preview) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| FFX-005 | Effect Preview Component | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| FFX-006 | Collection Drawer (save/remove effects) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| FFX-007 | Copy-to-Clipboard (effect CSS) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| FFX-008 | Category Filter (35 categories) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 5. Playground
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| PLG-001 | Playground V2 (7-component system) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| PLG-002 | Code Editor Panel | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| PLG-003 | Controls Panel (sliders, toggles) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| PLG-004 | Effect Sidebar (effect browser) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| PLG-005 | Live Preview Panel | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| PLG-006 | Toolbar (export, reset, copy) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| PLG-007 | Playground Presets Data (819 LOC) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 6. Documentation Features
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| DOC-001 | Documentation Viewer (DocsView) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| DOC-002 | Docs Data Content (984 LOC) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| DOC-003 | Interactive Docs (8 lessons, editor, preview) | 88fa612 | 88fa612 | EXISTS | No | KEEP |
-| DOC-004 | Architecture Deep Dive | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| DOC-005 | Architecture Data (742 LOC) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| DOC-006 | Learning Center | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 7. Content Views
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| CNT-001 | Blog (6 posts, search, filters, full articles) | 88fa612 | 88fa612 | EXISTS | No | KEEP |
-| CNT-002 | Changelog (8 versions, timeline, type filters) | 88fa612 | 88fa612 | EXISTS | No | KEEP |
-| CNT-003 | Hall of Fame | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CNT-004 | Showcase Gallery | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CNT-005 | Vision & Manifesto | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CNT-006 | Ferrum Story (About) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CNT-007 | Ferrum Principles | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CNT-008 | Enterprise Page | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CNT-009 | Enterprise Component Library | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CNT-010 | Platform Architecture | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CNT-011 | Illustrations Component | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CNT-012 | SEO Structured Data | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 8. Cloud Dashboard
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| CLD-001 | Cloud Dashboard UI (tabs, breadcrumb) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CLD-002 | Cloud Auth API (token-based) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CLD-003 | Teams CRUD API | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CLD-004 | Projects API (per-team) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CLD-005 | Design Tokens API (CRUD) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CLD-006 | Components Management API | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CLD-007 | Audit Log API | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CLD-008 | Cloud Modals (create team/project/token) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CLD-009 | Cloud Tab Panels (393 LOC) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CLD-010 | In-Memory Cloud Store (387 LOC) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CLD-011 | useCloudAuth Hook | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| CLD-012 | useCloudData Hook | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 9. UI Component Library (shadcn/ui pattern)
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| UI-001 | Button (with asChild slot) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| UI-002 | Card | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| UI-003 | Input | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| UI-004 | Label | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| UI-005 | Badge | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| UI-006 | Tooltip | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| UI-007 | Slider | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| UI-008 | Select | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| UI-009 | Skeleton | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| UI-010 | ScrollArea | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| UI-011 | ModalOverlay | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| UI-012 | Table | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 10. API Layer
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| API-001 | Root API Info | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| API-002 | Health Check (with service status) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| API-003 | CSS Effects API | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| API-004 | Design Tokens API | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| API-005 | Analytics Ingestion | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| API-006 | Middleware (rate limiting + auth) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 11. Design Tokens
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| TK-001 | Ferrum Tokens CJS Export (822 LOC) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| TK-002 | Ferrum Tokens TypeScript Types (291 LOC) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 12. Infrastructure & DevOps
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| INF-001 | Service Worker (SWR caching) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| INF-002 | Static Server (Python) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| INF-003 | Static Server (JS, scripts/) | 88fa612 | 88fa612 | EXISTS | No | KEEP |
-| INF-004 | Caddy Reverse Proxy Config | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| INF-005 | Docker Configuration | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| INF-006 | Bundle Analyzer Integration | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| INF-007 | Budget Baseline Tracking | 61b0264 | 88fa612 | EXISTS | No | KEEP |
-| INF-008 | Sitemap (99 lines) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| INF-009 | Robots.txt | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| INF-010 | Security Headers (CSP, HSTS, X-Frame-Options) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 13. Testing
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| TST-001 | Unit Tests (78 tests, 7 files) | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-| TST-002 | API Integration Tests (17 tests) | 88fa612 | 88fa612 | EXISTS | No | KEEP |
-| TST-003 | Vitest Configuration | db3a4c9 | 88fa612 | EXISTS | No | KEEP |
-
-## 14. Product Registry
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| REG-001 | Features Registry (18 features) | 8788fec | 88fa612 | PARTIAL | Yes — AnimatedCard + PlatformHomepage listed as active but deleted | REFACTOR |
-| REG-002 | Components Registry (71 components) | 8788fec | 88fa612 | PARTIAL | Yes — 2 stale entries (see REG-001) | REFACTOR |
-| REG-003 | Routes Registry (19 routes) | 8788fec | 88fa612 | EXISTS | No | KEEP |
-| REG-004 | APIs Registry (17 endpoints) | 8788fec | 88fa612 | EXISTS | No | KEEP |
-| REG-005 | Packages Registry (17 packages) | 8788fec | 88fa612 | EXISTS | No | KEEP |
-| REG-006 | Documentation Registry (29 entries) | 8788fec | 88fa612 | PARTIAL | Yes — missing blog/changelog/interactive-docs entries | REFACTOR |
-| REG-007 | Cross-Reference Map | 8788fec | 88fa612 | PARTIAL | Yes — doesn't include new features | REFACTOR |
-
-## 15. Deleted / Removed Items (Not Features)
-
-| Feature ID | Feature Name | First Seen | Last Known Working | Current Status | Recovery Required | Decision |
-|------------|-------------|-----------|-------------------|---------------|------------------|----------|
-| DEL-001 | Python CSS Generation Scripts (50+ files) | db3a4c9 | 522c2d1 | MISSING | No — one-time build tools, artifacts already generated | REMOVE |
-| DEL-002 | PDF Generation Scripts | db3a4c9 | 522c2d1 | MISSING | No — one-time documentation tool | REMOVE |
-| DEL-003 | Prisma Schema (User + Post models) | db3a4c9 | 8788fec | MISSING | No — never used, no database layer | REMOVE |
-| DEL-004 | platform-homepage.tsx (barrel) | db3a4c9 | 8788fec | MISSING | No — replaced by direct imports | REMOVE |
-| DEL-005 | AnimatedCard Component | db3a4c9 | 8788fec | MISSING | No — dead code, never imported | REMOVE |
-| DEL-006 | Original Worklog (7,065 lines) | db3a4c9 | 522c2d1 | MISSING | No — replaced by condensed worklog | REMOVE |
-| DEL-007 | start-server.sh | db3a4c9 | 522c2d1 | MISSING | No — replaced by static-server.js | REMOVE |
-
-## 16. Marketing Content (Referenced but Not Implemented)
-
-These are concepts described in documentation/blog/changelog content for the FerrumEngine product, not features of this landing platform.
-
-| Feature ID | Concept Name | Referenced In | Implementation Status | Decision |
-|------------|-------------|---------------|---------------------|----------|
-| MKT-001 | Ferrum CLI (`ferrum init`, `ferrum build`) | docs-view.tsx, blog-view.tsx | Not implemented (landing docs only) | N/A — Out of scope |
-| MKT-002 | 9-Pass Compiler Pipeline | docs-view.tsx, architecture-data.ts | Not implemented (landing docs only) | N/A — Out of scope |
-| MKT-003 | Zero-Dependency Runtime | docs-view.tsx, nav-data.ts | Not implemented (landing docs only) | N/A — Out of scope |
-| MKT-004 | Framework Adapters (Vue, Svelte, Angular, etc.) | docs-view.tsx, blog-view.tsx | Not implemented (landing docs only) | N/A — Out of scope |
-| MKT-005 | Spring Physics Engine | playground-v2-data.ts, changelog-view.tsx | Not implemented (landing docs only) | N/A — Out of scope |
-| MKT-006 | VFX Engine (particles) | nav-data.ts, docs-view.tsx | Not implemented (landing docs only) | N/A — Out of scope |
-| MKT-007 | Ferrum Motion (separate package) | nav-data.ts | Not implemented (landing docs only) | N/A — Out of scope |
-| MKT-008 | Ferrum Physics (separate package) | nav-data.ts | Not implemented (landing docs only) | N/A — Out of scope |
-| MKT-009 | Visual Effect Builder (drag-and-drop) | changelog-view.tsx | Not implemented (landing docs only) | N/A — Out of scope |
-| MKT-010 | Performance Dashboard (FPS monitoring) | changelog-view.tsx | Not implemented (landing docs only) | N/A — Out of scope |
-| MKT-011 | `@ferrum/astro` adapter | changelog-view.tsx | Not implemented (landing docs only) | N/A — Out of scope |
-| MKT-012 | Codemod for v1→v2 migration | blog-view.tsx | Not implemented (landing docs only) | N/A — Out of scope |
+| Category | Count | Files Recovered | Total LOC Recovered |
+|----------|-------|-----------------|---------------------|
+| **KEEP** | 24 | ✅ 24 | **15,082** |
+| ARCHIVE | 28 | — | 6,415 (historical only) |
+| DISCARD | 16 | — | — |
 
 ---
 
-## Summary Statistics
+## KEEP — Recovered to `/tools/`
 
-| Metric | Count |
-|--------|-------|
-| **Total features discovered** | **108** |
-| EXISTS | 100 |
-| PARTIAL (registry stale data) | 5 |
-| MISSING (intentionally removed) | 7 |
-| Marketing content only (out of scope) | 12 |
-| **Features missing from current branch** | **0** (all user-facing features present) |
-| **Features partially implemented** | **5** (registry files need updates) |
-| **Critical losses requiring recovery** | **0** |
-| **Intentionally removed (with evidence)** | **7** |
-| **Stale registry entries** | **2** (AnimatedCard, PlatformHomepage) |
-| **Missing registry entries** | **3** (blog, changelog, interactive-docs) |
+Valuable logic needed for the platform's CSS effects pipeline and development workflow.
+
+### Core Effects Source: `tools/roycss-parts/` (15 modules, 12,462 LOC)
+
+These Python modules are the **authoritative source of truth** for CSS effect definitions.
+Each module defines effects as `(name, className, category, displayType, cssString)` tuples.
+The master orchestrator `tools/generate-roycss.py` imports all modules and generates combined CSS/TS output.
+
+| File | LOC | Last Commit | Status | Rationale |
+|------|-----|-------------|--------|-----------|
+| `roycss-parts/background_loading.py` | 920 | `db3a4c9` | ✅ RECOVERED | Background gradients, loading spinners — core effect category |
+| `roycss-parts/borders.py` | 623 | `db3a4c9` | ✅ RECOVERED | Border animation effects — newer module, not yet in v2 pipeline |
+| `roycss-parts/buttons_cards.py` | 1,342 | `db3a4c9` | ✅ RECOVERED | Button shine/glow + card hover effects — high-demand UI patterns |
+| `roycss-parts/cursor_effects.py` | 463 | `db3a4c9` | ✅ RECOVERED | Custom cursor effects — newer module |
+| `roycss-parts/entrance_exit_attention.py` | 799 | `db3a4c9` | ✅ RECOVERED | Entrance/exit animations + attention-grabbing effects |
+| `roycss-parts/filter_nature_status.py` | 1,102 | `db3a4c9` | ✅ RECOVERED | CSS filters, nature animations, status indicators |
+| `roycss-parts/forms_inputs.py` | 697 | `db3a4c9` | ✅ RECOVERED | Form/input interaction effects — newer module |
+| `roycss-parts/hover_text.py` | 986 | `db3a4c9` | ✅ RECOVERED | Hover interactions + text animations — most-used categories |
+| `roycss-parts/image_hover.py` | 374 | `db3a4c9` | ✅ RECOVERED | Image hover overlays and transitions |
+| `roycss-parts/navigation_effects.py` | 718 | `db3a4c9` | ✅ RECOVERED | Nav menu animations — newer module |
+| `roycss-parts/scroll_easing_presets.py` | 481 | `db3a4c9` | ✅ RECOVERED | Scroll-driven animations + easing presets |
+| `roycss-parts/specialized.py` | 1,085 | `db3a4c9` | ✅ RECOVERED | Clip-path, skeleton, micro-interaction effects |
+| `roycss-parts/three_d_transform_unique.py` | 1,021 | `db3a4c9` | ✅ RECOVERED | 3D transforms, transform effects, unique originals |
+| `roycss-parts/transitions_accessibility_icons.py` | 677 | `db3a4c9` | ✅ RECOVERED | Page transitions, a11y effects, icon animations |
+| `roycss-parts/visual_effects.py` | 1,174 | `db3a4c9` | ✅ RECOVERED | Advanced visual FX (border beams, neon, aurora, etc.) |
+
+### Pipeline Scripts: `tools/` (9 files, 2,620 LOC)
+
+| File | LOC | Last Commit | Status | Rationale |
+|------|-----|-------------|--------|-----------|
+| `design_new_effects.py` | 1,298 | `db3a4c9` | ✅ RECOVERED | **Modern CSS effect designer** using @starting-style, @property, scroll-driven, container queries, color-mix(), etc. Generates NEW next-gen effects not yet in the library. |
+| `generate-roycss.py` | 210 | `db3a4c9` | ✅ RECOVERED | **Master orchestrator** — imports all roycss-parts modules, deduplicates keyframes, generates roycss.css + roycss-data.ts. The build pipeline entry point. |
+| `generate_roycss_v3.py` | 447 | `db3a4c9` | ✅ RECOVERED | **V3 pipeline** — generates from parsed scrape JSON, outputs ferrum-effects-index.ts, ferrum-effects-data.ts, roycss-data.ts, roycss.css. |
+| `gen_data.py` | 152 | `db3a4c9` | ✅ RECOVERED | Generates full CSS data TS files (with CSS strings) from parsed JSON. Stream-writes to avoid memory issues. |
+| `gen_index.py` | 178 | `db3a4c9` | ✅ RECOVERED | Generates lightweight index TS files (no CSS strings) for fast gallery load. |
+| `gen_css.py` | 51 | `db3a4c9` | ✅ RECOVERED | Generates public/roycss.css from parsed effects JSON. |
+| `sync-ferrum-files.py` | 133 | `db3a4c9` | ✅ RECOVERED | **Sync pipeline** — reads roycss-data.ts, generates ferrum-effects-data.ts + ferrum-effects-index.ts + copies CSS files. Branding bridge. |
+| `merge-css.mjs` | 71 | `db3a4c9` | ✅ RECOVERED | Merges roycss.css + ferrum-effects.css into unified file with @keyframes deduplication. |
+| `analyze-bundle.sh` | 80 | `db3a4c9` | ✅ RECOVERED | Bundle analysis: JS/CSS sizes, chunk breakdown, per-route sizes, public assets. Useful for performance monitoring. |
+
+### Recovery Notes
+- All paths in recovered scripts still reference `/home/z/my-project/...` — these work correctly since this is the project root.
+- `generate-roycss.py` uses relative path `os.path.join(os.path.dirname(__file__), "roycss-parts")` — works since both are now under `tools/`.
+- 5 roycss-parts modules (borders, cursor_effects, forms_inputs, navigation_effects, visual_effects) were **not imported** by the v2 `generate-roycss.py` — they were authored for a future pipeline version. They are preserved for future integration.
 
 ---
 
-## Recommended Immediate Actions
+## ARCHIVE — Historical Value Only (Not Recovered)
 
-1. **Update `registry/components.json`**: Remove `AnimatedCard` and `PlatformHomepage` entries, add `BlogView`, `ChangelogView`, `InteractiveDocsView`
-2. **Update `registry/features.json`**: Add F019 (Blog), F020 (Changelog), F021 (Interactive Docs)
-3. **Update `registry/documentation.json`**: Add entries for blog, changelog, interactive-docs
-4. **Update `registry/cross-reference.md`**: Add cross-references for new features
-5. **Update `registry/routes.json`**: Add blog, changelog, interactive-docs SPA routes
+One-time batch scripts and report generators that were used during development but have already been applied. Their effects are baked into the current data files.
+
+### Batch Effect-Addition Scripts
+
+| File | LOC | Last Commit | Status | Rationale |
+|------|-----|-------------|--------|-----------|
+| `scripts/add_batch12_13.py` | 114 | `db3a4c9` | NOT_RECOVERED | One-time batch adder for batches 12 & 13. Effects already in data files. |
+| `scripts/add_effects_v2.py` | 155 | `db3a4c9` | NOT_RECOVERED | One-time adder for 42 missing effects. Already applied. |
+| `scripts/add_missing_effects.py` | 426 | `db3a4c9` | NOT_RECOVERED | One-time extraction + addition of missing effects. Already applied. |
+| `scripts/add_new_effects.py` | 117 | `db3a4c9` | NOT_RECOVERED | One-time adder for 18 new effects. Already applied. |
+| `scripts/append-effects.py` | 91 | `db3a4c9` | NOT_RECOVERED | One-time appender for 440 missing effects. Already applied. |
+| `scripts/extract-missing.py` | 264 | `db3a4c9` | NOT_RECOVERED | One-time extractor for RoyCSS page effects. Results already in data files. |
+| `scripts/fix_data_file.py` | 115 | `db3a4c9` | NOT_RECOVERED | One-time fix for 42 effects. Already applied. |
+| `scripts/remap-categories.py` | 137 | `db3a4c9` | NOT_RECOVERED | One-time category remap (25 → 11 groups). Already applied. |
+| `scripts/theme-replace.py` | 183 | `db3a4c9` | NOT_RECOVERED | One-time dark-mode class → theme-aware class migration. Already applied. |
+
+### Report / PDF Generation Scripts
+
+| File | LOC | Last Commit | Status | Rationale |
+|------|-----|-------------|--------|-----------|
+| `scripts/generate-report.py` | 354 | `db3a4c9` | NOT_RECOVERED | One-time production readiness audit PDF (ReportLab). |
+| `scripts/generate-final-report.py` | 169 | `db3a4c9` | NOT_RECOVERED | One-time release readiness report generator. |
+| `scripts/generate-audit-report.py` | 147 | `db3a4c9` | NOT_RECOVERED | One-time audit report JSON generator. |
+| `scripts/ferrum_marketplace_pdf.py` | 648 | `db3a4c9` | NOT_RECOVERED | One-time marketplace architecture PDF. |
+| `scripts/ux-audit-report.py` | 402 | `db3a4c9` | NOT_RECOVERED | One-time UX audit PDF generator. |
+| `scripts/merge_ferrum_ai.py` | 36 | `db3a4c9` | NOT_RECOVERED | One-time PDF merge script. |
+| `scripts/pdf-gen/body.py` | 965 | `db3a4c9` | NOT_RECOVERED | Ferrum Studio product architecture PDF body. |
+| `scripts/pdf-gen/cover.html` | 175 | `db3a4c9` | NOT_RECOVERED | PDF cover HTML template (for Playwright snapshot). |
+| `scripts/pdf/ferrum_studio_body.py` | 810 | `db3a4c9` | NOT_RECOVERED | Duplicate/newer version of pdf-gen/body.py. |
+| `scripts/pdf/ferrum_studio_cover.html` | 122 | `db3a4c9` | NOT_RECOVERED | Ferrum Studio cover HTML template. |
+
+### HTML Cover Templates
+
+| File | LOC | Last Commit | Status | Rationale |
+|------|-----|-------------|--------|-----------|
+| `scripts/brand_arch_cover.html` | 210 | `db3a4c9` | NOT_RECOVERED | Brand architecture PDF cover. One-time use. |
+| `scripts/cover-architecture.html` | 203 | `db3a4c9` | NOT_RECOVERED | Architecture PDF cover. One-time use. |
+| `scripts/ferrum_ai_cover.html` | 194 | `db3a4c9` | NOT_RECOVERED | Ferrum AI PDF cover. One-time use. |
+
+### Schema
+
+| File | LOC | Last Commit | Status | Rationale |
+|------|-----|-------------|--------|-----------|
+| `prisma/schema.prisma` | 31 | `db3a4c9` | NOT_RECOVERED | Default Next.js Prisma boilerplate (User + Post). Never used — platform uses in-memory/cloud store, not Prisma. |
+
+---
+
+## DISCARD — Obsolete, Superseded, or Raw Data Dumps
+
+| File | LOC | Last Commit | Status | Rationale |
+|------|-----|-------------|--------|-----------|
+| `src/components/ferrum/sections/platform-homepage.tsx` | 12 | `db3a4c9` | NOT_RECOVERED | Re-export barrel file pointing to old `sections/home/` paths. Sections were reorganized; the actual components still exist in the codebase. |
+| `scripts/merge-css.js` | 69 | `db3a4c9` | NOT_RECOVERED | **Duplicate** of merge-css.mjs. Uses TS-style type annotations that don't work in plain .js. The .mjs version is the canonical one. |
+| `scripts/start-server.sh` | 53 | `db3a4c9` | NOT_RECOVERED | Superseded by `scripts/static-server.js` (already in codebase) and the auto-restart wrapper. Hardcoded Caddy dependency. |
+| `scripts/analyze-navs.py` | 45 | `db3a4c9` | NOT_RECOVERED | One-off competitive analysis script reading from temp files that no longer exist. |
+| `scripts/animos.json` | 49 | `db3a4c9` | NOT_RECOVERED | Raw web scrape dump of competitor site (animos.app). Research artifact. |
+| `scripts/roycss_search2.json` | 91 | `db3a4c9` | NOT_RECOVERED | Web search results dump for "roycss" research. |
+| `scripts/roycss_search3.json` | 91 | `db3a4c9` | NOT_RECOVERED | Web search results dump (duplicate search). |
+| `scripts/roycss_search4.json` | 91 | `db3a4c9` | NOT_RECOVERED | Web search results dump (duplicate search). |
+| `scripts/roycss_search5.json` | 91 | `db3a4c9` | NOT_RECOVERED | Web search results dump (duplicate search). |
+| `scripts/roycss_search_results.json` | 91 | `db3a4c9` | NOT_RECOVERED | Web search results dump (duplicate search). |
+| `scripts/tw-snap.json` | 1 | `db3a4c9` | NOT_RECOVERED | Single-line accessibility snapshot of tailwindcss.com. Raw data. |
+| `scripts/pdf-gen/cover.pdf` | — | `db3a4c9` | NOT_RECOVERED | Generated binary PDF cover. Regeneratable from cover.html. |
+| `scripts/pdf-gen/diagrams/ai-pipeline.png` | — | `db3a4c9` | NOT_RECOVERED | Generated binary diagram. Regeneratable from .html source. |
+| `scripts/pdf-gen/diagrams/physics-graph.png` | — | `db3a4c9` | NOT_RECOVERED | Generated binary diagram. Regeneratable from .html source. |
+| `scripts/pdf-gen/diagrams/render-pipeline.png` | — | `db3a4c9` | NOT_RECOVERED | Generated binary diagram. Regeneratable from .html source. |
+| `scripts/pdf-gen/diagrams/sys-arch.png` | — | `db3a4c9` | NOT_RECOVERED | Generated binary diagram. Regeneratable from .html source. |
+
+---
+
+## Recovery Directory Structure
+
+```
+tools/
+├── roycss-parts/              # 15 modules, 12,462 LOC — CSS effects source of truth
+│   ├── background_loading.py
+│   ├── borders.py
+│   ├── buttons_cards.py
+│   ├── cursor_effects.py
+│   ├── entrance_exit_attention.py
+│   ├── filter_nature_status.py
+│   ├── forms_inputs.py
+│   ├── hover_text.py
+│   ├── image_hover.py
+│   ├── navigation_effects.py
+│   ├── scroll_easing_presets.py
+│   ├── specialized.py
+│   ├── three_d_transform_unique.py
+│   ├── transitions_accessibility_icons.py
+│   └── visual_effects.py
+├── design_new_effects.py      # 1,298 LOC — modern CSS effect designer
+├── generate-roycss.py         # 210 LOC — master orchestrator (v2 pipeline)
+├── generate_roycss_v3.py      # 447 LOC — v3 pipeline generator
+├── gen_data.py                # 152 LOC — full data file generator
+├── gen_index.py               # 178 LOC — lightweight index generator
+├── gen_css.py                 # 51 LOC — CSS file generator
+├── sync-ferrum-files.py       # 133 LOC — roycss → ferrum branding sync
+├── merge-css.mjs              # 71 LOC — CSS deduplication merger
+└── analyze-bundle.sh          # 80 LOC — bundle analysis tool
+```
+
+## Key Findings
+
+1. **No user-facing features were lost.** All 68 deleted files are build tooling, one-off scripts, or dead code.
+2. **The CSS effects pipeline is fully recoverable.** The roycss-parts modules (12,462 LOC) represent the editable source for the platform's core product — CSS effects. The generate-roycss.py orchestrator can rebuild the entire library from these modules.
+3. **5 newer modules are not yet integrated.** borders, cursor_effects, forms_inputs, navigation_effects, and visual_effects were authored but never wired into the v2 generate-roycss.py pipeline. They represent ~4,175 LOC of new effects ready for integration.
+4. **design_new_effects.py contains next-gen effects.** 1,298 LOC of modern CSS effects using @starting-style, @property, scroll-driven animations, container queries, color-mix(), and other cutting-edge CSS features.
+5. **All batch scripts have already been applied.** The 9 batch/addition scripts were one-time operations whose results are baked into the current ferrum-effects-data.ts.
+6. **Binary files are regeneratable.** All 5 deleted binary files (1 PDF, 4 PNGs) can be regenerated from their HTML sources if needed.
