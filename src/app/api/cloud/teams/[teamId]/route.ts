@@ -28,6 +28,13 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ team
     } catch {
       return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
     }
+    const rawName = body?.name;
+    if (rawName !== undefined) {
+      const name = typeof rawName === "string" ? rawName.trim() : "";
+      if (name.length < 2 || name.length > 50) {
+        return NextResponse.json({ error: "Name must be 2-50 characters" }, { status: 400 });
+      }
+    }
     const store = getCloudStore();
     const team = store.updateTeam(teamId, body);
     if (!team) return NextResponse.json({ error: "Team not found" }, { status: 404 });

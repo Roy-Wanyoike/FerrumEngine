@@ -135,7 +135,7 @@ export default function CloudDashboard() {
             <p className="mt-2 text-sm text-muted-foreground">Enter your password to access the dashboard</p>
           </div>
           <div className="space-y-3">
-            <Input type="password" placeholder="Password" value={loginPassword}
+            <Input type="password" placeholder="Password" aria-label="Dashboard password" value={loginPassword}
               onChange={(e) => setLoginPassword(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleLogin()} autoFocus />
             {authError && <p className="text-sm text-destructive">{authError}</p>}

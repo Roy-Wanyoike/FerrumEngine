@@ -6,7 +6,7 @@ import { categories } from "@/lib/ferrum-effects-index";
  * GET /api/css
  *
  * Query params:
- *   ?effect=rc-fade-in       → single effect CSS
+ *   ?effect=roycss-fade-in  → single effect CSS
  *   ?category=hover          → all effects in a category
  *   ?all=true                → full library CSS
  *   ?minified=true           → strip comments & whitespace
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({
         message: "FerrumEngine API — specify ?effect=, ?category=, or ?all=true",
         endpoints: {
-          single: "/api/css?effect=fr-fade-in",
+          single: "/api/css?effect=roycss-fade-in",
           category: "/api/css?category=hover",
           all: "/api/css?all=true",
           minified: "/api/css?all=true&minified=true",

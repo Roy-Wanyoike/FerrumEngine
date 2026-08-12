@@ -1,666 +1,1578 @@
-# FerrumEngine Architecture Design Document
+# FerrumEngine Platform — Architecture Design Document
 
-**Version**: 1.0  
+**Version**: 2.0  
 **Date**: 2026-08-12  
-**Scope**: Full platform architecture — current state, target state, and migration path  
-**Audience**: Engineering team, technical leadership  
+**Author**: Architecture Design Engineer (Task ID: 4)  
+**Scope**: Full platform architecture — current state analysis, target state design, component dependency graph, data flow diagrams, decision rationale, and phased migration path  
+**Audience**: Engineering team, technical leadership, onboarding engineers  
 
 ---
 
 ## Table of Contents
 
-1. [Current Architecture](#1-current-architecture)
-2. [Target Architecture](#2-target-architecture)
-3. [Rendering Strategy](#3-rendering-strategy)
-4. [Performance Architecture](#4-performance-architecture)
-5. [Security Architecture](#5-security-architecture)
-6. [Accessibility Architecture](#6-accessibility-architecture)
-7. [Package Boundaries](#7-package-boundaries)
-8. [Migration Path](#8-migration-path)
+1. [Current State Summary](#1-current-state-summary)
+2. [Component Dependency Graph](#2-component-dependency-graph)
+3. [Data Flow Architecture](#3-data-flow-architecture)
+4. [Target Architecture](#4-target-architecture)
+5. [Directory Structure Design](#5-directory-structure-design)
+6. [Component Hierarchy & Composition Patterns](#6-component-hierarchy--composition-patterns)
+7. [Type System Design](#7-type-system-design)
+8. [API Design Patterns](#8-api-design-patterns)
+9. [Performance Architecture](#9-performance-architecture)
+10. [Security Architecture](#10-security-architecture)
+11. [Testing Architecture](#11-testing-architecture)
+12. [Build & Deployment Pipeline](#12-build--deployment-pipeline)
+13. [Decision Rationale](#13-decision-rationale)
+14. [Implementation Phases & Priorities](#14-implementation-phases--priorities)
+15. [Appendix: Key Metrics Reference](#15-appendix-key-metrics-reference)
 
 ---
 
-## 1. Current Architecture
+## 1. Current State Summary
 
-### 1.1 Overview
+### 1.1 Platform Overview
 
-FerrumEngine is a **monolithic Next.js 16 application** using the App Router. It serves as both a marketing/showcase platform and a functional tool (CSS effects gallery, playground, cloud dashboard).
+FerrumEngine is a **monolithic Next.js 16 application** (Turbopack) using the App Router. It serves as both a marketing/showcase platform for the FerrumEngine product and a functional tool suite (CSS effects gallery with 542 effects, live playground, interactive docs, and a demo cloud dashboard for design token management).
 
-```
-┌─────────────────────────────────────────────────────┐
-│                   next.config.ts                     │
-│  ┌──────────────────────────────────────────────┐   │
-│  │  18 SPA rewrites → /  (next/dynamic, ssr:false)│   │
-│  │  3 real pages: /cloud, /terms, /privacy       │   │
-│  │  12 API routes (Edge middleware auth)          │   │
-│  └──────────────────────────────────────────────┘   │
-├─────────────────────────────────────────────────────┤
-│  src/app/                                            │
-│  ├── layout.tsx          (root layout, SEO, CSP)     │
-│  ├── page.tsx            (server shell)               │
-│  ├── home-client.tsx     (SPA router, 26 lazy views)  │
-│  ├── home-loader.tsx     (skeleton suspense boundary)  │
-│  ├── globals.css         (Tailwind v4, 318 lines)     │
-│  ├── critical.css        (385B anti-FOUC)             │
-│  ├── error.tsx / not-found.tsx / global-error.tsx    │
-│  ├── cloud/              (separate layout, auth)      │
-│  └── api/                (12 route handlers)          │
-├─────────────────────────────────────────────────────┤
-│  src/components/                                    │
-│  ├── ui/                 (11 shadcn-style primitives) │
-│  ├── ferrum/             (46 feature components)      │
-│  │   ├── nav*.tsx        (navigation system)          │
-│  │   ├── effects-*.tsx   (gallery + modal + drawer)   │
-│  │   ├── playground/     (7-file IDE playground)      │
-│  │   ├── sections/       (12 marketing sections)      │
-│  │   └── app-context.tsx (global client state)        │
-│  ├── theme-*.tsx         (theming system)             │
-│  └── error-page-content.tsx                            │
-├─────────────────────────────────────────────────────┤
-│  src/lib/                  (data + utilities)          │
-│  ├── ferrum-effects-data.ts  (3,806 LOC, 542 effects) │
-│  ├── ferrum-effects-index.ts (631 LOC, search helpers) │
-│  ├── docs-data.ts           (984 LOC)                  │
-│  ├── cloud-store.ts         (in-memory JSON store)     │
-│  └── view-meta.ts, types.ts, utils.ts, ...           │
-├─────────────────────────────────────────────────────┤
-│  src/hooks/                (3 custom hooks)            │
-│  src/middleware.ts           (auth + rate limiting)     │
-│  public/                    (sw.js, CSS, SVG, etc.)    │
-│  registry/                  (7 JSON audit files)       │
-└─────────────────────────────────────────────────────┘
-```
+**Scale**: 123 TS/TSX source files, 23,999 LOC, 95/95 tests passing, 0 TypeScript errors, 3.2s build time.
 
-### 1.2 Key Architectural Decisions (Current)
+> **Last verified**: 2026-08-12 (Documentation Reconciliation — Task ID: 10)
 
-| Decision | Rationale | Trade-off |
-|----------|-----------|-----------|
-| SPA-in-SSR (all views via rewrites) | Instant client navigation, no full-page reloads | All views are client-rendered; no SEO per-view (mitigated by sr-only SEO content) |
-| Single `home-client.tsx` router | Centralized view switching, shared state via AppProvider | 399+ LOC file, single point of complexity |
-| In-memory data store (cloud) | No database dependency, simple demo | No persistence across restarts, single-instance only |
-| `next/dynamic` with `ssr: false` for all views | Aggressive code splitting, small initial JS | Every view is a client-only chunk; no server components for views |
-| CSS-native primitives (no Radix Dialog/Sheet) | Smaller bundle, more control | More maintenance burden for a11y patterns |
-
-### 1.3 Dependency Graph (Current)
+### 1.2 High-Level Architecture Diagram
 
 ```
-Runtime (9 deps):
-  next ^16.1.1          ← Framework (not tree-shakeable)
-  react ^19.0.0         ← UI runtime (not tree-shakeable)
-  react-dom ^19.0.0     ← DOM renderer (not tree-shakeable)
-  lucide-react ^0.525.0 ← Icons (47 files, tree-shaken via optimizePackageImports)
-  next-themes ^0.4.6    ← Theme switching (2 files)
-  sonner ^2.0.6         ← Toast notifications (5 files)
-  tailwind-merge ^3.3.1 ← Class merging (1 file)
-  @radix-ui/react-slot  ← Accessible slot (2 files: button, badge)
-  @radix-ui/react-label ← Accessible label (1 file: label)
-
-Dev (8 deps):
-  tailwindcss, @tailwindcss/postcss, tw-animate-css  ← Styling
-  typescript, @types/react, @types/node              ← Type checking
-  vitest, @testing-library/react, @testing-library/jest-dom ← Testing
-  @next/bundle-analyzer                                 ← Bundle analysis
-  eslint, eslint-config-next                           ← Linting
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        next.config.ts                                  │
+│  ┌───────────────────────────────────────────────────────────────────┐ │
+│  │  17 SPA rewrites → /     (pathname-based, not hash)               │ │
+│  │  CSP, HSTS, COOP, CORP, X-Permitted, Permissions-Policy headers  │ │
+│  │  Image optimization (AVIF, WebP)                                   │ │
+│  │  Compiler: removeConsole in prod, optimizePackageImports           │ │
+│  └───────────────────────────────────────────────────────────────────┘ │
+├─────────────────────────────────────────────────────────────────────────┤
+│  src/app/                                                              │
+│  ├── layout.tsx            Root layout (SEO, JSON-LD, fonts, theme)    │
+│  ├── page.tsx              Server component shell → renders HomeClient  │
+│  ├── home-loader.tsx       Client boundary (dynamic imports HomeClient) │
+│  ├── home-client.tsx       SPA router, AppProvider, 33 dynamic imports │
+│  ├── globals.css / critical.css  Tailwind 4 + anti-FOUC               │
+│  ├── cloud/                Separate layout + loader + dashboard         │
+│  ├── privacy/              Static legal page                           │
+│  ├── terms/                Static legal page                           │
+│  ├── not-found.tsx         Server 404 handler                          │
+│  └── api/                  13 REST API routes + Edge middleware         │
+├─────────────────────────────────────────────────────────────────────────┤
+│  src/components/                                                        │
+│  ├── ui/                   12 primitives (button, card, input, etc.)    │
+│  ├── ferrum/               57 files: SPA views, nav, effects, playground│
+│  ├── theme-provider.tsx    next-themes wrapper                          │
+│  ├── theme-toggle.tsx      Light/dark/system cycle                     │
+│  └── logo.tsx              SVG logo component                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│  src/lib/                                                              │
+│  ├── types.ts              ViewId union, NavProps, MegaMenu types       │
+│  ├── view-meta.ts          SEO metadata + pathname→ViewId mapping       │
+│  ├── ferrum-effects-index.ts  542 effect metadata (92KB)               │
+│  ├── ferrum-effects-data.ts   Full CSS strings (424KB)                 │
+│  ├── cloud-store.ts        In-memory store + file persistence           │
+│  ├── persist.ts            Atomic JSON writes with debouncing           │
+│  ├── icon-resolver.tsx     String→Lucide icon map (O(1))               │
+│  ├── api-types.ts          Request body types for cloud API             │
+│  ├── constants.ts          SITE_URL                                    │
+│  ├── utils.ts              cn() tailwind-merge wrapper                   │
+│  └── body-scroll-lock.ts   Mobile nav scroll prevention                │
+├─────────────────────────────────────────────────────────────────────────┤
+│  src/hooks/                                                             │
+│  ├── use-focus-trap.ts     Modal/drawer keyboard trap                   │
+│  ├── use-cloud-auth.ts     Token login + authFetch wrapper              │
+│  └── use-cloud-data.ts     CRUD operations for cloud entities           │
+├─────────────────────────────────────────────────────────────────────────┤
+│  src/middleware.ts           Auth + rate limiting (Edge Runtime)         │
+├─────────────────────────────────────────────────────────────────────────┤
+│  public/                                                               │
+│  ├── ferrum-effects.css    570KB compiled effects (deferred load)       │
+│  ├── logo.svg, favicon.svg Brand assets                                 │
+│  ├── sitemap.xml, robots.txt SEO crawl config                          │
+│  └── anti-fouc.css         385B theme flash prevention                  │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 1.4 Data Architecture
+### 1.3 Routing Architecture (SPA Pattern)
 
-| Data | Storage | Size | Persistence |
-|------|---------|------|-------------|
-| 542 CSS effects | Static TypeScript (`ferrum-effects-data.ts`) | 3,806 LOC / ~424 KB | Build-time constant |
-| Blog posts (6) | Hardcoded in `blog-view.tsx` | 496 LOC | Build-time constant |
-| Changelog entries (8) | Hardcoded in `changelog-view.tsx` | 510 LOC | Build-time constant |
-| Interactive lessons (8) | Hardcoded in `interactive-docs-view.tsx` | 1,522 LOC | Build-time constant |
-| Documentation content | Static TypeScript (`docs-data.ts`) | 984 LOC | Build-time constant |
-| Architecture data | Static TypeScript (`architecture-data.ts`) | 742 LOC | Build-time constant |
-| Cloud data (teams/projects/tokens) | In-memory JSON (`cloud-store.ts` + `db/cloud-store.json`) | Variable | File-based, write-on-change |
-| Design tokens | CJS module (`ferrum-tokens/index.cjs`) | 822 LOC | Build-time constant |
+The app uses a **two-layer SPA pattern** to work around Next.js 16/Turbopack's restriction on `ssr: false` in Server Components:
+
+```
+Browser request: /effects
+       │
+       ▼
+next.config.ts rewrite: /effects → /     (server-side, transparent)
+       │
+       ▼
+page.tsx (Server Component)
+  └── home-loader.tsx (Client Component, "use client")
+        └── dynamic(() => import("home-client"), { ssr: false })
+              └── home-client.tsx (SPA Router)
+                    │
+                    ├── usePathname() → "/effects"
+                    ├── pathnameToView("/effects") → ViewId: "effects"
+                    └── EffectsView (loaded via dynamic import with ssr: false)
+
+Key insight: URL stays as /effects in browser bar. Server serves the same
+HTML shell for all SPA routes. Client-side JS resolves the view.
+```
+
+**Why not native Next.js pages?** All 17 SPA views (+ home) are pure client-side — they use `window`, `localStorage`, `IntersectionObserver`, and have zero SEO benefit from server rendering. The SEO content is handled by `seo-content.tsx` (server-rendered, sr-only). The SPA rewrite pattern avoids 17 nearly-empty page.tsx files and gives instant client-side navigation.
+
+### 1.4 Dependency Tree (Runtime)
+
+```
+next (16.1.1)             ← Framework core
+  └── react (19.0.0)      ← UI runtime
+  └── react-dom (19.0.0)  ← DOM renderer
+react (19.0.0)
+  └── (peer dep of next)
+@radix-ui/react-label (2.1.15)   ← A11y label primitive
+@radix-ui/react-slot (1.3.3)     ← Composable slot pattern
+lucide-react (0.525.0)             ← Icon library (tree-shaken)
+next-themes (0.4.6)                 ← Dark/light/system theme
+sonner (2.0.6)                      ← Toast notifications
+tailwind-merge (3.3.1)             ← Class conflict resolution
+```
+
+**Total: 7 runtime dependencies** (plus Next.js/React which are framework-implicit). Exceptionally lean.
+
+### 1.5 Content Data Inventory
+
+| Data | Source | Size | Load Strategy |
+|------|--------|------|---------------|
+| 542 CSS effects metadata | `ferrum-effects-index.ts` | 92 KB | Dynamic import (with EffectsView) |
+| 542 CSS effects full strings | `ferrum-effects-data.ts` | 424 KB | Dynamic import (on demand per effect) |
+| 35 effect categories | `ferrum-effects-index.ts` | ~2 KB | Bundled with effects index |
+| Blog posts (6) | Inline in `blog-view.tsx` | ~3 KB | Dynamic import (with BlogView) |
+| Changelog entries (8) | Inline in `changelog-view.tsx` | ~4 KB | Dynamic import (with ChangelogView) |
+| Interactive lessons (8) | `interactive-docs/lessons-data.ts` | ~8 KB | Dynamic import (with InteractiveDocsView) |
+| Documentation | `docs-data.ts` | ~20 KB | Dynamic import (with DocsView) |
+| Architecture diagrams | `architecture-data.ts` | ~15 KB | Dynamic import (with ArchitectureDeepDive) |
+| Playground presets | `playground-v2-data.ts` | ~5 KB | Dynamic import (with PlaygroundV2) |
+| Navigation structure | `nav-data.ts` | ~2 KB | Dynamic import (with Nav) |
+| Design tokens (ferrum-tokens) | `ferrum-tokens/index.cjs` | ~8 KB | Build-time reference |
+| Cloud data (teams, projects, tokens) | `cloud-store.ts` + `db/cloud-store.json` | Variable | In-memory + file persistence |
+
+### 1.6 Build & CI Profile
+
+| Metric | Value |
+|--------|-------|
+| Build time (Turbopack) | ~3.2s |
+| TypeScript compilation | 0 errors (strict mode) |
+| ESLint | 0 errors, 0 warnings |
+| Tests (Vitest) | 95/95 passing, 0 skipped |
+| Static pages generated | 14 |
+| Dynamic API routes | 12 |
+| First-Load JS (raw) | ~495 KB |
+| First-Load JS (est. gzip) | ~165 KB |
+| Initial CSS | ~174 KB |
+| Dynamic chunks | 26+ |
+| CI pipeline | typecheck → lint → test → build → budget |
 
 ---
 
-## 2. Target Architecture
+## 2. Component Dependency Graph
 
-### 2.1 Vision
-
-Move from a monolithic Next.js app to a **modular monorepo** with clear package boundaries, while keeping the deployment as a single application. The goal is **separation of concerns at the source level**, not microservices.
+### 2.1 Import Dependency (Simplified)
 
 ```
-┌──────────────────────────────────────────────────────┐
-│                   Deployment Target                    │
-│  ┌────────────────────────────────────────────────┐  │
-│  │  Single Next.js 16 app (turbopack)              │  │
-│  │  Build from workspace packages                  │  │
-│  │  Deploy as edge-optimized static + serverless   │  │
-│  └────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────┘
+                         ┌─────────────┐
+                         │  layout.tsx  │  (Server Component — root)
+                         └──────┬──────┘
+                                │ renders
+                                ▼
+                         ┌─────────────┐
+                         │   page.tsx  │  (Server Component — shell)
+                         └──────┬──────┘
+                                │ renders
+                                ▼
+                    ┌──────────────────────┐
+                    │   home-loader.tsx    │  (Client — dynamic boundary)
+                    └──────────┬───────────┘
+                               │ dynamic(ssr:false)
+                               ▼
+                    ┌──────────────────────┐
+                    │   home-client.tsx    │  (Client — SPA orchestrator)
+                    └──────────┬───────────┘
+                               │
+               ┌───────────────┼───────────────┐
+               │               │               │
+               ▼               ▼               ▼
+        ┌──────────┐   ┌──────────┐   ┌──────────────┐
+        │ AppProvider│   │ViewRouter│   │ ViewSkeleton │
+        └────┬─────┘   └────┬─────┘   └──────────────┘
+             │              │
+             │    ┌─────────┼──────────┬──────────────┐
+             │    │         │          │              │
+             │    ▼         ▼          ▼              ▼
+             │  ┌──────┐ ┌──────┐ ┌────────┐  ┌──────────┐
+             │  │ Nav  │ │Docs  │ │Playground│ │Effects   │
+             │  │      │ │View  │ │  V2     │  │View      │
+             │  └──┬───┘ └──┬───┘ └───┬────┘  └──┬───────┘
+             │     │        │         │           │
+             │     ▼        ▼         ▼           ▼
+             │  nav-mega  docs-   playground/   effect-
+             │  -menu     data     index.tsx    preview
+             │     │                  │           │
+             │     ▼                  ▼           ▼
+             │  nav-data  playground-   effects-
+             │            data         detail-modal
+             │                             │
+             ▼                             ▼
+        AppContext                 Collection-
+        (effects state)            Drawer
+             │
+             ▼
+        localStorage
+        (ferrum-collection)
+```
+
+### 2.2 Module Dependency Graph (by directory)
+
+```
+src/lib/types.ts              ← Imported by: EVERYTHING (leaf, zero deps)
+src/lib/constants.ts           ← Imported by: layout.tsx, home-client.tsx, view-meta.ts
+src/lib/utils.ts               ← Imported by: 30+ components (cn() utility)
+src/lib/view-meta.ts           ← Imported by: home-client.tsx (imports types.ts)
+src/lib/icon-resolver.tsx      ← Imported by: nav, playground, nav-mega-menu
+src/lib/ferrum-effects-index.ts← Imported by: effects-view, app-context, effects-detail-modal
+src/lib/ferrum-effects-data.ts ← Imported by: effect-preview, /api/css route
+src/lib/cloud-store.ts          ← Imported by: 8 cloud API routes
+src/lib/persist.ts              ← Imported by: cloud-store.ts
+src/lib/api-types.ts            ← Imported by: cloud API routes
+src/lib/body-scroll-lock.ts     ← Imported by: nav-mobile.tsx
+src/lib/docs-data.ts            ← Imported by: docs-view.tsx
+src/lib/architecture-data.ts    ← Imported by: architecture-deep-dive.tsx
+src/lib/web-vitals.tsx          ← Imported by: layout.tsx
+
+src/hooks/use-focus-trap.ts     ← Imported by: nav-mobile, effects-detail-modal, collection-drawer
+src/hooks/use-cloud-auth.ts     ← Imported by: cloud-dashboard-client.tsx
+src/hooks/use-cloud-data.ts     ← Imported by: cloud-dashboard-client.tsx
+
+src/components/ui/*             ← Imported by: 40+ ferrum/ components (zero cross-deps within ui/)
+src/components/ferrum/app-context.tsx ← Imported by: home-client.tsx only
+src/components/ferrum/nav-data.ts    ← Imported by: nav.tsx, nav-mobile.tsx
+src/components/ferrum/nav.tsx        ← Imported by: home-client.tsx (dynamic)
+src/components/ferrum/nav-mobile.tsx ← Imported by: nav.tsx
+src/components/ferrum/nav-mega-menu.tsx ← Imported by: nav.tsx
+```
+
+### 2.3 Circular Dependency Status
+
+**Zero circular dependencies.** Confirmed by audit (Phase 1). The dependency graph is a clean DAG:
+
+```
+Direction: types.ts → utils.ts → components → home-client.tsx → page.tsx → layout.tsx
+
+     types.ts (root)
+         │
+    ┌────┼────┬──────────┬──────────┐
+    ▼    ▼    ▼          ▼          ▼
+  utils  view- icon-  api-types  body-
+         meta  resolver           scroll-lock
+    │         │
+    ▼         ▼
+  ui/     nav-data → nav → nav-mega-menu
+  primitives      │
+    │             ▼
+    ▼         nav-mobile
+  ferrum/        │
+  components     ▼
+    │         use-focus-trap
+    ▼
+  app-context → home-client → home-loader → page.tsx
+```
+
+---
+
+## 3. Data Flow Architecture
+
+### 3.1 Client-Side State Flow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    CLIENT-SIDE DATA FLOW                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────┐     read on mount      ┌──────────────┐      │
+│  │ localStorage │ ◄──────────────────── │ AppContext   │      │
+│  │              │     write on change    │              │      │
+│  │ -collection  │ ─────────────────────► │ search       │      │
+│  │ -cloud-token │                        │ category     │      │
+│  └──────────────┘                        │ selectedFx   │      │
+│       ▲                                  │ collection   │      │
+│       │ restore on mount                 │ detailOpen   │      │
+│       │                                  │ hydrated     │      │
+│  ┌────┴─────────┐                        └──────┬───────┘      │
+│  │ useCloudAuth │                               │               │
+│  │ (cloud token)│                               │ consumed by   │
+│  └──────────────┘                               │               │
+│                                          ┌─────┴──────┐       │
+│                                          │  ViewRouter │       │
+│                                          └─────┬──────┘       │
+│                                                │               │
+│                    ┌───────────────────────────┼──────┐        │
+│                    │           │               │      │        │
+│                    ▼           ▼               ▼      ▼        │
+│               EffectsView  Playground    BlogView DocsView   │
+│               (uses state) (own state)  (local)  (local)     │
+│                                                                 │
+│  STATE BOUNDARIES:                                              │
+│  - AppContext: effects search, category, collection, detail     │
+│  - Each view manages its own local state (useState)             │
+│  - No global state library (no Redux, Zustand, Jotai)           │
+│  - Cloud auth: separate hook (useCloudAuth)                     │
+│  - Cloud data: separate hook (useCloudData) via fetch           │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 3.2 Server-Side Data Flow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    SERVER-SIDE DATA FLOW                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │              Request Lifecycle                            │  │
+│  │                                                          │  │
+│  │  Browser ──► Next.js Server ──► middleware.ts?            │  │
+│  │                                  │                       │  │
+│  │                     ┌────────────┼────────────┐           │  │
+│  │                     ▼            ▼            ▼           │  │
+│  │                  Non-cloud   /api/cloud/  /api/cloud/      │  │
+│  │                  routes      auth         other            │  │
+│  │                     │         │            │               │  │
+│  │                     ▼     Rate limit   Rate limit         │  │
+│  │                   Pass     (10/15min)  (100/min)          │  │
+│  │                     │         │            │               │  │
+│  │                     │         ▼            ▼               │  │
+│  │                     │      Check auth   Bearer token      │  │
+│  │                     │      (password    validation         │  │
+│  │                     │       compare)   (timing-safe)      │  │
+│  │                     │         │            │               │  │
+│  │                     ▼         ▼            ▼               │  │
+│  │                   Route Handler (try/catch, validation)     │  │
+│  │                         │                                   │  │
+│  │                    ┌────┴────┐                               │  │
+│  │                    ▼         ▼                               │  │
+│  │              Read-only    Read-Write                        │  │
+│  │              (effects,   (cloud CRUD)                       │  │
+│  │               tokens,       │                               │  │
+│  │               health)       ▼                               │  │
+│  │                     ┌──────────────┐                        │  │
+│  │                     │  CloudStore  │                        │  │
+│  │                     │  (singleton) │                        │  │
+│  │                     └──────┬───────┘                        │  │
+│  │                            │                                │  │
+│  │                    ┌───────┴────────┐                       │  │
+│  │                    ▼                ▼                       │  │
+│  │              In-memory         persist.ts                    │  │
+│  │              (arrays)          (debounced                   │  │
+│  │                                 atomic JSON                  │  │
+│  │                                 write to disk)               │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 3.3 SPA Navigation Data Flow
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│                 SPA NAVIGATION FLOW                             │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  1. User clicks nav link (e.g., "Effects")                     │
+│     │                                                          │
+│     ▼                                                          │
+│  2. Nav.onNavigate("effects") called                           │
+│     │                                                          │
+│     ▼                                                          │
+│  3. ViewRouter.navigate(viewId)                                │
+│     └── router.push(viewId === "home" ? "/" : `/${viewId}`)   │
+│                                                                │
+│  4. Browser URL changes to /effects                            │
+│     │                                                          │
+│     ▼                                                          │
+│  5. Next.js client-side router fires (NO server round-trip)    │
+│     │  (URL was already rewritten to / by next.config.ts)      │
+│     │                                                          │
+│     ▼                                                          │
+│  6. ViewRouter re-renders (usePathname() changed)              │
+│     └── pathnameToView("/effects") → "effects"                │
+│     └── currentView === "effects" → renders EffectsView        │
+│                                                                │
+│  7. useLayoutEffect: scrollTo(0, "instant")                   │
+│     useLayoutEffect: update document.title + meta tags         │
+│     useEffect: focus #main-content for screen readers          │
+│                                                                │
+│  8. If EffectsView not yet loaded:                              │
+│     └── Suspense shows ViewSkeleton                            │
+│     └── Chunk loads from network/cache                         │
+│     └── EffectsView renders                                    │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+```
+
+### 3.4 State Management Summary
+
+| State Scope | Mechanism | Persistence | Consumers |
+|-------------|-----------|-------------|------------|
+| SPA route | `usePathname()` + `router.push()` | URL bar | ViewRouter only |
+| Theme (dark/light) | `next-themes` (ThemeProvider) | localStorage (`theme`) | Global (CSS class on `<html>`) |
+| Effects search/filter | `AppContext` (useState) | None (ephemeral) | EffectsView |
+| Effects collection | `AppContext` (useState) | localStorage (`ferrum-collection`) | EffectsView, CollectionDrawer |
+| Effect detail modal | `AppContext` (useState) | None (ephemeral) | EffectDetailModal |
+| Cloud auth token | `useCloudAuth` (useState) | localStorage (`ferrum-cloud-token`) | CloudDashboard |
+| Cloud data | `useCloudData` (fetch) | Server-side (CloudStore + file) | CloudDashboard |
+| View-specific state | Local `useState` per component | Varies (some localStorage) | Individual views |
+| Toast notifications | `sonner` (external) | None (ephemeral) | Any component |
+
+**Design decision**: No global state library is used. The app has exactly two state scopes: AppContext (effects-related) and per-view local state. This is intentional — the SPA is a collection of independent views that share minimal state. Adding Redux/Zustand would add complexity without benefit.
+
+---
+
+## 4. Target Architecture
+
+### 4.1 Vision
+
+Evolve from a flat monolith to a **modular monorepo with clear package boundaries**, while keeping the deployment as a single Next.js application. The goal is **separation of concerns at the source level**, not microservices. The deployed bundle must remain identical (or smaller) after modularization.
+
+### 4.2 Target High-Level Architecture
+
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│                        DEPLOYMENT TARGET                             │
+│  ┌────────────────────────────────────────────────────────────────┐  │
+│  │  Single Next.js 16 app (Turbopack)                            │  │
+│  │  Built from workspace packages via TypeScript project refs     │  │
+│  │  Deployed as: static HTML + serverless functions + edge        │  │
+│  └────────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────────┘
 
 packages/
-├── web/                     ← Next.js app (app router, pages, API)
+├── web/                     ← Next.js app (pages, layouts, API routes)
+│   ├── src/app/             ← Server pages + API handlers (thin wrappers)
+│   ├── src/lib/             ← App-specific config (view-meta, constants)
+│   └── src/middleware.ts    ← Edge middleware (auth, rate limiting)
+│
 ├── ui/                      ← Component library (primitives + ferrum)
+│   ├── src/primitives/      ← button, card, input, badge, etc.
+│   ├── src/ferrum/          ← nav, effects, playground, views
+│   └── src/composition/     ← ViewErrorBoundary, ViewSkeleton, NavSkeleton
+│
 ├── effects/                 ← Effect data, index, CSS generation
-├── content/                 ← Blog, changelog, docs, lessons data
-├── cloud/                   ← Cloud store, auth, API routes
+│   ├── src/index.ts         ← Barrel export + search utilities
+│   ├── src/data/            ← Split by category (hover.ts, border.ts, ...)
+│   └── src/types.ts         ← FerrumEffectIndex, FerrumCSSEffect, Category
+│
+├── content/                 ← All editorial/content data
+│   ├── src/docs.ts          ← Documentation content
+│   ├── src/blog.ts          ← Blog posts (future: MDX files)
+│   ├── src/changelog.ts     ← Changelog entries
+│   ├── src/lessons.ts       ← Interactive docs lesson data
+│   ├── src/architecture.ts  ← Architecture diagrams + descriptions
+│   └── src/playground.ts    ← Playground presets + data
+│
+├── cloud/                   ← Cloud feature (isolated for future extraction)
+│   ├── src/store.ts         ← In-memory / future DB store
+│   ├── src/persist.ts       ← File persistence (atomic writes)
+│   ├── src/auth.ts          ← Auth logic (timing-safe compare)
+│   ├── src/middleware.ts    ← Rate limiting, token validation (Edge-compatible)
+│   ├── src/api/             ← API route handler logic
+│   ├── src/hooks/           ← useCloudAuth, useCloudData
+│   └── src/types.ts         ← Team, Project, DesignToken, etc.
+│
+├── a11y/                    ← Shared accessibility utilities
+│   ├── src/use-focus-trap.ts
+│   ├── src/body-scroll-lock.ts
+│   ├── src/reduced-motion.ts
+│   └── src/aria-patterns.tsx ← Dialog, Menu, Tabs ARA wrappers
+│
 ├── tokens/                  ← Design token system
-├── a11y/                    ← Shared a11y hooks & utilities
-├── config/                  ← ESLint, TS, Tailwind, Vitest configs
-└── infra/                   ← Docker, Caddy, CI/CD configs
-```
-
-### 2.2 Design Principles
-
-1. **Zero runtime overhead from modularization** — Packages are linked at build time, not at runtime. The deployed bundle is identical whether monolithic or monorepo.
-2. **Explicit dependency direction** — `web` depends on `ui`, `effects`, `content`, `cloud`, `a11y`. `ui` depends on `a11y` and `tokens`. `effects` depends on `tokens`. No circular dependencies.
-3. **Each package has its own tests** — `vitest` runs per-package with workspace config.
-4. **Data lives with its consumer** — Effect data in `effects/`, content in `content/`, cloud data in `cloud/`.
-5. **Shared utilities are extracted, not duplicated** — `cn()`, `body-scroll-lock`, `use-focus-trap` go to `a11y/` or `ui/`.
-
----
-
-## 3. Rendering Strategy
-
-### 3.1 Current Strategy
-
-The app uses a **hybrid server-first + SPA client navigation** model:
-
-1. **Initial request** → Next.js serves a statically generated HTML shell (`/` page) with:
-   - Full `<head>` with meta tags, JSON-LD, OG tags
-   - Critical CSS (385B anti-FOUC) inlined
-   - `seo-content.tsx` rendered server-side (sr-only, zero JS)
-   - Skeleton loading UI (nav + hero + cards)
-   - No view content — all views are `next/dynamic` with `ssr: false`
-
-2. **Hydration** → Client JS loads (~495 KB raw / ~165 KB gzip), SPA router activates:
-   - Hash-based view switching via `window.location.hash`
-   - `useEffect` listens to `hashchange` events
-   - Dynamically imported view components load on demand
-   - URL rewrites via `next.config.ts` map `/effects`, `/docs`, etc. → `/`
-
-3. **Client navigation** → No server round-trip:
-   - View components loaded via `React.lazy()` (26 dynamic imports)
-   - 3 modules prefetched after hydration (Effects, Playground, Docs)
-   - View transitions show skeleton fallbacks via `Suspense`
-   - `document.title` and `<meta>` tags updated via `useLayoutEffect`
-
-### 3.2 Target Rendering Strategy
-
-Maintain the SPA approach for content views but improve server rendering for SEO-critical pages:
-
-| Page Type | Current | Target | Rationale |
-|-----------|---------|--------|-----------|
-| Home (`/`) | Server shell + SPA | Server shell + SPA | Already optimal — hero + SEO content server-rendered |
-| Effects (`/effects`) | SPA-only | **Server-generated** listing + SPA detail | 542 effects are SEO gold; generate category pages at build time |
-| Docs (`/docs`) | SPA-only | **MDX-backed** with RSC | Documentation should be server-rendered for SEO and performance |
-| Blog (`/blog`) | SPA-only | **MDX-backed** with RSC + RSS | Blog posts are content; should be crawlable |
-| Playground | SPA-only | SPA-only | Interactive tool — no SEO value in server rendering |
-| Cloud | Hybrid | Hybrid (separate page) | Auth-gated, no SEO needed |
-| Terms/Privacy | Server | Server | Already optimal |
-
-### 3.3 Lazy Loading Strategy
-
-```
-Priority 0 (critical path — in initial HTML):
-  layout.tsx, page.tsx, seo-content.tsx, critical.css, anti-FOUC
-
-Priority 1 (prefetched after hydration):
-  EffectsView, PlaygroundV2, DocsView
-
-Priority 2 (loaded on navigation):
-  All section components, BlogView, ChangelogView, InteractiveDocsView
-
-Priority 3 (loaded on interaction):
-  EffectDetailModal, CollectionDrawer, CloudModals
-
-Priority 4 (on-demand, not in bundle):
-  ferrum-effects.css (570 KB) — loaded via <link> when effects view opens
-```
-
----
-
-## 4. Performance Architecture
-
-### 4.1 Current Performance Profile
-
-| Metric | Value | Budget | Status |
-|--------|-------|--------|--------|
-| Build time | ~8.3s | — | ✅ Fast |
-| First-Load JS (raw) | 495 KB | 600 KB | ✅ 83% of budget |
-| First-Load JS (gzip est.) | ~165 KB | — | ✅ Good |
-| Total client JS | 2,098 KB (63 chunks) | — | ⚠️ Heavy total |
-| Largest chunk | 234 KB | 250 KB | ✅ 92% of budget |
-| Initial CSS | 174 KB | 300 KB | ✅ 58% of budget |
-| Effects CSS (on-demand) | 570 KB | 650 KB | ✅ 88% of budget |
-| Runtime deps | 9 | 13 | ✅ Lean |
-
-### 4.2 Code Splitting Architecture
-
-```
-Critical Path (loaded immediately):
-  └── React + Next.js runtime chunk (~228 KB raw)
-      Framework utilities chunk (~150 KB raw)
-      App shell (ViewRouter, AppProvider, types, view-meta)
-      Critical CSS (174 KB compiled Tailwind)
-
-Prefetched (after hydration):
-  ├── EffectsView (~92 KB + 424 KB data)
-  ├── PlaygroundV2 (full IDE)
-  └── DocsView
-
-On-Demand (per view):
-  ├── 12 home sections (loaded together when home view active)
-  ├── 10 non-home views (loaded individually on navigation)
-  └── 2 full-screen views (Architecture, Interactive Docs)
-
-Interaction-Triggered:
-  ├── EffectDetailModal (opened per-effect)
-  ├── CollectionDrawer (opened on demand)
-  └── Cloud modals (opened in dashboard)
-```
-
-### 4.3 Streaming & Suspense
-
-The app currently uses `Suspense` boundaries for:
-- **Nav loading** → Skeleton nav during hydration
-- **View transitions** → Generic skeleton per view
-- **Effects cards** → 12-card skeleton grid
-- **Cloud dashboard** → `cloud-loader.tsx` defers dashboard JS
-
-**Target**: Add React `Suspense` streaming for server components:
-- Stream home sections individually (hero first, then sections below fold)
-- Stream blog post content (title + meta first, body streams)
-- Use `loading.tsx` files for each route segment
-
-### 4.4 Critical CSS Strategy
-
-```
-Layer 0: anti-FOUC (385 B, inline in <head>)
-  - Background color for dark/light theme
-  - color-scheme declaration
-
-Layer 1: Critical CSS (~2 KB target)
-  - Layout (nav height, grid, spacing)
-  - Typography (font sizes, line heights)
-  - Above-fold hero styles
-
-Layer 2: Full Tailwind bundle (174 KB, deferred)
-  - All utility classes
-  - Component-scoped styles (3.9 KB)
-
-Layer 3: Effects CSS (570 KB, on-demand)
-  - Only loaded when effects view is opened
-  - Stale-while-revalidate via service worker
-```
-
-### 4.5 Optimization Roadmap
-
-1. **Largest chunk** (229 KB → target <200 KB): Analyze React/Next.js runtime chunk; evaluate if framework features can be deferred
-2. **Effects data splitting** (3,806 LOC): Split by category, load only active category's data (~50 KB per chunk vs 424 KB all-at-once)
-3. **Interactive docs splitting** (1,522 LOC): Extract sub-components (code blocks, navigation panels, content sections)
-4. **Icon consolidation** (47 import sites): Expand `icon-resolver.tsx` adoption to reduce lucide-react import surface
-5. **Middleware migration**: Migrate from deprecated `middleware` to Next.js 16 `proxy` convention
-
----
-
-## 5. Security Architecture
-
-### 5.1 Current Security Posture
-
-```
-┌─────────────────────────────────────────────────┐
-│                   Security Layers                │
-├─────────────────────────────────────────────────┤
-│ L1: Response Headers (next.config.ts)            │
-│  ├── HSTS (2 years, preload-ready)               │
-│  ├── X-Frame-Options: DENY                       │
-│  ├── X-Content-Type-Options: nosniff             │
-│  ├── Referrer-Policy: strict-origin-when-cross   │
-│  ├── Permissions-Policy (partial)                │
-│  ├── CSP (unsafe-inline — CRITICAL)              │
-│  └── poweredByHeader: false                      │
-├─────────────────────────────────────────────────┤
-│ L2: Middleware (src/middleware.ts)                │
-│  ├── Bearer token auth (/api/cloud/*)            │
-│  ├── Timing-safe token comparison (XOR)          │
-│  ├── Rate limiting (in-memory, per-IP)           │
-│  │   ├── Auth: 10 req / 15 min                   │
-│  │   └── API: 100 req / min                      │
-│  └── 429 responses with Retry-After              │
-├─────────────────────────────────────────────────┤
-│ L3: API Route Handlers                            │
-│  ├── Input validation (type, length, enum)       │
-│  ├── try/catch error handling (mostly)           │
-│  └── Structured error responses                  │
-├─────────────────────────────────────────────────┤
-│ L4: Client-Side                                  │
-│  ├── No eval() / new Function()                  │
-│  ├── Syntax highlighting escapes HTML entities   │
-│  ├── dangerouslySetInnerHTML on static data only │
-│  └── No third-party scripts/analytics            │
-└─────────────────────────────────────────────────┘
-```
-
-### 5.2 CSP Target Architecture
-
-**Current (broken)**:
-```
-script-src 'self' 'unsafe-inline';
-style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-```
-
-**Target**:
-```
-script-src 'self' 'nonce-{NONCE}';
-style-src 'self' 'nonce-{NONCE}' https://fonts.googleapis.com;
-font-src 'self' https://fonts.gstatic.com;
-img-src 'self' data: blob:;
-connect-src 'self' blob:;
-frame-src 'self' blob:;  (for playground preview iframe)
-```
-
-**Migration steps**:
-1. Extract all inline `<script>` blocks to external `.js` files
-2. Generate nonce per-request in `layout.tsx` via Next.js headers
-3. Apply nonce to all `<Script>` components
-4. Move service worker registration to external file
-5. Use CSP hashes for Tailwind inline styles (or switch to nonce-based)
-
-### 5.3 Auth Target Architecture
-
-**Current**: Static shared token, single password, localStorage storage  
-**Target** (for production cloud features):
-
-```
-┌──────────────────────────────────────────────┐
-│              Auth Flow                        │
-├──────────────────────────────────────────────┤
-│ 1. User submits credentials (email + password)│
-│ 2. Server validates against bcrypt/argon2id  │
-│ 3. Server issues JWT (exp: 1h, sub: userId)  │
-│ 4. JWT stored in httpOnly secure cookie      │
-│ 5. Middleware validates JWT on each request   │
-│ 6. Refresh token for session continuity      │
-│ 7. Server-side revocation list (Redis/DB)     │
-└──────────────────────────────────────────────┘
-```
-
-### 5.4 Headers Strategy
-
-| Header | Current | Target | Priority |
-|--------|---------|--------|----------|
-| `Content-Security-Policy` | `unsafe-inline` | Nonce-based | 🔴 Critical |
-| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` | Same | ✅ Done |
-| `X-Frame-Options` | `DENY` | Same | ✅ Done |
-| `X-Content-Type-Options` | `nosniff` | Same | ✅ Done |
-| `Referrer-Policy` | `strict-origin-when-cross-origin` | Same | ✅ Done |
-| `Permissions-Policy` | 3 permissions | 12 permissions | 🟡 Medium |
-| `Cross-Origin-Opener-Policy` | Missing | `same-origin` | 🟢 Low |
-| `Cross-Origin-Resource-Policy` | Missing | `same-origin` | 🟢 Low |
-| `X-Permitted-Cross-Domain-Policies` | Missing | `none` | 🟢 Low |
-
----
-
-## 6. Accessibility Architecture
-
-### 6.1 WCAG 2.2 AA Compliance Framework
-
-```
-┌──────────────────────────────────────────────────┐
-│           A11y Architecture Layers                │
-├──────────────────────────────────────────────────┤
-│ L1: Foundation (✅ PASS)                          │
-│  ├── Semantic HTML (nav, main, footer, section)   │
-│  ├── lang="en" on <html>                         │
-│  ├── Heading hierarchy (h1 → h2 → h3, no skip)   │
-│  ├── Image accessibility (no <img>, SVGs labeled) │
-│  └── Screen reader support (aria-live, role=alert)│
-├──────────────────────────────────────────────────┤
-│ L2: Keyboard & Focus (⚠️ PARTIAL)                 │
-│  ├── Skip-to-content link ✅                       │
-│  ├── Focus traps (modal, drawer, mobile nav) ✅    │
-│  ├── Focus management (store/restore) ✅           │
-│  ├── Focus-visible rings ✅                         │
-│  ├── Touch targets (44px minimum) ✅               │
-│  ├── Mega menu keyboard nav ❌                      │
-│  ├── Theme dropdown ARIA ❌                         │
-│  └── Color customizer focus trap ❌                 │
-├──────────────────────────────────────────────────┤
-│ L3: Visual (⚠️ PARTIAL)                            │
-│  ├── Design tokens (oklch) ✅                       │
-│  ├── Color scheme (light/dark) ✅                   │
-│  ├── Muted text contrast ❌ (40-50% opacity fails)  │
-│  └── prefers-reduced-motion ⚠️ (SMIL animations)    │
-├──────────────────────────────────────────────────┤
-│ L4: ARIA (⚠️ PARTIAL)                              │
-│  ├── 46 files with ARIA attributes ✅               │
-│  ├── Mobile nav role mismatch ❌                    │
-│  └── Theme toggle dropdown roles ❌                 │
-└──────────────────────────────────────────────────┘
-```
-
-### 6.2 A11y Design Patterns
-
-| Pattern | Implementation | Status | Fix |
-|---------|---------------|--------|-----|
-| Focus trap | `useFocusTrap` hook | ✅ Working | Apply to color customizer |
-| Body scroll lock | `body-scroll-lock.ts` | ✅ Working | — |
-| Skip-to-content | `nav.tsx:73-76` | ✅ Working | — |
-| `aria-modal` dialog | `effects-detail-modal.tsx` | ✅ Working | — |
-| Tab/Tabpanel pattern | `effects-detail-modal.tsx:112-131` | ✅ Working | — |
-| `aria-live` regions | `effects-view.tsx:232,248` | ✅ Working | Add view announcement |
-| `role="progressbar"` | `scroll-progress.tsx:43-47` | ✅ Working | — |
-| `role="switch"` | `controls-panel.tsx:368-369` | ✅ Working | — |
-| Contrast-safe tokens | — | ❌ Missing | Create `--text-muted-safe` at 65-70% |
-| ARIA menu pattern | `nav-mobile.tsx` | ❌ Broken | Remove `role="menu"` or add `menuitem` |
-
-### 6.3 Target A11y Architecture
-
-1. **Contrast token system**: Replace all `text-muted-foreground/40` and `/50` usage with a new `--text-muted-safe` token at 70% opacity. Add lint rule to prevent low-opacity text.
-2. **Focus management wrapper**: Create a `<FocusManagedView>` component that automatically wraps content in `<main>`, manages focus on mount, and announces view changes via `aria-live`.
-3. **A11y test infrastructure**: Add `@axe-core/react` to the test suite. Run automated a11y checks on every PR for critical views (nav, effects, playground, cloud).
-4. **Reduced motion**: Add CSS rule `@media (prefers-reduced-motion: reduce) svg animate, svg animateTransform { display: none; }` to kill SMIL animations.
-
----
-
-## 7. Package Boundaries
-
-### 7.1 Proposed Monorepo Structure
-
-```
-ferrumengine/
-├── package.json                  (workspace root)
-├── pnpm-workspace.yaml           (or npm workspaces)
-├── turbo.json                    (build orchestration)
+│   ├── src/index.ts         ← Token definitions (oklch values)
+│   ├── src/contracts.ts     ← TypeScript interfaces for tokens
+│   └── src/tailwind.ts      ← Tailwind CSS custom property mappings
 │
-├── packages/
-│   ├── @ferrum/tokens/           # Design token system
-│   │   ├── src/index.ts          (token definitions, oklch values)
-│   │   ├── src/contracts.ts      (TypeScript interfaces)
-│   │   └── package.json          (zero deps, exports types + values)
-│   │
-│   ├── @ferrum/a11y/             # Shared accessibility utilities
-│   │   ├── src/use-focus-trap.ts
-│   │   ├── src/body-scroll-lock.ts
-│   │   ├── src/focus-managed-view.tsx
-│   │   ├── src/reduced-motion.ts
-│   │   └── src/aria-patterns.tsx  (Dialog, Menu, Tabs wrappers)
-│   │
-│   ├── @ferrum/ui/               # Component library
-│   │   ├── src/primitives/       (button, card, input, badge, etc.)
-│   │   ├── src/ferrum/           (nav, effects, playground, etc.)
-│   │   └── package.json          (depends on @ferrum/tokens, @ferrum/a11y)
-│   │
-│   ├── @ferrum/effects/          # Effect data & utilities
-│   │   ├── src/data/             (split by category: hover.ts, border.ts, ...)
-│   │   ├── src/index.ts          (barrel + search helpers)
-│   │   ├── src/types.ts
-│   │   └── src/css/              (CSS generation utilities)
-│   │
-│   ├── @ferrum/content/          # All content data
-│   │   ├── src/docs.ts           (documentation content)
-│   │   ├── src/blog.ts           (blog posts — future: MDX files)
-│   │   ├── src/changelog.ts      (changelog entries)
-│   │   ├── src/lessons.ts        (interactive docs lessons)
-│   │   ├── src/architecture.ts   (architecture diagrams + descriptions)
-│   │   └── src/playground.ts     (playground presets + data)
-│   │
-│   └── @ferrum/cloud/            # Cloud feature (auth, store, API)
-│       ├── src/store.ts          (in-memory / future DB store)
-│       ├── src/auth.ts           (auth logic)
-│       ├── src/middleware.ts     (rate limiting, token validation)
-│       ├── src/api/              (API route handlers)
-│       └── src/types.ts
-│
-├── apps/
-│   └── web/                      # Next.js application
-│       ├── src/app/              (pages, layouts, API routes)
-│       ├── src/app/cloud/        (cloud page — imports from @ferrum/cloud)
-│       ├── src/app/api/          (API routes — delegates to @ferrum/cloud)
-│       ├── src/lib/              (app-specific utilities)
-│       └── package.json          (depends on all @ferrum/* packages)
-│
-├── configs/                      # Shared dev configs
-│   ├── eslint/                   (shared ESLint config)
-│   ├── typescript/               (shared tsconfig bases)
-│   ├── tailwind/                 (shared Tailwind config)
-│   └── vitest/                   (shared vitest config)
-│
-└── infra/                       # Infrastructure
-    ├── docker/                   (Dockerfile, docker-compose)
-    ├── caddy/                    (Caddyfile)
-    └── ci/                       (GitHub Actions, etc.)
+└── config/                  ← Shared development configs
+    ├── eslint/              ← Shared ESLint config
+    ├── typescript/          ← Shared tsconfig bases
+    ├── tailwind/            ← Shared Tailwind config
+    └── vitest/              ← Shared vitest workspace config
 ```
 
-### 7.2 Dependency Rules
+### 4.3 Target Dependency Rules
 
 ```
 @ferrum/tokens    ← No dependencies (leaf package)
 @ferrum/a11y      ← No dependencies (leaf package)
-@ferrum/effects   ← depends on @ferrum/tokens
-@ferrum/content   ← depends on @ferrum/tokens (for colors in content)
+@ferrum/effects   ← depends on @ferrum/tokens (for category colors)
+@ferrum/content   ← depends on @ferrum/tokens (for content colors)
 @ferrum/ui        ← depends on @ferrum/tokens, @ferrum/a11y
-@ferrum/cloud     ← depends on @ferrum/tokens (for API types)
+@ferrum/cloud     ← No UI deps (pure logic + types + hooks)
 apps/web          ← depends on ALL @ferrum/* packages
+
+NO CIRCULAR DEPENDENCIES. Enforced by eslint-plugin-import no-cycle rule.
+NO UPWARD DEPENDENCIES. Packages cannot depend on apps/web.
 ```
 
-**No circular dependencies allowed.** Enforced by `eslint-plugin-import` with `no-cycle` rule.
+### 4.4 Target Rendering Strategy
 
-### 7.3 What Stays in `apps/web`
-
-- Next.js pages and layouts (`src/app/`)
-- API route handlers (thin wrappers delegating to `@ferrum/cloud`)
-- `home-client.tsx` (SPA router — app-specific orchestration)
-- `view-meta.ts` (routing configuration — app-specific)
-- `middleware.ts` (Next.js middleware — must be in app)
-- `globals.css`, `critical.css` (app-specific styling)
-- `next.config.ts` (app-specific build config)
+| Page Type | Current | Target | Rationale |
+|-----------|---------|--------|-----------|
+| Home (`/`) | Server shell + SPA | Server shell + SPA | Already optimal — hero + SEO content server-rendered |
+| Effects (`/effects`) | SPA-only | **Static category pages** + SPA detail | 542 effects are SEO gold; generate category listing at build time |
+| Docs (`/docs`) | SPA-only | **MDX-backed** RSC | Documentation should be crawlable, fast first paint |
+| Blog (`/blog`) | SPA-only | **MDX-backed** RSC + RSS feed | Blog posts are content; should be crawlable with RSS |
+| Changelog (`/changelog`) | SPA-only | **MDX-backed** RSC | Changelog is content; should be crawlable |
+| Interactive Docs | SPA-only | SPA-only | Interactive tool — no SEO value in SSR |
+| Playground | SPA-only | SPA-only | Interactive tool — no SEO value |
+| Cloud | Hybrid (separate page) | Hybrid (separate page) | Auth-gated, no SEO needed |
+| Terms/Privacy | Server | Server | Already optimal |
 
 ---
 
-## 8. Migration Path
+## 5. Directory Structure Design
 
-### Phase 1: Foundation (Low Risk)
+### 5.1 Current Directory Tree (src/)
 
-**Goal**: Extract leaf packages with zero breaking changes.
+```
+src/
+├── app/                          ← Next.js App Router
+│   ├── layout.tsx                ← Root layout (Server Component)
+│   ├── page.tsx                  ← Home page (Server Component)
+│   ├── home-client.tsx           ← SPA orchestrator (497 LOC)
+│   ├── home-loader.tsx           ← Client boundary for dynamic import
+│   ├── globals.css               ← Full Tailwind CSS
+│   ├── critical.css              ← Anti-FOUC inline styles
+│   ├── loading.tsx               ← Global loading UI
+│   ├── not-found.tsx             ← 404 page
+│   ├── error.tsx                 ← Error boundary
+│   ├── global-error.tsx          ← Global error boundary
+│   ├── cloud/                    ← Cloud dashboard (separate layout)
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── cloud-loader.tsx
+│   │   ├── cloud-dashboard-client.tsx
+│   │   ├── cloud-modals.tsx
+│   │   ├── cloud-breadcrumb.tsx
+│   │   └── tab-panels.tsx
+│   ├── privacy/page.tsx
+│   ├── terms/page.tsx
+│   └── api/                      ← 12 API routes
+│       ├── route.ts              ← API index
+│       ├── health/route.ts
+│       ├── css/route.ts
+│       ├── tokens/route.ts
+│       ├── analytics/route.ts
+│       └── cloud/                ← 8 cloud API routes
+│           ├── auth/route.ts
+│           ├── teams/route.ts
+│           ├── teams/[teamId]/route.ts
+│           ├── teams/[teamId]/projects/route.ts
+│           ├── projects/[projectId]/tokens/route.ts
+│           ├── projects/[projectId]/components/route.ts
+│           ├── tokens/[tokenId]/route.ts
+│           └── audit/route.ts
+│
+├── components/
+│   ├── ui/                       ← 12 UI primitives (shadcn-style)
+│   │   ├── badge.tsx, button.tsx, card.tsx, input.tsx
+│   │   ├── label.tsx, modal-overlay.tsx, scroll-area.tsx
+│   │   ├── select.tsx, skeleton.tsx, slider.tsx, table.tsx
+│   │   └── tooltip.tsx
+│   ├── ferrum/                   ← 55 feature/component files
+│   │   ├── app-context.tsx       ← Global state provider
+│   │   ├── nav.tsx               ← Desktop navigation (139 LOC)
+│   │   ├── nav-mobile.tsx        ← Mobile navigation (206 LOC)
+│   │   ├── nav-mega-menu.tsx     ← Mega menu panel (162 LOC)
+│   │   ├── nav-data.ts           ← Navigation structure data
+│   │   ├── effects-view.tsx      ← Effects gallery (266 LOC)
+│   │   ├── effects-detail-modal.tsx  ← Effect detail (227 LOC)
+│   │   ├── effect-preview.tsx    ← Single effect renderer
+│   │   ├── collection-drawer.tsx ← Saved effects drawer
+│   │   ├── color-customizer.tsx  ← Theme color picker
+│   │   ├── scroll-progress.tsx   ← Reading progress + back-to-top
+│   │   ├── seo-content.tsx       ← SEO text (sr-only, server-rendered)
+│   │   ├── animated-components.tsx ← Magnetic, ShineButton, PulsingDot
+│   │   ├── blog-view.tsx         ← Blog (496 LOC)
+│   │   ├── changelog-view.tsx    ← Changelog (510 LOC)
+│   │   ├── docs-view.tsx         ← Documentation (517 LOC)
+│   │   ├── architecture-deep-dive.tsx  ← Architecture (562 LOC)
+│   │   ├── interactive-docs-view.tsx   ← Interactive docs (302 LOC)
+│   │   ├── playground-v2-data.ts ← Playground presets
+│   │   ├── architecture-data.ts  ← Architecture section data
+│   │   └── playground/           ← Playground sub-components
+│   │       ├── index.tsx, controls-panel.tsx, effect-sidebar.tsx
+│   │       ├── preview-panel.tsx, code-editor.tsx, toolbar.tsx
+│   │       └── types.ts
+│   │   ├── interactive-docs/     ← Interactive docs sub-components
+│   │       ├── explanation-panel.tsx, lesson-sidebar.tsx
+│   │       ├── code-playground.tsx, types.ts, lessons-data.ts
+│   │   └── sections/             ← Home sections + content views
+│   │       ├── home/             ← 12 home page sections
+│   │       │   ├── hero-section.tsx, problem-section.tsx
+│   │       │   ├── marquee-section.tsx, playground-section.tsx
+│   │       │   ├── overview-section.tsx, architecture-section.tsx
+│   │       │   ├── dev-journey-section.tsx, live-examples-section.tsx
+│   │       │   ├── enterprise-section.tsx, roadmap-section.tsx
+│   │       │   ├── community-section.tsx, platform-footer-section.tsx
+│   │       │   └── counter.tsx
+│   │       ├── enterprise.tsx, showcase-gallery.tsx
+│   │       ├── learning-center.tsx, platform-architecture.tsx
+│   │       ├── ferrum-story.tsx, vision-manifesto.tsx
+│   │       ├── hall-of-fame.tsx, enterprise-components.tsx
+│   │       ├── ferrum-principles.tsx, footer.tsx
+│   │       ├── illustrations.tsx, section-helpers.tsx
+│   │       └── (14 content view files)
+│   ├── logo.tsx
+│   ├── theme-provider.tsx
+│   ├── theme-toggle.tsx
+│   ├── defer-css.tsx
+│   ├── deferred-toaster.tsx
+│   └── error-page-content.tsx
+│
+├── lib/                          ← Shared utilities and data
+│   ├── types.ts                  ← ViewId union, NavProps, MegaMenu types
+│   ├── view-meta.ts              ← SEO metadata + pathname→ViewId
+│   ├── icon-resolver.tsx         ← String→Lucide icon O(1) map
+│   ├── ferrum-effects-index.ts   ← 542 effect metadata (92KB)
+│   ├── ferrum-effects-data.ts    ← Full CSS strings (424KB)
+│   ├── cloud-store.ts            ← In-memory entity store (388 LOC)
+│   ├── persist.ts                ← Atomic JSON file persistence
+│   ├── api-types.ts              ← Cloud API request types
+│   ├── docs-data.ts              ← Documentation content
+│   ├── architecture-data.ts      ← Architecture section data
+│   ├── playground-v2-data.ts     ← (moved, see ferrum/ above)
+│   ├── constants.ts              ← SITE_URL
+│   ├── utils.ts                  ← cn() wrapper
+│   ├── body-scroll-lock.ts       ← Mobile scroll prevention
+│   ├── web-vitals.tsx            ← Core Web Vitals reporting
+│   └── ferrum-tokens/            ← Design tokens (CJS + DTS)
+│       ├── index.cjs
+│       └── index.d.ts
+│
+├── hooks/                        ← 3 custom React hooks
+│   ├── use-focus-trap.ts
+│   ├── use-cloud-auth.ts
+│   └── use-cloud-data.ts
+│
+└── middleware.ts                 ← Edge middleware (auth + rate limit)
+```
 
-| Step | Action | Risk | Effort |
-|------|--------|------|--------|
-| 1.1 | Initialize workspace (pnpm/npm workspaces + turbo) | Low | 2h |
-| 1.2 | Extract `@ferrum/tokens` from `src/lib/ferrum-tokens/` | Low | 1h |
-| 1.3 | Extract `@ferrum/a11y` (use-focus-trap, body-scroll-lock) | Low | 1h |
-| 1.4 | Configure shared eslint, tsconfig, vitest | Low | 2h |
-| 1.5 | Update imports in `apps/web` to use `@ferrum/*` | Low | 3h |
+### 5.2 Target Directory Tree
+
+```
+ferrumengine/
+├── package.json                   (workspace root)
+├── pnpm-workspace.yaml
+├── turbo.json
+│
+├── packages/
+│   ├── @ferrum/tokens/           # Design tokens (leaf, zero deps)
+│   │   ├── src/
+│   │   │   ├── index.ts         (export all token definitions)
+│   │   │   ├── colors.ts        (oklch color palette)
+│   │   │   ├── spacing.ts
+│   │   │   ├── typography.ts
+│   │   │   ├── contracts.ts     (TypeScript interfaces)
+│   │   │   └── tailwind.ts      (CSS custom property mappings)
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   │
+│   ├── @ferrum/a11y/             # Accessibility utilities (leaf, zero deps)
+│   │   ├── src/
+│   │   │   ├── use-focus-trap.ts
+│   │   │   ├── body-scroll-lock.ts
+│   │   │   ├── use-reduced-motion.ts
+│   │   │   └── aria-patterns.tsx (Dialog, Menu, Tabs ARA wrappers)
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   │
+│   ├── @ferrum/effects/          # Effect system
+│   │   ├── src/
+│   │   │   ├── index.ts         (barrel + search/filter utilities)
+│   │   │   ├── types.ts         (FerrumEffectIndex, FerrumCSSEffect, Category)
+│   │   │   └── data/            (split by category for code-splitting)
+│   │   │       ├── hover.ts
+│   │   │       ├── entrance.ts
+│   │   │       ├── buttons.ts
+│   │   │       ├── ... (35 category files)
+│   │   │       └── index.ts    (combined re-export for full-load)
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   │
+│   ├── @ferrum/content/          # Editorial content
+│   │   ├── src/
+│   │   │   ├── docs.ts          (documentation tree + content)
+│   │   │   ├── blog.ts          (blog posts — future MDX)
+│   │   │   ├── changelog.ts     (version history)
+│   │   │   ├── lessons.ts       (interactive docs lessons)
+│   │   │   ├── architecture.ts  (architecture diagrams + descriptions)
+│   │   │   └── playground.ts    (playground presets)
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   │
+│   ├── @ferrum/ui/               # Component library
+│   │   ├── src/
+│   │   │   ├── primitives/      (button, card, input, badge, etc.)
+│   │   │   ├── ferrum/          (nav, effects-view, playground, sections)
+│   │   │   ├── composition/     (ViewErrorBoundary, ViewSkeleton, etc.)
+│   │   │   └── index.ts
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   │
+│   ├── @ferrum/cloud/            # Cloud feature (pure logic, no UI)
+│   │   ├── src/
+│   │   │   ├── store.ts         (entity store + CRUD)
+│   │   │   ├── persist.ts       (atomic file writes)
+│   │   │   ├── auth.ts          (timing-safe compare, JWT future)
+│   │   │   ├── middleware.ts     (rate limiting, Edge-compatible)
+│   │   │   ├── api/             (route handler logic)
+│   │   │   │   ├── auth.ts
+│   │   │   │   ├── teams.ts
+│   │   │   │   ├── projects.ts
+│   │   │   │   ├── tokens.ts
+│   │   │   │   └── audit.ts
+│   │   │   ├── hooks/           (useCloudAuth, useCloudData)
+│   │   │   └── types.ts
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   │
+│   └── @ferrum/config/           # Shared dev configs
+│       ├── eslint/
+│       ├── typescript/
+│       ├── tailwind/
+│       └── vitest/
+│
+├── apps/
+│   └── web/                      # Next.js application
+│       ├── src/
+│       │   ├── app/              (pages, layouts, API route wrappers)
+│       │   │   ├── layout.tsx
+│       │   │   ├── page.tsx
+│       │   │   ├── home-client.tsx
+│       │   │   ├── globals.css
+│       │   │   ├── cloud/        (imports from @ferrum/cloud)
+│       │   │   └── api/          (thin wrappers delegating to @ferrum/cloud)
+│       │   ├── lib/              (app-specific: view-meta, constants, middleware)
+│       │   └── middleware.ts     (delegates to @ferrum/cloud/middleware)
+│       ├── next.config.ts
+│       ├── tailwind.config.ts
+│       ├── tsconfig.json
+│       └── package.json
+│
+├── infra/                       # Infrastructure (not in packages/)
+│   ├── docker/
+│   ├── caddy/
+│   └── ci/
+│
+└── tools/                       # Build/generation tools (already exists)
+    └── roycss-parts/             (CSS effects generation pipeline)
+```
+
+---
+
+## 6. Component Hierarchy & Composition Patterns
+
+### 6.1 Current Composition Patterns
+
+The codebase uses three distinct composition patterns:
+
+**Pattern A: Dynamic Import with ssr:false (26 instances)**
+```
+Server Component (page.tsx)
+  └── Client Boundary (home-loader.tsx)    ← "use client", dynamic(ssr:false)
+        └── SPA Orchestrator (home-client.tsx)
+              └── dynamic(() => import(View), { ssr: false })
+                    └── View Component ("use client")
+```
+
+**Pattern B: Server Component Shell (3 pages)**
+```
+Server Component (cloud/page.tsx, privacy/page.tsx, terms/page.tsx)
+  └── Client Boundary (cloud-loader.tsx, or direct children)
+        └── Client Component ("use client")
+```
+
+**Pattern C: UI Primitive Composition**
+```
+Feature Component
+  └── UI Primitives (button, card, input, modal-overlay, etc.)
+        └── Radix Primitives (Label, Slot) — for a11y
+              └── Tailwind CSS classes
+```
+
+### 6.2 Component Size Distribution
+
+```
+Size (LOC)    Count   Files
+───────────────────────────────────────────────────
+1-100          35     UI primitives, hooks, small sections
+100-300        25     Sections, nav, scroll-progress, modals
+300-500        10     Effects view, blog, changelog, docs, playground parts
+500-1000        6     Architecture deep-dive, docs-view, playground controls
+1000+           1     (none — largest was split to 302 LOC)
+
+Largest files (by LOC):
+  docs-view.tsx:           517 LOC
+  architecture-deep-dive:   562 LOC
+  changelog-view.tsx:       510 LOC
+  blog-view.tsx:            496 LOC
+  home-client.tsx:          497 LOC
+  playground controls:      471 LOC
+  cloud-store.ts:           388 LOC
+  middleware.ts:            217 LOC
+```
+
+### 6.3 Target Composition Patterns
+
+**Keep all three patterns.** They are well-chosen for their use cases:
+
+1. **Pattern A** remains for SPA views — it's the correct approach for client-only content
+2. **Pattern B** remains for SEO-critical pages (terms, privacy) and auth-gated pages (cloud)
+3. **Pattern C** remains for UI composition — it's the standard shadcn/ui approach
+
+**Add one new pattern for future RSC content:**
+
+```
+Pattern D: MDX-Backed Server Component (target)
+  Server Component (blog/[slug]/page.tsx)
+    ├── generateStaticParams()  ← Build-time slug generation
+    ├── getMDXContent(slug)     ← Load MDX file
+    └── MDXRenderer             ← Render with custom components
+          └── UI Primitives (from @ferrum/ui)
+```
+
+---
+
+## 7. Type System Design
+
+### 7.1 Current Type Architecture
+
+```
+src/lib/types.ts              ← SHARED TYPES (source of truth)
+  ├── ViewId                  (string union, 17 values)
+  ├── NavProps                (currentView + onNavigate)
+  ├── MegaMenuItem            (icon, label, description, view?, href?, badge?)
+  ├── MegaMenuGroup           (heading + items[])
+  ├── FerrumEffectIndex       (name, className, category, displayType)
+  ├── FerrumCSSEffect         (extends FerrumEffectIndex + css string)
+  ├── Category                (id, name, icon)
+  ├── TeamRole                ("OWNER" | "ADMIN" | "MEMBER" | "VIEWER")
+  ├── Environment             ("dev" | "staging" | "production")
+  ├── TokenType               (7-value union)
+  ├── ComponentStatus         (4-value union)
+  └── ViewMeta                (title + description)
+
+src/lib/api-types.ts          ← API REQUEST TYPES (separate file, imported by API routes)
+  ├── CreateTeamBody          (optional fields, validated at runtime)
+  ├── UpdateTeamBody
+  ├── CreateProjectBody
+  └── CreateTokenBody
+
+src/lib/cloud-store.ts        ← ENTITY TYPES (defined alongside store)
+  ├── Team, TeamMember
+  ├── Project
+  ├── DesignToken, TokenVersion
+  ├── Component (cloud component, not UI component)
+  └── AuditLog
+
+src/components/ferrum/playground/types.ts  ← PLAYGROUND TYPES (scoped)
+src/components/ferrum/interactive-docs/types.ts  ← INTERACTIVE DOCS TYPES (scoped)
+src/lib/icon-resolver.tsx    ← LucideIconName (string union, 30 values)
+```
+
+### 7.2 Type Safety Strengths
+
+- **Strict TypeScript**: `"strict": true`, `noUnusedLocals`, `noUnusedParameters`, `noUncheckedIndexedAccess`
+- **ViewId as string union**: Compile-time guarantee that only valid views can be navigated to
+- **Discriminated unions**: TeamRole, Environment, TokenType, ComponentStatus all use string unions
+- **Optional fields in API types**: Reflects runtime validation reality (body may be missing fields)
+
+### 7.3 Target Type System Improvements
+
+1. **Move entity types to `@ferrum/cloud/src/types.ts`** — Keep domain types with their domain
+2. **Add Zod schemas** for API validation (replace manual runtime checks):
+   ```
+   @ferrum/cloud/src/schemas/
+     team.ts      ← z.object({ name: z.string().min(2).max(50) })
+     project.ts  ← z.object({ name: ..., environment: z.enum([...]) })
+     token.ts    ← z.object({ name: ..., value: ..., type: ..., namespace: ... })
+   ```
+3. **Extract ViewId + NavProps to `@ferrum/ui/src/types/navigation.ts`**
+4. **Keep effect types in `@ferrum/effects/src/types.ts`**
+5. **Add Branded types** for IDs to prevent mixing entity IDs:
+   ```
+   type TeamId = string & { __brand: "TeamId" };
+   type ProjectId = string & { __brand: "ProjectId" };
+   type TokenId = string & { __brand: "TokenId" };
+   ```
+
+---
+
+## 8. API Design Patterns
+
+### 8.1 Current API Architecture
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│  PUBLIC APIs (no auth)                                            │
+├───────────────────────────────────────────────────────────────────┤
+│  GET  /api               ← API index (lists all endpoints)        │
+│  GET  /api/health        ← Health check (uptime, memory, persist) │
+│  GET  /api/css?effect=X  ← Single effect CSS retrieval            │
+│  GET  /api/css?all=true  ← All effects CSS (bulk)                 │
+│  GET  /api/css?cat=X     ← Category-filtered CSS                  │
+│  GET  /api/tokens        ← Design token values (JSON)             │
+│  POST /api/analytics     ← Analytics event (silently accepted)    │
+└───────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────────────────────────────────────────────────┐
+│  CLOUD APIs (Bearer token auth + rate limiting)                   │
+├───────────────────────────────────────────────────────────────────┤
+│  POST /api/cloud/auth                        ← Login (password)   │
+│  GET  /api/cloud/teams                       ← List teams        │
+│  POST /api/cloud/teams                       ← Create team       │
+│  GET  /api/cloud/teams/[id]                  ← Get team          │
+│  PUT  /api/cloud/teams/[id]                  ← Update team       │
+│  DELETE /api/cloud/teams/[id]                ← Delete team       │
+│  GET  /api/cloud/teams/[id]/projects         ← List projects     │
+│  POST /api/cloud/teams/[id]/projects         ← Create project    │
+│  GET  /api/cloud/projects/[id]/tokens        ← List tokens       │
+│  POST /api/cloud/projects/[id]/tokens        ← Create token      │
+│  GET  /api/cloud/projects/[id]/components    ← List components   │
+│  PUT  /api/cloud/tokens/[id]                 ← Update token      │
+│  GET  /api/cloud/audit?teamId=X&limit=N      ← Audit log         │
+└───────────────────────────────────────────────────────────────────┘
+```
+
+### 8.2 API Design Patterns Used
+
+| Pattern | Implementation | Assessment |
+|---------|---------------|------------|
+| REST resource nesting | `/teams/[id]/projects`, `/projects/[id]/tokens` | ✅ Good — follows REST conventions |
+| Consistent error responses | `{ error: string }` with appropriate status codes | ✅ Good |
+| Input validation | Manual type/length/enum checks in route handlers | ⚠️ OK — Zod would be stricter |
+| Error handling | try/catch in all routes except audit | ⚠️ Fix audit route |
+| Rate limiting headers | `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` | ✅ Excellent |
+| Auth | Bearer token + timing-safe comparison | ✅ Good (demo-grade) |
+| Cascade deletes | Team delete → projects, tokens, components | ✅ Good |
+| Audit logging | All mutations logged | ✅ Good |
+
+### 8.3 Target API Improvements
+
+1. **Add Zod validation schemas** — Replace manual runtime checks
+2. **Add OpenAPI/Swagger spec** — Auto-generate from Zod schemas
+3. **Fix audit route** — Add try/catch (identified in audit WARNING)
+4. **Add `try/catch` consistency** — One route (audit) is missing it
+5. **Consider tRPC** — If the cloud feature grows, tRPC would provide end-to-end type safety
+6. **Add API versioning** — `/api/v1/cloud/...` for backward compatibility
+
+---
+
+## 9. Performance Architecture
+
+### 9.1 Current Performance Profile
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│  PERFORMANCE BUDGET STATUS                                         │
+├──────────────────┬──────────────┬──────────────┬──────────────────┤
+│  Metric          │  Value       │  Budget      │  Status          │
+├──────────────────┼──────────────┼──────────────┼──────────────────┤
+│  Build time      │  ~3.2s       │  —           │  ✅ Fast          │
+│  First-Load JS   │  ~495 KB     │  600 KB      │  ✅ 83%          │
+│  Est. gzip JS    │  ~165 KB     │  —           │  ✅ Good          │
+│  Total JS (all)  │  ~2,098 KB   │  —           │  ⚠️ 63 chunks    │
+│  Largest chunk   │  234 KB      │  250 KB      │  ✅ 94%          │
+│  Initial CSS     │  ~174 KB     │  300 KB      │  ✅ 58%          │
+│  Effects CSS     │  ~570 KB     │  650 KB      │  ✅ 88%          │
+│  Runtime deps    │  7           │  13          │  ✅ Lean          │
+└──────────────────┴──────────────┴──────────────┴──────────────────┘
+```
+
+### 9.2 Code Splitting Architecture
+
+```
+Priority 0 — CRITICAL PATH (loaded immediately, blocks first paint):
+  ┌─────────────────────────────────────────────────┐
+  │  React + Next.js runtime           (~234 KB)   │  ← Largest chunk (framework)
+  │  Framework utilities               (~150 KB)   │
+  │  App shell (ViewRouter, AppProvider, types)     │
+  │  Critical CSS (anti-FOUC + Tailwind, ~174 KB)  │
+  └─────────────────────────────────────────────────┘
+
+Priority 1 — PREFETCHED (loaded after hydration, likely next nav):
+  ┌─────────────────────────────────────────────────┐
+  │  EffectsView       (~92 KB index + 424 KB data) │  ← webpackPrefetch: true
+   │  PlaygroundV2      (full IDE, varies)          │  ← webpackPrefetch: true
+   │  DocsView          (documentation, varies)     │  ← webpackPrefetch: true
+   │  Nav               (~40 KB with megamenu)      │  ← Dynamic, ssr:false
+   │  ScrollProgress    (~5 KB)                     │
+  └─────────────────────────────────────────────────┘
+
+Priority 2 — ON NAVIGATION (loaded when user navigates to view):
+  ┌─────────────────────────────────────────────────┐
+  │  12 home sections  (loaded together for /)      │
+  │  10 content views (loaded individually)         │
+  │  Blog, Changelog, InteractiveDocs, etc.         │
+  └─────────────────────────────────────────────────┘
+
+Priority 3 — ON INTERACTION (loaded when user opens overlay):
+  ┌─────────────────────────────────────────────────┐
+  │  EffectDetailModal  (per-effect code view)      │
+  │  CollectionDrawer   (saved effects panel)       │
+  │  CloudModals        (create team/project/token) │
+  └─────────────────────────────────────────────────┘
+
+Priority 4 — ON DEMAND (not in JS bundle):
+  ┌─────────────────────────────────────────────────┐
+  │  ferrum-effects.css  (570 KB, loaded via <link>) │  ← media="print" + JS swap
+   │  Google Fonts (Geist Sans + Mono)               │  ← display: swap
+   └─────────────────────────────────────────────────┘
+```
+
+### 9.3 CSS Loading Strategy
+
+```
+Layer 0: anti-FOUC (385 bytes, inline in <head>)
+  └── Background color for dark/light theme
+   └── color-scheme: dark light declaration
+
+Layer 1: Critical CSS (inline via critical.css import)
+  └── Minimal layout styles for above-fold content
+
+Layer 2: Full Tailwind bundle (174 KB, loaded as stylesheet)
+  └── All utility classes
+   └── Component-scoped styles
+
+Layer 3: Effects CSS (570 KB, on-demand)
+  └── Loaded via <link rel="stylesheet" media="print" />
+  └── JavaScript switches to media="all" when effects view opens
+  └── SWR caching: max-age=86400, stale-while-revalidate=604800
+```
+
+### 9.4 Optimization Opportunities
+
+| Optimization | Current | Target | Impact | Effort |
+|-------------|---------|--------|--------|--------|
+| Effects data splitting | 424 KB monolith | ~50 KB per category chunk | High (75% reduction) | Medium |
+| Icon consolidation | 47 import sites | String resolver pattern | Medium (fewer chunks) | Low (partially done) |
+| Framework chunk | 234 KB | Defer non-critical framework | Medium | High (RSC streaming) |
+| CSS subsetting | 174 KB full | Extract critical subset | Low | Medium |
+| Image optimization | AVIF/WebP config | Add priority hints | Low | Low |
+
+---
+
+## 10. Security Architecture
+
+### 10.1 Current Security Layers
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    SECURITY LAYERS (5 layers)                     │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  L1: RESPONSE HEADERS (next.config.ts)                          │
+│  ├── Content-Security-Policy (dev: unsafe-inline; prod: 'self') │
+│  ├── Strict-Transport-Security (2yr, includeSubDomains, preload)│
+│  ├── X-Frame-Options: DENY                                     │
+│  ├── X-Content-Type-Options: nosniff                            │
+│  ├── Referrer-Policy: strict-origin-when-cross-origin           │
+│  ├── Permissions-Policy (camera=(), mic=(), geo=())              │
+│  ├── Cross-Origin-Opener-Policy: same-origin ✅                  │
+│  ├── Cross-Origin-Resource-Policy: same-origin ✅                │
+│  ├── X-Permitted-Cross-Domain-Policies: none ✅                  │
+│  └── X-DNS-Prefetch-Control: on                                 │
+│                                                                 │
+│  L2: EDGE MIDDLEWARE (src/middleware.ts)                         │
+│  ├── Bearer token auth (/api/cloud/*)                           │
+│  ├── Timing-safe constant-time token comparison (XOR)           │
+│  ├── Rate limiting (in-memory Maps, per-IP)                     │
+│  │   ├── Auth: 10 req / 15 min                                  │
+│  │   └── API: 100 req / min                                     │
+│  ├── Periodic cleanup (5 min) to prevent memory leak            │
+│  ├── Graceful degradation (no token configured → skip auth)    │
+│  └── 429 responses with Retry-After header                      │
+│                                                                 │
+│  L3: API ROUTE HANDLERS                                         │
+│  ├── Input validation (type, length, enum checks)               │
+│  ├── try/catch error handling (11/12 routes)                    │
+│  └── Structured error responses ({ error: string })             │
+│                                                                 │
+│  L4: CLIENT-SIDE SECURITY                                       │
+│  ├── No eval() / new Function() / innerHTML                      │
+│  ├── Syntax highlighting escapes HTML entities                  │
+│  ├── dangerouslySetInnerHTML on static JSON-LD only             │
+│  ├── No third-party scripts or analytics tracking               │
+│  └── Playground preview in sandboxed iframe (srcdoc)            │
+│                                                                 │
+│  L5: BUILD-TIME                                                  │
+│  ├── poweredByHeader: false (removes X-Powered-By)              │
+│  ├── productionBrowserSourceMaps: false                         │
+│  ├── reactStrictMode: true                                      │
+│  └── compiler.removeConsole (excludes error, warn)              │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 10.2 CSP Migration Path
+
+```
+CURRENT (Production):
+  script-src 'self';                                    ← Good (no unsafe-inline)
+  style-src 'self' 'unsafe-inline' ...;                 ← Needs nonce/hashes
+
+TARGET:
+  script-src 'self' 'nonce-{NONCE}';                   ← Per-request nonce
+  style-src 'self' 'nonce-{NONCE}' https://fonts...;    ← Per-request nonce
+  frame-src 'self' blob:;                                ← For playground iframe
+
+MIGRATION STEPS:
+  1. Move JSON-LD scripts to external .json files + <script src>
+  2. Move SW registration to external /register-sw.js
+  3. Generate nonce in layout.tsx via Next.js headers API
+  4. Apply nonce to all <Script> and <style> tags
+  5. Use CSP hashes for Tailwind (or nonce with Tailwind v4)
+```
+
+### 10.3 Auth Future Architecture
+
+```
+CURRENT (Demo):                 TARGET (Production):
+  Shared static token             Email + password (bcrypt/argon2id)
+  Single password                 Multi-user support
+   Token in localStorage          JWT in httpOnly secure cookie
+  5min token expiry               1h access + 7d refresh tokens
+  No user concept                 User entity with role/permissions
+  No session revocation           Redis-backed revocation list
+```
+
+---
+
+## 11. Testing Architecture
+
+### 11.1 Current Test Suite
+
+```
+__tests__/
+├── setup.ts                 ← Vitest global setup (jsdom)
+├── routing.test.ts          ← SPA route alignment (17 ViewIds)
+├── collection.test.ts       ← AppContext collection logic
+├── utils.test.ts            ← cn() utility
+├── cloud-store.test.ts      ← CloudStore CRUD operations
+├── persistence.test.ts      ← File-based persistence
+├── rate-limit.test.ts       ← Middleware rate limiting
+├── api-routes.test.ts       ← 17 API integration tests (in-process)
+└── footer.test.tsx          ← Footer component render
+
+TOTAL: 95 tests, 0 skipped, 0 failures
+```
+
+### 11.2 Test Architecture Gaps
+
+```
+COVERAGE BY AREA:
+
+  API Routes         ████████████████████ 17 tests  (78%)  ← Good
+  State Management   ████████████░░░░░░░░  4 tests  (40%)  ← Needs view-level tests
+  Utilities          ████░░░░░░░░░░░░░░░░  2 tests  (20%)  ← Needs hooks tests
+  Components         ████░░░░░░░░░░░░░░░░  1 test   ( 1%)  ← 97% untested
+  Visual/Render      ░░░░░░░░░░░░░░░░░░░░  0 tests  ( 0%)  ← No E2E
+  Accessibility      ░░░░░░░░░░░░░░░░░░░░  0 tests  ( 0%)  ← No a11y testing
+```
+
+### 11.3 Target Testing Architecture
+
+```
+__tests__/
+├── unit/                        ← Pure logic, no DOM
+│   ├── cloud-store.test.ts
+│   ├── persistence.test.ts
+│   ├── rate-limit.test.ts
+│   ├── utils.test.ts
+│   ├── routing.test.ts
+│   └── icon-resolver.test.ts
+│
+├── integration/                 ← API routes (in-process Next.js)
+│   ├── api-routes.test.ts
+│   └── middleware.test.ts
+│
+├── component/                   ← React Testing Library
+│   ├── nav.test.tsx
+│   ├── effects-view.test.tsx
+│   ├── collection.test.tsx
+│   ├── app-context.test.tsx
+│   └── playground.test.tsx
+│
+├── hooks/                       ← RenderHook + Testing Library
+│   ├── use-focus-trap.test.ts
+│   ├── use-cloud-auth.test.ts
+│   └── use-cloud-data.test.ts
+│
+├── a11y/                        ← axe-core + jest-axe
+│   ├── nav.a11y.test.tsx
+│   ├── effects-view.a11y.test.tsx
+│   ├── cloud-dashboard.a11y.test.tsx
+│   └── mega-menu.a11y.test.tsx
+│
+└── e2e/                         ← Playwright (future)
+    ├── home.spec.ts
+    ├── effects.spec.ts
+    ├── playground.spec.ts
+    └── cloud.spec.ts
+
+TOOLS:
+  vitest          ← Unit + integration + component
+  @testing-library/react  ← Component rendering
+  @testing-library/jest-dom  ← DOM assertions
+  axe-core        ← Automated a11y checks
+  playwright      ← E2E (future)
+```
+
+---
+
+## 12. Build & Deployment Pipeline
+
+### 12.1 Current Pipeline
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  CI PIPELINE: npm run ci                                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐    │
+│  │ typecheck│──►│   lint   │──►│   test   │──►│  build   │    │
+│  │  tsc     │   │  eslint  │   │  vitest  │   │next build│    │
+│  └──────────┘   └──────────┘   └──────────┘   └────┬─────┘    │
+│       │              │              │               │          │
+│       ▼              ▼              ▼               ▼          │
+│    0 errors       0 errors      95/95 pass    3.2s, 14 pages    │
+│                                                     │          │
+│                                                     ▼          │
+│                                              ┌──────────────┐  │
+│                                              │    budget    │  │
+│                                              │ check-budget │  │
+│                                              └──────────────┘  │
+│                                                     │          │
+│                                                     ▼          │
+│                                              All hard pass   │
+│                                              4 soft warnings │
+└─────────────────────────────────────────────────────────────────┘
+
+DEPLOYMENT:
+  next build → .next/ → next start (port 3000) → Caddy reverse proxy
+  Auto-restart wrapper for sandbox stability
+```
+
+### 12.2 Target Pipeline
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  TARGET CI PIPELINE                                              │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  Stage 1: LINT & TYPECHECK (parallel)                           │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────────────────┐  │
+│  │  tsc --noEmit │  │    eslint    │  │  turbo lint (all pkgs) │  │
+│  └──────────────┘  └──────────────┘  └───────────────────────┘  │
+│                                                                 │
+│  Stage 2: TEST (parallel per package)                           │
+│  ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐       │
+│  │ @ferrum/  │ │ @ferrum/  │ │ @ferrum/  │ │ apps/web  │       │
+│  │ effects   │ │ cloud     │ │ ui        │ │           │       │
+│  │ vitest    │ │ vitest    │ │ vitest    │ │ vitest    │       │
+│  └───────────┘ └───────────┘ └───────────┘ └───────────┘       │
+│                                                                 │
+│  Stage 3: BUILD                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │  turbo build  (parallel package builds, dependency order)│  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+│  Stage 4: QUALITY GATES                                         │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────────────────┐  │
+│  │ bundle budget│  │  a11y audit  │  │  visual regression    │  │
+│  │ check-budget │  │  axe-core   │  │  (future: Playwright) │  │
+│  └──────────────┘  └──────────────┘  └───────────────────────┘  │
+│                                                                 │
+│  Stage 5: DEPLOY                                                │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │  next build → Docker image → Deploy to edge/VM           │  │
+│  │  Health check: GET /api/health → 200 OK                   │  │
+│  └──────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 12.3 Build Configuration
+
+```
+TURBOPACK:  Enabled (default in Next.js 16)
+MINIFICATION:  Next.js default (Terser → SWC in future)
+SOURCE MAPS:  Disabled in production (saves ~8MB)
+IMAGE OPT:   AVIF + WebP via next.config.ts images.formats
+CONSOLE:      Removed in prod (except error + warn)
+PACKAGE IMP:  lucide-react, sonner (tree-shaken at import level)
+ANALYZER:    @next/bundle-analyzer (ANALYZE=true next build)
+```
+
+---
+
+## 13. Decision Rationale
+
+### DR-001: SPA-within-SSR Pattern
+
+**Decision**: Use Next.js rewrites to map 17 SPA routes to `/`, with client-side routing via `usePathname()`.
+
+**Context**: The platform has 18 content views that are purely client-side (no SEO benefit from SSR, heavy use of browser APIs). However, we want real URLs for each view (not hash routing) for user experience and link sharing.
+
+**Alternatives considered**:
+- 18 separate `page.tsx` files → Rejected: Each would be a 5-line wrapper importing the same client component. Adds maintenance burden with zero benefit.
+- Hash routing (`/#/effects`) → Rejected: Poor UX, URLs not shareable, breaks browser back button expectations.
+- Full MPA (no SPA) → Rejected: Loses instant navigation, increases server load, no benefit for non-SEO content.
+
+**Rationale**: The rewrite pattern gives us real URLs, instant client-side navigation, and a single HTML shell to optimize. The SEO content is handled by `seo-content.tsx` (server-rendered, screen-reader-only).
+
+**Consequences**: SPA views are not crawlable by search engines. This is acceptable because the marketing copy (hero, descriptions, feature list) IS server-rendered in `seo-content.tsx`. If specific views need crawling (blog, docs), they should be migrated to real pages (see Section 4.4).
+
+### DR-002: No Global State Library
+
+**Decision**: Use React Context (AppContext) for effects-related state and local `useState` for everything else. No Redux, Zustand, or Jotai.
+
+**Context**: The app has 17 views, but only the effects view shares state (search, category, collection, detail modal). All other views are fully independent.
+
+**Alternatives considered**:
+- Zustand → Rejected: Adds a dependency for state that's already managed fine with Context. Overkill for 2 pieces of shared state.
+- Redux Toolkit → Rejected: Far too heavy for this use case. Boilerplate vs. benefit ratio is negative.
+- Jotai → Rejected: Interesting but adds complexity without solving a real problem.
+
+**Rationale**: AppContext is 142 LOC, well-memoized, has zero stale closure risk, and is consumed by exactly 2 components (EffectsView + EffectDetailModal). Adding a state library would increase bundle size and cognitive load without benefit.
+
+### DR-003: Dynamic Imports with ssr:false
+
+**Decision**: All 26 SPA views use `next/dynamic` with `ssr: false`.
+
+**Context**: Views use browser APIs (`window`, `localStorage`, `IntersectionObserver`, `requestAnimationFrame`). They cannot be server-rendered.
+
+**Alternatives considered**:
+- RSC with `"use client"` boundary → Rejected: Still attempts SSR on first load, causing hydration mismatch warnings. `ssr: false` is explicit and clean.
+- Conditional rendering with `typeof window !== "undefined"` → Rejected: Causes hydration mismatch. Anti-pattern.
+
+**Rationale**: `ssr: false` is the correct tool for components that require browser APIs. It cleanly separates server and client boundaries. Each view gets its own chunk for optimal code-splitting.
+
+### DR-004: Tailwind 4 with oklch Colors
+
+**Decision**: Use Tailwind CSS v4 with oklch color space for design tokens.
+
+**Context**: Tailwind v4 was released with native CSS-first configuration, removing the need for `tailwind.config.js`. oklch provides perceptually uniform color spaces.
+
+**Rationale**: Tailwind 4 reduces configuration surface. oklch allows mathematically precise light/dark theme generation (simply rotate the L channel). Combined with CSS custom properties, this gives us a robust theming system with zero runtime JS.
+
+### DR-005: File-Based Cloud Persistence
+
+**Decision**: Use JSON file with atomic writes (temp + rename) and debounced saving for the cloud store.
+
+**Context**: The cloud feature is a demo/MVP. No real database is needed yet.
+
+**Alternatives considered**:
+- SQLite (better-sqlite3) → Rejected: Adds native dependency, complicates deployment. Overkill for demo data.
+- Redis → Rejected: Adds infrastructure dependency. Cloud feature doesn't need sub-millisecond reads.
+- In-memory only → Rejected: Data lost on server restart. Users would lose their demo teams/projects.
+
+**Rationale**: File-based persistence is zero-dependency, survives restarts, and is fast enough for a single-instance demo. The atomic write pattern (write to .tmp, rename) prevents data corruption. The 200ms debounce coalesces rapid writes.
+
+### DR-006: String-Based Icon Resolution
+
+**Decision**: Icons in data files are referenced by string name (e.g., `icon: "Zap"`), resolved at render time via `icon-resolver.tsx`.
+
+**Context**: Navigation data, playground presets, and effect categories all need icons.
+
+**Alternatives considered**:
+- Direct lucide-react imports in data files → Rejected: Makes data files impure (they become JS modules with side-effect imports). Spreads icon code across many chunks.
+- Icon component registry (HOC) → Rejected: More complex than a simple string map.
+
+**Rationale**: The string→icon map pattern keeps data files pure (they can be JSON if needed), consolidates icon code into one chunk, and enables `optimizePackageImports` to tree-shake unused icons. The O(1) `Record<string, LucideIcon>` lookup is negligible.
+
+### DR-007: Monorepo Target (Not Microservices)
+
+**Decision**: Target a modular monorepo (pnpm/npm workspaces + Turborepo), NOT microservices.
+
+**Context**: The platform has clear domain boundaries (effects, content, cloud, UI) but is a single product deployed as one unit.
+
+**Alternatives considered**:
+- Stay monolithic → Current state works but limits future growth. 23,999 LOC in flat src/ is manageable but getting unwieldy.
+- Microservices → Rejected: Massive operational overhead. The platform doesn't have the scale or team size to justify it.
+- Separate packages in monorepo → Selected: Best balance of separation and simplicity.
+
+**Rationale**: Turborepo + pnpm workspaces give us package boundaries, independent versioning, and parallel builds — without the operational complexity of microservices. The deployed artifact remains a single Next.js app.
+
+---
+
+## 14. Implementation Phases & Priorities
+
+### Phase 1: Foundation Cleanup (1-2 days, LOW RISK)
+
+Fix all audit findings before any architectural changes.
+
+| # | Task | Source | Effort |
+|---|------|--------|--------|
+| 1.1 | Fix API doc examples (`rc-`/`fr-` → `roycss-`) | WARNING-3 | 5 min |
+| 1.2 | Add `aria-label` to cloud login password | WARNING-4 | 5 min |
+| 1.3 | Add `try/catch` to audit route | INFO-7 | 10 min |
+| 1.4 | Remove dead `communityMenu` export | WARNING-1 | 5 min |
+| 1.5 | Remove unused `_compact` parameter | INFO-6 | 5 min |
+| 1.6 | Import version from package.json in health route | INFO-8 | 5 min |
+| 1.7 | Unify 404 page design | INFO-1 | 30 min |
+| 1.8 | Add `aria-modal` to ColorCustomizer | INFO-3 | 10 min |
+
+**Verification**: `npm run ci` passes. Zero new warnings.
+
+### Phase 2: Monorepo Scaffolding (1-2 days, LOW RISK)
+
+| # | Task | Effort |
+|---|------|--------|
+| 2.1 | Initialize pnpm workspaces + turbo.json | 2h |
+| 2.2 | Extract `@ferrum/tokens` (leaf package) | 1h |
+| 2.3 | Extract `@ferrum/a11y` (leaf package) | 1h |
+| 2.4 | Configure shared ESLint, TypeScript, Vitest configs | 2h |
+| 2.5 | Update all imports to use `@ferrum/*` paths | 3h |
 
 **Verification**: Build output identical. All 95 tests pass. No bundle size change.
 
-### Phase 2: Data Extraction (Medium Risk)
+### Phase 3: Data Package Extraction (2-3 days, MEDIUM RISK)
 
-**Goal**: Move data files to dedicated packages.
+| # | Task | Effort |
+|---|------|--------|
+| 3.1 | Extract `@ferrum/effects` (split data by category) | 4h |
+| 3.2 | Extract `@ferrum/content` (docs, blog, changelog, lessons, arch, playground) | 4h |
+| 3.3 | Update dynamic imports to reference new package paths | 2h |
+| 3.4 | Verify code splitting still works (bundle analysis) | 2h |
 
-| Step | Action | Risk | Effort |
-|------|--------|------|--------|
-| 2.1 | Extract `@ferrum/effects` (split data by category) | Medium | 4h |
-| 2.2 | Extract `@ferrum/content` (docs, blog, changelog, lessons, architecture, playground data) | Medium | 4h |
-| 2.3 | Update dynamic imports to reference new package paths | Low | 2h |
-| 2.4 | Verify code splitting still works (bundle analysis) | Medium | 2h |
+**Verification**: Bundle size unchanged or improved. All views functional.
 
-**Verification**: Bundle size unchanged or improved (if category splitting reduces effects chunk). All views functional.
+### Phase 4: Component Library Extraction (3-5 days, HIGHER RISK)
 
-### Phase 3: Component Library (Higher Risk)
+| # | Task | Effort |
+|---|------|--------|
+| 4.1 | Extract `@ferrum/ui/primitives` (12 UI components) | 4h |
+| 4.2 | Extract `@ferrum/ui/ferrum` (nav, effects, playground, sections) | 8h |
+| 4.3 | Resolve cross-component dependencies (app-context) | 4h |
+| 4.4 | Update all imports | 4h |
 
-**Goal**: Extract UI and Ferrum components.
+**Verification**: All views render identically. 0 TypeScript errors. E2E smoke test.
 
-| Step | Action | Risk | Effort |
-|------|--------|------|--------|
-| 3.1 | Extract `@ferrum/ui/primitives` (11 UI components) | Medium | 4h |
-| 3.2 | Extract `@ferrum/ui/ferrum` (nav, effects, playground, etc.) | High | 8h |
-| 3.3 | Resolve cross-component dependencies (app-context, shared state) | High | 4h |
-| 3.4 | Update all imports | Medium | 4h |
+### Phase 5: Cloud Isolation (1-2 days, MEDIUM RISK)
 
-**Verification**: All views render identically. No TypeScript errors. Full E2E smoke test.
+| # | Task | Effort |
+|---|------|--------|
+| 5.1 | Extract `@ferrum/cloud` (store, persist, auth, middleware, API logic, hooks, types) | 4h |
+| 5.2 | API routes become thin wrappers | 2h |
 
-### Phase 4: Cloud Extraction (Medium Risk)
+**Verification**: All cloud API tests pass. Auth flow works.
 
-**Goal**: Isolate cloud feature for independent evolution.
+### Phase 6: Security Hardening (Parallel with Phase 3-5)
 
-| Step | Action | Risk | Effort |
-|------|--------|------|--------|
-| 4.1 | Extract `@ferrum/cloud` (store, auth, middleware, API types) | Medium | 4h |
-| 4.2 | API routes in `apps/web` become thin wrappers | Low | 2h |
-| 4.3 | Fix middleware env var crash (graceful degradation) | Low | 0.5h |
-| 4.4 | Add input validation to team update and token endpoints | Low | 1h |
+| # | Task | Priority | Effort |
+|---|------|----------|--------|
+| 6.1 | Migrate CSP to nonce-based | 🔴 Critical | 4h |
+| 6.2 | Fix contrast (create safe tokens, update files) | 🔴 Critical | 6h |
+| 6.3 | Fix SW registration (external file or remove) | 🟡 High | 1h |
+| 6.4 | Add ARIA menu roles to ThemeToggle | 🟡 High | 1h |
 
-**Verification**: All cloud API tests pass. Auth flow works. Middleware degrades gracefully without env var.
+### Phase 7: Testing Expansion (2-3 days, ONGOING)
 
-### Phase 5: Security & A11y Hardening (Parallel Track)
+| # | Task | Effort |
+|---|------|--------|
+| 7.1 | Add component tests for Nav, EffectsView, Playground | 4h |
+| 7.2 | Add hook tests (use-focus-trap, use-cloud-auth) | 2h |
+| 7.3 | Add axe-core a11y tests for critical views | 3h |
+| 7.4 | Set up Playwright for E2E smoke tests | 4h |
 
-These can run in parallel with Phase 2-4.
+### Phase 8: Content Migration to RSC (FUTURE)
 
-| Step | Action | Priority | Effort |
-|------|--------|----------|--------|
-| 5.1 | Migrate CSP to nonce-based | 🔴 Critical | 4h |
-| 5.2 | Fix contrast (create safe tokens, update 48+ files) | 🔴 Critical | 6h |
-| 5.3 | Add `aria-label` to search inputs | 🟡 High | 0.5h |
-| 5.4 | Add focus trap to color customizer | 🟡 High | 1h |
-| 5.5 | Fix mobile nav role mismatch | 🟡 High | 1h |
-| 5.6 | Add `aria-current="page"` to NavButton | 🟡 High | 0.5h |
-| 5.7 | Kill SMIL animations on reduced motion | 🟡 High | 0.5h |
-| 5.8 | Add docsMenu items to mobile nav | 🟡 High | 2h |
-| 5.9 | Expand Permissions-Policy | 🟢 Medium | 0.5h |
-| 5.10 | Add COOP/CORP headers | 🟢 Low | 0.5h |
-| 5.11 | Fix routing test (import VALID_VIEWS from view-meta) | 🟢 Low | 0.5h |
-| 5.12 | Remove dead `communityMenu` export | 🟢 Low | 0.5h |
+| # | Task | Dependencies | Effort |
+|---|------|-------------|--------|
+| 8.1 | Blog → MDX with generateStaticParams | Phase 3 | 6h |
+| 8.2 | Docs → MDX with RSC streaming | Phase 3 | 8h |
+| 8.3 | Changelog → MDX | Phase 3 | 4h |
+| 8.4 | Add RSS feed for blog | 8.1 | 2h |
+| 8.5 | Generate static category pages for effects | Phase 3 | 4h |
 
-### Phase 6: Future Enhancements
+### Phase 9: Production Cloud Auth (FUTURE)
 
-| Enhancement | Description | Dependencies |
-|-------------|-------------|-------------|
-| MDX content | Move blog/docs/lessons from hardcoded TS to MDX files | Phase 2 (content extraction) |
-| Global search (Cmd+K) | Site-wide search across effects, docs, blog | Phase 2 (content extraction) |
-| JWT auth | Replace static token with proper JWT + user store | Phase 4 (cloud extraction) |
-| Distributed rate limiting | Redis/Upstash for production deployments | Phase 4 + infra |
-| E2E tests | Playwright/Cypress for critical user flows | Phase 3 (stable component API) |
-| Middleware → Proxy | Migrate from deprecated middleware to Next.js 16 proxy | None |
+| # | Task | Dependencies | Effort |
+|---|------|-------------|--------|
+| 9.1 | Replace static token with bcrypt/argon2id | Phase 5 | 4h |
+| 9.2 | Add JWT issuance + httpOnly cookie | Phase 5 | 6h |
+| 9.3 | Add refresh token flow | 9.2 | 4h |
+| 9.4 | Add user entity + registration | 9.2 | 6h |
+| 9.5 | Migrate to real database (PostgreSQL/SQLite) | Phase 5 | 8h |
+| 9.6 | Add distributed rate limiting (Redis/Upstash) | Phase 5 + infra | 4h |
 
 ---
 
-## Appendix: Key Metrics Reference
+### Priority Matrix
+
+```
+         HIGH IMPACT                                          LOW IMPACT
+         ┌─────────────────────────────────────────┬─────────────────────────────────────────┐
+  LOW   │  Phase 1: Cleanup (1-2 days)             │  Phase 7: Testing expansion (ongoing)   │
+  EFFORT │  Phase 2: Monorepo scaffolding (1-2d)    │  Phase 6.4: ARIA menu roles (1h)        │
+         │  Phase 6.2: Contrast fix (6h)            │                                         │
+         ├─────────────────────────────────────────┼─────────────────────────────────────────┤
+  HIGH  │  Phase 3: Data extraction (2-3 days)     │  Phase 8: Content → RSC (future)        │
+  EFFORT │  Phase 4: Component extraction (3-5d)    │  Phase 9: Production auth (future)      │
+         │  Phase 5: Cloud isolation (1-2 days)     │  Phase 6.1: CSP nonce migration (4h)    │
+         └─────────────────────────────────────────┴─────────────────────────────────────────┘
+
+RECOMMENDED ORDER:
+  1. Phase 1 (quick wins, unblocks everything)
+  2. Phase 2 (enables Phases 3-5)
+  3. Phase 3 + Phase 6.2 (parallel — data extraction + contrast fix)
+  4. Phase 4 (largest effort, do after data extraction is stable)
+  5. Phase 5 (cloud isolation)
+  6. Phase 7 (testing, ongoing throughout)
+  7. Phase 8-9 (future, when team/resources allow)
+```
+
+---
+
+## 15. Appendix: Key Metrics Reference
 
 | Metric | Value | Source |
 |--------|-------|--------|
-| Total source LoC | 23,733 | Performance Baseline Report |
-| Component files | 66 (.tsx) | Performance Baseline Report |
-| Total source files | 120 (.ts + .tsx + .css) | Performance Baseline Report |
-| Features | 21 (18 implemented + 3 new) | Feature Registry |
-| Components | 71 | Component Registry |
-| Routes | 19 (5 pages + 12 API + 2 special) | Route Registry |
-| API Endpoints | 17 | API Registry |
-| Packages | 17 (9 runtime + 8 dev) | Package Registry |
-| Documentation entries | 29 | Documentation Registry |
-| Test cases | 95/95 passing | Platform Audit Report |
-| Git commits | 5 (clean linear history) | Git Forensics Report |
+| Total source LoC (src/) | 23,999 | Documentation Reconciliation |
+| TS/TSX source files | 123 | Platform Audit Report |
+| Component files (.tsx) | 69 | Documentation Reconciliation |
+| Features (implemented) | 21 | Feature Registry |
+| Components | 69 | Component Registry |
+| SPA routes | 18 (17 rewrites + root `/`) | Route Registry |
+| Static server pages | 4 (/, /cloud, /privacy, /terms) | Route Registry |
+| API endpoints | 17 (13 routes, some multi-method) | API Registry |
+| Runtime dependencies | 9 | package.json |
+| Dev dependencies | 15 | package.json |
+| Tests passing | 95/95 (0 skipped) | Platform Audit Report |
+| Build time | ~3.2s | Performance Baseline Report |
+| First-Load JS | ~546 KB raw | Performance Baseline Report |
+| Initial CSS | ~174 KB | Performance Baseline Report |
+| Effects CSS (on-demand) | ~570 KB | next.config.ts headers |
+| Dynamic chunks | 59 | Performance Baseline Report |
+| Security: Critical | 0 (post-fix) | Security Audit Report |
+| Security: High | 3 (auth, rate limiting, IP spoofing — all demo-only) | Security Audit Report |
+| A11y: Passing | 7/9 areas | Accessibility Audit Report |
+| Git commits | 6 (clean linear) | Git Forensics Report |
 | Branches | 2 (main + baseline) | Git Forensics Report |
-| Security findings | 2 critical, 4 high, 5 medium, 4 low | Security Audit Report |
-| A11y areas passing | 3/9 | Accessibility Audit Report |
+| Circular dependencies | 0 | Phase 1 Audit |
+| ViewId alignment mismatches | 0 | Platform Audit Report |
+| Reduced-motion coverage | 13 JS files + global CSS | Platform Audit Report |
 
 ---
 
-*This document is the authoritative architecture reference for the FerrumEngine platform. Update when architectural decisions change.*
+*This document is the authoritative architecture reference for the FerrumEngine platform. Update when architectural decisions change. Last updated: 2026-08-12 (v2.0).*)

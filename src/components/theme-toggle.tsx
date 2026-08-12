@@ -98,7 +98,7 @@ export const ThemeToggle = memo(function ThemeToggle({ className, variant = "cyc
           className={`flex items-center justify-center w-[44px] h-[44px] rounded-lg text-muted-foreground/50 hover:text-foreground hover:bg-foreground/[0.04] transition-colors ${className ?? ""}`}
           title="Toggle theme"
           aria-expanded={open}
-          aria-haspopup="true"
+          aria-haspopup="menu"
         >
           {currentIcon === Sun && <Sun className="w-4 h-4" />}
           {currentIcon === Moon && <Moon className="w-4 h-4" />}
@@ -108,6 +108,8 @@ export const ThemeToggle = memo(function ThemeToggle({ className, variant = "cyc
 
         {open && (
           <div
+            role="menu"
+            aria-label="Theme options"
             className="absolute right-0 top-full mt-2 w-36 rounded-xl border border-border bg-background/95 backdrop-blur-2xl shadow-xl shadow-background/30 overflow-hidden z-[60] py-1"
             onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); }}
             onMouseLeave={() => { timeoutRef.current = setTimeout(() => setOpen(false), 200); }}
@@ -118,6 +120,7 @@ export const ThemeToggle = memo(function ThemeToggle({ className, variant = "cyc
               return (
                 <button
                   key={opt.value}
+                  role="menuitem"
                   onClick={() => { setTheme(opt.value); setOpen(false); }}
                   className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-xs font-medium transition-colors ${
                     isActive

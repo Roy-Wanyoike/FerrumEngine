@@ -2,6 +2,7 @@
 
 import { Palette, X, Check, RotateCcw } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useFocusTrap } from "@/hooks/use-focus-trap";
 
 /* ═══════════════════════════════════════════════════════════════
    COLOR CUSTOMIZER — Pick a color, rewrite CSS live
@@ -86,11 +87,16 @@ export function ColorCustomizer() {
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  // Focus trap on color picker dialog
+  useFocusTrap(dialogRef, open, { onEscape: () => setOpen(false) });
+
   // Close on click outside
   useEffect(() => {
     if (!open) return;
     const handleClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
+      if (dialogRef.current && !dialogRef.current.contains(e.target as Node)) {
         setOpen(false);
       }
     };
@@ -105,7 +111,7 @@ export function ColorCustomizer() {
     }
   }, [open]);
 
-  // Close on Escape
+  // Close on Escape — handled by useFocusTrap, but keep as fallback
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
       setOpen(false);
@@ -139,8 +145,10 @@ export function ColorCustomizer() {
 
       {open && (
         <div
+          ref={dialogRef}
           className="absolute right-0 top-full mt-2 w-64 rounded-xl border border-border bg-background/95 backdrop-blur-2xl shadow-xl shadow-background/30 overflow-hidden z-[60] p-4"
           role="dialog"
+          aria-modal="true"
           aria-label="Customize accent color"
           onClick={(e) => e.stopPropagation()}
           onKeyDown={handleKeyDown}

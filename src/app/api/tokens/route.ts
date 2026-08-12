@@ -26,6 +26,10 @@ export async function GET() {
         spacing: t.spacing,
         fontSizes: t.fontSizes,
       },
+    }, {
+      headers: {
+        "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
+      },
     });
   } catch (error) {
     console.error("[API] /api/tokens error:", error);

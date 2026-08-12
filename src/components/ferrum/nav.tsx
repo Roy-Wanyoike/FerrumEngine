@@ -127,10 +127,12 @@ export function Nav({ currentView, onNavigate }: NavProps) {
 }
 
 const NavButton = memo(function NavButton({ view, label, currentView, onClick }: { view: ViewId; label: string; currentView: ViewId; onClick: (view: ViewId) => void }) {
+  const isActive = currentView === view;
   return (
     <button onClick={() => onClick(view)}
+      aria-current={isActive ? "page" : undefined}
       className={`px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
-        currentView === view ? "text-foreground bg-foreground/[0.06]" : "text-muted-foreground/60 hover:text-foreground hover:bg-foreground/[0.03]"
+        isActive ? "text-foreground bg-foreground/[0.06]" : "text-muted-foreground/60 hover:text-foreground hover:bg-foreground/[0.03]"
       }`}>
       {label}
     </button>

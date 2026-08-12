@@ -96,6 +96,12 @@ export async function GET() {
       environment: process.env.NODE_ENV || "development",
       services,
     },
-    { status: allOk ? 200 : 503 }
+    {
+      status: allOk ? 200 : 503,
+      headers: {
+        // Health checks are short-lived; cache for 10s to avoid thundering herd from monitors
+        "Cache-Control": "public, max-age=10, stale-while-revalidate=30",
+      },
+    }
   );
 }

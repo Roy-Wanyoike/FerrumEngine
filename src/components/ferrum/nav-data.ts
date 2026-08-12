@@ -17,19 +17,19 @@ export const platformMenu: MegaMenuGroup[] = [
   {
     heading: "Core Engines",
     items: [
-      { icon: "Cpu", label: "Ferrum Runtime", description: "Zero-dependency execution layer" },
-      { icon: "Zap", label: "Ferrum Motion", description: "Spring physics & gestures" },
-      { icon: "Sparkles", label: "Ferrum Physics", description: "Realistic forces & collisions" },
-      { icon: "Eye", label: "Ferrum VFX", description: "Visual effects & particles" },
+      { icon: "Cpu", label: "Ferrum Runtime", description: "Zero-dependency execution layer", badge: "Coming soon" },
+      { icon: "Zap", label: "Ferrum Motion", description: "Spring physics & gestures", badge: "Coming soon" },
+      { icon: "Sparkles", label: "Ferrum Physics", description: "Realistic forces & collisions", badge: "Coming soon" },
+      { icon: "Eye", label: "Ferrum VFX", description: "Visual effects & particles", badge: "Coming soon" },
     ],
   },
   {
     heading: "Build System",
     items: [
       { icon: "Blocks", label: "Effects Gallery", description: "Production-ready UI primitives", view: "effects" },
-      { icon: "Palette", label: "Ferrum Tokens", description: "Unified design token system" },
-      { icon: "Terminal", label: "Ferrum Compiler", description: "9-pass optimization pipeline" },
-      { icon: "Layers", label: "Framework Adapters", description: "React, Vue, Svelte & 6 more" },
+      { icon: "Palette", label: "Ferrum Tokens", description: "Unified design token system", badge: "Coming soon" },
+      { icon: "Terminal", label: "Ferrum Compiler", description: "9-pass optimization pipeline", badge: "Coming soon" },
+      { icon: "Layers", label: "Framework Adapters", description: "React, Vue, Svelte & 6 more", badge: "Coming soon" },
     ],
   },
 ];
@@ -54,15 +54,6 @@ export const docsMenu: MegaMenuGroup[] = [
     heading: "News",
     items: [
       { icon: "FileText", label: "Blog", description: "News & engineering posts", view: "blog" },
-    ],
-  },
-];
-
-export const communityMenu: MegaMenuGroup[] = [
-  {
-    heading: "Community",
-    items: [
-      { icon: "Github", label: "GitHub", href: GITHUB_REPO },
     ],
   },
 ];

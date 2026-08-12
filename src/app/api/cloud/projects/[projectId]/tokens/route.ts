@@ -31,11 +31,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ pro
     const type = body?.type;
     const namespace = body?.namespace?.trim() || "global";
 
-    if (!name || typeof name !== "string") {
-      return NextResponse.json({ error: "Token name is required" }, { status: 400 });
+    if (!name || typeof name !== "string" || name.length > 100) {
+      return NextResponse.json({ error: "Token name is required (max 100 chars)" }, { status: 400 });
     }
-    if (!value || typeof value !== "string") {
-      return NextResponse.json({ error: "Token value is required" }, { status: 400 });
+    if (!value || typeof value !== "string" || value.length > 1024) {
+      return NextResponse.json({ error: "Token value is required (max 1024 chars)" }, { status: 400 });
     }
     if (!type || !VALID_TOKEN_TYPES.includes(type)) {
       return NextResponse.json({ error: `Invalid type. Must be one of: ${VALID_TOKEN_TYPES.join(", ")}` }, { status: 400 });

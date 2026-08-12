@@ -162,7 +162,12 @@ const Footer = dynamic(
 
 /* ════════════════════════════════════════════════════════════════
    NAV SKELETON — Lightweight placeholder matching nav dimensions
+   Arrays pre-allocated at module level to avoid per-render allocation.
    ════════════════════════════════════════════════════════════════ */
+const NAV_SKELETON_ITEMS = Array.from({ length: 5 }, (_, i) => (
+  <div key={i} className="h-3.5 w-14 rounded bg-foreground/[0.03] animate-pulse" />
+));
+
 function NavSkeleton() {
   return (
     <nav className="sticky top-0 z-50 h-16 border-b border-border/50 bg-background/80 backdrop-blur-xl">
@@ -171,11 +176,7 @@ function NavSkeleton() {
           <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] animate-pulse" />
           <div className="h-5 w-28 rounded bg-foreground/[0.04] animate-pulse" />
         </div>
-        <div className="hidden md:flex items-center gap-6">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-3.5 w-14 rounded bg-foreground/[0.03] animate-pulse" />
-          ))}
-        </div>
+        <div className="hidden md:flex items-center gap-6">{NAV_SKELETON_ITEMS}</div>
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-lg bg-foreground/[0.04] animate-pulse" />
           <div className="h-8 w-8 rounded-lg bg-foreground/[0.04] animate-pulse" />
@@ -197,7 +198,16 @@ class ViewErrorBoundary extends Component<{ children: ReactNode }, { hasError: b
 
 /* ════════════════════════════════════════════════════════════════
    VIEW SKELETON — Generic loading placeholder
+   Card array pre-allocated at module level to avoid per-render allocation.
    ════════════════════════════════════════════════════════════════ */
+const SKELETON_CARDS = Array.from({ length: 8 }, (_, i) => (
+  <div key={i} className="rounded-2xl border border-border bg-foreground/[0.015] p-4">
+    <div className="w-full h-24 rounded-lg bg-foreground/[0.03] mb-3" />
+    <div className="w-3/4 h-3 rounded bg-foreground/[0.03] mb-2" />
+    <div className="w-1/2 h-2.5 rounded bg-foreground/[0.02]" />
+  </div>
+));
+
 function ViewSkeleton() {
   return (
     <div className="pt-20 min-h-screen">
@@ -208,13 +218,7 @@ function ViewSkeleton() {
       </div>
       <div className="max-w-7xl mx-auto px-6 sm:px-8 py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="rounded-2xl border border-border bg-foreground/[0.015] p-4">
-              <div className="w-full h-24 rounded-lg bg-foreground/[0.03] mb-3" />
-              <div className="w-3/4 h-3 rounded bg-foreground/[0.03] mb-2" />
-              <div className="w-1/2 h-2.5 rounded bg-foreground/[0.02]" />
-            </div>
-          ))}
+          {SKELETON_CARDS}
         </div>
       </div>
     </div>
@@ -300,9 +304,11 @@ function ViewRouter() {
     return (
       <ViewErrorBoundary>
         <Nav currentView={currentView} onNavigate={navigate} />
+        <main id="main-content" tabIndex={-1}>
         <Suspense fallback={<ViewSkeleton />}>
           <DocsView onBack={() => navigate("home")} />
         </Suspense>
+        </main>
       </ViewErrorBoundary>
     );
   }
@@ -311,9 +317,11 @@ function ViewRouter() {
     return (
       <ViewErrorBoundary>
         <Nav currentView={currentView} onNavigate={navigate} />
+        <main id="main-content" tabIndex={-1}>
         <Suspense fallback={<ViewSkeleton />}>
           <InteractiveDocsView />
         </Suspense>
+        </main>
       </ViewErrorBoundary>
     );
   }
@@ -321,9 +329,11 @@ function ViewRouter() {
   if (currentView === "playground") {
     return (
       <ViewErrorBoundary>
+        <main id="main-content" tabIndex={-1}>
         <Suspense fallback={<ViewSkeleton />}>
           <PlaygroundV2 onBack={() => navigate("home")} />
         </Suspense>
+        </main>
       </ViewErrorBoundary>
     );
   }
@@ -331,9 +341,11 @@ function ViewRouter() {
   if (currentView === "architecture") {
     return (
       <ViewErrorBoundary>
+        <main id="main-content" tabIndex={-1}>
         <Suspense fallback={<ViewSkeleton />}>
           <ArchitectureDeepDive onBack={() => navigate("home")} />
         </Suspense>
+        </main>
       </ViewErrorBoundary>
     );
   }

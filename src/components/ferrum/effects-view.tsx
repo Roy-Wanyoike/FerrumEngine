@@ -22,8 +22,8 @@ import { categories, effects as effectsIndex, categoryCounts, type FerrumEffectI
 /* ════════════════════════════════════════════════════════════════
    HEART BUTTON — Animated heart with scale pop on save
    ════════════════════════════════════════════════════════════════ */
-const HeartButton = memo(function HeartButton({ effectClassName, isInCollection, onToggle, compact: _compact }: {
-  effectClassName: string; isInCollection: (cn: string) => boolean; onToggle: (cn: string) => void; compact?: boolean;
+const HeartButton = memo(function HeartButton({ effectClassName, isInCollection, onToggle }: {
+  effectClassName: string; isInCollection: (cn: string) => boolean; onToggle: (cn: string) => void;
 }) {
   const [animating, setAnimating] = useState(false);
   const wasSaved = useRef(isInCollection(effectClassName));
@@ -101,7 +101,7 @@ const EffectCard = memo(function EffectCard({ effect, onOpenCode, onAddCollectio
           <h3 className="text-sm font-medium text-foreground truncate">{effect.name}</h3>
           <div className="flex items-center gap-0.5 shrink-0 ml-2">
             <button onClick={replay} className="p-2.5 rounded-lg text-muted-foreground/40 hover:text-foreground hover:bg-foreground/[0.06] transition-all min-w-[44px] min-h-[44px]" title="Replay" aria-label={`Replay ${effect.name}`}><RotateCcw className="w-3.5 h-3.5" /></button>
-            <HeartButton effectClassName={effect.className} isInCollection={isInCollection} onToggle={onAddCollection} compact />
+            <HeartButton effectClassName={effect.className} isInCollection={isInCollection} onToggle={onAddCollection} />
             <button onClick={() => onOpenCode(effect)} className="p-2.5 rounded-lg text-muted-foreground/40 hover:text-foreground hover:bg-foreground/[0.06] transition-all min-w-[44px] min-h-[44px]" title="View code" aria-label={`View code for ${effect.name}`}><Code className="w-3.5 h-3.5" /></button>
           </div>
         </div>
@@ -135,9 +135,10 @@ const CategoryPill = memo(function CategoryPill({ cat, active, count, compact, o
 });
 
 /* ════════════════════════════════════════════════════════════════
-   VIRTUAL GRID — Paginated infinite scroll
+   VIRTUAL GRID — Paginated infinite scroll (memoized to prevent
+   re-renders when parent context changes unrelated to grid)
    ════════════════════════════════════════════════════════════════ */
-function VirtualGrid({ effects, onOpenCode, onAddCollection, isInCollection }: {
+const VirtualGrid = memo(function VirtualGrid({ effects, onOpenCode, onAddCollection, isInCollection }: {
   effects: FerrumEffectIndex[]; onOpenCode: (e: FerrumEffectIndex) => void; onAddCollection: (cn: string) => void; isInCollection: (cn: string) => boolean;
 }) {
   const [visible, setVisible] = useState(48);
@@ -168,12 +169,12 @@ function VirtualGrid({ effects, onOpenCode, onAddCollection, isInCollection }: {
       )}
     </>
   );
-}
+});
 
 /* ════════════════════════════════════════════════════════════════
    EFFECTS PAGE VIEW
    ════════════════════════════════════════════════════════════════ */
-export function EffectsView({
+export const EffectsView = memo(function EffectsView({
   search, setSearch, activeCategory, setActiveCategory,
   hydrated, handleOpenCode, add, isIn,
   collection, setCollectionOpen,
@@ -263,4 +264,4 @@ export function EffectsView({
       </section>
     </div>
   );
-}
+});

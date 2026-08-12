@@ -7,6 +7,8 @@ import { useState, useEffect, useCallback, useRef, memo } from "react";
    SCROLL PROGRESS — rAF throttled, reduced-motion aware
    ═══════════════════════════════════════════════════════════════ */
 
+const CIRCUMFERENCE = 2 * Math.PI * 20;
+
 export const ScrollProgress = memo(function ScrollProgress() {
   const [progress, setProgress] = useState(0);
   const [showTop, setShowTop] = useState(false);
@@ -61,8 +63,8 @@ export const ScrollProgress = memo(function ScrollProgress() {
             <circle
               cx="22" cy="22" r="20" fill="none" stroke="url(#scroll-gradient)" strokeWidth="2"
               strokeLinecap="round"
-              strokeDasharray={`${2 * Math.PI * 20}`}
-              strokeDashoffset={`${2 * Math.PI * 20 * (1 - progress / 100)}`}
+              strokeDasharray={`${CIRCUMFERENCE}`}
+              strokeDashoffset={`${CIRCUMFERENCE * (1 - progress / 100)}`}
               style={{ transition: "stroke-dashoffset 80ms linear" }}
             />
             <defs>

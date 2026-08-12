@@ -19,13 +19,16 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ toke
       return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
     }
 
-    // Validate that body contains only expected string fields
+    // Validate that body contains only expected string fields with length limits
     const validFields: Record<string, string> = {};
     for (const field of VALID_UPDATE_FIELDS) {
       const val = body[field];
       if (val !== undefined) {
         if (typeof val !== "string") {
           return NextResponse.json({ error: `Field "${field}" must be a string` }, { status: 400 });
+        }
+        if (val.length > (field === "value" ? 1024 : 100)) {
+          return NextResponse.json({ error: `Field "${field}" exceeds maximum length` }, { status: 400 });
         }
         validFields[field] = val;
       }
