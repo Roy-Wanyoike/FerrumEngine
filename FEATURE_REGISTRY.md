@@ -3,12 +3,13 @@
 
 ## Summary
 - **Total Features**: 21
-- **Status**: 18 working, 3 partial, 0 missing (from implementation)
+- **Status**: 20 working, 1 partial, 0 missing (from implementation)
 - **Tested Features**: 2 (Collection Drawer, Footer)
-- **Components**: 71
-- **Routes**: 19 (5 pages, 12 API routes, 2 special)
-- **API Endpoints**: 17
-- **Source Lines of Code**: 23,733
+- **Components**: 69
+- **Routes**: 19 (4 pages, 13 API routes, 2 special)
+- **API Endpoints**: 18
+- **Source Lines of Code**: 23,999
+- **Last verified**: 2026-08-12 (Documentation Reconciliation — Task ID: 10)
 
 ---
 
@@ -48,10 +49,10 @@
 - **Rendering**: Client
 - **Documentation**: Inline comment block (color-customizer.tsx:6-9)
 - **Tests**: Not tested
-- **Status**: ⚠️ Partial
+- **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
 - **Last Verified**: 2026-08-12
-- **Known Issues**: No focus trap on the popup dialog — Tab key escapes to page behind (A11y F1, K3)
+- **Known Issues**: ~~No focus trap on the popup dialog~~ — **Fixed**: `useFocusTrap` hook added in Phase 13-14
 
 ### F003: Main Navigation Bar
 - **Owner**: Platform
@@ -65,7 +66,7 @@
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
 - **Last Verified**: 2026-08-12
-- **Known Issues**: NavButton lacks `aria-current="page"` when active (A11y K1)
+- **Known Issues**: ~~NavButton lacks `aria-current="page"` when active~~ — **Fixed** in Phase 13-14
 
 ### F004: Mega Menu Navigation
 - **Owner**: Platform
@@ -79,7 +80,7 @@
 - **Status**: ⚠️ Partial
 - **Git History**: Present since initial commit (`db3a4c9`)
 - **Last Verified**: 2026-08-12
-- **Known Issues**: Mega menu panel lacks keyboard navigation — only mouse/touch supported (A11y K4). 6 platform items are placeholders ("Coming soon")
+- **Known Issues**: Mega menu panel lacks keyboard navigation — only mouse/touch supported (A11y K4). 7 platform items are placeholders ("Coming soon" with badge)
 
 ### F005: Mobile Navigation Overlay
 - **Owner**: Platform
@@ -90,10 +91,10 @@
 - **Rendering**: Client
 - **Documentation**: Inline section comment (nav-mobile.tsx:16-18)
 - **Tests**: Not tested
-- **Status**: ⚠️ Partial
+- **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
 - **Last Verified**: 2026-08-12
-- **Known Issues**: Missing 5 docsMenu items (Learning Center, Interactive Docs, Architecture, Platform Architecture, Blog) — only accessible on desktop. Uses `role="menu"` without `role="menuitem"` on children (A11y A1)
+- **Known Issues**: ~~Missing 5 docsMenu items~~ — **Fixed**: Mobile nav now renders docsMenu with all items. ~~role="menu" without role="menuitem"~~ — **Fixed**: Changed to `role="navigation"`
 
 ### F006: Scroll Progress Bar
 - **Owner**: Platform
@@ -133,7 +134,7 @@
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
 - **Last Verified**: 2026-08-12
-- **Known Issues**: Search input has no `aria-label` or associated `<label>` (A11y I1)
+- **Known Issues**: ~~Search input has no `aria-label`~~ — **Fixed**: `aria-label="Search effects"` added in prior phase
 - **Bundle Note**: Prefetched after hydration (`webpackPrefetch: true`). Effects data is 3,806 LOC / ~424 KB — largest single data file
 
 ### F009: Effect Detail Modal
@@ -258,12 +259,12 @@
 - **Git History**: Present since initial commit (`db3a4c9`)
 - **Last Verified**: 2026-08-12
 - **Known Issues**:
-  - Contrast: `text-muted-foreground/40` used on readable text fails WCAG AA 4.5:1 (C1)
-  - Color customizer popup lacks focus trap (F1)
-  - Mobile nav ARIA role mismatch (A1)
-  - Logo SVG SMIL animations ignore `prefers-reduced-motion` (M1)
-  - Effects search input missing `aria-label` (I1)
-  - Full-screen views (docs, playground, architecture) missing `<main>` landmark (F3)
+  - Contrast: `text-muted-foreground/40` used on readable text fails WCAG AA 4.5:1 (C1) — **systemic, not yet fixed**
+  - ~~Color customizer popup lacks focus trap (F1)~~ — **Fixed**: `useFocusTrap` added
+  - ~~Mobile nav ARIA role mismatch (A1)~~ — **Fixed**: Changed to `role="navigation"`
+  - ~~Logo SVG SMIL animations ignore `prefers-reduced-motion` (M1)~~ — **Fixed**: Conditional rendering
+  - ~~Effects search input missing `aria-label` (I1)~~ — **Fixed**: Added
+  - ~~Full-screen views missing `<main>` landmark (F3)~~ — **Fixed**: 4 views now wrapped in `<main>`
 
 ### F017: Error Handling and Loading States
 - **Owner**: Platform
@@ -311,7 +312,7 @@
   - Token stored in localStorage (vulnerable to XSS exfiltration)
   - In-memory rate limiting is per-instance only (ineffective in serverless)
   - IP spoofing possible via `x-real-ip` header trust
-  - Middleware throws if `CLOUD_API_TOKEN` env var is missing (crashes entire app)
+  - ~~Middleware throws if `CLOUD_API_TOKEN` env var is missing (crashes entire app)~~ — **Fixed**: Graceful degradation when env var not set
 
 ### F019: Blog
 - **Owner**: Platform
@@ -325,7 +326,7 @@
 - **Status**: ✅ Active
 - **Git History**: Added in commit `88fa612` (2026-08-12)
 - **Last Verified**: 2026-08-12
-- **Notes**: 496 LOC. Dynamically imported via `next/dynamic` with `ssr: false`. Content is hardcoded (no CMS). Not accessible from mobile nav (missing from docsMenu items)
+- **Notes**: 497 LOC. Dynamically imported via `next/dynamic` with `ssr: false`. Content is hardcoded (no CMS). Accessible from mobile nav via Docs menu.
 
 ### F020: Changelog
 - **Owner**: Platform
@@ -345,7 +346,13 @@
 - **Owner**: Platform
 - **Category**: Documentation
 - **Description**: Interactive docs with 8 lessons, code editor, iframe live preview, device size toggles, and progress tracking
-- **Implementation**: `src/components/ferrum/interactive-docs-view.tsx`, `src/components/ferrum/interactive-docs/types.ts`
+- **Implementation**:
+  - `src/components/ferrum/interactive-docs-view.tsx` (302 LOC — router)
+  - `src/components/ferrum/interactive-docs/explanation-panel.tsx`
+  - `src/components/ferrum/interactive-docs/lesson-sidebar.tsx`
+  - `src/components/ferrum/interactive-docs/code-playground.tsx`
+  - `src/components/ferrum/interactive-docs/lessons-data.ts`
+  - `src/components/ferrum/interactive-docs/types.ts`
 - **Dependencies**: `lucide-react`
 - **Rendering**: Client
 - **Documentation**: Not documented
@@ -353,7 +360,7 @@
 - **Status**: ✅ Active
 - **Git History**: Added in commit `88fa612` (2026-08-12)
 - **Last Verified**: 2026-08-12
-- **Notes**: 1,522 LOC (3x over 500-line component limit — needs splitting). Dynamically imported. Content hardcoded in `LESSONS` array. Uses `dangerouslySetInnerHTML` for lesson explanation (safe — static content only). Not accessible from mobile nav
+- **Notes**: 302 LOC (split into 5 modules in Phase 9: interactive-docs-view.tsx + 4 sub-modules). Dynamically imported. Content hardcoded in `LESSONS` array. Uses `dangerouslySetInnerHTML` for lesson explanation (safe — static content only). Accessible from mobile nav via Docs menu.
 
 ---
 
@@ -377,7 +384,7 @@ The following are referenced in documentation, blog content, and navigation as "
 
 | Route | View Component | Feature ID(s) | Status |
 |--------|---------------|---------------|--------|
-| `/` | HeroSection + 11 home sections | F007, F014, F015 | ✅ Working |
+| `/` | HeroSection + 12 home sections + Nav + ScrollProgress | F007, F014, F015 | ✅ Working |
 | `/principles` | FerrumPrinciples | — | ✅ Working |
 | `/architecture` | ArchitectureDeepDive | F012 | ✅ Working |
 | `/platform-architecture` | PlatformArchitecture | — | ✅ Working |
@@ -412,7 +419,7 @@ The following are referenced in documentation, blog content, and navigation as "
 | `collection.test.ts` | Collection functionality | F010 | ✅ Passing |
 | `footer.test.tsx` | Footer component | F015 | ✅ Passing |
 | `utils.test.ts` | Utility functions | — | ✅ Passing |
-| `routing.test.ts` | pathnameToView mapping | — | ⚠️ Stale (missing 4 views) |
+| `routing.test.ts` | pathnameToView mapping | — | ✅ Fixed (uses `VALID_VIEWS.length - 1` dynamically) |
 
 **Total**: 95/95 tests passing. Coverage gaps exist for component rendering, navigation, playground, and theme toggle.
 
@@ -423,10 +430,10 @@ The following are referenced in documentation, blog content, and navigation as "
 | Area | Status | Notes |
 |------|--------|-------|
 | Dependency vulnerabilities | ✅ Clean | 0 CVEs in `npm audit` |
-| CSP | 🔴 Critical | `script-src 'unsafe-inline'` negates XSS protection |
+| CSP | ✅ Fixed | `script-src 'unsafe-inline'` restricted to **dev only**; production uses `script-src 'self'` |
 | Auth (cloud) | 🟠 High | Static shared token, no JWT, no per-user identity |
 | Rate limiting | 🟠 High | In-memory only; ineffective in serverless; IP spoofing possible |
-| Input validation | 🟡 Medium | Missing validation on team update and token value length |
+| Input validation | ✅ Fixed | Team name (2-50 chars), token value (≤1024), name/namespace (≤100) validated |
 | Headers | ✅ Good | HSTS, X-Frame-Options, X-Content-Type-Options all correct |
 | Third-party scripts | ✅ None | Zero external scripts, analytics, or tracking |
 | Source maps | ✅ Disabled | `productionBrowserSourceMaps: false` |
