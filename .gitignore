@@ -52,9 +52,13 @@ prompt
 server.log
 # Skills directory
 /skills/
+/upload/
 
 # Repo bloat — artifacts, tool caches, database binaries
 /tool-results/
 /download/
 /db/*.db
 *.bak
+
+# Build cache (regenerated on next build)
+/.next/cache/
