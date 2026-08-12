@@ -1,50 +1,31 @@
 import { timingSafeEqual } from "crypto";
 import { type NextRequest, NextResponse } from "next/server";
+import { signToken, isDemoMode, COOKIE_NAME, TOKEN_EXPIRY } from "@/lib/auth";
 
 /**
- * POST /api/cloud/auth
+ * POST /api/cloud/auth — Login
  *
- * ⚠️  DEMO-ONLY AUTHENTICATION — NOT PRODUCTION-READY
- * ───────────────────────────────────────────────────────
- * This endpoint authenticates users and returns a static shared token.
- * It is designed for development/demo purposes and has critical limitations:
+ * Accepts a password in the request body. If CLOUD_ADMIN_PASSWORD is set,
+ * the password must match (timing-safe comparison). If not set (demo mode),
+ * any non-empty password is accepted.
  *
- * 1. Static shared token: Every authenticated user receives the same token.
- *    There is no per-user identity, no token revocation, and no way to
- *    distinguish between users after authentication.
+ * On success: returns a JWT in the response body AND sets an httpOnly cookie
+ * so the middleware can protect /cloud/* page routes.
  *
- * 2. No token expiration: The `expires_in: 86400` field is informational only.
- *    The token itself never expires. The middleware in src/middleware.ts does
- *    not check token age.
+ * DELETE /api/cloud/auth — Logout
  *
- * 3. Shared secret auth: A single ADMIN_PASSWORD protects all access.
- *    This is suitable for a single-admin demo, not for multi-user systems.
- *
- * TODO (PRODUCTION): Replace with proper JWT authentication:
- *   - Issue short-lived JWTs signed with an asymmetric key pair (RS256)
- *   - Include user identity, roles, and `exp` claim in the JWT payload
- *   - Validate JWTs in middleware using `jose` or `jsonwebtoken`
- *   - Implement token refresh / rotation
- *   - Store password hashes in a database (bcrypt/argon2), never plaintext
- *   - Add audit logging for authentication events
+ * Clears the httpOnly session cookie.
  */
 export async function POST(req: NextRequest) {
-  // NOTE: Returns static API token as bearer. Token never actually expires —
-  // expires_in is informational only. Production should use JWT with exp claim.
-  // Check config before parsing body — separate config errors from JSON errors
   const ADMIN_PASSWORD = (() => {
     const pw = process.env.CLOUD_ADMIN_PASSWORD;
     if (!pw) return null;
     return pw;
   })();
-  if (!ADMIN_PASSWORD) {
-    return NextResponse.json(
-      { error: "Authentication service is not properly configured" },
-      { status: 500 }
-    );
-  }
-  const API_TOKEN = process.env.CLOUD_API_TOKEN;
-  if (!API_TOKEN) {
+  const demo = isDemoMode();
+
+  // In non-demo mode, both env vars are required
+  if (!demo && !ADMIN_PASSWORD) {
     return NextResponse.json(
       { error: "Authentication service is not properly configured" },
       { status: 500 }
@@ -70,24 +51,58 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Timing-safe password comparison
-  if (
-    password.length !== ADMIN_PASSWORD.length ||
-    !timingSafeEqual(Buffer.from(password), Buffer.from(ADMIN_PASSWORD))
-  ) {
-    return NextResponse.json(
-      { error: "Invalid password" },
-      { status: 401 }
-    );
+  // In non-demo mode, perform timing-safe password comparison
+  if (!demo) {
+    if (
+      password.length !== ADMIN_PASSWORD!.length ||
+      !timingSafeEqual(Buffer.from(password), Buffer.from(ADMIN_PASSWORD!))
+    ) {
+      return NextResponse.json(
+        { error: "Invalid password" },
+        { status: 401 }
+      );
+    }
   }
 
-  return NextResponse.json({
-    // TODO(PRODUCTION): Replace static token with signed JWT containing
-    // user identity, roles, and expiration. See header comment for details.
-    token: API_TOKEN,
+  // Issue JWT
+  const token = await signToken();
+
+  // Build response with httpOnly cookie
+  const response = NextResponse.json({
+    token,
     message: "Authenticated successfully",
-    // TODO(PRODUCTION): This value is informational only. The middleware does
-    // not enforce expiration. JWT should encode a real `exp` claim instead.
-    expires_in: 86400,
+    expires_in: TOKEN_EXPIRY,
+    demo: demo,
   });
+
+  response.cookies.set(COOKIE_NAME, token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: TOKEN_EXPIRY,
+  });
+
+  return response;
+}
+
+/**
+ * DELETE /api/cloud/auth — Logout
+ *
+ * Clears the httpOnly session cookie.
+ */
+export async function DELETE() {
+  const response = NextResponse.json({
+    message: "Logged out successfully",
+  });
+
+  response.cookies.set(COOKIE_NAME, "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 0,
+  });
+
+  return response;
 }

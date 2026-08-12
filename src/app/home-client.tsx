@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
-import { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, Component, type ErrorInfo, type ReactNode } from "react";
+import { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useState, Component, type ErrorInfo, type ReactNode } from "react";
 import { AppProvider, useAppState } from "@/components/ferrum/app-context";
 import { SITE_URL } from "@/lib/constants";
 // eslint-disable-next-line import/order
@@ -95,6 +95,10 @@ const InteractiveDocsView = dynamic(
 const Nav = dynamic(
   () => import("@/components/ferrum/nav").then((m) => ({ default: m.Nav })),
   { ssr: false, loading: () => <NavSkeleton /> }
+);
+const GlobalSearch = dynamic(
+  () => import("@/components/ferrum/global-search").then((m) => ({ default: m.GlobalSearch })),
+  { ssr: false }
 );
 const ScrollProgress = dynamic(
   () => import("@/components/ferrum/scroll-progress").then((m) => ({ default: m.ScrollProgress })),
@@ -235,10 +239,24 @@ function ViewRouter() {
   const currentView = useMemo(() => pathnameToView(pathname), [pathname]);
   const isNotFound = currentView === null;
   const app = useAppState();
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const navigate = useCallback((view: ViewId) => {
     router.push(view === "home" ? "/" : `/${view}`);
+    setSearchOpen(false);
   }, [router]);
+
+  // Cmd+K / Ctrl+K global search trigger
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   // Scroll to top on route change — useLayoutEffect fires before browser paint
   // to prevent visible scroll-position flash between views
@@ -303,7 +321,8 @@ function ViewRouter() {
   if (currentView === "docs") {
     return (
       <ViewErrorBoundary>
-        <Nav currentView={currentView} onNavigate={navigate} />
+        <Nav currentView={currentView} onNavigate={navigate} onSearchOpen={() => setSearchOpen(true)} />
+        <GlobalSearch onNavigate={navigate} open={searchOpen} onClose={() => setSearchOpen(false)} />
         <main id="main-content" tabIndex={-1}>
         <Suspense fallback={<ViewSkeleton />}>
           <DocsView onBack={() => navigate("home")} />
@@ -316,7 +335,8 @@ function ViewRouter() {
   if (currentView === "interactive-docs") {
     return (
       <ViewErrorBoundary>
-        <Nav currentView={currentView} onNavigate={navigate} />
+        <Nav currentView={currentView} onNavigate={navigate} onSearchOpen={() => setSearchOpen(true)} />
+        <GlobalSearch onNavigate={navigate} open={searchOpen} onClose={() => setSearchOpen(false)} />
         <main id="main-content" tabIndex={-1}>
         <Suspense fallback={<ViewSkeleton />}>
           <InteractiveDocsView />
@@ -379,7 +399,8 @@ function ViewRouter() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <ViewErrorBoundary>
-        <Nav currentView={currentView} onNavigate={navigate} />
+        <Nav currentView={currentView} onNavigate={navigate} onSearchOpen={() => setSearchOpen(true)} />
+        <GlobalSearch onNavigate={navigate} open={searchOpen} onClose={() => setSearchOpen(false)} />
       </ViewErrorBoundary>
       <main id="main-content" tabIndex={-1}>
       <ViewErrorBoundary>

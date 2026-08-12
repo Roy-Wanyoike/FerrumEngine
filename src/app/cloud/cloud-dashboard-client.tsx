@@ -43,7 +43,7 @@ export default function CloudDashboard() {
   const clearMutationError = useCallback(() => setMutationError(""), []);
 
   // ─── Auth ──────────────────────────────────────────────────────
-  const { authToken, authLoading, authError, loginPassword, setLoginPassword, handleLogin, handleLogout, authFetch } =
+  const { authToken, authLoading, authError, demoMode, loginPassword, setLoginPassword, handleLogin, handleLogout, authFetch } =
     useCloudAuth();
 
   // ─── Data ──────────────────────────────────────────────────────
@@ -132,7 +132,16 @@ export default function CloudDashboard() {
               <Shield className="w-6 h-6 text-foreground" />
             </div>
             <h1 className="text-2xl font-semibold text-foreground">Ferrum Cloud</h1>
-            <p className="mt-2 text-sm text-muted-foreground">Enter your password to access the dashboard</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {!demoMode
+                ? "Enter your password to access the dashboard"
+                : "Enter any password to explore the dashboard"}
+            </p>
+            {!demoMode ? null : (
+              <Badge variant="outline" className="mt-3 text-amber-600 border-amber-600/40 bg-amber-600/10">
+                Demo Mode
+              </Badge>
+            )}
           </div>
           <div className="space-y-3">
             <Input type="password" placeholder="Password" aria-label="Dashboard password" value={loginPassword}
@@ -179,6 +188,11 @@ export default function CloudDashboard() {
             </div>
             <h1 className="text-sm font-semibold text-foreground">Ferrum Cloud</h1>
             <Badge variant="outline" className="text-[10px] px-1.5 py-0 font-medium">MVP</Badge>
+            {demoMode && (
+              <Badge variant="outline" className="text-[10px] px-1.5 py-0 font-medium text-amber-600 border-amber-600/40 bg-amber-600/10">
+                Demo Mode
+              </Badge>
+            )}
           </div>
           <div className="ml-auto flex items-center gap-2">
             <button onClick={onLogout} className="text-xs text-muted-foreground hover:text-foreground transition-colors">Sign out</button>

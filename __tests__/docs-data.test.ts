@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import { docSections } from "@/lib/docs-data";
-import type { DocSection, DocBlock } from "@/lib/docs-data";
 
 /* ════════════════════════════════════════════════════════════════
    Tests for docs-data.ts — documentation content structure

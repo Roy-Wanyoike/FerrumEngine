@@ -117,7 +117,7 @@ describe("nav-data — Mega menu consistency", () => {
   });
 
   it("all menu groups should have unique headings within the same menu", () => {
-    const checkUniqueHeadings = (menu: typeof allMenus, menuName: string) => {
+    const checkUniqueHeadings = (menu: typeof allMenus, _menuName: string) => {
       const headings = menu.map((g) => g.heading);
       const unique = new Set(headings);
       expect(unique.size).toBe(headings.length);

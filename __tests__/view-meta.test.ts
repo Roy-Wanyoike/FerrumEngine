@@ -56,7 +56,7 @@ describe("view-meta — VIEW_META completeness", () => {
 
 describe("view-meta — Required metadata fields", () => {
   it("each view should have a non-empty title", () => {
-    for (const [key, meta] of Object.entries(VIEW_META)) {
+    for (const [_key, meta] of Object.entries(VIEW_META)) {
       expect(meta.title).toBeTruthy();
       expect(typeof meta.title).toBe("string");
       expect(meta.title.length).toBeGreaterThan(3);
@@ -64,7 +64,7 @@ describe("view-meta — Required metadata fields", () => {
   });
 
   it("each view should have a non-empty description", () => {
-    for (const [key, meta] of Object.entries(VIEW_META)) {
+    for (const [_key, meta] of Object.entries(VIEW_META)) {
       expect(meta.description).toBeTruthy();
       expect(typeof meta.description).toBe("string");
       expect(meta.description.length).toBeGreaterThan(10);
@@ -72,7 +72,7 @@ describe("view-meta — Required metadata fields", () => {
   });
 
   it("all titles should contain 'FerrumEngine' or 'Ferrum'", () => {
-    for (const [key, meta] of Object.entries(VIEW_META)) {
+    for (const [_key, meta] of Object.entries(VIEW_META)) {
       expect(meta.title).toMatch(/Ferrum/i);
     }
   });

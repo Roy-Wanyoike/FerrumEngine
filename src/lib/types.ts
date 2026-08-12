@@ -35,6 +35,7 @@ export type ViewId =
 export interface NavProps {
   currentView: ViewId;
   onNavigate: (view: ViewId) => void;
+  onSearchOpen?: () => void;
 }
 
 export interface MegaMenuItem {

@@ -86,8 +86,9 @@ export function ColorCustomizer() {
   const { color, setColor, resetColor } = useCustomColor();
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const triggerBtnRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const wasOpenRef = useRef(false);
 
   // Focus trap on color picker dialog
   useFocusTrap(dialogRef, open, { onEscape: () => setOpen(false) });
@@ -102,6 +103,14 @@ export function ColorCustomizer() {
     };
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
+  }, [open]);
+
+  // Return focus to trigger button when popup closes
+  useEffect(() => {
+    if (wasOpenRef.current && !open) {
+      triggerBtnRef.current?.focus();
+    }
+    wasOpenRef.current = open;
   }, [open]);
 
   // Focus hex input when opened
@@ -129,9 +138,12 @@ export function ColorCustomizer() {
   return (
     <div ref={ref} className="relative">
       <button
+        ref={triggerBtnRef}
         onClick={(e) => { e.stopPropagation(); setOpen(!open); }}
         className="relative flex items-center justify-center w-[44px] h-[44px] rounded-lg text-muted-foreground/60 hover:text-foreground hover:bg-foreground/[0.04] transition-colors"
         title="Customize accent color"
+        aria-expanded={open}
+        aria-haspopup="true"
       >
         <Palette className="w-4 h-4" />
         {color && (

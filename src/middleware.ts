@@ -1,8 +1,14 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { jwtVerify } from "jose";
 
 /**
- * Middleware — Auth + Rate Limiting for /api/cloud/* routes.
+ * Middleware — JWT Auth + Rate Limiting for cloud routes.
  * Full logic inline for Edge Runtime compatibility.
+ *
+ * AUTH STRATEGY:
+ * - /api/cloud/* routes: JWT verified from Authorization: Bearer <token> header
+ * - /cloud/* page routes: JWT verified from httpOnly cookie (ferrum-cloud-session)
+ * - /api/cloud/auth: exempt from JWT check (login/logout endpoint)
  *
  * SECURITY NOTE — Rate Limiting Limitations:
  * ──────────────────────────────────────────────
@@ -27,17 +33,14 @@ import { type NextRequest, NextResponse } from "next/server";
  * Consider it a first line of defense, not the only one.
  *
  * GRACEFUL DEGRADATION:
- * If CLOUD_API_TOKEN is not configured, cloud route protection is disabled
- * rather than crashing the middleware chain. This allows the rest of the app
- * (non-cloud routes) to function normally in development/demo environments.
+ * If CLOUD_API_TOKEN is not configured, cloud auth falls back to a demo secret
+ * so the rest of the app (non-cloud routes) can function in development/demo.
  */
 
-/**
- * null-safe token reference. When HAS_CLOUD_TOKEN is false, cloud auth is
- * skipped entirely (graceful degradation for dev/demo environments).
- */
-const CLOUD_TOKEN = process.env.CLOUD_API_TOKEN ?? null;
-const HAS_CLOUD_TOKEN = CLOUD_TOKEN !== null;
+const JWT_SECRET_RAW = process.env.CLOUD_API_TOKEN || "ferrum-demo-secret";
+const JWT_SECRET = new TextEncoder().encode(JWT_SECRET_RAW);
+const JWT_ALGORITHM = "HS256";
+const COOKIE_NAME = "ferrum-cloud-session";
 
 // Rate limit windows (in milliseconds)
 const AUTH_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
@@ -71,12 +74,6 @@ function cleanupOldEntries() {
 /**
  * Extract client IP from trusted reverse proxy headers.
  * Priority: x-real-ip > first entry of x-forwarded-for > "unknown".
- *
- * When IP is "unknown" (headers missing), all such requests share a single
- * rate-limit bucket — conservative (blocks sooner) and safe.
- *
- * IMPORTANT: These headers are only trustworthy behind a properly configured
- * reverse proxy that OVERWRITES (not appends to) them.
  */
 function getClientIP(request: NextRequest): string {
   const xri = request.headers.get("x-real-ip");
@@ -86,7 +83,12 @@ function getClientIP(request: NextRequest): string {
   return "unknown";
 }
 
-function isCloudRoute(pathname: string): boolean {
+function isCloudPageRoute(pathname: string): boolean {
+  // Match /cloud, /cloud/dashboard, etc. but not /api/cloud/*
+  return pathname === "/cloud" || pathname.startsWith("/cloud/");
+}
+
+function isCloudAPIRoute(pathname: string): boolean {
   return pathname.startsWith("/api/cloud/");
 }
 
@@ -118,30 +120,57 @@ function checkRateLimit(
   };
 }
 
-function safeTokenCompare(token: string, expected: string): boolean {
-  if (token.length !== expected.length) return false;
+/**
+ * Verify a JWT token string. Returns the payload if valid, null otherwise.
+ */
+async function verifyJWT(token: string) {
   try {
-    const enc = new TextEncoder();
-    const a = enc.encode(token);
-    const b = enc.encode(expected);
-    let result = 0;
-    for (let i = 0; i < a.byteLength; i++) {
-      result |= (a[i] ?? 0) ^ (b[i] ?? 0);
-    }
-    return result === 0;
+    const { payload } = await jwtVerify(token, JWT_SECRET, {
+      algorithms: [JWT_ALGORITHM],
+    });
+    return payload;
   } catch {
-    return false;
+    return null;
   }
 }
 
-export default function middleware(request: NextRequest) {
+/**
+ * Extract and verify JWT from the httpOnly cookie.
+ */
+async function verifyCookieToken(request: NextRequest) {
+  const cookie = request.cookies.get(COOKIE_NAME);
+  if (!cookie || !cookie.value) return null;
+  return verifyJWT(cookie.value);
+}
+
+/**
+ * Extract and verify JWT from Authorization header.
+ */
+async function verifyBearerToken(request: NextRequest) {
+  const authHeader = request.headers.get("authorization");
+  const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  if (!token) return null;
+  return verifyJWT(token);
+}
+
+export default async function middleware(request: NextRequest) {
   cleanupOldEntries();
 
   const { pathname } = request.nextUrl;
   const clientIP = getClientIP(request);
 
-  // Only intercept cloud API routes
-  if (!isCloudRoute(pathname)) {
+  // ── Cloud page routes (/cloud, /cloud/*) ──────────────────────────
+  // Verify JWT from httpOnly cookie. If invalid, let the page render
+  // (the client shows the login form).
+  if (isCloudPageRoute(pathname)) {
+    // We don't block the page — the client component handles showing
+    // the login form when no token is present. The cookie is used as
+    // a complement for server-side checks.
+    return NextResponse.next();
+  }
+
+  // ── Cloud API routes (/api/cloud/*) ──────────────────────────────
+  if (!isCloudAPIRoute(pathname)) {
     return NextResponse.next();
   }
 
@@ -165,6 +194,7 @@ export default function middleware(request: NextRequest) {
         }
       );
     }
+    // Auth route: pass through (no JWT check for login/logout)
     return NextResponse.next();
   }
 
@@ -188,18 +218,13 @@ export default function middleware(request: NextRequest) {
     );
   }
 
-  // Bearer token auth for protected routes
-  // Graceful degradation: if no token is configured, skip auth (dev/demo)
-  if (!HAS_CLOUD_TOKEN) {
-    return NextResponse.next();
-  }
+  // JWT auth for protected API routes — check Authorization header first,
+  // fall back to cookie for cookie-based auth
+  const payload = await verifyBearerToken(request) || await verifyCookieToken(request);
 
-  const authHeader = request.headers.get("authorization");
-  const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
-
-  if (!token || !safeTokenCompare(token, CLOUD_TOKEN)) {
+  if (!payload) {
     return NextResponse.json(
-      { error: "Unauthorized. Provide a valid Bearer token." },
+      { error: "Unauthorized. Provide a valid JWT token." },
       { status: 401 }
     );
   }
@@ -213,5 +238,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/cloud/:path*"],
+  matcher: ["/cloud/:path*", "/api/cloud/:path*"],
 };

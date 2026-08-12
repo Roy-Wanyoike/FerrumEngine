@@ -8,6 +8,7 @@ import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { type FerrumEffectIndex } from "@/lib/ferrum-effects-index";
+import { getEffectCSS, preloadCategory } from "@/lib/effects/lazy-loader";
 import { type SidebarActivity, type ViewMode, type ExportFormat, type MotionConfig, type PhysicsConfig, type ThemeConfig,
   DEFAULT_MOTION, DEFAULT_PHYSICS, DEFAULT_THEME,
   type TEMPLATES,
@@ -118,21 +119,27 @@ export function PlaygroundV2({ onBack }: { onBack: () => void }) {
     });
   }, []);
 
-  // Load effect CSS dynamically when effect is selected
+  // Load effect CSS dynamically from category chunk when effect is selected
   const [effectCSS, setEffectCSS] = useState("");
   useEffect(() => {
     if (!selectedEffect) {
       setEffectCSS("");
       return;
     }
-    import("@/lib/ferrum-effects-data").then((mod) => {
-      const effect = mod.effects.find(
-        (e: { className: string; css: string }) => e.className === selectedEffect
-      );
-      if (effect) setEffectCSS(effect.css);
-      else setEffectCSS("");
+    // Find the category from the effects list (index data, no CSS)
+    const idx = effectsList.find((e) => e.className === selectedEffect);
+    const cat = idx?.category || "";
+    getEffectCSS(cat, selectedEffect).then((css) => {
+      setEffectCSS(css || "");
     }).catch(() => setEffectCSS(""));
-  }, [selectedEffect]);
+  }, [selectedEffect, effectsList]);
+
+  // Preload category CSS when user filters sidebar by category
+  useEffect(() => {
+    if (effectCategory && effectCategory !== "all") {
+      preloadCategory(effectCategory);
+    }
+  }, [effectCategory]);
 
   // Derived: preview HTML
   const previewHTML = useMemo(() => {

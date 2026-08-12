@@ -17,6 +17,7 @@ import { EffectPreview } from "@/components/ferrum/effect-preview";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { categories, effects as effectsIndex, categoryCounts, type FerrumEffectIndex } from "@/lib/ferrum-effects-index";
+import { preloadCategory } from "@/lib/effects/lazy-loader";
 
 
 /* ════════════════════════════════════════════════════════════════
@@ -198,6 +199,14 @@ export const EffectsView = memo(function EffectsView({
     }
     return f;
   }, [search, activeCategory]);
+  // Preload category CSS data when user filters by category
+  // so detail modal shows CSS instantly
+  useEffect(() => {
+    if (activeCategory && activeCategory !== "all") {
+      preloadCategory(activeCategory);
+    }
+  }, [activeCategory]);
+
   useEffect(() => {
     if (catScrollRef.current) {
       const b = catScrollRef.current.querySelector('[data-active="true"]');

@@ -134,15 +134,8 @@ function TabContent({ value, active, children }: { value: string; active: string
 /* ════════════════════════════════════════════════════════════════
    EFFECT DETAIL MODAL
    ════════════════════════════════════════════════════════════════ */
-/* ─── Module-level cache for ferrum-effects-data dynamic import ─── */
-interface EffectsDataModule { effects: Array<{ className: string; css?: string }> }
-let effectsDataPromise: Promise<EffectsDataModule> | null = null;
-function getEffectsData() {
-  if (!effectsDataPromise) {
-    effectsDataPromise = import("@/lib/ferrum-effects-data");
-  }
-  return effectsDataPromise;
-}
+/* ─── Category-based lazy loading (replaces full-data dynamic import) ─── */
+import { getEffectCSS } from "@/lib/effects/lazy-loader";
 
 function EffectDetailModal({ effect, open, onClose, onAddCollection, isInCollection }: {
   effect: FerrumEffectIndex | null; open: boolean; onClose: () => void; onAddCollection: (cn: string) => void; isInCollection: boolean;
@@ -157,10 +150,11 @@ function EffectDetailModal({ effect, open, onClose, onAddCollection, isInCollect
     let cancelled = false;
     const className = effect?.className;
     if (!className) return;
-    getEffectsData().then((mod) => {
+    getEffectCSS(effect.category, className).then((css) => {
       if (cancelled) return;
-      const found = mod.effects.find((e: { className: string }) => e.className === className);
-      setCss(found?.css || "/* CSS not found */");
+      setCss(css || "/* CSS not found */");
+    }).catch(() => {
+      if (!cancelled) setCss("/* Error loading CSS */");
     });
     return () => { cancelled = true; };
   }, [open, effect]);

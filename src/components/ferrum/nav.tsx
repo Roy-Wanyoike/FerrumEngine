@@ -1,6 +1,7 @@
 "use client";
 
 import { Menu, X, ArrowRight, Github } from "lucide-react";
+import { SearchButton } from "@/components/ferrum/global-search";
 import { useState, useEffect, useRef, useCallback, memo } from "react";
 import { Magnetic } from "@/components/ferrum/animated-components";
 import { ColorCustomizer } from "@/components/ferrum/color-customizer";
@@ -14,7 +15,7 @@ import type { ViewId, NavProps } from "@/lib/types";
    MAIN NAVIGATION
    ═══════════════════════════════════════════════════════════════ */
 
-export function Nav({ currentView, onNavigate }: NavProps) {
+export function Nav({ currentView, onNavigate, onSearchOpen }: NavProps) {
   const [solid, setSolid] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -44,10 +45,25 @@ export function Nav({ currentView, onNavigate }: NavProps) {
     return () => document.removeEventListener("click", handleClick);
   }, [activeMenu]);
 
-  // Escape key for desktop mega menu
+  // Keyboard navigation for desktop mega menu (Escape + ArrowRight/ArrowLeft panel switching)
   useEffect(() => {
     if (!activeMenu) return;
-    const handleKeyDown = (e: KeyboardEvent) => { if (e.key === "Escape") setActiveMenu(null); };
+    const MEGA_MENU_IDS = ['platform', 'docs', 'more'] as const;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setActiveMenu(null);
+        return;
+      }
+      const idx = MEGA_MENU_IDS.indexOf(activeMenu as typeof MEGA_MENU_IDS[number]);
+      if (idx === -1) return;
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        setActiveMenu(MEGA_MENU_IDS[(idx + 1) % MEGA_MENU_IDS.length]!);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        setActiveMenu(MEGA_MENU_IDS[(idx - 1 + MEGA_MENU_IDS.length) % MEGA_MENU_IDS.length]!);
+      }
+    };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [activeMenu]);
@@ -74,6 +90,12 @@ export function Nav({ currentView, onNavigate }: NavProps) {
         className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-foreground focus:text-background focus:text-sm focus:font-medium focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-background">
         Skip to content
       </a>
+      {/* Screen reader announcement for mega menu panel changes */}
+      <div className="sr-only" aria-live="polite" aria-atomic="true">
+        {activeMenu
+          ? `${activeMenu === 'platform' ? 'Platform' : activeMenu === 'docs' ? 'Docs' : activeMenu === 'more' ? 'More' : activeMenu} menu opened`
+          : ''}
+      </div>
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -100,6 +122,7 @@ export function Nav({ currentView, onNavigate }: NavProps) {
           {/* Right side */}
           <div className="flex items-center gap-3">
 
+            {onSearchOpen && <SearchButton onClick={onSearchOpen} />}
             <a href={GITHUB_REPO} target="_blank" rel="noopener noreferrer" className="hidden sm:flex items-center text-muted-foreground/50 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg p-2.5 min-w-[44px] min-h-[44px]" aria-label="FerrumEngine on GitHub">
               <Github className="w-4.5 h-4.5" />
             </a>
