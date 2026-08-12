@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback, memo, type ReactNode, type MouseEvent } from "react";
+import { useRef, useCallback, memo, type ReactNode, type MouseEvent } from "react";
 
 /* ═══════════════════════════════════════════════════════════════
    ANIMATED COMPONENTS — Premium micro-interactions
@@ -16,122 +16,6 @@ const REDUCED_MOTION =
 function shouldReduceMotion(): boolean {
   return REDUCED_MOTION?.matches ?? false;
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   ANIMATED CARD — 3D tilt + spotlight + glow border
-   ═══════════════════════════════════════════════════════════════ */
-
-interface AnimatedCardProps {
-  children: ReactNode;
-  className?: string;
-  spotlightColor?: string;
-  glowColor?: string;
-  borderGlow?: boolean;
-  tilt?: boolean;
-  spotlight?: boolean;
-}
-
-export const AnimatedCard = memo(function AnimatedCard({
-  children,
-  className = "",
-  spotlightColor = "rgba(168, 85, 247, 0.06)",
-  glowColor = "rgba(168, 85, 247, 0.15)",
-  borderGlow = true,
-  tilt = true,
-  spotlight = true,
-}: AnimatedCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
-  const [spotlightPos, setSpotlightPos] = useState({ x: 50, y: 50 });
-  const [isHovered, setIsHovered] = useState(false);
-  const rafRef = useRef<number>(0);
-
-  const handleMouseMove = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      if (shouldReduceMotion()) return;
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(() => {
-        if (!cardRef.current) return;
-        const rect = cardRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        if (tilt) {
-          const maxTilt = 6;
-          setRotateX(((y - centerY) / centerY) * -maxTilt);
-          setRotateY(((x - centerX) / centerX) * maxTilt);
-        }
-        if (spotlight) {
-          setSpotlightPos({ x: (x / rect.width) * 100, y: (y / rect.height) * 100 });
-        }
-      });
-    },
-    [tilt, spotlight]
-  );
-
-  const handleMouseLeave = useCallback(() => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    setRotateX(0);
-    setRotateY(0);
-    setSpotlightPos({ x: 50, y: 50 });
-    setIsHovered(false);
-  }, []);
-
-  if (shouldReduceMotion()) {
-    return (
-      <div className={`relative overflow-hidden rounded-2xl ${className}`}>
-        {children}
-      </div>
-    );
-  }
-
-  return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        perspective: 1000,
-        transformStyle: "preserve-3d",
-        transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
-        transition: "transform 200ms cubic-bezier(0.33, 1, 0.68, 1)",
-        willChange: isHovered ? "transform" : "auto",
-      }}
-      className={`relative overflow-hidden rounded-2xl ${className}`}
-    >
-      {spotlight && (
-        <div
-          className="pointer-events-none absolute inset-0 z-10"
-          style={{
-            opacity: isHovered ? 1 : 0,
-            background: `radial-gradient(600px circle at ${spotlightPos.x}% ${spotlightPos.y}%, ${spotlightColor}, transparent 40%)`,
-            transition: "opacity 400ms ease",
-          }}
-          aria-hidden="true"
-        />
-      )}
-      {borderGlow && (
-        <div
-          className="pointer-events-none absolute inset-0 rounded-2xl"
-          style={{
-            opacity: isHovered ? 1 : 0,
-            background: `radial-gradient(400px circle at ${spotlightPos.x}% ${spotlightPos.y}%, ${glowColor}, transparent 40%)`,
-            mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-            maskComposite: "exclude",
-            WebkitMaskComposite: "xor",
-            padding: "1px",
-            transition: "opacity 400ms ease",
-          }}
-          aria-hidden="true"
-        />
-      )}
-      <div className="relative z-20 h-full">{children}</div>
-    </div>
-  );
-});
 
 /* ═══════════════════════════════════════════════════════════════
    MAGNETIC ELEMENT — Touch-safe, rAF throttled

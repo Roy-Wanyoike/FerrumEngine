@@ -1,0 +1,215 @@
+{
+  "generatedAt": "2025-01-01T00:00:00.000Z",
+  "totalRoutes": 19,
+  "routes": [
+    {
+      "id": "R001",
+      "path": "/",
+      "type": "page",
+      "rendering": "hybrid",
+      "component": "src/app/page.tsx",
+      "clientComponent": "src/app/home-client.tsx",
+      "spaViews": ["/principles", "/architecture", "/platform-architecture", "/effects", "/playground", "/docs", "/hall-of-fame", "/showcase", "/learning", "/community", "/story", "/enterprise", "/enterprise-components", "/vision"],
+      "status": "active",
+      "hasStaticGeneration": true
+    },
+    {
+      "id": "R002",
+      "path": "/cloud",
+      "type": "page",
+      "rendering": "hybrid",
+      "component": "src/app/cloud/page.tsx",
+      "clientComponent": "src/app/cloud/cloud-dashboard-client.tsx",
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R003",
+      "path": "/terms",
+      "type": "page",
+      "rendering": "server",
+      "component": "src/app/terms/page.tsx",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": true
+    },
+    {
+      "id": "R004",
+      "path": "/privacy",
+      "type": "page",
+      "rendering": "server",
+      "component": "src/app/privacy/page.tsx",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": true
+    },
+    {
+      "id": "R005",
+      "path": "/api",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R006",
+      "path": "/api/health",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/health/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R007",
+      "path": "/api/css",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/css/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R008",
+      "path": "/api/tokens",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/tokens/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R009",
+      "path": "/api/analytics",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/analytics/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R010",
+      "path": "/api/cloud/auth",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/cloud/auth/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R011",
+      "path": "/api/cloud/teams",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/cloud/teams/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R012",
+      "path": "/api/cloud/teams/[teamId]",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/cloud/teams/[teamId]/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R013",
+      "path": "/api/cloud/teams/[teamId]/projects",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/cloud/teams/[teamId]/projects/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R014",
+      "path": "/api/cloud/projects/[projectId]/components",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/cloud/projects/[projectId]/components/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R015",
+      "path": "/api/cloud/projects/[projectId]/tokens",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/cloud/projects/[projectId]/tokens/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R016",
+      "path": "/api/cloud/tokens/[tokenId]",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/cloud/tokens/[tokenId]/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R017",
+      "path": "/api/cloud/audit",
+      "type": "api",
+      "rendering": "server",
+      "component": "src/app/api/cloud/audit/route.ts",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R018",
+      "path": "not-found",
+      "type": "special",
+      "rendering": "client",
+      "component": "src/app/not-found.tsx",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    },
+    {
+      "id": "R019",
+      "path": "global-error",
+      "type": "special",
+      "rendering": "client",
+      "component": "src/app/global-error.tsx",
+      "clientComponent": null,
+      "spaViews": [],
+      "status": "active",
+      "hasStaticGeneration": false
+    }
+  ]
+}

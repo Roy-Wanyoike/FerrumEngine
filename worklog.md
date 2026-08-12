@@ -48,3 +48,24 @@ Stage Summary:
 - Bundle optimization: ✅ -19KB first-load JS, -73KB cloud page
 - Browser verification: ✅ Homepage and cloud page load without errors
 - Server: ✅ Running on port 3000 with auto-restart wrapper
+
+---
+Task ID: ARCHITECT-REBUILD-PHASE0-4
+Agent: Main Agent + Subagents
+Task: Phase 0-4 — Baseline capture, repository audit, product registry, architecture design
+
+Work Log:
+- Phase 0: Created baseline branch, captured build state, bundle sizes (495KB JS, 165KB CSS), route inventory (5 pages + 13 SPA rewrites + 12 APIs), dependency state (24 total), component inventory (94 files, 21,269 LOC), test state (78/95 passing), and all configuration
+- Phase 1: Deep audit found: 0 circular deps, 7 runtime deps actively used, 25+ dynamic chunks, proper memo/useCallback discipline. Issues: dead AnimatedCard component, unused Prisma schema, eagerly loaded 3,806-line effects data file, monolithic AppContext, 97% components untested, middleware deprecation
+- Phase 2: Created machine-readable registries: features.json (18 features), components.json (71 components), routes.json (19 routes), apis.json (17 APIs), packages.json (17 packages), documentation.json (29 entries), cross-reference.md
+- Phase 3-4: Created 8 ADRs and target architecture document
+- Phase A (Quick Wins): Removed dead AnimatedCard export (-114 LOC), removed unused Prisma schema. Verified Button/Card/Label/Illustrations are NOT dead (used by cloud modals, hall-of-fame, showcase). Updated ADR-006 accordingly.
+- All CI checks pass: TSC clean, 78/78 tests, budget within limits
+
+Stage Summary:
+- Baseline branch: baseline/pre-rebuild-20260812
+- Reports: baseline-report.md, phase1-audit-report.md, target-architecture.md
+- ADRs: 8 ADRs created (ADR-001 through ADR-008)
+- Registry: 7 JSON files in /registry/
+- Dead code removed: AnimatedCard (-114 LOC), Prisma schema
+- Risk level: Medium (no critical issues, well-engineered codebase)

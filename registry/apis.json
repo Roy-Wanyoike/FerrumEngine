@@ -1,0 +1,193 @@
+{
+  "generatedAt": "2025-01-01T00:00:00.000Z",
+  "totalApis": 17,
+  "apis": [
+    {
+      "id": "A001",
+      "path": "/api",
+      "method": "GET",
+      "component": "src/app/api/route.ts",
+      "auth": false,
+      "rateLimit": null,
+      "description": "API root endpoint returning FerrumEngine metadata, effect count, category list, and endpoint documentation",
+      "status": "active",
+      "calledBy": ["src/app/home-client.tsx (SPA — referenced via view-meta)"]
+    },
+    {
+      "id": "A002",
+      "path": "/api/health",
+      "method": "GET",
+      "component": "src/app/api/health/route.ts",
+      "auth": false,
+      "rateLimit": null,
+      "description": "Health check endpoint returning service status, uptime, memory usage, cloud store stats, and persistence layer info",
+      "status": "active",
+      "calledBy": ["Monitoring tools, load balancers (external)"]
+    },
+    {
+      "id": "A003",
+      "path": "/api/css",
+      "method": "GET",
+      "component": "src/app/api/css/route.ts",
+      "auth": false,
+      "rateLimit": null,
+      "description": "Serve CSS effects — single effect, by category, or full library. Supports minification and JSON format. CORS-enabled with long-term caching for immutable bundles",
+      "status": "active",
+      "calledBy": ["src/components/ferrum/sections/footer.tsx (CSS Download link)"]
+    },
+    {
+      "id": "A004",
+      "path": "/api/tokens",
+      "method": "GET",
+      "component": "src/app/api/tokens/route.ts",
+      "auth": false,
+      "rateLimit": null,
+      "description": "Returns design token metadata and sample values (colors, spacing, font sizes, shadows, etc.)",
+      "status": "active",
+      "calledBy": ["Not called by frontend code"]
+    },
+    {
+      "id": "A005",
+      "path": "/api/analytics",
+      "method": "POST",
+      "component": "src/app/api/analytics/route.ts",
+      "auth": false,
+      "rateLimit": "30 req/min per IP",
+      "description": "Accepts analytics payloads with name, value, rating, and id fields. Rate limited per IP",
+      "status": "active",
+      "calledBy": ["Not called by frontend code (planned integration)"]
+    },
+    {
+      "id": "A006",
+      "path": "/api/cloud/auth",
+      "method": "POST",
+      "component": "src/app/api/cloud/auth/route.ts",
+      "auth": false,
+      "rateLimit": "10 req/15min per IP (middleware)",
+      "description": "Authenticates with admin password and returns a bearer API token. Uses timing-safe comparison",
+      "status": "active",
+      "calledBy": ["src/hooks/use-cloud-auth.ts"]
+    },
+    {
+      "id": "A007",
+      "path": "/api/cloud/teams",
+      "method": "GET",
+      "component": "src/app/api/cloud/teams/route.ts",
+      "auth": true,
+      "rateLimit": "100 req/min per IP (middleware)",
+      "description": "List all teams with member and project counts",
+      "status": "active",
+      "calledBy": ["src/hooks/use-cloud-data.ts"]
+    },
+    {
+      "id": "A008",
+      "path": "/api/cloud/teams",
+      "method": "POST",
+      "component": "src/app/api/cloud/teams/route.ts",
+      "auth": true,
+      "rateLimit": "100 req/min per IP (middleware)",
+      "description": "Create a new team with name validation (2-50 chars)",
+      "status": "active",
+      "calledBy": ["src/app/cloud/cloud-modals.tsx"]
+    },
+    {
+      "id": "A009",
+      "path": "/api/cloud/teams/[teamId]",
+      "method": "GET",
+      "component": "src/app/api/cloud/teams/[teamId]/route.ts",
+      "auth": true,
+      "rateLimit": "100 req/min per IP (middleware)",
+      "description": "Get a single team by ID with member and project counts",
+      "status": "active",
+      "calledBy": ["src/hooks/use-cloud-data.ts"]
+    },
+    {
+      "id": "A010",
+      "path": "/api/cloud/teams/[teamId]",
+      "method": "PUT",
+      "component": "src/app/api/cloud/teams/[teamId]/route.ts",
+      "auth": true,
+      "rateLimit": "100 req/min per IP (middleware)",
+      "description": "Update team properties",
+      "status": "active",
+      "calledBy": ["src/hooks/use-cloud-data.ts"]
+    },
+    {
+      "id": "A011",
+      "path": "/api/cloud/teams/[teamId]",
+      "method": "DELETE",
+      "component": "src/app/api/cloud/teams/[teamId]/route.ts",
+      "auth": true,
+      "rateLimit": "100 req/min per IP (middleware)",
+      "description": "Delete a team by ID",
+      "status": "active",
+      "calledBy": ["src/hooks/use-cloud-data.ts"]
+    },
+    {
+      "id": "A012",
+      "path": "/api/cloud/teams/[teamId]/projects",
+      "method": "GET",
+      "component": "src/app/api/cloud/teams/[teamId]/projects/route.ts",
+      "auth": true,
+      "rateLimit": "100 req/min per IP (middleware)",
+      "description": "List all projects for a team with token and component counts",
+      "status": "active",
+      "calledBy": ["src/hooks/use-cloud-data.ts"]
+    },
+    {
+      "id": "A013",
+      "path": "/api/cloud/teams/[teamId]/projects",
+      "method": "POST",
+      "component": "src/app/api/cloud/teams/[teamId]/projects/route.ts",
+      "auth": true,
+      "rateLimit": "100 req/min per IP (middleware)",
+      "description": "Create a new project under a team with name and environment validation",
+      "status": "active",
+      "calledBy": ["src/app/cloud/cloud-modals.tsx"]
+    },
+    {
+      "id": "A014",
+      "path": "/api/cloud/projects/[projectId]/components",
+      "method": "GET",
+      "component": "src/app/api/cloud/projects/[projectId]/components/route.ts",
+      "auth": true,
+      "rateLimit": "100 req/min per IP (middleware)",
+      "description": "List all components for a project",
+      "status": "active",
+      "calledBy": ["src/hooks/use-cloud-data.ts"]
+    },
+    {
+      "id": "A015",
+      "path": "/api/cloud/projects/[projectId]/tokens",
+      "method": "GET",
+      "component": "src/app/api/cloud/projects/[projectId]/tokens/route.ts",
+      "auth": true,
+      "rateLimit": "100 req/min per IP (middleware)",
+      "description": "List all tokens for a project",
+      "status": "active",
+      "calledBy": ["src/hooks/use-cloud-data.ts"]
+    },
+    {
+      "id": "A016",
+      "path": "/api/cloud/tokens/[tokenId]",
+      "method": "GET",
+      "component": "src/app/api/cloud/tokens/[tokenId]/route.ts",
+      "auth": true,
+      "rateLimit": "100 req/min per IP (middleware)",
+      "description": "Get a single token by ID",
+      "status": "active",
+      "calledBy": ["src/hooks/use-cloud-data.ts"]
+    },
+    {
+      "id": "A017",
+      "path": "/api/cloud/audit",
+      "method": "GET",
+      "component": "src/app/api/cloud/audit/route.ts",
+      "auth": true,
+      "rateLimit": "100 req/min per IP (middleware)",
+      "description": "Get audit log entries for cloud operations",
+      "status": "active",
+      "calledBy": ["src/hooks/use-cloud-data.ts"]
+    }
+  ]
+}

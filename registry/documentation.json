@@ -1,0 +1,238 @@
+{
+  "generatedAt": "2025-01-01T00:00:00.000Z",
+  "totalEntries": 28,
+  "entries": [
+    {
+      "id": "D001",
+      "title": "SeoContent — Server-rendered content for crawlers",
+      "location": "src/components/ferrum/seo-content.tsx:3-16",
+      "type": "jsdoc",
+      "content": "This component renders BEFORE the client-side SPA hydrates. Crawlers see real content with the actual effect library, categories, and platform description. The container is sr-only. Ships zero JS. Adds ~2KB to initial HTML.",
+      "featureId": "F014"
+    },
+    {
+      "id": "D002",
+      "title": "JSON-LD Structured Data",
+      "location": "src/app/layout.tsx:116-118",
+      "type": "comment",
+      "content": "Helps Google understand the site is a software product with structured metadata, improving search appearance and rich results.",
+      "featureId": "F014"
+    },
+    {
+      "id": "D003",
+      "title": "ThemeToggle props",
+      "location": "src/components/theme-toggle.tsx:30-35",
+      "type": "jsdoc",
+      "content": "When 'dropdown', renders a 3-option dropdown menu (Light/Dark/System). When 'cycle' (default), renders a single cycle button.",
+      "featureId": "F001"
+    },
+    {
+      "id": "D004",
+      "title": "Nav — Main Navigation section comment",
+      "location": "src/components/ferrum/nav.tsx:13-15",
+      "type": "comment",
+      "content": "MAIN NAVIGATION",
+      "featureId": "F003"
+    },
+    {
+      "id": "D005",
+      "title": "Mobile Nav Overlay section comment",
+      "location": "src/components/ferrum/nav-mobile.tsx:16-18",
+      "type": "comment",
+      "content": "MOBILE NAV OVERLAY",
+      "featureId": "F005"
+    },
+    {
+      "id": "D006",
+      "title": "Mega Menu — Desktop trigger",
+      "location": "src/components/ferrum/nav-mega-menu.tsx:119-121",
+      "type": "comment",
+      "content": "DESKTOP MEGA MENU TRIGGER",
+      "featureId": "F004"
+    },
+    {
+      "id": "D007",
+      "title": "Nav Data — Icon optimization strategy",
+      "location": "src/components/ferrum/nav-data.ts:1-9",
+      "type": "comment",
+      "content": "Icons are referenced by string name (LucideIconName) instead of runtime imports. This decouples the data module from the lucide-react bundle, allowing better code-splitting.",
+      "featureId": "F004"
+    },
+    {
+      "id": "D008",
+      "title": "Scroll Progress — rAF throttled, reduced-motion aware",
+      "location": "src/components/ferrum/scroll-progress.tsx:6-9",
+      "type": "comment",
+      "content": "SCROLL PROGRESS — rAF throttled, reduced-motion aware",
+      "featureId": "F006"
+    },
+    {
+      "id": "D009",
+      "title": "Color Customizer — Pick a color, rewrite CSS live",
+      "location": "src/components/ferrum/color-customizer.tsx:6-9",
+      "type": "comment",
+      "content": "COLOR CUSTOMIZER — Pick a color, rewrite CSS live. Key feature: users customize the accent color for effects.",
+      "featureId": "F002"
+    },
+    {
+      "id": "D010",
+      "title": "AppContext Provider types and purpose",
+      "location": "src/components/ferrum/app-context.tsx:39-41",
+      "type": "comment",
+      "content": "Provider — owns all shared client state",
+      "featureId": "F017"
+    },
+    {
+      "id": "D011",
+      "title": "Animated Components — Premium micro-interactions",
+      "location": "src/components/ferrum/animated-components.tsx:6-9",
+      "type": "comment",
+      "content": "ANIMATED COMPONENTS — Premium micro-interactions. OPTIMIZED: reduced-motion, rAF throttled mouse, touch detection, focus-visible rings, will-change hints, cleanup on unmount",
+      "featureId": "F016"
+    },
+    {
+      "id": "D012",
+      "title": "Effects View — Lazy-loaded chunk",
+      "location": "src/components/ferrum/effects-view.tsx:3-8",
+      "type": "comment",
+      "content": "EFFECTS VIEW — Lazy-loaded chunk. All effects data, gallery, playground, collection, and modals. Extracted from page.tsx to reduce initial SSR bundle.",
+      "featureId": "F008"
+    },
+    {
+      "id": "D013",
+      "title": "CSS-Native Primitives replacing Radix UI (Modal)",
+      "location": "src/components/ferrum/effects-detail-modal.tsx:16-18",
+      "type": "comment",
+      "content": "CSS-NATIVE PRIMITIVES (replacing Radix UI) — Modal (replaces Radix Dialog)",
+      "featureId": "F009"
+    },
+    {
+      "id": "D014",
+      "title": "CSS-Native Primitives replacing Radix UI (Drawer)",
+      "location": "src/components/ferrum/collection-drawer.tsx:12-13",
+      "type": "comment",
+      "content": "CSS-NATIVE PRIMITIVES (replacing Radix UI) — Drawer (replaces Radix Sheet)",
+      "featureId": "F010"
+    },
+    {
+      "id": "D015",
+      "title": "Architecture Deep Dive — Constants section",
+      "location": "src/components/ferrum/architecture-deep-dive.tsx:17-19",
+      "type": "comment",
+      "content": "CONSTANTS",
+      "featureId": "F012"
+    },
+    {
+      "id": "D016",
+      "title": "Docs Sidebar section",
+      "location": "src/components/ferrum/docs-view.tsx:239-240",
+      "type": "comment",
+      "content": "SIDEBAR",
+      "featureId": "F013"
+    },
+    {
+      "id": "D017",
+      "title": "Main Docs View section",
+      "location": "src/components/ferrum/docs-view.tsx:369-371",
+      "type": "comment",
+      "content": "MAIN DOCS VIEW",
+      "featureId": "F013"
+    },
+    {
+      "id": "D018",
+      "title": "Section Header JSDoc",
+      "location": "src/components/ferrum/sections/section-helpers.tsx:38-46",
+      "type": "jsdoc",
+      "content": "Standardized section header with staggered entrance animations. Used by 9 section files. Wrapped in React.memo — pure display component with no hooks.",
+      "featureId": null
+    },
+    {
+      "id": "D019",
+      "title": "Section Helpers — Shared components",
+      "location": "src/components/ferrum/sections/section-helpers.tsx:15-19",
+      "type": "comment",
+      "content": "SECTION HELPERS — Shared components to eliminate DRY violations across section files. Extracted patterns used by 3+ section files.",
+      "featureId": null
+    },
+    {
+      "id": "D020",
+      "title": "Hero Section — Apple-inspired cinematic hero",
+      "location": "src/components/ferrum/sections/home/hero-section.tsx:11-14",
+      "type": "comment",
+      "content": "SECTION 1 — HERO: Apple-inspired cinematic hero with live demo",
+      "featureId": "F007"
+    },
+    {
+      "id": "D021",
+      "title": "Playground types — pure types + pure function",
+      "location": "src/components/ferrum/playground/types.ts:1-4",
+      "type": "comment",
+      "content": "Playground types and utilities. NOTE: No 'use client' needed — pure types + pure function.",
+      "featureId": "F011"
+    },
+    {
+      "id": "D022",
+      "title": "computeContrast JSDoc",
+      "location": "src/components/ferrum/playground/types.ts:14-15",
+      "type": "jsdoc",
+      "content": "Compute WCAG contrast ratio between two hex colors",
+      "featureId": "F011"
+    },
+    {
+      "id": "D023",
+      "title": "Footer — Client Component (hash link scrolling)",
+      "location": "src/components/ferrum/sections/footer.tsx:9-11",
+      "type": "comment",
+      "content": "FOOTER — Client Component (hash link scrolling)",
+      "featureId": "F015"
+    },
+    {
+      "id": "D024",
+      "title": "Middleware — Auth + Rate Limiting",
+      "location": "src/middleware.ts:3-6",
+      "type": "jsdoc",
+      "content": "Auth + Rate Limiting for /api/cloud/* routes. Full logic inline for Edge Runtime compatibility.",
+      "featureId": "F018"
+    },
+    {
+      "id": "D025",
+      "title": "Health API endpoint JSDoc",
+      "location": "src/app/api/health/route.ts:7-25",
+      "type": "jsdoc",
+      "content": "GET /api/health — Returns service health status for uptime monitoring. Used by load balancers, monitoring tools, and deployment checks. Status codes: 200 (all ok), 503 (degraded).",
+      "featureId": null
+    },
+    {
+      "id": "D026",
+      "title": "CSS API endpoint JSDoc",
+      "location": "src/app/api/css/route.ts:5-14",
+      "type": "jsdoc",
+      "content": "GET /api/css — Query params: ?effect=rc-fade-in (single), ?category=hover, ?all=true, ?minified=true, ?format=json",
+      "featureId": null
+    },
+    {
+      "id": "D027",
+      "title": "Cloud Auth API JSDoc",
+      "location": "src/app/api/cloud/auth/route.ts:4-10",
+      "type": "jsdoc",
+      "content": "POST /api/cloud/auth — Authenticates a user and returns a bearer token. Uses timing-safe password comparison.",
+      "featureId": "F018"
+    },
+    {
+      "id": "D028",
+      "title": "README.md — Project overview",
+      "location": "README.md:1-168",
+      "type": "markdown",
+      "content": "Comprehensive project documentation including features list, quick start guide, environment variables, scripts, architecture diagram, API reference, testing guide, production hardening details, and contributing instructions.",
+      "featureId": null
+    },
+    {
+      "id": "D029",
+      "title": "CONTRIBUTING.md — Development setup",
+      "location": "CONTRIBUTING.md:1-171",
+      "type": "markdown",
+      "content": "Contributing guide covering prerequisites, first-time setup, commit conventions (Conventional Commits), testing requirements, pre-PR checklist, PR process, project structure conventions, bug reporting, and code of conduct.",
+      "featureId": null
+    }
+  ]
+}
