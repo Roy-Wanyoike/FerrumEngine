@@ -17,6 +17,16 @@ if (typeof window !== "undefined") {
     }),
   });
 
+  // Mock Element.animate (not available in jsdom)
+  Element.prototype.animate = function (_keyframes: unknown, _options: unknown) {
+    return {
+      finished: Promise.resolve(),
+      cancel: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    } as unknown as Animation;
+  };
+
   class MockIntersectionObserver {
     readonly root: Element | null = null;
     readonly rootMargin: string = "";

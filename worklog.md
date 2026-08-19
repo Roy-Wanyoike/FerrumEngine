@@ -1104,3 +1104,248 @@ Files Modified:
 - PERFORMANCE_BASELINE_REPORT.md (added Section 14: v1.3.0 Update)
 - FINAL_RECONCILIATION_REPORT.md (added Section 11: v1.3.0 Update)
 - worklog.md (this entry)
+
+---
+Task ID: E0
+Agent: Documentation & Specification Engineer
+Task: Phase 0 — Document ingestion + spec extraction
+
+Work Log:
+- Read worklog.md (1,107 lines) for full project context
+- Read all 11 root-level .md files: ARCHITECTURE_DESIGN, FEATURE_REGISTRY, FEATURE_RECOVERY_MATRIX, VERIFICATION_REPORT, PLATFORM_AUDIT, SECURITY_AUDIT, ACCESSIBILITY_AUDIT, PERFORMANCE_BASELINE, GIT_FORENSICS, FINAL_RECONCILIATION, CHANGELOG
+- Read all 7 ADRs in docs/adr/ (SPA routing, Tailwind v4, shadcn/ui, JWT auth, Supabase, effects lazy loading, security headers)
+- Read all 7 registry files (features.json, apis.json, routes.json, components.json, packages.json, documentation.json, cross-reference.md)
+- Read 8 key component source files: hero-section.tsx, overview-section.tsx, platform-architecture.tsx, roadmap-section.tsx, architecture-section.tsx, docs-data.ts, ferrum-effects-data.ts, ferrum-tokens/index.d.ts
+- Checked 5 deleted scripts from git history (db3a4c9): pdf-gen/cover.html, pdf/ferrum_studio_cover.html, generate-final-report.py, ferrum_marketplace_pdf.py, ux-audit-report.py
+- Verified effect count: 542 effects, 35 categories (ferrum-effects-data.ts header)
+- Verified token system: 14 scales, 5 output formats (index.d.ts)
+- Verified docs-data.ts content: 10 documentation sections, HONEST about CSS-only nature (no mentions of Compiler, VFX, Physics, Runtime)
+- Verified marketing sections (hero, overview, platform-architecture, roadmap) claim 10 subsystems, 9 adapters, compiler, VFX, physics, AI — NONE implemented
+- Created /home/z/my-project/engineering/DOCUMENTATION_INDEX.md
+- Created /home/z/my-project/engineering/FERRUMENGINE_MASTER_SPEC.md
+- Created /home/z/my-project/engineering/TASK_REGISTRY.md
+
+Key Finding:
+- Significant gap between marketing claims and implementation
+- Website claims 10 subsystems with 6 marked "Stable" — only CSS effects and tokens are real
+- 17 claimed platform features have ZERO code (Runtime, Adapters, Motion Engine, Physics, VFX, Components, Compiler, Paint, Layout, A11y package, CLI, Plugin SDK, Studio, AI)
+- The audit reports and FEATURE_REGISTRY.md are HONEST about this distinction
+- docs-data.ts (the actual user-facing documentation) is accurate and does NOT overclaim
+
+Stage Summary:
+- DOCUMENTATION_INDEX.md: 36 documents indexed with credibility assessments
+- FERRUMENGINE_MASTER_SPEC.md: 22 sections covering every claimed feature vs. reality
+- TASK_REGISTRY.md: 92 tasks catalogued (59 complete, 4 partial, 12 pending, 17 not implemented)
+- Overall completion rate: 64.1% fully complete, 68.5% including partial
+
+---
+Task ID: E1
+Agent: Git Forensics & Recovery Engineer
+Task: Deep git forensics — did any claimed FerrumEngine platform features EVER exist?
+
+Work Log:
+- Examined all 18 commits in repository history (db3a4c9 through 46cbaf7)
+- Searched every commit for files matching: compiler, runtime, engine, motion, physics, vfx, paint, worklet, cli, plugin, studio, adapter, AI
+- Checked for packages/, libs/, lib/ferrum/, ferrum-platform/ directories across all commits — NONE found
+- Checked for Rust, WASM, C, C++, Go, Java, Swift, Kotlin files — NONE found in any commit
+- Analyzed all 15 roycss-parts Python modules (12,477 LOC total) — confirmed they are CSS effect data generators, not platform code
+- Analyzed 4 PDF generation scripts (body.py, ferrum_studio_body.py, ferrum_marketplace_pdf.py, ux-audit-report.py) — confirmed they generate white papers about non-existent products
+- Recovered and analyzed deleted files from commit 522c2d1 (65 files, -30,968 LOC) — all build tools, PDF generators, and artifacts; zero platform code
+- Found the smoking gun: FEATURE_RECOVERY_MATRIX.md (commit 2637139) explicitly labels 12 features as "Not implemented (landing docs only)"
+- Found fabricated worklog claim at line 5702: "The ferrum-platform/ directory contains REAL package code" — verified FALSE (never in git, never in .gitignore, doesn't exist)
+- Analyzed ferrum-tokens/index.cjs (822 LOC) and index.d.ts (291 LOC) — genuine design token system
+- Verified 542 CSS effects in ferrum-effects-data.ts and ferrum-effects.css are genuine
+- Created engineering/GIT_FEATURE_RECOVERY.md with complete forensic analysis
+
+Stage Summary:
+- 10 claimed platform subsystems: 0 ever had implementation code in this repository
+- 3 things are real: CSS effects library (542 effects), design token system (14+ scales, 5 formats), Next.js showcase website
+- 12 features explicitly confirmed as "landing docs only" by prior audit (MKT-001 through MKT-012)
+- The `ferrum-platform/` directory claim in the initial worklog was a hallucination by a previous AI agent
+- Fabricated changelog entries (v1.1.0–v2.1.0) reference features that don't exist
+- All deleted files are recoverable from git history but none contain platform code
+- Report: engineering/GIT_FEATURE_RECOVERY.md
+
+---
+Task ID: E2
+Agent: Implementation Audit Engineer
+Task: Phase 2 — Full implementation audit
+
+Work Log:
+- Enumerated all 172 source files (src/) and 25 test files (__tests__/ + e2e/)
+- Categorized every file: 91 WEBSITE, 37 EFFECTS, 12 UI, 12 API, 2 TOKENS, 10 LIB/UTIL, 8 INFRA, 0 PLATFORM
+- Verified all claimed numbers against actual code:
+  - 542 effects: ✅ VERIFIED (rg count matches file header)
+  - 35 categories: ✅ VERIFIED
+  - 14 token scales: ✅ VERIFIED
+  - 5 token output formats: ✅ VERIFIED
+  - 9 framework adapters: ❌ ZERO implementation (text-only in marketing)
+  - 16 semantic components: ❌ ZERO (only shadcn/ui primitives)
+  - 10 layout generators: ❌ ZERO
+  - 7 Houdini paint worklets: ❌ ZERO
+  - 9 compiler passes: ❌ ZERO
+  - 18 motion submodules: ❌ ZERO
+  - 14 VFX modules: ❌ ZERO
+  - 5 CLI commands: ❌ ZERO
+  - Plugin SDK: ❌ ZERO
+- Analyzed effects system: static CSS strings (no runtime JS), generated by Python scripts, lazy-loaded by category
+- Analyzed token system: complete but DISCONNECTED — not imported by any website component
+- Audited every interactive element across 8 component files: 60+ working elements, 10 dead/decorative
+- Identified 7 dead nav items (all Platform menu items except Effects Gallery)
+- Found playground physics controls are decorative (CSS duration adjustment, not real spring physics)
+- Found AI Assistant input is disabled with "Coming in v2.1"
+- Found hero demo shows fake metrics for non-existent systems
+- Found supabase.ts and supabase-store.ts are unused dead code
+- Created engineering/CURRENT_IMPLEMENTATION_AUDIT.md (comprehensive 7-section audit)
+
+Stage Summary:
+- Honest ratio: 4 of 14 claims (28.6%) are real implementations
+- 71.4% of marketing claims describe aspirational features that do not exist in code
+- What exists is genuinely well-built: polished website, working effects browser, functional playground, real cloud dashboard MVP
+- The internal documentation is honest about the gap; the marketing code is not
+- 5 recommended next actions for reducing the credibility gap
+
+Output: /home/z/my-project/engineering/CURRENT_IMPLEMENTATION_AUDIT.md
+
+---
+Task ID: E3
+Agent: Reconciliation & Feature Matrix Engineer
+Task: Three-way reconciliation matrix
+
+Work Log:
+- Read worklog.md, all 5 engineering docs (DOCUMENTATION_INDEX, GIT_FEATURE_RECOVERY, CURRENT_IMPLEMENTATION_AUDIT, TASK_REGISTRY), 5 source files making claims (platform-architecture.tsx, overview-section.tsx, roadmap-section.tsx, docs-data.ts, architecture-data.ts), registry/features.json, FEATURE_REGISTRY.md
+- Verified every claimed feature against source code, git history (18 commits), and test suite (239 tests)
+- Cross-referenced claims in marketing components against actual implementation files
+- Identified 743 LOC of design fiction in architecture-data.ts describing non-existent subsystems
+- Created FEATURE_TRACEABILITY_MATRIX.md: 76-row traceability table covering all claimed features across 4 categories
+- Created FERRUMENGINE_FEATURE_MATRIX.md: 107 features (FE-001 through FE-104) with IDs, layers, maturity claims, actual status, test coverage, evidence, and priority
+- Key findings:
+  - 32/76 claims (42.1%) verified as real
+  - 13/76 claims (17.1%) partially real / misleading
+  - 29/76 claims (38.2%) pure fiction
+  - 6 subsystems labeled "Stable" have zero code (Runtime, Motion, Physics, VFX, Components, Adapters)
+  - Most repeated false claim: "9 Framework Adapters" (appears in hero, footer, nav, roadmap, architecture page)
+  - Real product: 542 CSS effects + 14 token scales + well-built Next.js showcase website
+  - Generated priority implementation/removal order (15 items, P0-P3)
+
+Output:
+- /home/z/my-project/engineering/FEATURE_TRACEABILITY_MATRIX.md
+- /home/z/my-project/engineering/FERRUMENGINE_FEATURE_MATRIX.md
+---
+Task ID: E7
+Agent: Runtime & Motion Engine Engineer
+Task: Implement Ferrum Runtime + Motion Engine
+
+Work Log:
+- Created src/lib/ferrum-runtime/ package (5 files):
+  - types.ts: FerrumRuntimeOptions, ApplyOptions, EffectInstance, ViewportEntry, ReducedMotionHandler
+  - utils.ts: instanceKey, addEffectClass, removeEffectClass, hasEffectClass, parseSelectors, queryAll
+  - reduced-motion.ts: detectReducedMotion, onReducedMotionChange, resetReducedMotionCache
+  - observer.ts: ViewportManager class (IntersectionObserver wrapper) + createResizeObserver
+  - index.ts: FerrumRuntime class with apply/remove/applyAll/initViewportEffects/destroy/getActiveCount/detectReducedMotion + getRuntime singleton
+- Created src/lib/ferrum-motion/ package (7 files):
+  - types.ts: SpringConfig, SpringController, TimelineSequence/Options/Controller, ScrollOptions/Callback, StaggerOptions, DecayConfig/Controller
+  - spring.ts: Real damped harmonic oscillator physics (F = -kx - cv), semi-implicit Euler integration, precision-based settling
+  - decay.ts: Momentum-based decay with bounds bouncing
+  - timeline.ts: Multi-sequence timeline with play/pause/reverse/seek/loop/alternate support
+  - scroll.ts: onScroll (rAF-throttled scroll progress tracking) + inView (IntersectionObserver one-shot)
+  - stagger.ts: Forward/reverse/center/edges stagger with configurable delay + chain utility
+  - reduced-motion.ts: shouldReduceMotion, instantOrAnimation, onMotionReducedChange
+  - index.ts: Re-exports all public API
+- Created src/adapters/ package (3 files):
+  - react.ts: useFerrumEffect hook, useFerrumSpring hook, useInViewport hook, FerrumEffect component (dynamic tag via createElement)
+  - vue.ts: useFerrumEffect composable, useFerrumSpring composable (self-contained types, no Vue dependency)
+  - vanilla.ts: Re-exports of runtime + motion for plain JS usage
+- Created __tests__/ferrum-runtime.test.ts (21 tests):
+  - utils: add/remove/check classes, instance keys, data-ferrum-id assignment, parseSelectors, queryAll
+  - reduced-motion: detection, subscription
+  - observer: ViewportManager creation and size
+  - FerrumRuntime: create instance, apply/remove, delayed apply, hover trigger, applyAll selectors, initViewportEffects with data-ferrum-effect, destroy cleanup, no-op remove, idempotent re-apply
+  - getRuntime singleton
+- Created __tests__/ferrum-motion.test.ts (23 tests):
+  - spring: initial value, set, to (animates toward target), stop, pause/resume, custom config
+  - decay: creation, set, bounds
+  - timeline: idle state, seek progress, multi-sequence seek, onComplete, reverse
+  - stagger: all items, cancel, reverse direction, center direction
+  - chain: sequential execution
+  - onScroll: cleanup, initial callback
+  - inView: cleanup
+- Fixed build issues: JSX.Element→React.ReactElement, unused variables (throttleMs, maxTotal, currentIdx), types.ts literal \n corruption
+- All code: zero external dependencies, strict TypeScript, respects prefers-reduced-motion, max ~110 LOC/file
+
+Stage Summary:
+- Build: ✅ `npx next build` — compiled successfully (8.3s)
+- Tests: ✅ `npx vitest run` — 263 passed (21 test files), including 44 new tests
+- Files created: 15 (5 runtime, 7 motion, 3 adapters)
+- LOC: ~700 total across all new files
+
+---
+Task ID: E8
+Agent: VFX & Component Engineer
+Task: Implement VFX utilities and semantic Ferrum components
+
+Work Log:
+- Created src/lib/ferrum-vfx/ library (7 files):
+  - types.ts: All type definitions (ParticleConfig, GlassOptions, GradientOptions, MeshGradientConfig, CursorGlowOptions, GlitchOptions, RevealOptions, ParticleController, VFXCleanup)
+  - particles.ts: DOM-based particle system with createParticles() returning start/stop/destroy/getCount controller. Uses Web Animations API with automatic particle recycling.
+  - glass.ts: Glass morphism with applyGlass() (backdrop-filter, blur, border, shadow) and createGlassCard(). Saves/restores previous styles via cleanup function.
+  - gradient.ts: animateGradient() smoothly rotates gradient color stops via rAF. createMeshGradient() creates animated blob-based mesh gradient backgrounds.
+  - cursor.ts: createCursorGlow() adds radial glow that follows mouse. createMagneticEffect() makes elements drift toward cursor with spring-like easing.
+  - distortion.ts: createGlitchText() applies CSS text-shadow glitch in bursts. createTextReveal() wraps each character in spans with staggered translateY animation.
+  - index.ts: Barrel re-export of all VFX functions and types.
+- Created src/components/ferrum/semantic/ (8 components + barrel):
+  - ferrum-button.tsx: 5 variants (primary/secondary/ghost/destructive/outline), 3 sizes, loading spinner, icon support, asChild via Radix Slot, effect prop.
+  - ferrum-card.tsx: 4 variants (default/glass/elevated/outlined), 4 padding levels, hover effect prop that adds/removes classes on mouse enter/leave.
+  - ferrum-badge.tsx: 5 variants (default/success/warning/error/info), pulse animation toggle, effect prop.
+  - ferrum-input.tsx: 3 variants (default/glass/underline), focusEffect prop, label, error state with aria-invalid + error message.
+  - ferrum-toggle.tsx: 3 sizes, label, disabled state, role=switch with aria-checked, effect prop.
+  - ferrum-accordion.tsx: CSS grid-based open/close animation, allowMultiple option, defaultOpen, aria-expanded, effect prop.
+  - ferrum-tooltip.tsx: 4 sides (top/bottom/left/right), configurable delay, mouse + keyboard (focus) triggers, effect prop.
+  - ferrum-skeleton.tsx: 3 variants (text/circular/rectangular), explicit width/height, effect prop.
+  - index.ts: Barrel export of all 8 components.
+- Created tests:
+  - __tests__/ferrum-vfx.test.ts: 19 tests covering all VFX utilities (particles, glass, glass card, gradient, mesh gradient, cursor glow, magnetic, glitch, text reveal)
+  - __tests__/ferrum-semantic.test.tsx: 25 tests covering all 8 components (render, props, effects, interactions)
+- Updated __tests__/setup.ts: Added Element.prototype.animate mock for jsdom (required by particles + text reveal VFX)
+- All VFX functions check prefers-reduced-motion and return cleanup functions
+- All components use 'use client' directive and accept an effect prop for roycss classes
+- Zero new external dependencies added
+- All files under 200 LOC (largest: particles.ts at 127 LOC)
+
+Stage Summary:
+- Build: ✅ `npx next build` — compiled successfully (8.7s)
+- Tests: ✅ `npx vitest run` — 307 passed (23 test files, 0 failures)
+- Files created: 17 (7 VFX, 8 semantic components, 1 barrel, 2 test files)
+- LOC: ~1129 total across all new files
+
+---
+Task ID: E10
+Agent: Compiler & Adapter Engineer
+Task: Implement Ferrum Compiler + additional framework adapters
+
+Work Log:
+- Created src/lib/ferrum-compiler/ with 6 modules:
+  - types.ts: CompilerOptions, CompilerResult, CompilerStats, CSSNode AST types, PROPERTY_ORDER, CompatibilityResult
+  - parser.ts: Regex-based CSS parser producing AST (stylesheet, rule, declaration, comment, atrule nodes). Handles @media, @keyframes, comments, nested parens in values.
+  - optimizer.ts: 9 optimization passes — remove comments, dedup declarations, shorten colors (#ffffff→#fff, rgb→hex), remove zero units (0px→0), merge duplicate selectors, remove empty rules, sort properties, minify whitespace (in generator), dedup @keyframes.
+  - generator.ts: AST→CSS string converter with minification support and basic source map generation.
+  - browsers.ts: Browser compatibility checker with support table for 22 CSS properties across chrome/firefox/safari/edge/ios. Suggests vendor prefixes and fallbacks.
+  - index.ts: Main compile() function (parse→optimize→generate→stats), re-exports all public API.
+- Created 3 new adapters:
+  - svelte.ts: ferrumEffect action (mount/viewport/hover triggers) + ferrumSpring reactive store with SvelteWritable interface.
+  - angular.ts: FerrumEffectService class (apply/remove/hasEffect/destroy) + createFerrumEffectDirective factory for Angular directive pattern.
+  - lit.ts: Directive base class, directive() factory, ferrumEffect Lit directive, ferrumSpring reactive controller (hostConnected/hostDisconnected lifecycle).
+- Created adapters/index.ts: ADAPTERS registry (react, vue, svelte, angular, lit, vanilla) + getAdapterInfo() + listAdapters().
+- Created __tests__/ferrum-compiler.test.ts: 29 tests covering parser (7), optimizer (8), generator (3), full compile pipeline (6), browser compatibility (4).
+- Created __tests__/adapters.test.ts: 14 tests covering registry structure (10) + adapter file export verification (6).
+- Fixed parser JSDoc issue (nested comment syntax confusing oxc parser).
+- Fixed parser to exclude trailing semicolons from declaration values.
+- Fixed transformNode to properly propagate null (remove empty rules) instead of blocking at root level.
+- Fixed generator strict type issue (boolean | undefined → boolean).
+- Zero external dependencies for compiler — pure TypeScript.
+
+Stage Summary:
+- Build: ✅ `npx next build` — compiled successfully
+- Tests: ✅ `npx vitest run` — 353 passed (25 test files, 0 failures)
+- Files created: 10 (6 compiler, 3 adapters, 1 adapter index)
+- Tests created: 2 test files (43 tests total)
