@@ -1,0 +1,94 @@
+@keyframes roy-hue-cycle {
+from { filter: hue-rotate(0deg); }
+to { filter: hue-rotate(360deg); }
+}
+.roycss-hover-fade-overlay {
+position: relative;
+isolation: isolate;
+}
+.roycss-hover-fade-overlay::after {
+content: '';
+position: absolute;
+inset: 0;
+background: rgba(16, 185, 129, 0.35);
+opacity: 0;
+transition: opacity 0.35s ease;
+border-radius: inherit;
+z-index: 0;
+}
+.roycss-hover-fade-overlay:hover::after {
+opacity: 1;
+}
+.roycss-hover-grayscale-to-color {
+filter: grayscale(100%);
+transition: filter 0.5s ease;
+}
+.roycss-hover-grayscale-to-color:hover {
+filter: grayscale(0%);
+}
+.roycss-hover-hue-rotate {
+transition: filter 0.3s ease;
+}
+.roycss-hover-hue-rotate:hover {
+animation: roy-hue-cycle 2s linear infinite;
+}
+.roycss-hover-overlay-reveal {
+position: relative;
+overflow: hidden;
+transition: color 0.3s ease;
+}
+.roycss-hover-overlay-reveal > * {
+position: relative;
+z-index: 1;
+}
+.roycss-hover-overlay-reveal::before {
+content: '';
+position: absolute;
+inset: 0;
+background: linear-gradient(180deg, transparent 0%, rgba(16, 185, 129, 0.85) 100%);
+transform: translateY(100%);
+transition: transform 0.4s ease;
+z-index: 0;
+}
+.roycss-hover-overlay-reveal:hover::before {
+transform: translateY(0);
+}
+.roycss-hover-slide-overlay {
+position: relative;
+overflow: hidden;
+transition: color 0.3s ease;
+}
+.roycss-hover-slide-overlay > * {
+position: relative;
+z-index: 1;
+}
+.roycss-hover-slide-overlay::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(135deg, #10b981, #06b6d4);
+transition: left 0.4s ease;
+z-index: 0;
+}
+.roycss-hover-slide-overlay:hover {
+color: #ffffff;
+}
+.roycss-hover-slide-overlay:hover::before {
+left: 0;
+}
+.roycss-hover-slide-right {
+transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.roycss-hover-slide-right:hover {
+transform: translateX(12px);
+}
+.roycss-hover-zoom-blur {
+transition: transform 0.4s ease, filter 0.4s ease;
+}
+.roycss-hover-zoom-blur:hover {
+transform: scale(1.12);
+filter: blur(0.6px) brightness(1.1);
+}

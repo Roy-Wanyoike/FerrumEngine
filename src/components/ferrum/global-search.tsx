@@ -144,7 +144,7 @@ export function GlobalSearch({ onNavigate, open, onClose }: GlobalSearchProps) {
             }}
             onKeyDown={handleKeyDown}
             placeholder="Search pages, effects, docs, blog…"
-            className="flex-1 bg-transparent text-base text-foreground placeholder:text-muted-foreground/40 focus:outline-none"
+            className="flex-1 bg-transparent text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
             autoComplete="off"
             spellCheck={false}
           />
@@ -164,7 +164,7 @@ export function GlobalSearch({ onNavigate, open, onClose }: GlobalSearchProps) {
             <div className="px-5 py-12 text-center">
               <FileText className="w-8 h-8 text-muted-foreground/20 mx-auto mb-3" />
               <p className="text-sm text-muted-foreground/60">No results for &ldquo;{query}&rdquo;</p>
-              <p className="text-xs text-muted-foreground/40 mt-1">Try different keywords</p>
+              <p className="text-xs text-muted-foreground/60 mt-1">Try different keywords</p>
             </div>
           )}
 
@@ -328,7 +328,7 @@ export function SearchButton({ onClick }: { onClick: () => void }) {
     >
       <Search className="w-3.5 h-3.5" />
       <span className="hidden sm:inline">Search…</span>
-      <kbd className="hidden md:inline-flex items-center px-1.5 py-px rounded border border-border/50 bg-foreground/[0.03] text-[10px] font-mono text-muted-foreground/40">
+      <kbd className="hidden md:inline-flex items-center px-1.5 py-px rounded border border-border/50 bg-foreground/[0.03] text-[10px] font-mono text-muted-foreground/60">
         {modKey}K
       </kbd>
     </button>

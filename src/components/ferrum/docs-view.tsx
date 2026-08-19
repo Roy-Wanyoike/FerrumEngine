@@ -141,7 +141,7 @@ function DataTable({ headers, rows, caption }: { headers: string[]; rows: string
       </table>
       {caption && (
         <div className="px-4 py-2.5 border-t border-border/50 bg-foreground/[0.02]">
-          <p className="text-[11px] text-muted-foreground/40 italic">{caption}</p>
+          <p className="text-[11px] text-muted-foreground/60 italic">{caption}</p>
         </div>
       )}
     </div>
@@ -283,12 +283,12 @@ function DocsSidebar({
       {/* Search */}
       <div className="p-4 border-b border-border">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground/40" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground/60" />
           <Input
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search docs..."
-            className="pl-9 h-8 text-[12px] bg-foreground/[0.04] border-border focus:border-purple-500/30 rounded-lg placeholder:text-muted-foreground/40"
+            className="pl-9 h-8 text-[12px] bg-foreground/[0.04] border-border focus:border-purple-500/30 rounded-lg placeholder:text-muted-foreground/60"
           />
         </div>
       </div>
@@ -298,7 +298,7 @@ function DocsSidebar({
         <div className="p-3">
           {filteredGroups.map((group) => (
             <div key={group.label} className="mb-4">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground/40 px-3 mb-2">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground/60 px-3 mb-2">
                 {group.label}
               </p>
               <div className="space-y-0.5">
@@ -320,7 +320,7 @@ function DocsSidebar({
                           : "text-muted-foreground hover:text-foreground/70 hover:bg-foreground/[0.04] border border-transparent"
                       }`}
                     >
-                      <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? "text-purple-400" : "text-muted-foreground/40"}`} />
+                      <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? "text-purple-400" : "text-muted-foreground/60"}`} />
                       <span className="truncate">{item.title}</span>
                       {isActive && <ChevronRight className="w-3 h-3 text-purple-400/50 ml-auto shrink-0" />}
                     </button>
@@ -442,7 +442,7 @@ export function DocsView({ onBack }: { onBack: () => void }) {
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <BookOpen className="w-4 h-4" />
             <span>Docs</span>
-            <ChevronRight className="w-3 h-3 text-muted-foreground/40" />
+            <ChevronRight className="w-3 h-3 text-muted-foreground/60" />
             <span className="text-foreground/70">{activeSection?.title}</span>
           </div>
         </div>

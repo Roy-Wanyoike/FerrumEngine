@@ -107,7 +107,7 @@ export function PlatformFooter() {
         <div className="mt-16 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <p className="text-xs text-muted-foreground/65">MIT License · Open Source</p>
-            <span className="text-muted-foreground/40">|</span>
+            <span className="text-muted-foreground/60">|</span>
             <a href="https://github.com/roy-wanyoike/FerrumEngine" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-xs text-muted-foreground/65 hover:text-purple-400 transition-colors"
             >

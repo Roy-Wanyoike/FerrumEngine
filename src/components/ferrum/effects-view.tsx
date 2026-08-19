@@ -51,7 +51,7 @@ const HeartButton = memo(function HeartButton({ effectClassName, isInCollection,
       className={"p-2.5 rounded-lg transition-all min-w-[44px] min-h-[44px] " +
         (saved
           ? "text-pink-500 hover:text-pink-400 hover:bg-pink-500/10"
-          : "text-muted-foreground/40 hover:text-pink-500 hover:bg-foreground/[0.06]"
+          : "text-muted-foreground/60 hover:text-pink-500 hover:bg-foreground/[0.06]"
         ) + (animating ? " scale-125" : "")}
       style={{ transition: "color 0.2s, background 0.2s, transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1)" }}
       title={saved ? "Saved" : "Save"}
@@ -101,13 +101,13 @@ const EffectCard = memo(function EffectCard({ effect, onOpenCode, onAddCollectio
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-sm font-medium text-foreground truncate">{effect.name}</h3>
           <div className="flex items-center gap-0.5 shrink-0 ml-2">
-            <button onClick={replay} className="p-2.5 rounded-lg text-muted-foreground/40 hover:text-foreground hover:bg-foreground/[0.06] transition-all min-w-[44px] min-h-[44px]" title="Replay" aria-label={`Replay ${effect.name}`}><RotateCcw className="w-3.5 h-3.5" /></button>
+            <button onClick={replay} className="p-2.5 rounded-lg text-muted-foreground/60 hover:text-foreground hover:bg-foreground/[0.06] transition-all min-w-[44px] min-h-[44px]" title="Replay" aria-label={`Replay ${effect.name}`}><RotateCcw className="w-3.5 h-3.5" /></button>
             <HeartButton effectClassName={effect.className} isInCollection={isInCollection} onToggle={onAddCollection} />
-            <button onClick={() => onOpenCode(effect)} className="p-2.5 rounded-lg text-muted-foreground/40 hover:text-foreground hover:bg-foreground/[0.06] transition-all min-w-[44px] min-h-[44px]" title="View code" aria-label={`View code for ${effect.name}`}><Code className="w-3.5 h-3.5" /></button>
+            <button onClick={() => onOpenCode(effect)} className="p-2.5 rounded-lg text-muted-foreground/60 hover:text-foreground hover:bg-foreground/[0.06] transition-all min-w-[44px] min-h-[44px]" title="View code" aria-label={`View code for ${effect.name}`}><Code className="w-3.5 h-3.5" /></button>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <code className="text-[11px] font-mono text-muted-foreground/40 bg-foreground/[0.04] px-2 py-0.5 rounded">{effect.className}</code>
+          <code className="text-[11px] font-mono text-muted-foreground/60 bg-foreground/[0.04] px-2 py-0.5 rounded">{effect.className}</code>
           <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4 bg-foreground/[0.04] text-muted-foreground/65 hover:bg-foreground/[0.06]">{effect.category}</Badge>
         </div>
       </div>
@@ -232,8 +232,8 @@ export const EffectsView = memo(function EffectsView({
         <div className="max-w-7xl mx-auto px-6 sm:px-8 py-4">
           <div className="flex items-center gap-3 mb-3">
             <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40" />
-              <Input placeholder="Search effects..." aria-label="Search effects" value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 bg-foreground/[0.04] border-border text-foreground placeholder:text-muted-foreground/40 focus:border-purple-500/40 focus:ring-purple-500/10 h-10 rounded-xl text-sm" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60" />
+              <Input placeholder="Search effects..." aria-label="Search effects" value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 bg-foreground/[0.04] border-border text-foreground placeholder:text-muted-foreground/60 focus:border-purple-500/40 focus:ring-purple-500/10 h-10 rounded-xl text-sm" />
               {search && <button onClick={() => setSearch("")} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/65 hover:text-muted-foreground text-xs">Clear</button>}
             </div>
             <button onClick={() => setCollectionOpen(true)} className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-foreground/[0.04] border border-border text-muted-foreground hover:text-foreground hover:border-border transition-all shrink-0 relative" aria-label={`Saved effects${collection.length > 0 ? `, ${collection.length} saved` : ""}`}>

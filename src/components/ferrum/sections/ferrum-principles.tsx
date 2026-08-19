@@ -91,7 +91,7 @@ export function FerrumPrinciples() {
                     <div className="shrink-0 hidden sm:flex flex-col items-center gap-3 pt-1">
                       <span className="text-3xl font-extrabold text-muted-foreground/[0.08] tabular-nums">{p.number}</span>
                       <div className="w-10 h-10 rounded-xl bg-foreground/[0.04] border border-border/40 flex items-center justify-center group-hover:border-purple-500/20 transition-colors">
-                        <Icon className="w-5 h-5 text-muted-foreground/40 group-hover:text-purple-400 transition-colors" />
+                        <Icon className="w-5 h-5 text-muted-foreground/60 group-hover:text-purple-400 transition-colors" />
                       </div>
                     </div>
 

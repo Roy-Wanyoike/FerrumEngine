@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { supabaseGetTeam, supabaseGetProjects, supabaseCreateProject, supabaseGetProjectTokenCount, supabaseGetProjectComponentCount } from "@/lib/supabase-store";
 import type { CreateProjectBody } from "@/lib/api-types";
+import { requireCsrf } from "@/lib/csrf";
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ teamId: string }> }) {
   try {
@@ -22,6 +23,10 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ tea
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ teamId: string }> }) {
   try {
+    // CSRF protection for mutation
+    const csrfFail = requireCsrf(req);
+    if (csrfFail) return csrfFail;
+
     const { teamId } = await params;
     let body: CreateProjectBody;
     try {

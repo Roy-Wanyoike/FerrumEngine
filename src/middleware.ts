@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
+import { ensureCsrfCookie } from "@/lib/csrf";
 
 /**
  * Middleware — Next.js 16 Proxy Migration Status
@@ -15,6 +16,7 @@ import { jwtVerify } from "jose";
  *       → next.config.ts → headers()
  *
  * REMAINING IN MIDDLEWARE (requires Edge Runtime / per-request logic):
+ *   ⚙️ CSRF token cookie issuance (all routes)
  *   ⚙️ JWT authentication for /cloud/* and /api/cloud/* routes
  *   ⚙️ Rate limiting (in-memory, per-IP) for /api/cloud/* routes
  *   ⚙️ Dynamic rate-limit response headers (X-RateLimit-*)
@@ -178,6 +180,16 @@ async function verifyBearerToken(request: NextRequest) {
   return verifyJWT(token);
 }
 
+/**
+ * Helper: create a NextResponse.next() with CSRF cookie if needed.
+ * Used for all passthrough / success paths in the middleware.
+ */
+async function nextWithCsrf(request: NextRequest): Promise<NextResponse> {
+  const response = NextResponse.next();
+  await ensureCsrfCookie(request, response);
+  return response;
+}
+
 export default async function middleware(request: NextRequest) {
   cleanupOldEntries();
 
@@ -191,12 +203,12 @@ export default async function middleware(request: NextRequest) {
     // We don't block the page — the client component handles showing
     // the login form when no token is present. The cookie is used as
     // a complement for server-side checks.
-    return NextResponse.next();
+    return await nextWithCsrf(request);
   }
 
-  // ── Cloud API routes (/api/cloud/*) ──────────────────────────────
+  // ── Non-cloud routes: just ensure CSRF cookie and pass through ──
   if (!isCloudAPIRoute(pathname)) {
-    return NextResponse.next();
+    return await nextWithCsrf(request);
   }
 
   // Rate limit /api/cloud/auth (stricter — prevents brute force)
@@ -220,7 +232,7 @@ export default async function middleware(request: NextRequest) {
       );
     }
     // Auth route: pass through (no JWT check for login/logout)
-    return NextResponse.next();
+    return await nextWithCsrf(request);
   }
 
   // Rate limit other /api/cloud/* routes
@@ -254,8 +266,8 @@ export default async function middleware(request: NextRequest) {
     );
   }
 
-  // Add rate limit headers to successful responses
-  const response = NextResponse.next();
+  // Add rate limit headers + CSRF cookie to successful responses
+  const response = await nextWithCsrf(request);
   response.headers.set("X-RateLimit-Limit", String(API_MAX_REQUESTS));
   response.headers.set("X-RateLimit-Remaining", String(rl.remaining));
   response.headers.set("X-RateLimit-Reset", String(rl.resetAt));
@@ -263,5 +275,9 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/cloud/:path*", "/api/cloud/:path*"],
+  // Match all routes for CSRF cookie issuance.
+  // Cloud-specific auth/rate-limit logic has early returns for
+  // non-cloud routes, so the performance impact is minimal
+  // (a few string comparisons + cookie check per request).
+  matcher: ["/:path*", "/api/:path*"],
 };

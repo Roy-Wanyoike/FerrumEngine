@@ -135,7 +135,7 @@ export function Enterprise() {
                 <div className="group p-6 rounded-2xl border border-border/40 bg-foreground/[0.015] hover:bg-foreground/[0.025] transition-all duration-300 h-full">
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-10 h-10 rounded-xl bg-foreground/[0.04] border border-border/40 flex items-center justify-center group-hover:border-purple-500/20 transition-colors">
-                      <Icon className="w-5 h-5 text-muted-foreground/40 group-hover:text-purple-400 transition-colors" />
+                      <Icon className="w-5 h-5 text-muted-foreground/60 group-hover:text-purple-400 transition-colors" />
                     </div>
                     <div className="flex items-center gap-2">
                       <div className={`w-2 h-2 rounded-full ${feature.phase === "core" ? "bg-emerald-500" : "bg-amber-500"}`} />

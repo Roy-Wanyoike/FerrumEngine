@@ -1,0 +1,122 @@
+@keyframes roy-origin-spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+@keyframes roy-rotate-x {
+0% { transform: perspective(800px) rotateX(0deg); }
+100% { transform: perspective(800px) rotateX(360deg); }
+}
+@keyframes roy-rotate-y {
+0% { transform: perspective(800px) rotateY(0deg); }
+100% { transform: perspective(800px) rotateY(360deg); }
+}
+@keyframes roy-scale-compress {
+0% {
+opacity: 0;
+transform: scaleY(0.2) scaleX(1.4);
+}
+60% {
+opacity: 1;
+transform: scaleY(1.15) scaleX(0.9);
+}
+100% {
+transform: scaleY(1) scaleX(1);
+}
+}
+@keyframes roy-scale-expand {
+0% {
+opacity: 0;
+transform: scaleX(0.2) scaleY(0.6);
+}
+55% {
+opacity: 1;
+transform: scaleX(1.1) scaleY(0.85);
+}
+100% {
+transform: scaleX(1) scaleY(1);
+}
+}
+@keyframes roy-scale-grow {
+0% {
+opacity: 0;
+transform: scale(0);
+}
+70% {
+opacity: 1;
+transform: scale(1.12);
+}
+100% {
+transform: scale(1);
+}
+}
+@keyframes roy-scale-shrink {
+0% {
+opacity: 0;
+transform: scale(1.8);
+}
+70% {
+opacity: 1;
+transform: scale(0.92);
+}
+100% {
+transform: scale(1);
+}
+}
+.roycss-flip-x {
+perspective: 800px;
+transition: transform 0.6s ease;
+transform-style: preserve-3d;
+background: linear-gradient(135deg, #10b981, #06b6d4);
+border-radius: 12px;
+}
+.roycss-flip-x:hover {
+transform: rotateX(180deg);
+}
+.roycss-flip-y {
+perspective: 800px;
+transition: transform 0.6s ease;
+transform-style: preserve-3d;
+background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+border-radius: 12px;
+}
+.roycss-flip-y:hover {
+transform: rotateY(180deg);
+}
+.roycss-rotate-x {
+width: 60px;
+height: 60px;
+background: linear-gradient(135deg, #10b981, #06b6d4);
+border-radius: 8px;
+transform-style: preserve-3d;
+animation: roy-rotate-x 3s linear infinite;
+}
+.roycss-rotate-y {
+width: 60px;
+height: 60px;
+background: linear-gradient(135deg, #ec4899, #8b5cf6);
+border-radius: 8px;
+transform-style: preserve-3d;
+animation: roy-rotate-y 3s linear infinite;
+}
+.roycss-scale-compress {
+animation: roy-scale-compress 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+transform-origin: center;
+}
+.roycss-scale-expand {
+animation: roy-scale-expand 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+transform-origin: center;
+}
+.roycss-scale-grow {
+animation: roy-scale-grow 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.roycss-scale-shrink {
+animation: roy-scale-shrink 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.roycss-transform-origin-spin {
+width: 60px;
+height: 60px;
+background: linear-gradient(135deg, #10b981, #06b6d4);
+border-radius: 8px;
+transform-origin: 0% 0%;
+animation: roy-origin-spin 2s linear infinite;
+}

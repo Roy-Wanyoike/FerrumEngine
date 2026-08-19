@@ -143,11 +143,11 @@ export function VisionManifesto() {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground/50">
                 <span className="flex items-center gap-1.5"><Code className="w-3.5 h-3.5" />Open Source</span>
-                <span className="text-muted-foreground/40">·</span>
+                <span className="text-muted-foreground/60">·</span>
                 <span className="flex items-center gap-1.5"><Terminal className="w-3.5 h-3.5" />MIT Licensed</span>
-                <span className="text-muted-foreground/40">·</span>
+                <span className="text-muted-foreground/60">·</span>
                 <span className="flex items-center gap-1.5"><Globe className="w-3.5 h-3.5" />Framework Independent</span>
-                <span className="text-muted-foreground/40">·</span>
+                <span className="text-muted-foreground/60">·</span>
                 <span className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5" />Accessible by Default</span>
               </div>
             </div>

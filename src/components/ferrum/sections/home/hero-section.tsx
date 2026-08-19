@@ -54,7 +54,7 @@ function HeroLiveDemo() {
         </div>
         <div className="flex items-baseline gap-1">
           <span className="text-xl sm:text-2xl font-bold text-foreground tabular-nums">60</span>
-          <span className="text-[10px] text-muted-foreground/40">fps</span>
+          <span className="text-[10px] text-muted-foreground/60">fps</span>
           <span className="ml-auto text-[10px] text-emerald-400/60 font-medium">GPU</span>
         </div>
         <div className="mt-2 h-1 rounded-full bg-foreground/[0.06] overflow-hidden">
@@ -74,7 +74,7 @@ function HeroLiveDemo() {
         <div className="space-y-1.5">
           {[{ l: "Spring", v: 88 }, { l: "Physics", v: 72 }, { l: "Gesture", v: 65 }].map((item, i) => (
             <div key={item.l} className="flex items-center gap-2">
-              <span className="text-[9px] text-muted-foreground/40 w-10">{item.l}</span>
+              <span className="text-[9px] text-muted-foreground/60 w-10">{item.l}</span>
               <div className="flex-1 h-1 rounded-full bg-foreground/[0.06] overflow-hidden">
                 <div className="h-full rounded-full bg-pink-400/40" style={{ width: `${item.v}%`, animation: `ferrum-shimmer-bar ${1.5 + i * 0.3}s ease-in-out infinite` }} />
               </div>
@@ -132,9 +132,9 @@ function HeroLiveDemo() {
         style={{ transform: `translate(calc(-50% + ${(mx - 0.5) * -15}px), calc(-50% + ${(my - 0.5) * -12}px))`, willChange: 'transform' }}>
         <div className="flex items-center gap-1 mb-1.5">
           <div className="w-2 h-2 rounded-full bg-red-400/40" /><div className="w-2 h-2 rounded-full bg-yellow-400/40" /><div className="w-2 h-2 rounded-full bg-green-400/40" />
-          <span className="ml-1.5 text-[8px] text-muted-foreground/40 font-mono">ferrum.config.ts</span>
+          <span className="ml-1.5 text-[8px] text-muted-foreground/60 font-mono">ferrum.config.ts</span>
         </div>
-        <div className="font-mono text-[8px] sm:text-[9px] leading-relaxed text-muted-foreground/40">
+        <div className="font-mono text-[8px] sm:text-[9px] leading-relaxed text-muted-foreground/60">
           <div><span className="text-purple-400/50">.rc-float</span> {"{"}</div>
           <div className="pl-2"><span className="text-amber-400/40">animation</span>: spring <span className="text-pink-400/40">0.5s</span>;</div>
           <div className="pl-2"><span className="text-amber-400/40">transform</span>: <span className="text-emerald-400/40">translateY(-8px)</span>;</div>
@@ -155,7 +155,7 @@ function HeroLiveDemo() {
 
       <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2 py-1 rounded-md bg-foreground/[0.04] border border-border/30">
         <PulsingDot color="bg-emerald-500 dark:bg-emerald-400" />
-        <span className="text-[9px] font-medium text-muted-foreground/40 uppercase tracking-wider">Live</span>
+        <span className="text-[9px] font-medium text-muted-foreground/60 uppercase tracking-wider">Live</span>
       </div>
     </div>
   );

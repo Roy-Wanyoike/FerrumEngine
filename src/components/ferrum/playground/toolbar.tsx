@@ -176,7 +176,7 @@ export function TopToolbar({
                   onClick={() => { onExport(); setExportOpen(false); setExportMenuIndex(-1); }}
                   className="w-full flex items-center gap-2.5 px-3 py-2 text-[11px] text-foreground/70 hover:bg-foreground/[0.04] hover:text-foreground transition-colors text-left"
                 >
-                  <FileCode size={14} className="text-muted-foreground/40" />
+                  <FileCode size={14} className="text-muted-foreground/60" />
                   {f.label}
                 </button>
               ))}

@@ -122,7 +122,7 @@ function DataFlowDiagram() {
                   <p className="text-[11px] text-muted-foreground/60 leading-relaxed">{step.desc}</p>
                 </div>
                 {i < steps.length - 1 && (
-                  <ArrowRight className="w-4 h-4 text-muted-foreground/40 shrink-0 hidden sm:block mx-1" />
+                  <ArrowRight className="w-4 h-4 text-muted-foreground/60 shrink-0 hidden sm:block mx-1" />
                 )}
               </div>
             );
@@ -229,7 +229,7 @@ export function PlatformArchitecture() {
                           >
                             <ConnIcon className={`w-3.5 h-3.5 ${cs.text}`} />
                             <span className="text-xs font-medium text-foreground/80">{conn.name}</span>
-                            <ArrowRight className="w-3 h-3 text-muted-foreground/40" />
+                            <ArrowRight className="w-3 h-3 text-muted-foreground/60" />
                           </button>
                         );
                       })}

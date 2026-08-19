@@ -1,0 +1,44 @@
+@keyframes roy-b10-cps-twinkle {
+0%, 100% { filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.5)); transform: scale(1); }
+50%      { filter: drop-shadow(0 0 18px rgba(251, 191, 36, 0.95)); transform: scale(1.06); }
+}
+@keyframes roy-sunburst-rotate {
+to { transform: rotate(360deg); }
+}
+.roycss-clip-path-hexagon {
+width: 160px;
+height: 160px;
+background:
+conic-gradient(from 30deg, #f59e0b, #ef4444, #ec4899, #8b5cf6, #f59e0b);
+clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+display: grid;
+place-items: center;
+animation: roy-sunburst-rotate 6s linear infinite;
+}
+.roycss-clip-path-hexagon > div { display: none; }
+.roycss-clip-path-hexagon::after {
+content: "";
+width: 70%;
+height: 70%;
+background: #0f172a;
+clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+.roycss-clip-path-star {
+width: 170px;
+height: 170px;
+background: linear-gradient(135deg, #fbbf24, #f59e0b 40%, #b45309);
+clip-path: polygon(
+50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%,
+50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+);
+display: grid;
+place-items: center;
+animation: roy-b10-cps-twinkle 1.8s ease-in-out infinite;
+}
+.roycss-clip-path-star > div { display: none; }
+.roycss-clip-path-star::after {
+content: "★";
+font-size: 40px;
+color: rgba(255, 255, 255, 0.85);
+text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+}

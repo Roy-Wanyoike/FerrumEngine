@@ -59,9 +59,11 @@ export const metadata: Metadata = {
   publisher: "FerrumEngine",
   category: "technology",
   icons: {
-    icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImZnIiB4MT0iNCIgeTE9IjQiIHgyPSIyOCIgeTI9IjI4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNhODU1ZjciLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZWM0ODk5Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI4IiBmaWxsPSJ1cmwoI2ZnKSIvPgogIDxwYXRoIGQ9Ik0xMCAxMGgxMnYzSDEzdjNoN3YzaC03djNoOXYzSDEwVjEweiIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC45NSIvPgo8L3N2Zz4=",
-    shortcut: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImZnIiB4MT0iNCIgeTE9IjQiIHgyPSIyOCIgeTI9IjI4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNhODU1ZjciLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZWM0ODk5Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI4IiBmaWxsPSJ1cmwoI2ZnKSIvPgogIDxwYXRoIGQ9Ik0xMCAxMGgxMnYzSDEzdjNoN3YzaC03djNoOXYzSDEwVjEweiIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC45NSIvPgo8L3N2Zz4=",
-    apple: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImZnIiB4MT0iNCIgeTE9IjQiIHgyPSIyOCIgeTI9IjI4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNhODU1ZjciLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZWM0ODk5Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI4IiBmaWxsPSJ1cmwoI2ZnKSIvPgogIDxwYXRoIGQ9Ik0xMCAxMGgxMnYzSDEzdjNoN3YzaC03djNoOXYzSDEwVjEweiIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC45NSIvPgo8L3N2Zz4=",
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
   alternates: {
     canonical: "/",
@@ -78,7 +80,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: "/logo.svg",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: `${SITE_NAME} — ${SITE_TAGLINE}`,
@@ -89,7 +91,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE_NAME} — ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
-    images: ["/logo.svg"],
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -195,6 +197,7 @@ export default function RootLayout({
       <head>
         {/* eslint-disable-next-line @next/next/no-css-tags */}
         <link rel="stylesheet" href="/ferrum-effects.css" media="print" />
+        <link rel="manifest" href="/manifest.json" />
         <DeferCSS />
         <script
           type="application/ld+json"

@@ -345,7 +345,7 @@ export function PlaygroundV2({ onBack }: { onBack: () => void }) {
         </div>
 
         {/* Bottom Status Bar */}
-        <div className="h-7 bg-foreground/[0.02] border-t border-border flex items-center px-3 text-[10px] text-muted-foreground/40 shrink-0 gap-4">
+        <div className="h-7 bg-foreground/[0.02] border-t border-border flex items-center px-3 text-[10px] text-muted-foreground/60 shrink-0 gap-4">
           <div className="flex items-center gap-1.5">
             <div className="w-1.5 h-1.5 rounded-full bg-green-500/60" />
             <span>Ready</span>

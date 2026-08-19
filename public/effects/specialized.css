@@ -1,0 +1,656 @@
+@keyframes roy-b10-bmf-rotate {
+to { backdrop-filter: blur(14px) saturate(180%) hue-rotate(390deg) brightness(1.1); }
+}
+@keyframes roy-b10-cgc-tick {
+to { --roy-b10-cgc-sweep: 360deg; }
+}
+@keyframes roy-b10-ld-cycle {
+0%, 49%   { color-scheme: light; }
+50%, 100% { color-scheme: dark; }
+}
+@keyframes roy-b10-rct-pan {
+from { background-position: 0% 0%, 100% 100%, 0 0; }
+to   { background-position: 20% 30%, 80% 70%, 0 0; }
+}
+@keyframes roy-b11-neon-flicker {
+0%, 19%, 21%, 23%, 25%, 54%, 56%, 64%, 100% {
+opacity: 1;
+text-shadow: 0 0 4px #fff, 0 0 12px #ff00de, 0 0 24px #ff00de, 0 0 44px #ff00de, 0 0 80px #ff00de;
+}
+20%, 24%, 55%, 65% {
+opacity: 0.4;
+text-shadow: 0 0 2px #fff, 0 0 4px #ff00de;
+}
+}
+@keyframes roy-b11-neon-glow {
+0%, 19%, 21%, 23%, 25%, 54%, 56%, 64%, 100% { opacity: 0.85; }
+20%, 24%, 55%, 65% { opacity: 0.2; }
+}
+@keyframes roy-b11-prism-rainbow-shift {
+0%, 100% { transform: skewX(-18deg) translateX(-10%); filter: blur(6px) brightness(1); }
+50%      { transform: skewX(-22deg) translateX(8%); filter: blur(8px) brightness(1.2); }
+}
+@keyframes roy-b11-spiral-galaxy-spin {
+0%   { transform: rotate(0deg) scale(1); }
+100% { transform: rotate(360deg) scale(1); }
+}
+@keyframes roy-b11-vhs-glitch-text {
+0%, 90%, 100% { transform: translate(0); }
+92%           { transform: translate(-3px, 1px); }
+94%           { transform: translate(2px, -1px); }
+96%           { transform: translate(-1px, 0); }
+}
+@keyframes roy-b11-vhs-glitch-track {
+0%   { transform: translateY(0); }
+20%  { transform: translateY(-10px); }
+40%  { transform: translateY(15px); }
+60%  { transform: translateY(-5px); }
+80%  { transform: translateY(8px); }
+100% { transform: translateY(0); }
+}
+@keyframes roy-b11-vintage-tv-static {
+0%   { transform: translate(0, 0); }
+50%  { transform: translate(-2px, 1px); }
+100% { transform: translate(1px, -1px); }
+}
+@keyframes roy-blink {
+0%, 49% { opacity: 1; }
+50%, 100% { opacity: 0.15; }
+}
+@keyframes roy-dissolve {
+0% {
+opacity: 1;
+filter: blur(0px);
+transform: scale(1);
+}
+40% {
+opacity: 0.7;
+filter: blur(4px);
+transform: scale(1.05);
+}
+100% {
+opacity: 0;
+filter: blur(20px);
+transform: scale(0.7);
+}
+}
+@keyframes roy-flash {
+0%, 50%, 100% { opacity: 1; }
+25%, 75% { opacity: 0; }
+}
+.roycss-anchor-tooltip {
+position: relative;
+width: 220px;
+height: 140px;
+border-radius: 14px;
+background: linear-gradient(135deg, #0f172a, #1e293b);
+display: grid;
+place-items: center;
+anchor-name: --roy-at-host;
+}
+.roycss-anchor-tooltip > span {
+color: #e2e8f0;
+font: 600 14px/1 system-ui, sans-serif;
+padding: 8px 16px;
+border-radius: 8px;
+background: rgba(16, 185, 129, 0.15);
+border: 1px solid rgba(16, 185, 129, 0.4);
+anchor-name: --roy-at-btn;
+}
+.roycss-anchor-tooltip::after {
+content: "Anchored tooltip ✓";
+position: absolute;
+position-anchor: --roy-at-btn;
+position-area: block-end span-inline-end;
+margin-bottom: 8px;
+padding: 6px 10px;
+border-radius: 6px;
+background: #10b981;
+color: #022c22;
+font: 600 12px/1.2 system-ui, sans-serif;
+white-space: nowrap;
+opacity: 0;
+transform: translateY(4px);
+transition: opacity 0.2s, transform 0.2s;
+pointer-events: none;
+}
+.roycss-anchor-tooltip:hover::after,
+.roycss-anchor-tooltip:focus-within::after {
+opacity: 1;
+transform: translateY(0);
+}
+.roycss-auto-height-expand {
+interpolate-size: allow-keywords;
+width: 220px;
+border-radius: 14px;
+background: #0f172a;
+padding: 12px 14px;
+color: #e2e8f0;
+font: 500 12px/1.4 system-ui, sans-serif;
+overflow: hidden;
+}
+.roycss-auto-height-expand > span {
+display: block;
+font-weight: 700;
+color: #34d399;
+cursor: pointer;
+padding-bottom: 6px;
+}
+.roycss-auto-height-expand::after {
+content: "This hidden paragraph smoothly grows to its natural height: auto using the new interpolate-size property. No max-height hacks required — the browser can now interpolate to the auto keyword directly.";
+display: block;
+height: 0;
+opacity: 0;
+overflow: hidden;
+transition: height 0.4s ease, opacity 0.4s ease;
+color: #94a3b8;
+font-size: 11px;
+}
+.roycss-auto-height-expand:hover::after {
+height: auto;
+opacity: 1;
+}
+.roycss-backdrop-multi-filter {
+width: 100%;
+height: 100%;
+min-height: 220px;
+border-radius: 12px;
+position: relative;
+overflow: hidden;
+background:
+radial-gradient(circle at 20% 20%, #f43f5e, transparent 40%),
+radial-gradient(circle at 80% 30%, #22d3ee, transparent 40%),
+radial-gradient(circle at 50% 80%, #a855f7, transparent 45%),
+repeating-linear-gradient(45deg,
+rgba(255, 255, 255, 0.05) 0 8px,
+transparent 8px 16px),
+#0f172a;
+display: grid;
+place-items: center;
+}
+.roycss-backdrop-multi-filter::before {
+content: "Multi backdrop-filter";
+padding: 26px 36px;
+border-radius: 16px;
+background: rgba(255, 255, 255, 0.08);
+border: 1px solid rgba(255, 255, 255, 0.2);
+color: #fff;
+font: 700 16px/1 system-ui, sans-serif;
+letter-spacing: 0.05em;
+backdrop-filter: blur(14px) saturate(180%) hue-rotate(30deg) brightness(1.1);
+-webkit-backdrop-filter: blur(14px) saturate(180%) hue-rotate(30deg) brightness(1.1);
+box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+animation: roy-b10-bmf-rotate 6s linear infinite;
+}
+.roycss-balanced-text {
+width: 240px;
+padding: 16px 18px;
+border-radius: 12px;
+background: #fef3c7;
+color: #78350f;
+font: 600 14px/1.45 Georgia, serif;
+}
+.roycss-balanced-text > span {
+display: block;
+margin-bottom: 10px;
+}
+.roycss-balanced-text::after {
+content: "Pretty: This paragraph uses text-wrap: pretty to avoid widows and orphans on the final line, creating a more polished typographic appearance.";
+display: block;
+text-wrap: pretty;
+font-size: 12px;
+color: #b45309;
+}
+.roycss-balanced-text::before {
+content: "Balance: RoyCSS brings modern CSS effects to your project, one elegant class at a time.";
+display: block;
+text-wrap: balance;
+padding-bottom: 8px;
+margin-bottom: 8px;
+border-bottom: 1px dashed #d97706;
+font-size: 13px;
+color: #92400e;
+}
+.roycss-blink {
+animation: roy-blink 1.4s steps(2, start) infinite;
+}
+.roycss-book-open {
+perspective: 1000px;
+width: 80px;
+height: 60px;
+position: relative;
+transform-style: preserve-3d;
+background: transparent;
+}
+.roycss-book-open::after {
+right: 0;
+transform-origin: left center;
+background: linear-gradient(225deg, #10b981, #06b6d4);
+border-radius: 8px 2px 2px 8px;
+}
+.roycss-book-open::before {
+left: 0;
+background: linear-gradient(135deg, #10b981, #06b6d4);
+transform-origin: right center;
+}
+.roycss-book-open::before,
+.roycss-book-open::after {
+content: '';
+position: absolute;
+top: 0;
+width: 50%;
+height: 100%;
+transition: transform 0.8s ease;
+border-radius: 2px 8px 8px 2px;
+}
+.roycss-book-open:hover::after {
+transform: rotateY(160deg);
+}
+.roycss-book-open:hover::before {
+transform: rotateY(-160deg);
+}
+.roycss-conic-gradient-clock {
+width: 100%;
+height: 100%;
+min-height: 220px;
+border-radius: 12px;
+display: grid;
+place-items: center;
+background: #0f172a;
+position: relative;
+}
+.roycss-conic-gradient-clock::after {
+content: "";
+position: absolute;
+width: 12px;
+height: 12px;
+border-radius: 50%;
+background: #34d399;
+box-shadow: 0 0 12px #10b981;
+}
+.roycss-conic-gradient-clock::before {
+content: "";
+width: 180px;
+height: 180px;
+border-radius: 50%;
+background:
+conic-gradient(from var(--roy-b10-cgc-sweep),
+rgba(16, 185, 129, 0.35) 0deg,
+rgba(16, 185, 129, 0) 6deg,
+rgba(16, 185, 129, 0) 360deg),
+conic-gradient(from 0deg,
+#1e293b 0deg, #1e293b 30deg,
+#334155 30deg, #334155 60deg,
+#1e293b 60deg, #1e293b 90deg,
+#334155 90deg, #334155 120deg,
+#1e293b 120deg, #1e293b 150deg,
+#334155 150deg, #334155 180deg,
+#1e293b 180deg, #1e293b 210deg,
+#334155 210deg, #334155 240deg,
+#1e293b 240deg, #1e293b 270deg,
+#334155 270deg, #334155 300deg,
+#1e293b 300deg, #1e293b 330deg,
+#334155 330deg, #334155 360deg);
+--roy-b10-cgc-sweep: 0deg;
+animation: roy-b10-cgc-tick 6s linear infinite;
+box-shadow: inset 0 0 0 4px #10b981, 0 12px 30px rgba(16, 185, 129, 0.3);
+}
+.roycss-depth-shadow {
+box-shadow:
+1px 1px 0 #065f46,
+2px 2px 0 #059669,
+3px 3px 0 #047857,
+4px 4px 0 #10b981,
+5px 5px 0 rgba(16, 185, 129, 0.6),
+6px 6px 0 rgba(16, 185, 129, 0.4),
+7px 7px 0 rgba(16, 185, 129, 0.2),
+8px 8px 20px rgba(0, 0, 0, 0.15);
+transition: all 0.3s ease;
+}
+.roycss-depth-shadow:hover {
+transform: translate(-2px, -2px);
+box-shadow:
+3px 3px 0 #065f46,
+4px 4px 0 #059669,
+5px 5px 0 #047857,
+6px 6px 0 #10b981,
+7px 7px 0 rgba(16, 185, 129, 0.6),
+8px 8px 0 rgba(16, 185, 129, 0.4),
+9px 9px 0 rgba(16, 185, 129, 0.2),
+10px 10px 30px rgba(0, 0, 0, 0.2);
+}
+.roycss-dissolve {
+animation: roy-dissolve 1s cubic-bezier(0.55, 0, 0.45, 1) both;
+}
+.roycss-door-open {
+perspective: 800px;
+width: 60px;
+height: 80px;
+position: relative;
+background: rgba(16, 185, 129, 0.1);
+border: 2px solid rgba(16, 185, 129, 0.3);
+border-radius: 4px;
+}
+.roycss-door-open::before {
+content: '';
+position: absolute;
+inset: 0;
+background: linear-gradient(90deg, #10b981, #065f46);
+border-radius: 4px;
+transform-origin: left center;
+transition: transform 0.8s ease;
+}
+.roycss-door-open:hover::before {
+transform: rotateY(-80deg);
+}
+.roycss-flash {
+animation: roy-flash 1.2s ease-in-out infinite;
+}
+.roycss-has-parent-highlight {
+width: 220px;
+padding: 18px;
+border-radius: 14px;
+background: #1e293b;
+border: 2px solid #334155;
+transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+.roycss-has-parent-highlight > span {
+display: block;
+width: 100%;
+padding: 10px 12px;
+border-radius: 8px;
+background: #0f172a;
+color: #cbd5e1;
+font: 500 13px/1.4 system-ui, sans-serif;
+outline: none;
+border: 1px solid #475569;
+transition: border-color 0.25s, color 0.25s;
+}
+.roycss-has-parent-highlight:has(> span:focus-visible) {
+border-color: #f59e0b;
+box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2);
+}
+.roycss-has-parent-highlight:has(> span:hover) {
+border-color: #10b981;
+box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.18);
+background: #0f2a23;
+}
+.roycss-has-parent-highlight:has(> span:hover) > span {
+color: #34d399;
+border-color: #10b981;
+}
+.roycss-interpolate-size-accordion {
+interpolate-size: allow-keywords;
+width: 220px;
+border-radius: 14px;
+background: linear-gradient(135deg, #f97316, #ef4444);
+overflow: hidden;
+display: grid;
+place-items: center;
+}
+.roycss-interpolate-size-accordion > div { display: none; }
+.roycss-interpolate-size-accordion::after {
+content: "Expanded panel content — height interpolates to auto without max-height hacks thanks to interpolate-size: allow-keywords.";
+display: block;
+height: 0;
+opacity: 0;
+padding: 0 14px;
+color: #fef3c7;
+font: 500 12px/1.4 system-ui, sans-serif;
+overflow: hidden;
+transition: height 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s, padding 0.45s;
+}
+.roycss-interpolate-size-accordion::before {
+content: "Hover to expand ▾";
+display: block;
+padding: 14px;
+color: #fff;
+font: 700 13px/1 system-ui, sans-serif;
+letter-spacing: 0.05em;
+}
+.roycss-interpolate-size-accordion:hover::after {
+height: auto;
+opacity: 1;
+padding: 0 14px 14px;
+}
+.roycss-light-dark-auto {
+color-scheme: light dark;
+width: 220px;
+height: 130px;
+border-radius: 14px;
+background: light-dark(#f8fafc, #0f172a);
+color: light-dark(#0f172a, #f1f5f9);
+border: 2px solid light-dark(#cbd5e1, #334155);
+display: grid;
+place-items: center;
+font: 700 13px/1 system-ui, sans-serif;
+transition: background 0.4s, color 0.4s, border-color 0.4s;
+animation: roy-b10-ld-cycle 4s steps(1, end) infinite;
+}
+.roycss-light-dark-auto::after {
+content: "☀ / ☾ auto theme";
+color: light-dark(#ea580c, #38bdf8);
+font-size: 12px;
+letter-spacing: 0.1em;
+}
+.roycss-neon-sign {
+position: relative;
+width: 200px;
+height: 160px;
+border-radius: 12px;
+background: radial-gradient(ellipse at 50% 50%, #1a0833 0%, #050010 100%);
+display: grid;
+place-items: center;
+overflow: hidden;
+}
+.roycss-neon-sign > div { display: none; }
+.roycss-neon-sign::after {
+content: '';
+position: absolute;
+inset: 0;
+background:
+radial-gradient(ellipse 50% 30% at 50% 50%, rgba(255,0,222,0.35), transparent 70%);
+pointer-events: none;
+animation: roy-b11-neon-glow 3.5s linear infinite;
+}
+.roycss-neon-sign::before {
+content: 'NEON';
+position: absolute;
+font: 900 56px/1 'Arial Black', sans-serif;
+letter-spacing: 0.1em;
+color: #fff;
+text-shadow:
+0 0 4px #fff,
+0 0 12px #ff00de,
+0 0 24px #ff00de,
+0 0 44px #ff00de,
+0 0 80px #ff00de;
+animation: roy-b11-neon-flicker 3.5s linear infinite;
+}
+.roycss-prism-rainbow {
+position: relative;
+width: 220px;
+height: 160px;
+background: #0a0a14;
+overflow: hidden;
+border-radius: 8px;
+}
+.roycss-prism-rainbow > div { display: none; }
+.roycss-prism-rainbow::after {
+content: '';
+position: absolute;
+top: 0; left: 28%;
+width: 60%; height: 100%;
+background: linear-gradient(90deg,
+#ff0000 0%, #ff7f00 14%, #ffff00 28%,
+#00ff00 42%, #0000ff 57%, #4b0082 71%, #9400d3 85%, transparent 100%);
+filter: blur(6px);
+mix-blend-mode: screen;
+opacity: 0.85;
+transform: skewX(-18deg) translateX(-10%);
+animation: roy-b11-prism-rainbow-shift 5s ease-in-out infinite;
+}
+.roycss-prism-rainbow::before {
+content: '';
+position: absolute;
+top: 50%; left: 8%;
+width: 0; height: 0;
+border-left: 30px solid rgba(255,255,255,0.85);
+border-top: 28px solid transparent;
+border-bottom: 28px solid transparent;
+transform: translateY(-50%) skewY(-12deg);
+filter: drop-shadow(0 0 6px rgba(255,255,255,0.6));
+}
+.roycss-relative-color-hover {
+--base: #10b981;
+width: 200px;
+height: 120px;
+border-radius: 14px;
+background: var(--base);
+display: grid;
+place-items: center;
+color: rgb(from var(--base) calc(255 - r) calc(255 - g) calc(255 - b));
+font: 700 13px/1 system-ui, sans-serif;
+letter-spacing: 0.1em;
+border: 2px solid rgb(from var(--base) r g b / 0.6);
+transition: background 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+.roycss-relative-color-hover:hover {
+
+background: rgb(from var(--base) calc(r + 40) calc(g + 20) calc(b - 30));
+color: rgb(from var(--base) calc(r * 0.2) calc(g * 0.2) calc(b * 0.2));
+border-color: rgb(from var(--base) r g b / 0.95);
+box-shadow: 0 8px 24px rgb(from var(--base) r g b / 0.45);
+transform: translateY(-3px);
+}
+.roycss-relative-color-tint {
+--base: #6366f1;
+width: 100%;
+height: 100%;
+min-height: 200px;
+border-radius: 12px;
+background:
+radial-gradient(circle at 30% 30%,
+rgb(from var(--base) calc(r + 80) calc(g + 80) calc(b + 80) / 0.6),
+transparent 50%),
+radial-gradient(circle at 70% 70%,
+rgb(from var(--base) calc(r - 60) calc(g - 30) calc(b - 30) / 0.7),
+transparent 55%),
+linear-gradient(135deg,
+rgb(from var(--base) r g b / 0.85),
+rgb(from var(--base) calc(r * 0.3) calc(g * 0.3) calc(b * 0.3)));
+animation: roy-b10-rct-pan 6s ease-in-out infinite alternate;
+}
+.roycss-spiral-galaxy {
+position: relative;
+width: 220px;
+height: 220px;
+border-radius: 50%;
+overflow: hidden;
+background: radial-gradient(circle at 50% 50%, #1a0033 0%, #050010 70%, #000 100%);
+box-shadow: 0 0 40px rgba(120,80,255,0.4);
+}
+.roycss-spiral-galaxy > div { display: none; }
+.roycss-spiral-galaxy::after {
+content: '';
+position: absolute;
+top: 50%; left: 50%;
+width: 30px; height: 30px;
+margin: -15px 0 0 -15px;
+border-radius: 50%;
+background: radial-gradient(circle, #fff 0%, #fff8e0 30%, #ffcf66 60%, transparent 80%);
+box-shadow: 0 0 20px #fff, 0 0 40px #ffcf66, 0 0 80px rgba(255,200,100,0.5);
+}
+.roycss-spiral-galaxy::before {
+content: '';
+position: absolute;
+inset: -25%;
+background:
+conic-gradient(from 0deg at 50% 50%,
+transparent 0deg 20deg,
+rgba(180,140,255,0.55) 25deg 40deg,
+transparent 40deg 110deg,
+rgba(255,200,255,0.45) 115deg 135deg,
+transparent 135deg 200deg,
+rgba(180,140,255,0.5) 205deg 225deg,
+transparent 225deg 290deg,
+rgba(255,200,255,0.4) 295deg 315deg,
+transparent 315deg 360deg);
+filter: blur(6px);
+mix-blend-mode: screen;
+animation: roy-b11-spiral-galaxy-spin 12s linear infinite;
+}
+.roycss-vhs-glitch {
+width: 100%;
+min-height: 240px;
+background:
+linear-gradient(180deg, #1a0033 0%, #4a0080 50%, #001a4a 100%);
+position: relative;
+border-radius: 8px;
+overflow: hidden;
+filter: contrast(1.2) saturate(1.3);
+}
+.roycss-vhs-glitch::after {
+content: '';
+position: absolute;
+inset: 0;
+background:
+repeating-linear-gradient(0deg,
+transparent 0 3px,
+rgba(255,255,255,0.04) 3px 4px),
+linear-gradient(0deg,
+transparent 0 30%,
+rgba(255,0,0,0.15) 30% 32%,
+transparent 32% 50%,
+rgba(0,255,255,0.15) 50% 51%,
+transparent 51% 70%,
+rgba(255,0,255,0.12) 70% 71%,
+transparent 71%);
+mix-blend-mode: screen;
+animation: roy-b11-vhs-glitch-track 1.5s steps(6) infinite;
+}
+.roycss-vhs-glitch::before {
+content: 'PLAY ▶';
+position: absolute;
+top: 12px; left: 16px;
+color: rgba(255,80,80,0.8);
+font: 700 16px/1 'Courier New', monospace;
+text-shadow: 2px 0 0 rgba(80,255,255,0.8), -2px 0 0 rgba(255,255,80,0.8);
+letter-spacing: 0.2em;
+animation: roy-b11-vhs-glitch-text 2s steps(20) infinite;
+}
+.roycss-vintage-tv {
+width: 100%;
+min-height: 240px;
+background:
+radial-gradient(ellipse 90% 70% at 50% 50%, #1a3a5c 0%, #0a1a2c 70%, #000 100%);
+position: relative;
+border-radius: 24px;
+overflow: hidden;
+box-shadow:
+inset 0 0 60px rgba(0,0,0,0.8),
+inset 0 0 120px rgba(80,140,200,0.3);
+}
+.roycss-vintage-tv::after {
+content: '';
+position: absolute;
+top: -20%; left: -20%;
+width: 140%; height: 140%;
+background:
+radial-gradient(ellipse 30% 20% at 30% 30%, rgba(255,255,255,0.15), transparent 70%),
+repeating-linear-gradient(0deg,
+transparent 0 1px,
+rgba(255,255,255,0.04) 1px 2px);
+animation: roy-b11-vintage-tv-static 0.15s steps(2) infinite;
+}
+.roycss-vintage-tv::before {
+content: '';
+position: absolute;
+inset: 0;
+background:
+repeating-linear-gradient(0deg,
+transparent 0 2px,
+rgba(0,0,0,0.35) 2px 3px),
+radial-gradient(ellipse 80% 60% at 50% 50%, transparent 40%, rgba(0,0,0,0.6) 100%);
+mix-blend-mode: multiply;
+}

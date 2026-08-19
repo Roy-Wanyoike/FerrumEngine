@@ -12,7 +12,7 @@ export function CloudBreadcrumb({ items }: { items: BreadcrumbItem[] }) {
     <div className="flex items-center gap-2 text-xs">
       {items.map((item, i) => (
         <span key={i} className="flex items-center gap-2">
-          {i > 0 && <span className="text-muted-foreground/40">/</span>}
+          {i > 0 && <span className="text-muted-foreground/60">/</span>}
           {item.onClick ? (
             <button
               onClick={item.onClick}

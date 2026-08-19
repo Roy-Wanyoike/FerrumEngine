@@ -1,0 +1,98 @@
+@keyframes roy-b10-mcr-sweep {
+0%   { --mx: 20%; --my: 30%; }
+33%  { --mx: 70%; --my: 60%; }
+66%  { --mx: 40%; --my: 75%; }
+100% { --mx: 20%; --my: 30%; }
+}
+@keyframes roy-b10-mlw-sweep {
+0%, 100% { --roy-b10-mlw-pos: -10%; }
+50%      { --roy-b10-mlw-pos: 110%; }
+}
+@keyframes roy-b10-mrr-grow {
+0%, 100% { --roy-b10-mrr-radius: 0%; }
+60%      { --roy-b10-mrr-radius: 100%; }
+80%      { --roy-b10-mrr-radius: 100%; }
+}
+.roycss-mask-composite-reveal {
+width: 180px;
+height: 120px;
+border-radius: 14px;
+background: linear-gradient(135deg, #1e293b, #334155);
+position: relative;
+overflow: hidden;
+display: grid;
+place-items: center;
+}
+.roycss-mask-composite-reveal > div { display: none; }
+.roycss-mask-composite-reveal::before {
+content: "";
+position: absolute;
+inset: 0;
+background:
+radial-gradient(circle, #fff 1px, transparent 1.5px) 0 0 / 12px 12px,
+linear-gradient(135deg, #ec4899, #8b5cf6);
+
+-webkit-mask:
+linear-gradient(#000, #000),
+radial-gradient(circle 30px at var(--mx, 50%) var(--my, 50%), #000 100%, transparent 100%);
+-webkit-mask-composite: source-out;
+mask-composite: subtract;
+animation: roy-b10-mcr-sweep 3s ease-in-out infinite;
+}
+.roycss-mask-linear-wipe {
+width: 100%;
+height: 100%;
+min-height: 220px;
+border-radius: 12px;
+position: relative;
+overflow: hidden;
+background: linear-gradient(135deg, #f59e0b, #ef4444);
+}
+.roycss-mask-linear-wipe::before {
+content: "";
+position: absolute;
+inset: 0;
+background: linear-gradient(135deg, #06b6d4, #6366f1);
+-webkit-mask: linear-gradient(110deg,
+#000 0,
+#000 var(--roy-b10-mlw-pos),
+transparent calc(var(--roy-b10-mlw-pos) + 4px),
+transparent 100%);
+mask: linear-gradient(110deg,
+#000 0,
+#000 var(--roy-b10-mlw-pos),
+transparent calc(var(--roy-b10-mlw-pos) + 4px),
+transparent 100%);
+--roy-b10-mlw-pos: 0%;
+animation: roy-b10-mlw-sweep 4s ease-in-out infinite;
+}
+.roycss-mask-radial-reveal {
+width: 100%;
+height: 100%;
+min-height: 220px;
+border-radius: 12px;
+background:
+repeating-linear-gradient(45deg,
+#ec4899 0 10px, #8b5cf6 10px 20px, #06b6d4 20px 30px),
+#0f172a;
+position: relative;
+overflow: hidden;
+display: grid;
+place-items: center;
+}
+.roycss-mask-radial-reveal::before {
+content: "";
+position: absolute;
+inset: 0;
+background: #0f172a;
+-webkit-mask: radial-gradient(circle at center,
+transparent 0,
+transparent var(--roy-b10-mrr-radius),
+#000 calc(var(--roy-b10-mrr-radius) + 2px));
+mask: radial-gradient(circle at center,
+transparent 0,
+transparent var(--roy-b10-mrr-radius),
+#000 calc(var(--roy-b10-mrr-radius) + 2px));
+--roy-b10-mrr-radius: 0%;
+animation: roy-b10-mrr-grow 4s ease-in-out infinite;
+}

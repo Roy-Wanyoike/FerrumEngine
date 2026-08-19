@@ -543,7 +543,7 @@ export function ComponentCatalog() {
         <div className="sticky top-16 z-30 -mx-6 sm:-mx-8 px-6 sm:px-8 py-4 bg-background/80 backdrop-blur-xl border-b border-border/50 mb-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <div className="relative flex-1 w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60" />
               <Input
                 placeholder="Search components..."
                 value={search}
@@ -586,7 +586,7 @@ export function ComponentCatalog() {
         <div className="space-y-16">
           {Object.entries(grouped).map(([cat, catItems]) => (
             <div key={cat}>
-              <h2 className="text-sm font-semibold tracking-widest uppercase text-muted-foreground/40 mb-6">
+              <h2 className="text-sm font-semibold tracking-widest uppercase text-muted-foreground/60 mb-6">
                 {cat}
               </h2>
               <div className="space-y-12">

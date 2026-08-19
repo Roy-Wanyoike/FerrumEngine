@@ -65,7 +65,7 @@ export function ControlsPanel({
           <span className="text-xs font-medium text-foreground/80 flex-1">{label}</span>
           <ChevronRight
             size={14}
-            className={`text-muted-foreground/40 transition-transform duration-150 ${open ? "rotate-90" : ""}`}
+            className={`text-muted-foreground/60 transition-transform duration-150 ${open ? "rotate-90" : ""}`}
           />
         </button>
         {open && <div className="px-4 pb-4">{content}</div>}
@@ -81,7 +81,7 @@ export function ControlsPanel({
       <ScrollArea className="flex-1">
         {/* Info bar */}
         <div className="px-4 py-2 border-b border-border">
-          <div className="text-[10px] text-muted-foreground/40 space-y-0.5">
+          <div className="text-[10px] text-muted-foreground/60 space-y-0.5">
             <div>Component: <span className="text-foreground/60">{selectedComponent}</span></div>
             {selectedEffect && <div>Effect: <span className="text-foreground/60 font-mono">{selectedEffect}</span></div>}
           </div>
@@ -262,7 +262,7 @@ export function ControlsPanel({
               />
             </div>
             <div className="p-2.5 rounded-lg bg-foreground/[0.03] border border-border">
-              <div className="text-[10px] text-muted-foreground/40 mb-2">Spring Preview</div>
+              <div className="text-[10px] text-muted-foreground/60 mb-2">Spring Preview</div>
               <div className="h-8 relative overflow-hidden rounded bg-foreground/[0.04]">
                 <div
                   className="absolute top-1 left-1 w-5 h-5 rounded-full"
@@ -396,7 +396,7 @@ export function ControlsPanel({
               })}
             </div>
             <div className="p-2.5 rounded-lg bg-foreground/[0.03] border border-border">
-              <div className="text-[10px] text-muted-foreground/40 mb-2">Focus Order Preview</div>
+              <div className="text-[10px] text-muted-foreground/60 mb-2">Focus Order Preview</div>
               <div className="space-y-1.5">
                 {["Primary Button", "Secondary Button", "Close Action"].map((item, i) => (
                   <div key={item} className="flex items-center gap-2 text-[11px]">
@@ -422,7 +422,7 @@ export function ControlsPanel({
               return (
                 <div key={m.label} className="flex items-center justify-between p-2 rounded-lg bg-foreground/[0.02]">
                   <div className="flex items-center gap-2">
-                    <Icon size={13} className="text-muted-foreground/40" />
+                    <Icon size={13} className="text-muted-foreground/60" />
                     <span className="text-[11px] text-muted-foreground/60">{m.label}</span>
                   </div>
                   <span className="text-[11px] font-mono text-foreground/70">{m.value}</span>
@@ -430,10 +430,10 @@ export function ControlsPanel({
               );
             })}
             <div className="p-2.5 rounded-lg bg-foreground/[0.03] border border-border">
-              <div className="text-[10px] text-muted-foreground/40 mb-2">Bundle Estimate</div>
+              <div className="text-[10px] text-muted-foreground/60 mb-2">Bundle Estimate</div>
               <div className="flex items-end gap-1">
                 <span className="text-lg font-bold text-foreground/80">{(metrics.cssRules * 0.12 + metrics.domNodes * 0.05).toFixed(1)}</span>
-                <span className="text-[10px] text-muted-foreground/40 mb-0.5">KB gzipped</span>
+                <span className="text-[10px] text-muted-foreground/60 mb-0.5">KB gzipped</span>
               </div>
             </div>
           </div>
@@ -447,7 +447,7 @@ export function ControlsPanel({
                 <Bot size={20} className="text-purple-400/60" />
               </div>
               <div className="text-xs font-medium text-foreground/70 mb-1">Ferrum AI</div>
-              <div className="text-[10px] text-muted-foreground/40 leading-relaxed">
+              <div className="text-[10px] text-muted-foreground/60 leading-relaxed">
                 Describe what you want to build, and AI will generate the component, effects, and motion configuration for you.
               </div>
             </div>

@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { supabaseGetProject, supabaseGetTokens, supabaseCreateToken } from "@/lib/supabase-store";
 import type { CreateTokenBody } from "@/lib/api-types";
 import type { TokenType } from "@/lib/types";
+import { requireCsrf } from "@/lib/csrf";
 
 const VALID_TOKEN_TYPES: TokenType[] = ["color", "spacing", "typography", "shadow", "motion", "border", "radius"];
 
@@ -18,6 +19,10 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ pro
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ projectId: string }> }) {
   try {
+    // CSRF protection for mutation
+    const csrfFail = requireCsrf(req);
+    if (csrfFail) return csrfFail;
+
     const { projectId } = await params;
     let body: CreateTokenBody;
     try {

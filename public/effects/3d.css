@@ -1,0 +1,171 @@
+@keyframes roy-3d-gallery-rotate {
+0% { transform: rotateY(0deg); }
+100% { transform: rotateY(360deg); }
+}
+@keyframes roy-cube-rotate {
+0% { transform: rotateX(0deg) rotateY(0deg); }
+100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+@keyframes roy-rotate-3d {
+0% { transform: perspective(800px) rotate3d(1, 1, 1, 0deg); }
+100% { transform: perspective(800px) rotate3d(1, 1, 1, 360deg); }
+}
+.roycss-3d-book {
+perspective: 800px;
+width: 60px;
+height: 80px;
+position: relative;
+transform-style: preserve-3d;
+transform: rotateY(-25deg);
+transition: transform 0.6s ease;
+}
+.roycss-3d-book::after {
+content: '';
+position: absolute;
+top: 4px;
+left: 4px;
+width: calc(100% - 12px);
+height: 4px;
+background: #f59e0b;
+border-radius: 1px;
+}
+.roycss-3d-book::before {
+content: '';
+position: absolute;
+inset: 0;
+background: linear-gradient(135deg, #10b981, #065f46);
+border-radius: 2px 6px 6px 2px;
+box-shadow:
+-5px 5px 0 #047857,
+-10px 10px 20px rgba(0, 0, 0, 0.3);
+}
+.roycss-3d-book:hover {
+transform: rotateY(-45deg);
+}
+.roycss-3d-gallery {
+perspective: 1000px;
+width: 80px;
+height: 60px;
+position: relative;
+transform-style: preserve-3d;
+animation: roy-3d-gallery-rotate 8s linear infinite;
+}
+.roycss-3d-gallery::after {
+background: linear-gradient(135deg, #ec4899, #8b5cf6);
+transform: rotateY(90deg) translateZ(20px);
+}
+.roycss-3d-gallery::before {
+background: linear-gradient(135deg, #10b981, #06b6d4);
+transform: rotateY(0deg) translateZ(20px);
+}
+.roycss-3d-gallery::before,
+.roycss-3d-gallery::after {
+content: '';
+position: absolute;
+inset: 0;
+border-radius: 6px;
+}
+.roycss-3d-poster {
+perspective: 1000px;
+width: 80px;
+height: 100px;
+background:
+linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent),
+linear-gradient(135deg, #8b5cf6, #ec4899);
+border-radius: 6px;
+box-shadow:
+0 10px 30px rgba(139, 92, 246, 0.4),
+0 0 0 1px rgba(255, 255, 255, 0.1);
+transform: perspective(1000px) rotateY(-15deg) rotateX(5deg);
+transition: transform 0.5s ease;
+}
+.roycss-3d-poster:hover {
+transform: perspective(1000px) rotateY(15deg) rotateX(-5deg);
+}
+.roycss-accordion-3d {
+perspective: 800px;
+width: 80px;
+height: 60px;
+position: relative;
+transform-style: preserve-3d;
+}
+.roycss-accordion-3d::after {
+bottom: 8px;
+background: linear-gradient(90deg, #06b6d4, #8b5cf6);
+transform-origin: top center;
+}
+.roycss-accordion-3d::before {
+top: 8px;
+background: linear-gradient(90deg, #10b981, #06b6d4);
+transform-origin: bottom center;
+}
+.roycss-accordion-3d::before,
+.roycss-accordion-3d::after {
+content: '';
+position: absolute;
+left: 50%;
+width: 60px;
+height: 16px;
+margin-left: -30px;
+border-radius: 3px;
+transition: transform 0.6s ease;
+}
+.roycss-accordion-3d:hover::after {
+transform: rotateX(55deg);
+}
+.roycss-accordion-3d:hover::before {
+transform: rotateX(-55deg);
+}
+.roycss-cube-face {
+position: absolute;
+width: 60px;
+height: 60px;
+border: 2px solid rgba(16, 185, 129, 0.5);
+background: rgba(16, 185, 129, 0.08);
+border-radius: 4px;
+}
+.roycss-cube-rotate {
+width: 60px;
+height: 60px;
+transform-style: preserve-3d;
+animation: roy-cube-rotate 6s linear infinite;
+}
+.roycss-perspective-tilt {
+transform-style: preserve-3d;
+transform: perspective(800px) rotateX(5deg) rotateY(-5deg);
+transition: transform 0.4s ease;
+box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.2);
+}
+.roycss-perspective-tilt:hover {
+transform: perspective(800px) rotateX(-5deg) rotateY(5deg);
+}
+.roycss-rotate-3d {
+transform-style: preserve-3d;
+background: linear-gradient(135deg, #10b981, #8b5cf6);
+border-radius: 12px;
+animation: roy-rotate-3d 4s linear infinite;
+}
+.roycss-scale-3d {
+width: 60px;
+height: 60px;
+background: linear-gradient(135deg, #10b981, #065f46);
+border-radius: 8px;
+transform-style: preserve-3d;
+transition: transform 0.5s ease;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+.roycss-scale-3d:hover {
+transform: perspective(800px) scale3d(1.2, 1.2, 1.2) translateZ(40px);
+}
+.roycss-skew-3d {
+width: 60px;
+height: 60px;
+background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+border-radius: 8px;
+transform: perspective(800px) skew(-15deg, 5deg);
+transition: transform 0.5s ease;
+box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+}
+.roycss-skew-3d:hover {
+transform: perspective(800px) skew(15deg, -5deg) rotateY(20deg);
+}

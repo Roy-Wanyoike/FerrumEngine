@@ -193,7 +193,7 @@ function MobileMegaGroup({
                   <span className="ml-auto text-[9px] font-medium px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400">{item.badge}</span>
                 )}
                 {!hasAction && !item.badge && (
-                  <span className="ml-auto text-[9px] font-medium text-muted-foreground/40 italic">Coming soon</span>
+                  <span className="ml-auto text-[9px] font-medium text-muted-foreground/60 italic">Coming soon</span>
                 )}
               </button>
             );

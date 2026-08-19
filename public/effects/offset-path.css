@@ -1,0 +1,82 @@
+@keyframes roy-b10-op-orbit {
+to { offset-distance: 100%; }
+}
+.roycss-offset-path-draw {
+width: 220px;
+height: 140px;
+border-radius: 14px;
+background: #0f172a;
+position: relative;
+overflow: hidden;
+}
+.roycss-offset-path-draw > div { display: none; }
+.roycss-offset-path-draw::after {
+content: "";
+position: absolute;
+inset: 0;
+background:
+linear-gradient(transparent 49%, rgba(255, 255, 255, 0.06) 50%, transparent 51%);
+}
+.roycss-offset-path-draw::before {
+content: "";
+position: absolute;
+width: 14px;
+height: 14px;
+border-radius: 3px;
+background: linear-gradient(135deg, #fde047, #f59e0b);
+box-shadow: 0 0 12px #f59e0b;
+offset-path: path("M 20 70 Q 60 10, 110 70 T 200 70");
+offset-rotate: auto;
+animation: roy-b10-op-orbit 2.5s linear infinite;
+}
+.roycss-offset-path-orbit {
+width: 180px;
+height: 180px;
+border-radius: 50%;
+background: radial-gradient(circle, #1e293b 40%, #0f172a 41%);
+position: relative;
+display: grid;
+place-items: center;
+}
+.roycss-offset-path-orbit > div { display: none; }
+.roycss-offset-path-orbit::after {
+content: "";
+width: 50px;
+height: 50px;
+border-radius: 50%;
+background: radial-gradient(circle at 30% 30%, #fca5a5, #dc2626);
+box-shadow: 0 0 20px #ef4444;
+}
+.roycss-offset-path-orbit::before {
+content: "";
+width: 18px;
+height: 18px;
+border-radius: 50%;
+background: radial-gradient(circle at 35% 35%, #fde68a, #f59e0b);
+box-shadow: 0 0 12px #f59e0b;
+offset-path: circle(70px at center);
+offset-rotate: 0deg;
+animation: roy-b10-op-orbit 3s linear infinite;
+}
+.roycss-offset-path-wave {
+width: 220px;
+height: 120px;
+border-radius: 14px;
+background: linear-gradient(180deg, #0f172a, #1e293b);
+position: relative;
+overflow: hidden;
+}
+.roycss-offset-path-wave > div { display: none; }
+.roycss-offset-path-wave::before {
+content: "";
+position: absolute;
+width: 16px;
+height: 16px;
+border-radius: 50%;
+background: radial-gradient(circle at 35% 35%, #67e8f9, #06b6d4);
+box-shadow: 0 0 14px #06b6d4;
+
+offset-path: path("M 0 60 C 30 10, 50 110, 80 60 S 130 10, 160 60 S 210 110, 240 60");
+offset-rotate: 0deg;
+animation: roy-b10-op-orbit 2.5s linear infinite;
+}

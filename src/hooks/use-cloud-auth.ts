@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { getCsrfTokenFromCookie, CSRF_HEADER_NAME } from "@/lib/csrf";
 
 export interface UseCloudAuthReturn {
   authToken: string | null;
@@ -12,6 +13,20 @@ export interface UseCloudAuthReturn {
   handleLogin: () => Promise<void>;
   handleLogout: () => void;
   authFetch: (url: string, opts?: RequestInit) => Promise<Response>;
+}
+
+/**
+ * Build headers object with CSRF token from cookie.
+ * The CSRF token is read from the non-httpOnly `ferrum-csrf-token` cookie
+ * and sent as the `X-CSRF-Token` custom header. This implements the
+ * double-submit cookie pattern for CSRF protection.
+ */
+function withCsrfHeader(headers: Record<string, string> = {}): Record<string, string> {
+  const csrfToken = getCsrfTokenFromCookie();
+  if (csrfToken) {
+    headers[CSRF_HEADER_NAME] = csrfToken;
+  }
+  return headers;
 }
 
 export function useCloudAuth(): UseCloudAuthReturn {
@@ -38,10 +53,13 @@ export function useCloudAuth(): UseCloudAuthReturn {
 
   // Authenticated fetch wrapper.
   // On 401, clear token (expired / revoked).
+  // Includes CSRF token header for mutation protection.
   const authFetch = useCallback((url: string, opts?: RequestInit) => {
+    const csrfHeaders = withCsrfHeader();
     return fetch(url, {
       ...opts,
       headers: {
+        ...csrfHeaders,
         ...opts?.headers,
         "Authorization": `Bearer ${authToken}`,
       },
@@ -59,9 +77,13 @@ export function useCloudAuth(): UseCloudAuthReturn {
     setAuthLoading(true);
     setLoginError("");
     try {
+      const csrfHeaders = withCsrfHeader();
       const res = await fetch("/api/cloud/auth", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          ...csrfHeaders,
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ password: loginPassword }),
       });
       const data = await res.json();
@@ -80,8 +102,9 @@ export function useCloudAuth(): UseCloudAuthReturn {
   }, [loginPassword]);
 
   const handleLogout = useCallback(() => {
-    // Notify server to clear cookie
-    fetch("/api/cloud/auth", { method: "DELETE" }).catch(() => {/* best-effort */});
+    // Notify server to clear cookie (includes CSRF token)
+    const csrfHeaders = withCsrfHeader();
+    fetch("/api/cloud/auth", { method: "DELETE", headers: csrfHeaders }).catch(() => {/* best-effort */});
     setAuthToken(null);
     setDemoMode(false);
     localStorage.removeItem("ferrum-cloud-token");

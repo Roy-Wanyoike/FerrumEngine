@@ -280,7 +280,7 @@ function SidebarItem({
               {system.name}
             </span>
           </div>
-          <p className={`text-[11px] leading-snug line-clamp-2 ${isActive ? "text-muted-foreground/60" : "text-muted-foreground/40"} transition-colors`}>
+          <p className={`text-[11px] leading-snug line-clamp-2 ${isActive ? "text-muted-foreground/60" : "text-muted-foreground/60"} transition-colors`}>
             {system.tagline}
           </p>
         </div>
@@ -451,7 +451,7 @@ export function ArchitectureDeepDive({ onBack }: ArchitectureDeepDiveProps) {
           `}
         >
           <div className="p-4 flex-1">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground/40 mb-3 px-1">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground/60 mb-3 px-1">
               Subsystems
             </p>
             <div className="space-y-1.5">
@@ -490,7 +490,7 @@ export function ArchitectureDeepDive({ onBack }: ArchitectureDeepDiveProps) {
                   <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${st?.cls}`}>
                     {st?.label}
                   </span>
-                  <span className="text-[11px] text-muted-foreground/40 font-mono">{active.id}</span>
+                  <span className="text-[11px] text-muted-foreground/60 font-mono">{active.id}</span>
                 </div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
                   {active.name}

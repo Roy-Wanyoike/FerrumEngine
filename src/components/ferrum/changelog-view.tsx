@@ -105,7 +105,7 @@ export function ChangelogView() {
 
         {/* Filter bar */}
         <div className="flex items-center gap-2 mb-10 flex-wrap">
-          <Tag className="w-4 h-4 text-muted-foreground/40" />
+          <Tag className="w-4 h-4 text-muted-foreground/60" />
           {changeTypes.map((type) => {
             if (type === "all") {
               return (
@@ -166,7 +166,7 @@ export function ChangelogView() {
                       <span className={`px-2 py-0.5 rounded-md text-[10px] font-medium border ${vConfig.color}`}>
                         {vConfig.label}
                       </span>
-                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground/40">
+                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground/60">
                         <Calendar className="w-3 h-3" />
                         <span>{formatDate(entry.date)}</span>
                       </div>

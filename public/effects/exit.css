@@ -1,0 +1,226 @@
+@keyframes roy-blur-out {
+from {
+opacity: 1;
+filter: blur(0px);
+transform: scale(1);
+}
+to {
+opacity: 0;
+filter: blur(24px);
+transform: scale(0.95);
+}
+}
+@keyframes roy-blur-out-down {
+from {
+opacity: 1;
+filter: blur(0px);
+transform: translate3d(0, 0, 0);
+}
+to {
+opacity: 0;
+filter: blur(18px);
+transform: translate3d(0, 40px, 0);
+}
+}
+@keyframes roy-fade-out {
+from { opacity: 1; }
+to { opacity: 0; }
+}
+@keyframes roy-fade-out-down {
+from {
+opacity: 1;
+transform: translateY(0);
+}
+to {
+opacity: 0;
+transform: translateY(40px);
+}
+}
+@keyframes roy-fade-out-left {
+from {
+opacity: 1;
+transform: translate3d(0, 0, 0);
+}
+to {
+opacity: 0;
+transform: translate3d(-32px, 0, 0);
+}
+}
+@keyframes roy-fade-out-right {
+from {
+opacity: 1;
+transform: translate3d(0, 0, 0);
+}
+to {
+opacity: 0;
+transform: translate3d(32px, 0, 0);
+}
+}
+@keyframes roy-fade-out-up {
+from {
+opacity: 1;
+transform: translate3d(0, 0, 0);
+}
+to {
+opacity: 0;
+transform: translate3d(0, -28px, 0);
+}
+}
+@keyframes roy-pop-out {
+0% {
+opacity: 1;
+transform: scale3d(1, 1, 1);
+}
+50% {
+opacity: 0.7;
+transform: scale3d(1.2, 1.2, 1.2);
+}
+100% {
+opacity: 0;
+transform: scale3d(0, 0, 0);
+}
+}
+@keyframes roy-roll-out {
+from {
+opacity: 1;
+transform: translateX(0) rotate(0);
+}
+to {
+opacity: 0;
+transform: translateX(100%) rotate(120deg);
+}
+}
+@keyframes roy-rotate-out {
+from {
+opacity: 1;
+transform: rotate(0);
+}
+to {
+opacity: 0;
+transform: rotate(200deg);
+}
+}
+@keyframes roy-slide-out-bottom {
+from {
+transform: translate3d(0, 0, 0);
+}
+to {
+visibility: hidden;
+transform: translate3d(0, 100%, 0);
+}
+}
+@keyframes roy-slide-out-left {
+from {
+transform: translate3d(0, 0, 0);
+}
+to {
+visibility: hidden;
+transform: translate3d(-100%, 0, 0);
+}
+}
+@keyframes roy-slide-out-right {
+from {
+transform: translate3d(0, 0, 0);
+}
+to {
+visibility: hidden;
+transform: translate3d(100%, 0, 0);
+}
+}
+@keyframes roy-slide-out-top {
+from {
+transform: translate3d(0, 0, 0);
+}
+to {
+visibility: hidden;
+transform: translate3d(0, -100%, 0);
+}
+}
+@keyframes roy-zoom-out {
+0% {
+opacity: 1;
+transform: scale(0);
+}
+40%, 50% {
+opacity: 1;
+transform: scale(1.05);
+}
+100% {
+opacity: 0;
+transform: scale(0.3);
+}
+}
+@keyframes roy-zoom-out-left {
+40% {
+opacity: 1;
+transform: scale3d(0.7, 0.7, 0.7) translate3d(20px, 0, 0);
+}
+to {
+opacity: 0;
+transform: scale3d(0.1, 0.1, 0.1) translate3d(-1000px, 0, 0);
+}
+}
+@keyframes roy-zoom-out-up {
+40% {
+opacity: 1;
+transform: scale3d(0.7, 0.7, 0.7) translate3d(0, 20px, 0);
+}
+to {
+opacity: 0;
+transform: scale3d(0.1, 0.1, 0.1) translate3d(0, -1000px, 0);
+}
+}
+.roycss-blur-out {
+animation: roy-blur-out 0.8s cubic-bezier(0.55, 0, 0.68, 0.53) both;
+}
+.roycss-blur-out-down {
+animation: roy-blur-out-down 0.85s cubic-bezier(0.55, 0, 0.68, 0.53) both;
+}
+.roycss-fade-out {
+animation: roy-fade-out 0.6s ease-in both;
+}
+.roycss-fade-out-down {
+animation: roy-fade-out-down 0.7s ease-in both;
+}
+.roycss-fade-out-left {
+animation: roy-fade-out-left 0.7s cubic-bezier(0.55, 0, 0.68, 0.53) both;
+}
+.roycss-fade-out-right {
+animation: roy-fade-out-right 0.7s cubic-bezier(0.55, 0, 0.68, 0.53) both;
+}
+.roycss-fade-out-up {
+animation: roy-fade-out-up 0.7s cubic-bezier(0.55, 0, 0.68, 0.53) both;
+}
+.roycss-pop-out {
+animation: roy-pop-out 0.5s cubic-bezier(0.32, -0.28, 0.82, 0.11) both;
+}
+.roycss-roll-out {
+animation: roy-roll-out 0.9s ease-in both;
+}
+.roycss-rotate-out {
+transform-origin: center;
+animation: roy-rotate-out 0.8s ease-in both;
+}
+.roycss-slide-out-bottom {
+animation: roy-slide-out-bottom 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
+.roycss-slide-out-left {
+animation: roy-slide-out-left 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
+.roycss-slide-out-right {
+animation: roy-slide-out-right 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
+.roycss-slide-out-top {
+animation: roy-slide-out-top 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
+.roycss-zoom-out {
+animation: roy-zoom-out 0.8s ease-in both;
+}
+.roycss-zoom-out-left {
+animation: roy-zoom-out-left 0.65s cubic-bezier(0.55, 0, 0.68, 0.53) both;
+transform-origin: left center;
+}
+.roycss-zoom-out-up {
+animation: roy-zoom-out-up 0.65s cubic-bezier(0.55, 0, 0.68, 0.53) both;
+transform-origin: center bottom;
+}

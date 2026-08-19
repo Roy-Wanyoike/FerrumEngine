@@ -1,9 +1,14 @@
 // ════════════════════════════════════════════════════════════════
-// Lazy Loader — Category-based on-demand loading of effects CSS
+// Lazy Loader — Category-based on-demand loading of effects
 // ════════════════════════════════════════════════════════════════
 //
 // Instead of loading all 542 effects (570KB CSS) at once,
-// only the category the user is viewing gets loaded.
+// only the category the user is viewing gets loaded — both the
+// TypeScript data (via dynamic import) AND the CSS (via <link> injection).
+//
+// CSS injection: when a category is first requested on the client,
+// a <link> to /effects/{category}.css is injected into <head>.
+// Subsequent requests for the same category are no-ops.
 //
 // Usage:
 //   const css = await getEffectCSS("hover", "roycss-hover-glow");
@@ -61,6 +66,32 @@ const categoryImportMap: Record<string, () => Promise<CategoryModule>> = {
 // ─── In-memory cache ──────────────────────────────────────────
 const categoryCache = new Map<string, FerrumCSSEffect[]>();
 
+// ─── CSS link injection (client-side only) ─────────────────────
+// Tracks which category CSS files have been injected into <head>.
+const injectedCSS = new Set<string>();
+
+/**
+ * Injects a <link> for `/effects/{category}.css` into <head> if not already present.
+ * No-op on the server or if the link is already injected.
+ */
+function injectCategoryCSS(category: string): void {
+  if (typeof document === "undefined") return;
+  if (injectedCSS.has(category)) return;
+
+  const id = `ferrum-effects-${category}`;
+  if (document.getElementById(id)) {
+    injectedCSS.add(category);
+    return;
+  }
+
+  const link = document.createElement("link");
+  link.id = id;
+  link.rel = "stylesheet";
+  link.href = `/effects/${category}.css`;
+  document.head.appendChild(link);
+  injectedCSS.add(category);
+}
+
 // ─── Public API ────────────────────────────────────────────────
 
 /**
@@ -80,6 +111,7 @@ export function getCategories(): typeof categories {
 
 /**
  * Loads a single category's full effects data (includes CSS strings).
+ * Also injects the category's CSS <link> into <head> on the client.
  * Results are cached — subsequent calls return immediately.
  */
 export async function loadCategoryEffects(category: string): Promise<FerrumCSSEffect[]> {
@@ -93,6 +125,10 @@ export async function loadCategoryEffects(category: string): Promise<FerrumCSSEf
   const mod = await loader();
   const effects = mod.effects;
   categoryCache.set(category, effects);
+
+  // Inject category CSS on the client side
+  injectCategoryCSS(category);
+
   return effects;
 }
 
@@ -107,8 +143,7 @@ export async function getEffectCSS(category: string, className: string): Promise
 }
 
 /**
- * Preloads a category's data without waiting for it.
- * Uses webpack's magic comment prefetch for low-priority loading.
+ * Preloads a category's data and CSS without waiting for it.
  * The loaded data is cached for when the user actually needs it.
  */
 export function preloadCategory(category: string): void {
@@ -119,6 +154,7 @@ export function preloadCategory(category: string): void {
 
   loader().then((mod) => {
     categoryCache.set(category, mod.effects);
+    injectCategoryCSS(category);
   }).catch(() => {
     // Silently ignore preload failures
   });
@@ -143,8 +179,10 @@ export function isCategoryLoaded(category: string): boolean {
 }
 
 /**
- * Clears the in-memory cache. Useful for testing or memory management.
+ * Clears the in-memory cache and CSS injection tracking.
+ * Useful for testing or memory management.
  */
 export function clearCache(): void {
   categoryCache.clear();
+  injectedCSS.clear();
 }

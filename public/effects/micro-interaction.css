@@ -1,0 +1,433 @@
+@keyframes roy-micro-accordion-expand {
+0%, 20%   { max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; }
+40%, 75%  { max-height: 60px; padding-top: 8px; padding-bottom: 8px; opacity: 1; }
+95%, 100% { max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; }
+}
+@keyframes roy-micro-badge-bounce {
+0%        { transform: scale(0); opacity: 0; }
+10%       { transform: scale(1.35); opacity: 1; }
+20%       { transform: scale(0.85); }
+30%, 80%  { transform: scale(1); opacity: 1; }
+95%, 100% { transform: scale(0); opacity: 0; }
+}
+@keyframes roy-micro-check-draw {
+0%, 5%   { transform: rotate(-45deg) scale(0); }
+10%, 35% { transform: rotate(-45deg) scale(1); }
+80%      { transform: rotate(-45deg) scale(1); }
+95%, 100% { transform: rotate(-45deg) scale(0); }
+}
+@keyframes roy-micro-dropdown-reveal {
+0%, 20%   { transform: scaleY(0); opacity: 0; }
+40%, 75%  { transform: scaleY(1); opacity: 1; }
+90%, 100% { transform: scaleY(0); opacity: 0; }
+}
+@keyframes roy-micro-fab-expand {
+0%, 30%   { opacity: 0; transform: translateX(20px) scale(0.5); }
+50%, 75%  { opacity: 1; transform: translateX(0) scale(1); }
+95%, 100% { opacity: 0; transform: translateX(20px) scale(0.5); }
+}
+@keyframes roy-micro-fab-rotate {
+0%, 30%   { transform: rotate(0deg); }
+50%, 75%  { transform: rotate(45deg); }
+95%, 100% { transform: rotate(0deg); }
+}
+@keyframes roy-micro-modal-backdrop {
+0%, 15%   { opacity: 0; }
+30%, 75%  { opacity: 1; }
+90%, 100% { opacity: 0; }
+}
+@keyframes roy-micro-modal-scale {
+0%, 15%   { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+30%       { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
+40%, 75%  { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+90%, 100% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+}
+@keyframes roy-micro-progress-fill {
+0%   { width: 0; background-position: 200% 0; }
+50%  { width: 60%; background-position: 0 0; }
+100% { width: 100%; background-position: -200% 0; }
+}
+@keyframes roy-micro-radio-pulse {
+0%, 100% { transform: scale(0.4); opacity: 0.5; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+50%      { transform: scale(1); opacity: 1; box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+}
+@keyframes roy-micro-tab-slide {
+0%, 15%   { left: 12px; }
+35%, 50%  { left: 64px; }
+70%, 85%  { left: 116px; }
+100%      { left: 12px; }
+}
+@keyframes roy-micro-toast-slide {
+0%, 10%   { transform: translateY(-100%); }
+20%, 75%  { transform: translateY(0); }
+90%, 100% { transform: translateY(-100%); }
+}
+@keyframes roy-micro-toggle-bg {
+0%, 45%   { background: #cbd5e1; }
+55%, 100% { background: #10b981; }
+}
+@keyframes roy-micro-toggle-slide {
+0%, 45%   { left: 3px; }
+55%, 100% { left: 29px; }
+}
+@keyframes roy-micro-tooltip-appear {
+0%, 30%   { opacity: 0; transform: translateX(-50%) translateY(8px); }
+45%, 75%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+90%, 100% { opacity: 0; transform: translateX(-50%) translateY(8px); }
+}
+.roycss-micro-accordion-expand {
+position: relative;
+width: 140px;
+height: 90px;
+background: #ffffff;
+border-radius: 10px;
+overflow: hidden;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.roycss-micro-accordion-expand > span { display: none; }
+.roycss-micro-accordion-expand::after {
+content: "Expanded content reveals here with a smooth height animation.";
+position: absolute;
+top: 30px;
+left: 0;
+right: 0;
+padding: 0 12px;
+background: #eef2ff;
+color: #475569;
+font: 9px/1.4 system-ui, sans-serif;
+overflow: hidden;
+max-height: 0;
+opacity: 0;
+animation: roy-micro-accordion-expand 3s ease-in-out infinite;
+}
+.roycss-micro-accordion-expand::before {
+content: "Section Title";
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+padding: 8px 12px;
+background: #6366f1;
+color: #ffffff;
+font: 600 11px/1 system-ui, sans-serif;
+z-index: 1;
+}
+.roycss-micro-badge-bounce {
+position: relative;
+width: 64px;
+height: 64px;
+background: #f1f5f9;
+border-radius: 14px;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.roycss-micro-badge-bounce > span { display: none; }
+.roycss-micro-badge-bounce::after {
+content: "3";
+position: absolute;
+top: -6px;
+right: -6px;
+width: 24px;
+height: 24px;
+background: #ef4444;
+color: #ffffff;
+font: 700 11px/1 system-ui, sans-serif;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+border: 2px solid #ffffff;
+transform: scale(0);
+animation: roy-micro-badge-bounce 2.2s ease-in-out infinite;
+}
+.roycss-micro-badge-bounce::before {
+content: "\2709";
+font-size: 28px;
+color: #64748b;
+}
+.roycss-micro-checkbox-check {
+position: relative;
+width: 38px;
+height: 38px;
+background: #ffffff;
+border: 2px solid #10b981;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+}
+.roycss-micro-checkbox-check > span { display: none; }
+.roycss-micro-checkbox-check::after {
+content: "";
+width: 16px;
+height: 8px;
+border-left: 3px solid #10b981;
+border-bottom: 3px solid #10b981;
+transform: rotate(-45deg) scale(0);
+transform-origin: bottom left;
+animation: roy-micro-check-draw 2.5s ease-in-out infinite;
+}
+.roycss-micro-dropdown-reveal {
+position: relative;
+width: 120px;
+height: 90px;
+}
+.roycss-micro-dropdown-reveal > span { display: none; }
+.roycss-micro-dropdown-reveal::after {
+content: "Edit\ADelete\AShare";
+white-space: pre;
+position: absolute;
+top: 32px;
+left: 0;
+right: 0;
+padding: 6px 12px;
+background: #ffffff;
+border: 1px solid #e2e8f0;
+border-radius: 6px;
+font: 10px/1.7 system-ui, sans-serif;
+color: #475569;
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+transform: scaleY(0);
+transform-origin: top;
+opacity: 0;
+animation: roy-micro-dropdown-reveal 3s ease-in-out infinite;
+}
+.roycss-micro-dropdown-reveal::before {
+content: "Menu";
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+padding: 7px 12px;
+background: #6366f1;
+color: #ffffff;
+font: 600 11px/1 system-ui, sans-serif;
+border-radius: 6px;
+text-align: center;
+z-index: 1;
+}
+.roycss-micro-fab-expand {
+position: relative;
+width: 150px;
+height: 90px;
+}
+.roycss-micro-fab-expand > span { display: none; }
+.roycss-micro-fab-expand::after {
+content: "Share";
+position: absolute;
+bottom: 16px;
+right: 54px;
+padding: 5px 12px;
+background: #8b5cf6;
+color: #ffffff;
+font: 600 10px/1 system-ui, sans-serif;
+border-radius: 12px;
+white-space: nowrap;
+opacity: 0;
+transform: translateX(20px) scale(0.5);
+transform-origin: right center;
+box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+animation: roy-micro-fab-expand 3s ease-in-out infinite;
+}
+.roycss-micro-fab-expand::before {
+content: "+";
+position: absolute;
+bottom: 8px;
+right: 8px;
+width: 38px;
+height: 38px;
+background: linear-gradient(135deg, #ec4899, #be185d);
+color: #ffffff;
+font: 300 24px/1 system-ui, sans-serif;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
+animation: roy-micro-fab-rotate 3s ease-in-out infinite;
+z-index: 2;
+}
+.roycss-micro-modal-scale {
+position: relative;
+width: 150px;
+height: 90px;
+overflow: hidden;
+border-radius: 8px;
+background: #f1f5f9;
+}
+.roycss-micro-modal-scale > span { display: none; }
+.roycss-micro-modal-scale::after {
+content: "Modal Dialog";
+position: absolute;
+top: 50%;
+left: 50%;
+padding: 14px 22px;
+background: #ffffff;
+color: #1e293b;
+font: 600 12px/1.2 system-ui, sans-serif;
+border-radius: 10px;
+box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+transform: translate(-50%, -50%) scale(0);
+animation: roy-micro-modal-scale 3s ease-in-out infinite;
+}
+.roycss-micro-modal-scale::before {
+content: "";
+position: absolute;
+inset: 0;
+background: rgba(15, 23, 42, 0.55);
+opacity: 0;
+animation: roy-micro-modal-backdrop 3s ease-in-out infinite;
+}
+.roycss-micro-progress-fill {
+position: relative;
+width: 140px;
+height: 14px;
+background: #e2e8f0;
+border-radius: 7px;
+overflow: hidden;
+box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.roycss-micro-progress-fill > span { display: none; }
+.roycss-micro-progress-fill::after {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+height: 100%;
+width: 0;
+background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+background-size: 200% 100%;
+border-radius: 7px;
+animation: roy-micro-progress-fill 2.5s ease-in-out infinite;
+}
+.roycss-micro-radio-select {
+position: relative;
+width: 38px;
+height: 38px;
+background: #ffffff;
+border: 2px solid #10b981;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+}
+.roycss-micro-radio-select > span { display: none; }
+.roycss-micro-radio-select::after {
+content: "";
+width: 16px;
+height: 16px;
+background: #10b981;
+border-radius: 50%;
+animation: roy-micro-radio-pulse 2s ease-in-out infinite;
+}
+.roycss-micro-tab-indicator {
+position: relative;
+width: 150px;
+height: 50px;
+}
+.roycss-micro-tab-indicator > span { display: none; }
+.roycss-micro-tab-indicator::after {
+content: "";
+position: absolute;
+bottom: 8px;
+left: 12px;
+width: 34px;
+height: 3px;
+background: #6366f1;
+border-radius: 2px;
+animation: roy-micro-tab-slide 3.6s ease-in-out infinite;
+}
+.roycss-micro-tab-indicator::before {
+content: "Tab 1      Tab 2      Tab 3";
+position: absolute;
+top: 12px;
+left: 0;
+right: 0;
+font: 600 10px/1 system-ui, sans-serif;
+color: #94a3b8;
+letter-spacing: 1px;
+text-align: left;
+padding-left: 12px;
+}
+.roycss-micro-toast-slide {
+position: relative;
+width: 150px;
+height: 80px;
+overflow: hidden;
+border-radius: 8px;
+}
+.roycss-micro-toast-slide > span { display: none; }
+.roycss-micro-toast-slide::before {
+content: "✓  Success! Action completed.";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+padding: 10px 12px;
+background: linear-gradient(135deg, #10b981, #059669);
+color: #ffffff;
+font: 600 10px/1.3 system-ui, sans-serif;
+border-radius: 6px;
+box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+transform: translateY(-100%);
+animation: roy-micro-toast-slide 3s ease-in-out infinite;
+}
+.roycss-micro-toggle-switch {
+position: relative;
+width: 56px;
+height: 30px;
+background: #cbd5e1;
+border-radius: 15px;
+box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+animation: roy-micro-toggle-bg 3s ease-in-out infinite;
+}
+.roycss-micro-toggle-switch > span { display: none; }
+.roycss-micro-toggle-switch::after {
+content: "";
+position: absolute;
+top: 3px;
+left: 3px;
+width: 24px;
+height: 24px;
+background: #ffffff;
+border-radius: 50%;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+animation: roy-micro-toggle-slide 3s ease-in-out infinite;
+}
+.roycss-micro-tooltip-appear {
+position: relative;
+width: 130px;
+height: 70px;
+}
+.roycss-micro-tooltip-appear > span { display: none; }
+.roycss-micro-tooltip-appear::after {
+content: "I'm a tooltip!";
+position: absolute;
+top: 4px;
+left: 50%;
+padding: 5px 10px;
+background: #1e293b;
+color: #ffffff;
+font: 10px/1 system-ui, sans-serif;
+border-radius: 4px;
+white-space: nowrap;
+opacity: 0;
+transform: translateX(-50%) translateY(8px);
+animation: roy-micro-tooltip-appear 2.5s ease-in-out infinite;
+}
+.roycss-micro-tooltip-appear::before {
+content: "Hover me";
+position: absolute;
+bottom: 4px;
+left: 50%;
+transform: translateX(-50%);
+padding: 6px 16px;
+background: #3b82f6;
+color: #ffffff;
+font: 600 11px/1 system-ui, sans-serif;
+border-radius: 6px;
+}

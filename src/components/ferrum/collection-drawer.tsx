@@ -114,7 +114,7 @@ const CollectionDrawer = memo(function CollectionDrawer({ open, onClose, collect
                 <div key={cn} className="flex items-center justify-between p-3 rounded-lg hover:bg-foreground/[0.03] group">
                   <div>
                     <div className="text-sm font-medium text-foreground">{e?.name || cn}</div>
-                    <code className="text-[11px] font-mono text-muted-foreground/40">{cn}</code>
+                    <code className="text-[11px] font-mono text-muted-foreground/60">{cn}</code>
                   </div>
                   <button onClick={() => onRemove(cn)} className="p-2.5 rounded-lg text-muted-foreground/30 hover:text-destructive hover:bg-destructive/10 transition-all focus:opacity-100 min-w-[44px] min-h-[44px]" aria-label={`Remove ${e?.name || cn} from saved`}><X className="w-3.5 h-3.5" /></button>
                 </div>

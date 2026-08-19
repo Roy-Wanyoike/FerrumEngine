@@ -58,7 +58,7 @@ export function LiveExamplesSection() {
                     <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/15 flex items-center justify-center group-hover:bg-purple-500/15 transition-colors">
                       <Icon className="w-4 h-4 text-purple-400" />
                     </div>
-                    <span className="text-[10px] font-mono text-muted-foreground/40 tabular-nums">{cat.count} effects</span>
+                    <span className="text-[10px] font-mono text-muted-foreground/60 tabular-nums">{cat.count} effects</span>
                   </div>
                   <h3 className="text-sm font-semibold text-foreground mb-1.5 group-hover:text-foreground transition-colors">{cat.name}</h3>
                   <p className="text-xs text-muted-foreground/60 leading-relaxed line-clamp-2">{cat.desc}</p>

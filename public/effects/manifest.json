@@ -1,0 +1,212 @@
+{
+  "3d": {
+    "file": "3d.css",
+    "size": 4196,
+    "effectCount": 10,
+    "keyframeCount": 3
+  },
+  "attention": {
+    "file": "attention.css",
+    "size": 5620,
+    "effectCount": 19,
+    "keyframeCount": 19
+  },
+  "background": {
+    "file": "background.css",
+    "size": 10336,
+    "effectCount": 25,
+    "keyframeCount": 13
+  },
+  "blend-modes": {
+    "file": "blend-modes.css",
+    "size": 1878,
+    "effectCount": 2,
+    "keyframeCount": 4
+  },
+  "borders": {
+    "file": "borders.css",
+    "size": 7671,
+    "effectCount": 15,
+    "keyframeCount": 4
+  },
+  "buttons": {
+    "file": "buttons.css",
+    "size": 11797,
+    "effectCount": 25,
+    "keyframeCount": 4
+  },
+  "cards": {
+    "file": "cards.css",
+    "size": 11160,
+    "effectCount": 24,
+    "keyframeCount": 7
+  },
+  "clip-path": {
+    "file": "clip-path.css",
+    "size": 1335,
+    "effectCount": 2,
+    "keyframeCount": 2
+  },
+  "cursor": {
+    "file": "cursor.css",
+    "size": 10589,
+    "effectCount": 12,
+    "keyframeCount": 18
+  },
+  "design-presets": {
+    "file": "design-presets.css",
+    "size": 14314,
+    "effectCount": 37,
+    "keyframeCount": 16
+  },
+  "entrance": {
+    "file": "entrance.css",
+    "size": 10852,
+    "effectCount": 36,
+    "keyframeCount": 37
+  },
+  "exit": {
+    "file": "exit.css",
+    "size": 4140,
+    "effectCount": 17,
+    "keyframeCount": 18
+  },
+  "filter": {
+    "file": "filter.css",
+    "size": 3393,
+    "effectCount": 15,
+    "keyframeCount": 4
+  },
+  "forms": {
+    "file": "forms.css",
+    "size": 8029,
+    "effectCount": 10,
+    "keyframeCount": 5
+  },
+  "glass": {
+    "file": "glass.css",
+    "size": 7498,
+    "effectCount": 14,
+    "keyframeCount": 4
+  },
+  "hover": {
+    "file": "hover.css",
+    "size": 4609,
+    "effectCount": 17,
+    "keyframeCount": 1
+  },
+  "image-hover": {
+    "file": "image-hover.css",
+    "size": 2023,
+    "effectCount": 7,
+    "keyframeCount": 1
+  },
+  "loading": {
+    "file": "loading.css",
+    "size": 15990,
+    "effectCount": 25,
+    "keyframeCount": 25
+  },
+  "mask": {
+    "file": "mask.css",
+    "size": 2574,
+    "effectCount": 3,
+    "keyframeCount": 3
+  },
+  "micro-interaction": {
+    "file": "micro-interaction.css",
+    "size": 11178,
+    "effectCount": 12,
+    "keyframeCount": 15
+  },
+  "misc": {
+    "file": "misc.css",
+    "size": 25321,
+    "effectCount": 30,
+    "keyframeCount": 28
+  },
+  "modern-css": {
+    "file": "modern-css.css",
+    "size": 5603,
+    "effectCount": 7,
+    "keyframeCount": 5
+  },
+  "nature": {
+    "file": "nature.css",
+    "size": 20342,
+    "effectCount": 15,
+    "keyframeCount": 12
+  },
+  "navigation": {
+    "file": "navigation.css",
+    "size": 9512,
+    "effectCount": 10,
+    "keyframeCount": 5
+  },
+  "offset-path": {
+    "file": "offset-path.css",
+    "size": 2086,
+    "effectCount": 3,
+    "keyframeCount": 1
+  },
+  "page-transition": {
+    "file": "page-transition.css",
+    "size": 7813,
+    "effectCount": 12,
+    "keyframeCount": 14
+  },
+  "particles": {
+    "file": "particles.css",
+    "size": 18736,
+    "effectCount": 12,
+    "keyframeCount": 12
+  },
+  "property": {
+    "file": "property.css",
+    "size": 4576,
+    "effectCount": 7,
+    "keyframeCount": 7
+  },
+  "scroll": {
+    "file": "scroll.css",
+    "size": 9570,
+    "effectCount": 21,
+    "keyframeCount": 23
+  },
+  "specialized": {
+    "file": "specialized.css",
+    "size": 17374,
+    "effectCount": 21,
+    "keyframeCount": 16
+  },
+  "svg": {
+    "file": "svg.css",
+    "size": 3346,
+    "effectCount": 3,
+    "keyframeCount": 4
+  },
+  "text": {
+    "file": "text.css",
+    "size": 14739,
+    "effectCount": 30,
+    "keyframeCount": 19
+  },
+  "transform": {
+    "file": "transform.css",
+    "size": 2540,
+    "effectCount": 9,
+    "keyframeCount": 7
+  },
+  "unique": {
+    "file": "unique.css",
+    "size": 8697,
+    "effectCount": 7,
+    "keyframeCount": 8
+  },
+  "visual-effects": {
+    "file": "visual-effects.css",
+    "size": 23227,
+    "effectCount": 28,
+    "keyframeCount": 28
+  }
+}

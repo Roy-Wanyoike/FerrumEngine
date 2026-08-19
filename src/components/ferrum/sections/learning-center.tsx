@@ -171,7 +171,7 @@ export function LearningCenter() {
                           <span className="flex items-center gap-1.5"><Clock className="w-3 h-3" />{path.duration}</span>
                         </div>
                       </div>
-                      <ChevronRight className={`w-5 h-5 text-muted-foreground/40 shrink-0 mt-1 transition-transform duration-300 ${isExpanded ? "rotate-90" : ""}`} />
+                      <ChevronRight className={`w-5 h-5 text-muted-foreground/60 shrink-0 mt-1 transition-transform duration-300 ${isExpanded ? "rotate-90" : ""}`} />
                     </div>
                   </button>
 
@@ -184,9 +184,9 @@ export function LearningCenter() {
                             <div className="flex items-start justify-between gap-4">
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-1">
-                                  <span className="text-[10px] font-mono text-muted-foreground/40">{String(j + 1).padStart(2, "0")}</span>
+                                  <span className="text-[10px] font-mono text-muted-foreground/60">{String(j + 1).padStart(2, "0")}</span>
                                   <h4 className="text-sm font-semibold text-foreground">{mod.title}</h4>
-                                  <span className="text-[10px] text-muted-foreground/40 flex items-center gap-1"><Clock className="w-2.5 h-2.5" />{mod.duration}</span>
+                                  <span className="text-[10px] text-muted-foreground/60 flex items-center gap-1"><Clock className="w-2.5 h-2.5" />{mod.duration}</span>
                                 </div>
                                 <p className="text-xs text-muted-foreground/60 leading-relaxed mb-2">{mod.description}</p>
                                 <div className="inline-flex items-start gap-2 px-3 py-1.5 rounded-lg bg-purple-500/[0.04] border border-purple-500/10">

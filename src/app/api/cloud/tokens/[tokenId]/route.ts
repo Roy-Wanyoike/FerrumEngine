@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { supabaseUpdateToken } from "@/lib/supabase-store";
+import { requireCsrf } from "@/lib/csrf";
 
 const VALID_UPDATE_FIELDS = ["name", "value", "namespace"] as const;
 
@@ -11,6 +12,10 @@ type ValidUpdateBody = {
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ tokenId: string }> }) {
   try {
+    // CSRF protection for mutation
+    const csrfFail = requireCsrf(req);
+    if (csrfFail) return csrfFail;
+
     const { tokenId } = await params;
     let body: ValidUpdateBody;
     try {

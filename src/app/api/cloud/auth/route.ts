@@ -1,6 +1,7 @@
 import { timingSafeEqual } from "crypto";
 import { type NextRequest, NextResponse } from "next/server";
 import { signToken, isDemoMode, COOKIE_NAME, TOKEN_EXPIRY } from "@/lib/auth";
+import { requireCsrf } from "@/lib/csrf";
 
 /**
  * POST /api/cloud/auth — Login
@@ -17,6 +18,10 @@ import { signToken, isDemoMode, COOKIE_NAME, TOKEN_EXPIRY } from "@/lib/auth";
  * Clears the httpOnly session cookie.
  */
 export async function POST(req: NextRequest) {
+  // CSRF protection — login endpoint has no auth, so CSRF is critical
+  const csrfFail = requireCsrf(req);
+  if (csrfFail) return csrfFail;
+
   const ADMIN_PASSWORD = (() => {
     const pw = process.env.CLOUD_ADMIN_PASSWORD;
     if (!pw) return null;
@@ -91,7 +96,11 @@ export async function POST(req: NextRequest) {
  *
  * Clears the httpOnly session cookie.
  */
-export async function DELETE() {
+export async function DELETE(req: NextRequest) {
+  // CSRF protection — logout is a state-changing operation
+  const csrfFail = requireCsrf(req);
+  if (csrfFail) return csrfFail;
+
   const response = NextResponse.json({
     message: "Logged out successfully",
   });

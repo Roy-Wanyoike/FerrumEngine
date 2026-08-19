@@ -160,7 +160,7 @@ export function ShowcaseGallery() {
 
                     {/* Techniques */}
                     <div className="mb-4">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground/40 mb-2">Techniques</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground/60 mb-2">Techniques</p>
                       <div className="flex flex-wrap gap-1.5">
                         {project.techniques.slice(0, 4).map((t) => (
                           <span key={t} className="px-2 py-1 rounded-md bg-foreground/[0.03] border border-border/30 text-[11px] text-muted-foreground/60">
@@ -168,7 +168,7 @@ export function ShowcaseGallery() {
                           </span>
                         ))}
                         {project.techniques.length > 4 && (
-                          <span className="px-2 py-1 rounded-md bg-foreground/[0.03] border border-border/30 text-[11px] text-muted-foreground/40">
+                          <span className="px-2 py-1 rounded-md bg-foreground/[0.03] border border-border/30 text-[11px] text-muted-foreground/60">
                             +{project.techniques.length - 4} more
                           </span>
                         )}

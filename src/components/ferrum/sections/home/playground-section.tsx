@@ -94,7 +94,7 @@ export function PlaygroundSection() {
                     <div className="h-2 w-1/2 rounded bg-foreground/[0.06] mb-4" />
                     <div className="flex gap-2">
                       <div className="px-4 py-1.5 rounded-lg bg-foreground/[0.08] text-xs text-muted-foreground/60">Action</div>
-                      <div className="px-4 py-1.5 rounded-lg border border-border/50 text-xs text-muted-foreground/40">Cancel</div>
+                      <div className="px-4 py-1.5 rounded-lg border border-border/50 text-xs text-muted-foreground/60">Cancel</div>
                     </div>
                   </div>
                 )}
@@ -108,7 +108,7 @@ export function PlaygroundSection() {
                     <div className="grid grid-cols-2 gap-3 mb-3">
                       {["Revenue", "Users", "Growth", "Active"].map((l, i) => (
                         <div key={l} className="p-3 rounded-lg bg-foreground/[0.04]">
-                          <div className="text-[9px] text-muted-foreground/40 uppercase">{l}</div>
+                          <div className="text-[9px] text-muted-foreground/60 uppercase">{l}</div>
                           <div className="text-lg font-bold text-foreground mt-0.5">{STATS[i]!}%</div>
                         </div>
                       ))}
@@ -127,7 +127,7 @@ export function PlaygroundSection() {
               </div>
               <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2 py-1 rounded-md bg-foreground/[0.04] border border-border/30 z-20">
                 <PulsingDot color="bg-emerald-500 dark:bg-emerald-400" />
-                <span className="text-[9px] font-medium text-muted-foreground/40 uppercase tracking-wider">Preview</span>
+                <span className="text-[9px] font-medium text-muted-foreground/60 uppercase tracking-wider">Preview</span>
               </div>
             </div>
 
@@ -153,7 +153,7 @@ export function PlaygroundSection() {
                   {playgroundMotions.map((m) => (
                     <button key={m} onClick={() => setActiveMotion(m)}
                       role="radio" aria-checked={activeMotion === m}
-                      className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all ${activeMotion === m ? "bg-pink-500/10 text-pink-400 border border-pink-500/20" : "text-muted-foreground/40 hover:text-foreground hover:bg-foreground/[0.04] border border-transparent"}`}>
+                      className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all ${activeMotion === m ? "bg-pink-500/10 text-pink-400 border border-pink-500/20" : "text-muted-foreground/60 hover:text-foreground hover:bg-foreground/[0.04] border border-transparent"}`}>
                       {m}
                     </button>
                   ))}
@@ -166,7 +166,7 @@ export function PlaygroundSection() {
                   {playgroundEffects.map((e) => (
                     <button key={e} onClick={() => setActiveEffect(e)}
                       role="radio" aria-checked={activeEffect === e}
-                      className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all ${activeEffect === e ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" : "text-muted-foreground/40 hover:text-foreground hover:bg-foreground/[0.04] border border-transparent"}`}>
+                      className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all ${activeEffect === e ? "bg-amber-500/10 text-amber-400 border border-amber-500/20" : "text-muted-foreground/60 hover:text-foreground hover:bg-foreground/[0.04] border border-transparent"}`}>
                       {e}
                     </button>
                   ))}
@@ -176,7 +176,7 @@ export function PlaygroundSection() {
               <div className="rounded-2xl border border-border/50 bg-foreground/[0.02] p-5 relative">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-xs font-semibold text-muted-foreground/60 uppercase tracking-wider">Output</h3>
-                  <button onClick={handleCopy} aria-label="Copy code" className="text-muted-foreground/40 hover:text-foreground transition-colors p-1 min-w-[44px] min-h-[44px] flex items-center justify-center">
+                  <button onClick={handleCopy} aria-label="Copy code" className="text-muted-foreground/60 hover:text-foreground transition-colors p-1 min-w-[44px] min-h-[44px] flex items-center justify-center">
                     {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                 </div>

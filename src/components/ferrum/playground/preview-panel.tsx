@@ -38,7 +38,7 @@ export function LivePreview({
             <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
             <div className="w-3 h-3 rounded-full bg-green-500/60" />
           </div>
-          <span className="text-[11px] text-muted-foreground/40 ml-2">Preview</span>
+          <span className="text-[11px] text-muted-foreground/60 ml-2">Preview</span>
         </div>
         <div className="flex items-center gap-1">
           {DEVICES.map((d) => {
@@ -51,7 +51,7 @@ export function LivePreview({
                 className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors ${
                   device === d.id
                     ? "bg-foreground/[0.08] text-foreground"
-                    : "text-muted-foreground/40 hover:text-foreground/60 hover:bg-foreground/[0.04]"
+                    : "text-muted-foreground/60 hover:text-foreground/60 hover:bg-foreground/[0.04]"
                 }`}
               >
                 <Icon size={14} />

@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { requireCsrf } from "@/lib/csrf";
 
 /*
  * SECURITY NOTE — Rate Limiting Limitations:
@@ -52,10 +53,37 @@ function getClientIP(request: NextRequest): string {
   return "unknown";
 }
 
+// ── In-memory analytics store ─────────────────────────────────────────
+
+interface AnalyticsEvent {
+  id: string;
+  name: string;
+  value: number;
+  rating: number;
+  timestamp: number;
+ ip: string;
+ userAgent: string;
+}
+
+// Circular buffer: caps memory usage at MAX_EVENTS entries
+const MAX_EVENTS = 10_000;
+const analyticsStore: AnalyticsEvent[] = [];
+let totalEventsReceived = 0;
+
 const EXPECTED_FIELDS = ["name", "value", "rating", "id"];
 
+/**
+ * POST /api/analytics — Record an analytics event
+ *
+ * Accepts a JSON body with { name, value, rating, id }.
+ * Stores the event in an in-memory circular buffer and returns aggregated stats.
+ */
 export async function POST(request: NextRequest) {
   try {
+    // CSRF protection — this endpoint has no auth, so CSRF is critical
+    const csrfFail = requireCsrf(request);
+    if (csrfFail) return csrfFail;
+
     const clientIP = getClientIP(request);
 
     // Rate limiting
@@ -92,10 +120,106 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid field types" }, { status: 400 });
     }
 
-    // Analytics payload received (silently logged in dev via debug flag)
-    return NextResponse.json({ ok: true });
+    // Clamp rating to 1-5 range
+    const rating = Math.max(1, Math.min(5, Math.round(body.rating)));
+
+    // Store the event
+    const event: AnalyticsEvent = {
+      id: body.id,
+      name: body.name,
+      value: body.value,
+      rating,
+      timestamp: Date.now(),
+      ip: clientIP,
+      userAgent: request.headers.get("user-agent") ?? "unknown",
+    };
+
+    if (analyticsStore.length >= MAX_EVENTS) {
+      analyticsStore.shift(); // Remove oldest
+    }
+    analyticsStore.push(event);
+    totalEventsReceived++;
+
+    return NextResponse.json({
+      ok: true,
+      stored: true,
+      stats: getAggregatedStats(),
+    });
   } catch (error) {
     console.error("[API] /api/analytics error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
+}
+
+/**
+ * GET /api/analytics — Retrieve aggregated analytics
+ *
+ * Returns summary statistics from the in-memory store.
+ * No authentication required (read-only aggregate data).
+ */
+export async function GET() {
+  return NextResponse.json(getAggregatedStats());
+}
+
+// ── Aggregation helpers ──────────────────────────────────────────────
+
+interface AggregatedStats {
+  totalEvents: number;
+  totalLifetimeEvents: number;
+  uniqueEffects: number;
+  averageRating: number;
+  ratingDistribution: Record<number, number>;
+  topEffects: Array<{ name: string; count: number; avgRating: number }>;
+  recentEvents: Array<{ name: string; rating: number; timestamp: number }>;
+}
+
+function getAggregatedStats(): AggregatedStats {
+  // Rating distribution
+  const ratingDistribution: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+  let ratingSum = 0;
+
+  // Per-effect stats
+  const effectStats = new Map<string, { count: number; ratingSum: number }>();
+
+  for (const event of analyticsStore) {
+    // Rating distribution
+    ratingDistribution[event.rating] = (ratingDistribution[event.rating] || 0) + 1;
+    ratingSum += event.rating;
+
+    // Per-effect aggregation
+    const existing = effectStats.get(event.name);
+    if (existing) {
+      existing.count++;
+      existing.ratingSum += event.rating;
+    } else {
+      effectStats.set(event.name, { count: 1, ratingSum: event.rating });
+    }
+  }
+
+  // Top 10 effects by count
+  const topEffects = Array.from(effectStats.entries())
+    .map(([name, stats]) => ({
+      name,
+      count: stats.count,
+      avgRating: Math.round((stats.ratingSum / stats.count) * 100) / 100,
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
+  // Last 10 events
+  const recentEvents = analyticsStore
+    .slice(-10)
+    .map((e) => ({ name: e.name, rating: e.rating, timestamp: e.timestamp }));
+
+  return {
+    totalEvents: analyticsStore.length,
+    totalLifetimeEvents: totalEventsReceived,
+    uniqueEffects: effectStats.size,
+    averageRating: analyticsStore.length > 0
+      ? Math.round((ratingSum / analyticsStore.length) * 100) / 100
+      : 0,
+    ratingDistribution,
+    topEffects,
+    recentEvents,
+  };
 }

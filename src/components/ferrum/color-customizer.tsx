@@ -222,7 +222,7 @@ export function ColorCustomizer() {
           {/* Hex input */}
           <div className="flex items-center gap-2">
             <div className="flex-1 relative">
-              <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground/40 font-mono">#</span>
+              <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground/60 font-mono">#</span>
               <input
                 ref={inputRef}
                 type="text"

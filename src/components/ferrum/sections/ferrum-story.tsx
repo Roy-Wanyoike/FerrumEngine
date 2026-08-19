@@ -101,7 +101,7 @@ export function FerrumStory() {
                           : "bg-background border-border/50"
                       }`}>
                         <span className={`text-xs font-bold tabular-nums ${
-                          isFerrum ? "text-purple-400" : "text-muted-foreground/40"
+                          isFerrum ? "text-purple-400" : "text-muted-foreground/60"
                         }`}>
                           {era.year}
                         </span>
@@ -123,7 +123,7 @@ export function FerrumStory() {
                       {era.milestone && (
                         <div className="mt-3 flex flex-wrap gap-1.5">
                           {era.milestone.split(", ").map((m) => (
-                            <span key={m} className="px-2 py-1 rounded-md bg-foreground/[0.03] border border-border/30 text-[11px] text-muted-foreground/40">
+                            <span key={m} className="px-2 py-1 rounded-md bg-foreground/[0.03] border border-border/30 text-[11px] text-muted-foreground/60">
                               {m}
                             </span>
                           ))}

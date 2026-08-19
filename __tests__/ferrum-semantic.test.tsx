@@ -144,7 +144,7 @@ describe('FerrumAccordion', () => {
     render(<FerrumAccordion items={items} />);
     const buttons = screen.getAllByRole('button');
     expect(buttons[0]).toHaveAttribute('aria-expanded', 'false');
-    fireEvent.click(buttons[0]);
+    fireEvent.click(buttons[0]!);
     expect(buttons[0]).toHaveAttribute('aria-expanded', 'true');
   });
 });
@@ -182,7 +182,7 @@ describe('FerrumSkeleton', () => {
 
   it('applies variant', () => {
     render(<FerrumSkeleton variant="circular" width={40} height={40} />);
-    const el = document.querySelector('[data-ferrum-skeleton]')!;
+    const el = document.querySelector('[data-ferrum-skeleton]') as HTMLElement;
     expect(el.className).toContain('rounded-full');
     expect(el.style.width).toBe('40px');
   });

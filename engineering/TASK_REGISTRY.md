@@ -1,7 +1,7 @@
 # TASK REGISTRY — FerrumEngine/FerrumCSS Platform
 
-> **Generated**: Task ID E0 — Documentation & Specification Engineer
-> **Date**: 2026-08-20
+> **Generated**: Updated 2026-08-21
+> **Test count**: 489/489 passing (30 files)
 > **Source**: FERRUMENGINE_MASTER_SPEC.md, FEATURE_REGISTRY.md, component source analysis
 
 ---
@@ -55,7 +55,7 @@
 | T-C07 | F002 | Color customizer | 🟢 COMPLETE | — | `color-customizer.tsx` |
 | T-C08 | F006 | Scroll progress bar | 🟢 COMPLETE | — | `scroll-progress.tsx` |
 | T-C09 | F015 | Footer with links | 🟢 COMPLETE | — | `footer.tsx` |
-| T-C10 | F016 | Accessibility (skip link, focus management, reduced motion) | 🟡 PARTIAL | High | `ACCESSIBILITY_AUDIT_REPORT.md` — Contrast issue (text-muted-foreground/40) remains |
+| T-C10 | F016 | Accessibility (skip link, focus management, reduced motion) | 🟢 COMPLETE | — | `text-muted-foreground/40` → `/60` fix applied to all 33 source files; `ACCESSIBILITY_AUDIT_REPORT.md` updated |
 | T-C11 | F017 | Error handling (error, 404, loading, global-error) | 🟢 COMPLETE | — | 4 files in `src/app/` |
 | T-C12 | F014 | SEO (JSON-LD, meta tags, sitemap, robots.txt) | 🟢 COMPLETE | — | `seo-content.tsx`, `view-meta.tsx`, `layout.tsx`, `public/sitemap.xml`, `public/robots.txt` |
 | T-C13 | F024 | Content section views (10 pages) | 🟢 COMPLETE | — | 10 section components in `sections/` |
@@ -95,7 +95,7 @@
 | T-F07 | — | Real multi-user auth (per-session JWT, not shared password) | 🟠 PENDING | High | `SECURITY_AUDIT_REPORT.md` — Single shared password, demo mode only |
 | T-F08 | — | One-click deploy | 🔴 NOT IMPLEMENTED | — | Claimed in platform-architecture.tsx as "Planned" |
 | T-F09 | — | Edge CDN distribution | 🔴 NOT IMPLEMENTED | — | Claimed in platform-architecture.tsx |
-| T-F10 | — | Analytics dashboard (real data, not no-op) | 🔴 NOT IMPLEMENTED | — | Analytics endpoint exists but POST body is discarded |
+| T-F10 | — | Analytics dashboard (real data, not no-op) | 🟢 COMPLETE | — | In-memory analytics store with GET aggregation; `src/app/api/analytics/route.ts` POST persists, GET returns metrics |
 
 ## Section G: API Layer
 
@@ -114,7 +114,7 @@
 |---------|-----------|-------------|--------|----------|----------|
 | T-H01 | — | Security headers (X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy, HSTS, COOP, CORP) | 🟢 COMPLETE | — | `next.config.ts`, `SECURITY_AUDIT_REPORT.md` |
 | T-H02 | — | CSP (strict in production, dev-friendly in dev) | 🟢 COMPLETE | — | `next.config.ts`, `ADR-007` |
-| T-H03 | — | CSRF protection for mutation endpoints | 🟠 PENDING | High | `ADR-004` describes CSRF tokens for POST/PUT/DELETE — not implemented |
+| T-H03 | — | CSRF protection for mutation endpoints | 🟢 COMPLETE | — | Double-submit cookie pattern, Edge-compatible; 43 tests in `__tests__/security/csrf.test.ts` |
 | T-H04 | — | IP spoofing prevention | 🟠 PENDING | Medium | `SECURITY_AUDIT_REPORT.md` — IP spoofing possible via `x-real-ip` header trust |
 | T-H05 | — | Per-session rate limiting (not per-instance) | 🟠 PENDING | Medium | `SECURITY_AUDIT_REPORT.md` — In-memory only; ineffective in serverless |
 
@@ -125,10 +125,10 @@
 | T-I01 | — | Unit tests (353 tests, 25 files) | 🟢 COMPLETE | — | `__tests__/`, VERIFICATION_REPORT.md |
 | T-I02 | — | E2E tests (Playwright, 5 spec files) | 🟢 COMPLETE | — | `e2e/` directory |
 | T-I03 | — | CI pipeline (GitHub Actions) | 🟢 COMPLETE | — | `.github/workflows/ci.yml`, `release.yml` |
-| T-I04 | — | Playground component tests | 🟠 PENDING | High | `registry/cross-reference.md:109` — Playground sub-components untested |
-| T-I05 | — | Nav component tests | 🟠 PENDING | High | `registry/cross-reference.md:110` |
-| T-I06 | — | Effects view/modal/drawer tests | 🟠 PENDING | High | `registry/cross-reference.md:111` |
-| T-I07 | — | Theme toggle tests | 🟠 PENDING | High | `registry/cross-reference.md:113` |
+| T-I04 | — | Playground component tests | 🟢 COMPLETE | — | 37 tests in `__tests__/components/playground.test.tsx` |
+| T-I05 | — | Nav component tests | 🟢 COMPLETE | — | 26 tests in `__tests__/components/nav-components.test.tsx` |
+| T-I06 | — | Effects view/modal/drawer tests | 🟢 COMPLETE | — | 28 tests in `__tests__/components/effects-components.test.tsx` |
+| T-I07 | — | Theme toggle tests | 🟢 COMPLETE | — | 19 tests in `__tests__/components/theme-toggle.test.tsx` |
 
 ## Section J: Build & Infrastructure
 
@@ -142,7 +142,7 @@
 | T-J06 | — | Docker support | 🟢 COMPLETE | — | `Dockerfile` |
 | T-J07 | — | Caddy config | 🟢 COMPLETE | — | `Caddyfile` |
 | T-J08 | — | Service worker | 🟢 COMPLETE | — | `public/sw.js` |
-| T-J09 | — | Dead code removal (5 identified files) | 🟠 PENDING | Low | `registry/cross-reference.md:123-127` — illustrations.tsx, button.tsx, card.tsx, label.tsx, use-supabase.ts |
+| T-J09 | — | Dead code removal (5 identified files) | 🟢 COMPLETE | — | Verified as noop: all 5 files still in active use; `use-supabase.ts` was already deleted in prior cleanup |
 
 ---
 
@@ -176,35 +176,36 @@
 |----------|:-----------:|:----------:|:----------:|:-----------------:|:-----:|
 | A. CSS Effects Library | 7 | 0 | 3 | 0 | 10 |
 | B. Design Tokens | 4 | 0 | 0 | 0 | 4 |
-| C. Showcase Website | 13 | 2 | 0 | 0 | 15 |
+| C. Showcase Website | 14 | 1 | 0 | 0 | 15 |
 | D. Effects Gallery & Playground | 4 | 0 | 0 | 0 | 4 |
 | E. Documentation & Learning | 7 | 0 | 0 | 0 | 7 |
-| F. Cloud Dashboard | 4 | 2 | 1 | 3 | 10 |
+| F. Cloud Dashboard | 5 | 2 | 1 | 2 | 10 |
 | G. API Layer | 6 | 0 | 0 | 0 | 6 |
-| H. Security | 2 | 0 | 3 | 0 | 5 |
-| I. Testing | 3 | 0 | 4 | 0 | 7 |
-| J. Build & Infrastructure | 9 | 0 | 1 | 0 | 10 |
+| H. Security | 3 | 0 | 2 | 0 | 5 |
+| I. Testing | 7 | 0 | 0 | 0 | 7 |
+| J. Build & Infrastructure | 10 | 0 | 0 | 0 | 10 |
 | K. Platform Features | 6 | 0 | 1 | 7 | 14 |
-| **TOTAL** | **65** | **4** | **12** | **10** | **92** |
+| **TOTAL** | **73** | **3** | **7** | **9** | **92** |
 
 ### Completion Rate
-- **Implemented (Complete + Partial)**: 69/92 (75.0%)
-- **Fully Complete**: 65/92 (70.7%)
-- **Gaps to Close**: 23/92 (25.0%)
-  - 12 pending tasks (implementation needed)
-  - 10 features with no code (down from 17 in v1.3.0)
+- **Implemented (Complete + Partial)**: 76/92 (82.6%)
+- **Fully Complete**: 73/92 (79.3%)
+- **Gaps to Close**: 16/92 (17.4%)
+  - 7 pending tasks (implementation needed)
+  - 9 features with no code (down from 17 in v1.3.0)
 
-### v1.4.0 Platform Transformation
+### v1.4.0+ Platform Transformation
 - **6 platform features implemented** with 131 tests in v1.4.0
+- **8 additional tasks completed** post-v1.4.0 (CSRF, 4 component test suites, analytics dashboard, dead code audit, a11y contrast fix)
 - Platform feature gap reduced from 14/14 (100%) to 7/14 (50%)
-- Total 🔴 NOT IMPLEMENTED reduced from 17 to 10
-- Test count grew from 219 (19 files) to 353 (25 files)
+- Total 🔴 NOT IMPLEMENTED reduced from 17 to 9
+- Test count grew from 219 (19 files) to 489 (30 files)
 
 ### Credibility Notes
-- The 10 remaining 🔴 NOT IMPLEMENTED items are: Physics, Paint Worklets, Layout, A11y package, CLI, Plugin SDK, Studio, AI, One-Click Deploy, Analytics Dashboard.
-- The 4 🟡 PARTIAL items represent real working features with known quality gaps.
-- The 12 🟠 PENDING items are acknowledged gaps in audit reports and ADRs.
+- The 9 remaining 🔴 NOT IMPLEMENTED items are: Physics, Paint Worklets, Layout, A11y package, CLI, Plugin SDK, Studio, AI, One-Click Deploy, Edge CDN.
+- The 3 🟡 PARTIAL items represent real working features with known quality gaps.
+- The 7 🟠 PENDING items are acknowledged gaps in audit reports and ADRs.
 
 ---
 
-*Updated by Final Reconciliation & Release Engineer (Task E11). v1.4.0 — 6 platform tasks completed, 131 new tests.*
+*Updated by Product Owner (Task W3). 2026-08-21 — 8 tasks promoted to COMPLETE, 489/489 tests passing.*

@@ -67,7 +67,7 @@ export function ArchitectureSection() {
                 {archLayers.map((layer, i) => (
                   <div key={layer.label} className="group">
                     <div className={`flex items-center gap-4 p-4 rounded-xl border ${layer.borderColor} ${layer.bgColor} hover:scale-[1.02] transition-transform duration-300 cursor-default`}>
-                      <span className="text-[10px] font-mono text-muted-foreground/40 w-6 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="text-[10px] font-mono text-muted-foreground/60 w-6 shrink-0">{String(i + 1).padStart(2, "0")}</span>
                       <div className="flex-1 min-w-0">
                         <h3 className={`text-sm font-semibold ${layer.color}`}>{layer.label}</h3>
                         <p className="text-[11px] text-muted-foreground/50 mt-0.5 truncate">{layer.desc}</p>

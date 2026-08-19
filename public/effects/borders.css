@@ -1,0 +1,318 @@
+@keyframes roy-border-dash-glow {
+0%, 100% {
+border-color: #10b981;
+box-shadow: 0 0 5px rgba(16, 185, 129, 0.3);
+}
+50% {
+border-color: #34d399;
+box-shadow: 0 0 18px rgba(16, 185, 129, 0.65);
+}
+}
+@keyframes roy-border-gradient {
+to { --roy-bg-angle: 360deg; }
+}
+@keyframes roy-border-march {
+to {
+background-position: 12px 0, -12px 100%, 0 -12px, 100% 12px;
+}
+}
+@keyframes roy-border-neon {
+0%, 100% {
+border-color: #ec4899;
+box-shadow: 0 0 5px #ec4899, inset 0 0 5px #ec4899;
+}
+50% {
+border-color: #f472b6;
+box-shadow: 0 0 22px #ec4899, 0 0 44px #ec4899, inset 0 0 16px #ec4899;
+}
+}
+.roycss-border-animated-dash {
+width: 140px;
+height: 80px;
+background: #0f172a;
+border: 3px dashed #10b981;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #d1fae5;
+font-size: 12px;
+font-weight: 600;
+animation: roy-border-dash-glow 1.6s ease-in-out infinite;
+}
+.roycss-border-banner {
+width: 140px;
+height: 80px;
+background: linear-gradient(135deg, #f59e0b, #ef4444);
+clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 50%, 100% 100%, 0 100%);
+display: flex;
+align-items: center;
+justify-content: center;
+color: #fff;
+font-size: 12px;
+font-weight: 700;
+padding-right: 16px;
+box-sizing: border-box;
+}
+.roycss-border-clip-path {
+position: relative;
+width: 140px;
+height: 80px;
+background: linear-gradient(135deg, #10b981, #06b6d4);
+clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+display: flex;
+align-items: center;
+justify-content: center;
+color: #fff;
+font-size: 12px;
+font-weight: 600;
+}
+.roycss-border-clip-path::before {
+content: '';
+position: absolute;
+inset: 3px;
+background: #0f172a;
+clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+.roycss-border-corner-brackets {
+position: relative;
+width: 140px;
+height: 80px;
+background: #0f172a;
+background-image:
+linear-gradient(#06b6d4, #06b6d4),
+linear-gradient(#06b6d4, #06b6d4),
+linear-gradient(#06b6d4, #06b6d4),
+linear-gradient(#06b6d4, #06b6d4),
+linear-gradient(#06b6d4, #06b6d4),
+linear-gradient(#06b6d4, #06b6d4),
+linear-gradient(#06b6d4, #06b6d4),
+linear-gradient(#06b6d4, #06b6d4);
+background-position:
+top left, top left,
+top right, top right,
+bottom left, bottom left,
+bottom right, bottom right;
+background-size:
+22px 3px, 3px 22px,
+22px 3px, 3px 22px,
+22px 3px, 3px 22px,
+22px 3px, 3px 22px;
+background-repeat: no-repeat;
+border-radius: 4px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #67e8f9;
+font-size: 12px;
+font-weight: 600;
+}
+.roycss-border-dashed-draw {
+position: relative;
+width: 140px;
+height: 80px;
+background: #0f172a;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #a78bfa;
+font-size: 12px;
+font-weight: 600;
+}
+.roycss-border-dashed-draw::before {
+content: '';
+position: absolute;
+inset: 0;
+border: 2px dashed #8b5cf6;
+border-radius: inherit;
+clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+transition: clip-path 0.6s ease;
+pointer-events: none;
+}
+.roycss-border-dashed-draw:hover::before {
+clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+.roycss-border-double-glow {
+position: relative;
+width: 140px;
+height: 80px;
+background: #0f172a;
+border: 1px solid #10b981;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #6ee7b7;
+font-size: 12px;
+font-weight: 600;
+box-shadow: 0 0 12px rgba(16, 185, 129, 0.5), 0 0 24px rgba(16, 185, 129, 0.3), inset 0 0 12px rgba(16, 185, 129, 0.2);
+}
+.roycss-border-double-glow::before {
+content: '';
+position: absolute;
+inset: -7px;
+border: 1px solid rgba(16, 185, 129, 0.45);
+border-radius: 12px;
+pointer-events: none;
+box-shadow: 0 0 10px rgba(16, 185, 129, 0.25);
+}
+.roycss-border-frame {
+position: relative;
+width: 140px;
+height: 80px;
+background: #1e293b;
+border: 3px double #f59e0b;
+border-radius: 4px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #fde68a;
+font-size: 12px;
+font-weight: 600;
+outline: 1px solid #f59e0b;
+outline-offset: 4px;
+}
+.roycss-border-frame::before {
+content: '';
+position: absolute;
+inset: 5px;
+border: 1px solid rgba(245, 158, 11, 0.45);
+border-radius: 2px;
+pointer-events: none;
+}
+.roycss-border-gradient-animated {
+position: relative;
+width: 140px;
+height: 80px;
+background: #0f172a;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #e2e8f0;
+font-size: 12px;
+font-weight: 600;
+}
+.roycss-border-gradient-animated::before {
+content: '';
+position: absolute;
+inset: 0;
+border-radius: inherit;
+padding: 3px;
+background: linear-gradient(var(--roy-bg-angle), #10b981, #ec4899, #f59e0b, #06b6d4, #10b981);
+-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+-webkit-mask-composite: xor;
+mask-composite: exclude;
+animation: roy-border-gradient 4s linear infinite;
+pointer-events: none;
+}
+.roycss-border-inset-glow {
+width: 140px;
+height: 80px;
+background: #0a0a0a;
+border: 1px solid rgba(6, 182, 212, 0.5);
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #67e8f9;
+font-size: 12px;
+font-weight: 600;
+box-shadow:
+inset 0 0 22px rgba(6, 182, 212, 0.4),
+inset 0 0 4px rgba(6, 182, 212, 0.7);
+}
+.roycss-border-marching-ants {
+width: 140px;
+height: 80px;
+background-color: #0f172a;
+background-image:
+repeating-linear-gradient(90deg, #f59e0b 0 6px, transparent 6px 12px),
+repeating-linear-gradient(90deg, #f59e0b 0 6px, transparent 6px 12px),
+repeating-linear-gradient(0deg, #f59e0b 0 6px, transparent 6px 12px),
+repeating-linear-gradient(0deg, #f59e0b 0 6px, transparent 6px 12px);
+background-position: 0 0, 0 100%, 0 0, 100% 0;
+background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+background-size: 12px 2px, 12px 2px, 2px 12px, 2px 12px;
+border-radius: 4px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #fde68a;
+font-size: 12px;
+font-weight: 600;
+animation: roy-border-march 0.7s linear infinite;
+}
+.roycss-border-neon-pulse {
+width: 140px;
+height: 80px;
+background: #0a0a0a;
+border: 2px solid #ec4899;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #f9a8d4;
+font-size: 12px;
+font-weight: 600;
+animation: roy-border-neon 1.5s ease-in-out infinite;
+}
+.roycss-border-polaroid {
+width: 140px;
+height: 110px;
+background: #fff;
+padding: 8px 8px 30px;
+box-sizing: border-box;
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+display: flex;
+align-items: center;
+justify-content: center;
+transform: rotate(-4deg);
+}
+.roycss-border-ribbon {
+width: 140px;
+height: 90px;
+background: #ef4444;
+clip-path: polygon(0 0, 100% 0, 100% 100%, 52% 78%, 0 100%);
+display: flex;
+align-items: center;
+justify-content: center;
+color: #fff;
+font-size: 12px;
+font-weight: 700;
+padding-bottom: 14px;
+box-sizing: border-box;
+}
+.roycss-border-sticker {
+width: 140px;
+height: 80px;
+background: linear-gradient(135deg, #10b981, #06b6d4);
+border: 6px solid #fff;
+border-radius: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #fff;
+font-size: 12px;
+font-weight: 700;
+box-shadow: 0 5px 14px rgba(0, 0, 0, 0.3);
+transform: rotate(-3deg);
+}
+.roycss-border-torn-paper {
+width: 140px;
+height: 80px;
+background: #f8fafc;
+color: #1e293b;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 12px;
+font-weight: 700;
+clip-path: polygon(
+0% 6%, 5% 0%, 12% 6%, 20% 1%, 28% 5%, 35% 0%, 42% 4%, 50% 1%, 58% 5%, 65% 0%, 72% 4%, 80% 1%, 88% 5%, 95% 0%, 100% 6%,
+100% 94%, 95% 100%, 88% 94%, 80% 99%, 72% 95%, 65% 100%, 58% 96%, 50% 99%, 42% 95%, 35% 100%, 28% 96%, 20% 99%, 12% 95%, 5% 100%, 0% 94%
+);
+filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.25));
+}

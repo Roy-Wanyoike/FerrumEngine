@@ -1,0 +1,314 @@
+@keyframes roy-form-check {
+0%   { transform: rotate(-45deg) scale(0); }
+60%  { transform: rotate(-45deg) scale(1.4); }
+100% { transform: rotate(-45deg) scale(1); }
+}
+@keyframes roy-form-checkbox {
+0%   { transform: rotate(-45deg) translate(1px, -1px) scale(0); }
+60%  { transform: rotate(-45deg) translate(1px, -1px) scale(1.3); }
+100% { transform: rotate(-45deg) translate(1px, -1px) scale(1); }
+}
+@keyframes roy-form-error-shake {
+0%, 100% { transform: translateX(0); }
+20%      { transform: translateX(-5px); }
+40%      { transform: translateX(5px); }
+60%      { transform: translateX(-3px); }
+80%      { transform: translateX(3px); }
+}
+@keyframes roy-form-radio {
+0%   { transform: scale(0.5); box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+100% { transform: scale(1); box-shadow: 0 0 0 4px rgba(16,185,129,0); }
+}
+@keyframes roy-form-shimmer {
+0%   { background-position: 200% 0; }
+100% { background-position: -200% 0; }
+}
+.roycss-form-checkbox-custom {
+position: relative;
+width: 32px;
+height: 32px;
+background: transparent;
+border: 2px solid #10b981;
+border-radius: 7px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.roycss-form-checkbox-custom > div { display: none; }
+.roycss-form-checkbox-custom::after {
+content: "";
+width: 14px;
+height: 7px;
+border-left: 2px solid #10b981;
+border-bottom: 2px solid #10b981;
+transform: rotate(-45deg) translate(1px, -1px) scale(0);
+animation: roy-form-checkbox 0.5s 0.2s ease-out forwards;
+}
+.roycss-form-error-shake {
+position: relative;
+width: 160px;
+height: 40px;
+padding: 0 14px;
+background: rgba(239,68,68,0.08);
+border: 1px solid #ef4444;
+border-radius: 10px;
+display: flex;
+align-items: center;
+font: 12px/1 system-ui, sans-serif;
+color: #fca5a5;
+animation: roy-form-error-shake 0.5s ease-in-out infinite;
+}
+.roycss-form-error-shake > div { display: none; }
+.roycss-form-error-shake::before { content: "⚠  Invalid email"; }
+.roycss-form-focus-glow {
+position: relative;
+width: 170px;
+height: 40px;
+padding: 0 14px;
+background: rgba(255,255,255,0.04);
+border: 1px solid rgba(255,255,255,0.18);
+border-radius: 10px;
+display: flex;
+align-items: center;
+font: 12px/1 system-ui, sans-serif;
+color: rgba(255,255,255,0.55);
+transition: all 0.3s ease;
+}
+.roycss-form-focus-glow > span { display: none; }
+.roycss-form-focus-glow::after {
+content: "";
+position: absolute;
+right: 14px;
+top: 50%;
+width: 12px;
+height: 12px;
+margin-top: -6px;
+background: linear-gradient(135deg, #10b981, #34d399);
+border-radius: 50%;
+opacity: 0;
+transform: scale(0.4);
+transition: all 0.3s ease;
+}
+.roycss-form-focus-glow::before { content: "you@example.com"; }
+.roycss-form-focus-glow:hover {
+border-color: #10b981;
+background: rgba(16,185,129,0.06);
+color: #ecfdf5;
+box-shadow: 0 0 0 3px rgba(16,185,129,0.18), 0 0 24px rgba(16,185,129,0.35);
+}
+.roycss-form-focus-glow:hover::after {
+opacity: 1;
+transform: scale(1);
+}
+.roycss-form-label-float {
+position: relative;
+width: 170px;
+height: 48px;
+background: rgba(255,255,255,0.04);
+border: 1px solid rgba(255,255,255,0.18);
+border-radius: 10px;
+transition: all 0.3s ease;
+}
+.roycss-form-label-float > span { display: none; }
+.roycss-form-label-float::after {
+content: "Roy Wanyoike";
+position: absolute;
+left: 14px;
+top: 24px;
+font: 12px/1 system-ui, sans-serif;
+color: rgba(255,255,255,0.85);
+}
+.roycss-form-label-float::before {
+content: "Full name";
+position: absolute;
+left: 14px;
+top: 50%;
+transform: translateY(-50%);
+font: 13px/1 system-ui, sans-serif;
+color: rgba(255,255,255,0.5);
+transition: all 0.25s ease;
+pointer-events: none;
+}
+.roycss-form-label-float:hover {
+border-color: #10b981;
+background: rgba(16,185,129,0.05);
+}
+.roycss-form-label-float:hover::before {
+top: 9px;
+font-size: 9px;
+color: #10b981;
+letter-spacing: 0.06em;
+text-transform: uppercase;
+}
+.roycss-form-placeholder-shimmer {
+position: relative;
+width: 180px;
+height: 40px;
+padding: 0 14px;
+background: rgba(255,255,255,0.04);
+border: 1px solid rgba(255,255,255,0.18);
+border-radius: 10px;
+display: flex;
+align-items: center;
+font: 12px/1 system-ui, sans-serif;
+overflow: hidden;
+}
+.roycss-form-placeholder-shimmer > span { display: none; }
+.roycss-form-placeholder-shimmer::before {
+content: "Start typing...";
+background: linear-gradient(90deg,
+rgba(255,255,255,0.3) 0%,
+rgba(255,255,255,0.95) 50%,
+rgba(255,255,255,0.3) 100%);
+background-size: 200% 100%;
+-webkit-background-clip: text;
+background-clip: text;
+-webkit-text-fill-color: transparent;
+animation: roy-form-shimmer 2s linear infinite;
+}
+.roycss-form-radio-custom {
+position: relative;
+width: 32px;
+height: 32px;
+background: transparent;
+border: 2px solid #10b981;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.roycss-form-radio-custom > div { display: none; }
+.roycss-form-radio-custom::after {
+content: "";
+width: 14px;
+height: 14px;
+background: #10b981;
+border-radius: 50%;
+transform: scale(0.4);
+animation: roy-form-radio 0.9s ease-in-out infinite alternate;
+}
+.roycss-form-search-expand {
+position: relative;
+width: 56px;
+height: 40px;
+background: rgba(255,255,255,0.05);
+border: 1px solid rgba(255,255,255,0.18);
+border-radius: 20px;
+display: flex;
+align-items: center;
+padding: 0 14px;
+font: 12px/1 system-ui, sans-serif;
+color: rgba(255,255,255,0.6);
+overflow: hidden;
+transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+border-color 0.4s ease;
+}
+.roycss-form-search-expand > span { display: none; }
+.roycss-form-search-expand::after {
+content: "Search docs...";
+margin-left: 12px;
+white-space: nowrap;
+opacity: 0;
+transition: opacity 0.3s 0.2s ease;
+}
+.roycss-form-search-expand::before {
+content: "";
+width: 14px;
+height: 14px;
+border: 2px solid #10b981;
+border-radius: 50%;
+flex-shrink: 0;
+box-shadow: 6px 6px 0 -1px #10b981;
+transform: rotate(-45deg);
+}
+.roycss-form-search-expand:hover {
+width: 200px;
+border-color: #10b981;
+background: rgba(16,185,129,0.05);
+}
+.roycss-form-search-expand:hover::after { opacity: 1; }
+.roycss-form-success-check {
+position: relative;
+width: 160px;
+height: 40px;
+padding: 0 14px 0 38px;
+background: rgba(16,185,129,0.1);
+border: 1px solid #10b981;
+border-radius: 10px;
+display: flex;
+align-items: center;
+font: 12px/1 system-ui, sans-serif;
+color: #6ee7b7;
+}
+.roycss-form-success-check > div { display: none; }
+.roycss-form-success-check::after {
+content: "";
+position: absolute;
+left: 14px;
+top: 50%;
+width: 16px;
+height: 8px;
+margin-top: -4px;
+border-left: 2px solid #10b981;
+border-bottom: 2px solid #10b981;
+transform: rotate(-45deg) scale(0);
+animation: roy-form-check 0.6s 0.2s ease-out forwards;
+}
+.roycss-form-success-check::before { content: "Submitted!"; }
+.roycss-form-toggle-switch {
+position: relative;
+width: 54px;
+height: 28px;
+background: rgba(255,255,255,0.08);
+border: 1px solid rgba(255,255,255,0.2);
+border-radius: 14px;
+transition: background 0.3s ease, border-color 0.3s ease;
+}
+.roycss-form-toggle-switch > div {
+width: 22px !important;
+height: 22px !important;
+margin: 0 !important;
+background: #fff !important;
+border-radius: 50% !important;
+position: absolute;
+top: 2px;
+left: 2px;
+transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.roycss-form-toggle-switch:hover {
+background: #10b981;
+border-color: #10b981;
+}
+.roycss-form-toggle-switch:hover > div {
+transform: translateX(26px);
+}
+.roycss-form-underline-draw {
+position: relative;
+width: 180px;
+height: 40px;
+padding: 0 4px;
+background: transparent;
+border: none;
+border-bottom: 2px solid rgba(255,255,255,0.18);
+display: flex;
+align-items: center;
+font: 13px/1 system-ui, sans-serif;
+color: rgba(255,255,255,0.7);
+}
+.roycss-form-underline-draw > span { display: none; }
+.roycss-form-underline-draw::after {
+content: "";
+position: absolute;
+left: 0;
+bottom: -2px;
+width: 0;
+height: 2px;
+background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.roycss-form-underline-draw::before { content: "@username"; }
+.roycss-form-underline-draw:hover {
+color: #ecfdf5;
+}
+.roycss-form-underline-draw:hover::after { width: 100%; }

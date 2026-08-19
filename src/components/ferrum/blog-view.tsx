@@ -170,7 +170,7 @@ export function BlogView() {
           {/* Tags */}
           <div className="mt-12 pt-8 border-t border-border/50">
             <div className="flex items-center gap-2 flex-wrap">
-              <Tag className="w-4 h-4 text-muted-foreground/40" />
+              <Tag className="w-4 h-4 text-muted-foreground/60" />
               {selectedPost.tags.map((tag) => (
                 <span
                   key={tag}
@@ -231,14 +231,14 @@ export function BlogView() {
         <div className="flex flex-col sm:flex-row gap-4 mb-10">
           {/* Search */}
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60" />
             <input
               type="text"
               placeholder="Search posts..."
               aria-label="Search blog posts"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-10 pl-10 pr-4 rounded-xl bg-foreground/[0.03] border border-border/50 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
+              className="w-full h-10 pl-10 pr-4 rounded-xl bg-foreground/[0.03] border border-border/50 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
             />
           </div>
           {/* Category pills */}
@@ -332,7 +332,7 @@ export function BlogView() {
                   {post.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-foreground/[0.03] text-muted-foreground/40 border border-border/30"
+                      className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-foreground/[0.03] text-muted-foreground/60 border border-border/30"
                     >
                       {tag}
                     </span>

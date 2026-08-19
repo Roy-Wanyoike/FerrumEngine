@@ -18,7 +18,7 @@ export function PlatformMarquee() {
             {marqueeItems.map((item) => (
               <div key={`${set}-${item}`} className="flex items-center gap-2.5 whitespace-nowrap">
                 <span className="w-1 h-1 rounded-full bg-purple-400/40" />
-                <span className="text-xs font-medium text-muted-foreground/40 tracking-wide uppercase">{item}</span>
+                <span className="text-xs font-medium text-muted-foreground/60 tracking-wide uppercase">{item}</span>
               </div>
             ))}
           </div>

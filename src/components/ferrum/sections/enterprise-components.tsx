@@ -156,8 +156,8 @@ function Wireframe({ type }: { type: EnterpriseComponent["wireframe"] }) {
                 key={cmd.label}
                 className={`flex items-center justify-between px-2.5 py-1.5 rounded-md ${cmd.active ? "bg-purple-500/10 border border-purple-500/15" : ""}`}
               >
-                <span className={`text-[10px] ${cmd.active ? "text-foreground/70" : "text-muted-foreground/40"}`}>{cmd.label}</span>
-                <span className={`text-[8px] ${cmd.active ? "text-muted-foreground/40" : "text-muted-foreground/50"}`}>{cmd.shortcut}</span>
+                <span className={`text-[10px] ${cmd.active ? "text-foreground/70" : "text-muted-foreground/60"}`}>{cmd.label}</span>
+                <span className={`text-[8px] ${cmd.active ? "text-muted-foreground/60" : "text-muted-foreground/50"}`}>{cmd.shortcut}</span>
               </div>
             ))}
           </div>
@@ -187,7 +187,7 @@ function Wireframe({ type }: { type: EnterpriseComponent["wireframe"] }) {
         <div className="mt-3 flex gap-1.5">
           {["To Do", "In Progress", "Done"].map((col, ci) => (
             <div key={col} className="flex-1 rounded-md border border-border/30 bg-foreground/[0.02] overflow-hidden">
-              <div className="px-2 py-1 bg-foreground/[0.03] border-b border-border/20 text-[7px] font-medium text-muted-foreground/40 uppercase tracking-wider">{col}</div>
+              <div className="px-2 py-1 bg-foreground/[0.03] border-b border-border/20 text-[7px] font-medium text-muted-foreground/60 uppercase tracking-wider">{col}</div>
               <div className="p-1.5 space-y-1">
                 {[0, 1].map((card) => (
                   <div key={card} className={`h-6 rounded border border-border/20 bg-foreground/[0.03] border-l-2 ${ci === 0 ? 'border-l-sky-500/50' : ci === 1 ? 'border-l-amber-500/50' : 'border-l-emerald-500/50'}`} />
@@ -261,7 +261,7 @@ export function EnterpriseComponentLibrary() {
                       <Icon className="w-4 h-4 text-muted-foreground/50 group-hover:text-purple-400 transition-colors" />
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] text-muted-foreground/40 uppercase tracking-wider">{comp.category}</span>
+                      <span className="text-[10px] text-muted-foreground/60 uppercase tracking-wider">{comp.category}</span>
                       <span className={`text-[9px] font-medium px-2 py-0.5 rounded-full border ${statusCls[comp.status]}`}>{
                         comp.status === "available" ? "Available" : comp.status === "beta" ? "Beta" : "Planned"
                       }</span>

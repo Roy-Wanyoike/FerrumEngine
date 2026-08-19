@@ -70,17 +70,17 @@ export function DemoIllustration({ type }: { type: DemoIllustrationType }) {
             {/* Bar 1 */}
             <div className="flex flex-col items-center gap-1">
               <div className="w-10 rounded-t-md bg-gradient-to-t from-sky-600/60 to-sky-400/40 animate-pulse" style={{ height: "70%" }} />
-              <span className="text-[9px] text-muted-foreground/40">Q1</span>
+              <span className="text-[9px] text-muted-foreground/60">Q1</span>
             </div>
             {/* Bar 2 */}
             <div className="flex flex-col items-center gap-1">
               <div className="w-10 rounded-t-md bg-gradient-to-t from-purple-600/60 to-purple-400/40 animate-pulse" style={{ height: "90%", animationDelay: "0.2s" }} />
-              <span className="text-[9px] text-muted-foreground/40">Q2</span>
+              <span className="text-[9px] text-muted-foreground/60">Q2</span>
             </div>
             {/* Bar 3 */}
             <div className="flex flex-col items-center gap-1">
               <div className="w-10 rounded-t-md bg-gradient-to-t from-emerald-600/60 to-emerald-400/40 animate-pulse" style={{ height: "55%", animationDelay: "0.4s" }} />
-              <span className="text-[9px] text-muted-foreground/40">Q3</span>
+              <span className="text-[9px] text-muted-foreground/60">Q3</span>
             </div>
           </div>
         </div>
@@ -127,7 +127,7 @@ export function DemoIllustration({ type }: { type: DemoIllustrationType }) {
             <div>
               <div className="flex justify-between mb-1">
                 <span className="text-[10px] text-red-400/70 font-medium">HP</span>
-                <span className="text-[10px] text-muted-foreground/40">847 / 1000</span>
+                <span className="text-[10px] text-muted-foreground/60">847 / 1000</span>
               </div>
               <div className="h-3 rounded-full bg-foreground/[0.06] border border-border/30 overflow-hidden">
                 <div className="h-full rounded-full bg-gradient-to-r from-red-600 to-green-500" style={{ width: "85%" }} />
@@ -137,7 +137,7 @@ export function DemoIllustration({ type }: { type: DemoIllustrationType }) {
             <div>
               <div className="flex justify-between mb-1">
                 <span className="text-[10px] text-blue-400/70 font-medium">MP</span>
-                <span className="text-[10px] text-muted-foreground/40">320 / 500</span>
+                <span className="text-[10px] text-muted-foreground/60">320 / 500</span>
               </div>
               <div className="h-3 rounded-full bg-foreground/[0.06] border border-border/30 overflow-hidden">
                 <div className="h-full rounded-full bg-gradient-to-r from-blue-700 to-blue-400" style={{ width: "64%" }} />
@@ -147,7 +147,7 @@ export function DemoIllustration({ type }: { type: DemoIllustrationType }) {
             <div>
               <div className="flex justify-between mb-1">
                 <span className="text-[10px] text-amber-400/70 font-medium">XP</span>
-                <span className="text-[10px] text-muted-foreground/40">Level 42</span>
+                <span className="text-[10px] text-muted-foreground/60">Level 42</span>
               </div>
               <div className="h-2 rounded-full bg-foreground/[0.06] border border-border/30 overflow-hidden">
                 <div className="h-full rounded-full bg-gradient-to-r from-amber-600 to-amber-400" style={{ width: "72%" }} />
@@ -163,8 +163,8 @@ export function DemoIllustration({ type }: { type: DemoIllustrationType }) {
             {/* Tab bar */}
             <div className="flex border-b border-border/30 bg-foreground/[0.02]">
               <div className="px-3 py-2 text-[9px] text-foreground/60 border-b border-purple-500/40 bg-foreground/[0.03]">app.tsx</div>
-              <div className="px-3 py-2 text-[9px] text-muted-foreground/40">utils.ts</div>
-              <div className="px-3 py-2 text-[9px] text-muted-foreground/40">style.css</div>
+              <div className="px-3 py-2 text-[9px] text-muted-foreground/60">utils.ts</div>
+              <div className="px-3 py-2 text-[9px] text-muted-foreground/60">style.css</div>
             </div>
             {/* Code lines with syntax highlighting dots */}
             <div className="p-3 space-y-2.5 font-mono">
@@ -335,7 +335,7 @@ export function ShowcaseIllustration({ type }: { type: ShowcaseIllustrationType 
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${i < 2 ? "border-purple-500/60 bg-purple-500/20" : "border-border/40 bg-foreground/[0.03]"}`}>
                     {i < 2 && <div className="w-1.5 h-1.5 rounded-full bg-purple-400/70" />}
                   </div>
-                  <span className="text-[7px] text-muted-foreground/40">{label}</span>
+                  <span className="text-[7px] text-muted-foreground/60">{label}</span>
                 </div>
                 {i < 2 && <div className={`w-8 h-0.5 ${i === 0 ? "bg-purple-500/40" : "bg-purple-500/20"}`} />}
               </div>

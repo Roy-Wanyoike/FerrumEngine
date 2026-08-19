@@ -1,0 +1,228 @@
+@keyframes roy-glass-border-pulse {
+0%   { box-shadow: 0 0 0 1px rgba(0, 255, 200, 0.4), 0 0 16px rgba(0, 255, 200, 0.35), 0 8px 32px rgba(0, 0, 0, 0.12); }
+100% { box-shadow: 0 0 0 1px rgba(0, 180, 255, 0.6), 0 0 30px rgba(0, 180, 255, 0.6), 0 8px 32px rgba(0, 0, 0, 0.12); }
+}
+@keyframes roy-glass-liquid-refract {
+0%   { backdrop-filter: blur(8px) brightness(1.1) contrast(1.05) hue-rotate(0deg); }
+100% { backdrop-filter: blur(14px) brightness(1.15) contrast(1.1) hue-rotate(25deg); }
+}
+@keyframes roy-glass-reflection-sweep {
+0%, 100% { left: -60%; }
+50%      { left: 130%; }
+}
+@keyframes roy-linear-glow {
+0% { background-position: 0% 50%; }
+100% { background-position: 300% 50%; }
+}
+.roycss-glass-acrylic {
+background: rgba(245, 247, 250, 0.65);
+backdrop-filter: blur(30px) saturate(140%);
+-webkit-backdrop-filter: blur(30px) saturate(140%);
+border: 1px solid rgba(255, 255, 255, 0.5);
+border-radius: 12px;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+.roycss-glass-acrylic span {
+color: #1e293b;
+text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.roycss-glass-border-glow {
+position: relative;
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(16px) saturate(160%);
+-webkit-backdrop-filter: blur(16px) saturate(160%);
+border: 1px solid rgba(255, 255, 255, 0.2);
+border-radius: 16px;
+animation: roy-glass-border-pulse 3s ease-in-out infinite alternate;
+}
+.roycss-glass-border-glow span {
+color: rgba(255, 255, 255, 0.95);
+text-shadow: 0 0 8px rgba(0, 255, 200, 0.6);
+}
+.roycss-glass-claymorphism {
+background: linear-gradient(145deg, #fef3f8, #fbcfe8);
+border-radius: 28px;
+border: 1px solid rgba(255, 255, 255, 0.6);
+box-shadow:
+8px 8px 16px rgba(190, 24, 93, 0.18),
+-4px -4px 12px rgba(255, 255, 255, 0.9),
+inset 2px 2px 4px rgba(255, 255, 255, 0.7),
+inset -2px -2px 6px rgba(190, 24, 93, 0.12);
+}
+.roycss-glass-claymorphism span {
+color: #9d174d;
+font-weight: 600;
+text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.6);
+}
+.roycss-glass-depth-layer {
+position: relative;
+background: rgba(255, 255, 255, 0.18);
+backdrop-filter: blur(28px) saturate(160%);
+-webkit-backdrop-filter: blur(28px) saturate(160%);
+border: 1px solid rgba(255, 255, 255, 0.3);
+border-radius: 18px;
+box-shadow:
+0 1px 0 rgba(255, 255, 255, 0.5) inset,
+0 -1px 0 rgba(0, 0, 0, 0.05) inset,
+0 2px 4px rgba(0, 0, 0, 0.08),
+0 8px 16px rgba(0, 0, 0, 0.12),
+0 20px 40px rgba(0, 0, 0, 0.15);
+color: #1d1d1f;
+}
+.roycss-glass-frosted {
+background: rgba(255, 255, 255, 0.12);
+backdrop-filter: blur(20px) saturate(180%);
+-webkit-backdrop-filter: blur(20px) saturate(180%);
+border: 1px solid rgba(255, 255, 255, 0.2);
+border-radius: 16px;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.roycss-glass-frosted span {
+color: rgba(255, 255, 255, 0.9);
+text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.roycss-glass-frosted-dark {
+background: rgba(20, 20, 35, 0.55);
+backdrop-filter: blur(20px) saturate(160%);
+-webkit-backdrop-filter: blur(20px) saturate(160%);
+border: 1px solid rgba(255, 255, 255, 0.08);
+border-radius: 16px;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.roycss-glass-frosted-dark span {
+color: rgba(255, 255, 255, 0.9);
+text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+.roycss-glass-liquid {
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(8px) brightness(1.1) contrast(1.05) hue-rotate(15deg);
+-webkit-backdrop-filter: blur(8px) brightness(1.1) contrast(1.05) hue-rotate(15deg);
+border: 1px solid rgba(255, 255, 255, 0.3);
+border-radius: 24px;
+box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.4),
+inset 0 -2px 6px rgba(0, 0, 0, 0.1),
+0 10px 30px rgba(0, 0, 0, 0.15);
+animation: roy-glass-liquid-refract 6s ease-in-out infinite alternate;
+}
+.roycss-glass-liquid span {
+color: rgba(255, 255, 255, 0.95);
+text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+.roycss-glass-neumorphism {
+background: #e0e5ec;
+border-radius: 16px;
+box-shadow: 8px 8px 16px #b8bcc2, -8px -8px 16px #ffffff;
+}
+.roycss-glass-neumorphism span {
+color: #475569;
+text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.8);
+}
+.roycss-glass-neumorphism-inset {
+background: #e0e5ec;
+border-radius: 16px;
+box-shadow: inset 6px 6px 12px #b8bcc2, inset -6px -6px 12px #ffffff;
+}
+.roycss-glass-neumorphism-inset span {
+color: #64748b;
+text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.7);
+}
+.roycss-glass-noise-overlay {
+position: relative;
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(16px) saturate(160%);
+-webkit-backdrop-filter: blur(16px) saturate(160%);
+border: 1px solid rgba(255, 255, 255, 0.15);
+border-radius: 16px;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+.roycss-glass-noise-overlay span {
+position: relative;
+z-index: 1;
+color: rgba(255, 255, 255, 0.9);
+}
+.roycss-glass-noise-overlay::after {
+content: "";
+position: absolute;
+inset: 0;
+border-radius: 16px;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+opacity: 0.1;
+pointer-events: none;
+mix-blend-mode: overlay;
+}
+.roycss-glass-prism {
+position: relative;
+background: rgba(255, 255, 255, 0.15);
+backdrop-filter: blur(24px) saturate(180%);
+-webkit-backdrop-filter: blur(24px) saturate(180%);
+border-radius: 16px;
+color: #fff;
+}
+.roycss-glass-prism::before {
+content: "";
+position: absolute;
+inset: 0;
+border-radius: inherit;
+padding: 1.5px;
+background: linear-gradient(
+135deg,
+#ff0080, #ff8c00, #ffe600, #00e676, #00b0ff, #651fff, #ff0080
+);
+background-size: 300% 300%;
+-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+-webkit-mask-composite: xor;
+mask-composite: exclude;
+animation: roy-linear-glow 6s linear infinite;
+opacity: 0.7;
+pointer-events: none;
+}
+.roycss-glass-reflection {
+position: relative;
+overflow: hidden;
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(16px) saturate(160%);
+-webkit-backdrop-filter: blur(16px) saturate(160%);
+border: 1px solid rgba(255, 255, 255, 0.2);
+border-radius: 16px;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.roycss-glass-reflection span {
+position: relative;
+z-index: 1;
+color: rgba(255, 255, 255, 0.95);
+}
+.roycss-glass-reflection::before {
+content: "";
+position: absolute;
+top: -50%;
+left: -60%;
+width: 35%;
+height: 200%;
+background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+transform: skewX(-20deg) rotate(8deg);
+animation: roy-glass-reflection-sweep 4s ease-in-out infinite;
+pointer-events: none;
+}
+.roycss-glass-transparent-blur {
+background: rgba(255, 255, 255, 0.05);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+border-radius: 10px;
+box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+.roycss-glass-transparent-blur span {
+color: rgba(255, 255, 255, 0.85);
+}
+.roycss-glass-vibrant {
+background: linear-gradient(135deg, rgba(168, 85, 247, 0.28), rgba(236, 72, 153, 0.28));
+backdrop-filter: blur(16px) saturate(220%) brightness(1.1);
+-webkit-backdrop-filter: blur(16px) saturate(220%) brightness(1.1);
+border: 1px solid rgba(255, 255, 255, 0.25);
+border-radius: 16px;
+box-shadow: 0 8px 32px rgba(168, 85, 247, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.roycss-glass-vibrant span {
+color: #ffffff;
+text-shadow: 0 1px 4px rgba(126, 34, 110, 0.6);
+}

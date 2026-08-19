@@ -103,14 +103,14 @@ export function ComponentSidebar({
       {/* Search */}
       <div className="p-3 border-b border-border">
         <div className="relative">
-          <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground/40" />
+          <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground/60" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={activity === "effects" ? "Search effects..." : "Search components..."}
             aria-label={activity === "effects" ? "Search effects" : "Search components"}
-            className="w-full h-8 pl-8 pr-3 text-xs bg-foreground/[0.04] border border-border rounded-lg focus:outline-none focus:border-foreground/20 text-foreground placeholder:text-muted-foreground/40 transition-colors"
+            className="w-full h-8 pl-8 pr-3 text-xs bg-foreground/[0.04] border border-border rounded-lg focus:outline-none focus:border-foreground/20 text-foreground placeholder:text-muted-foreground/60 transition-colors"
           />
         </div>
       </div>
@@ -136,10 +136,10 @@ export function ComponentSidebar({
                           : "text-muted-foreground/70 hover:bg-foreground/[0.04] hover:text-foreground/90"
                       }`}
                     >
-                      <Icon size={15} className={isSelected ? "text-foreground" : "text-muted-foreground/40 group-hover:text-foreground/60"} />
+                      <Icon size={15} className={isSelected ? "text-foreground" : "text-muted-foreground/60 group-hover:text-foreground/60"} />
                       <div className="min-w-0">
                         <div className="text-xs font-medium truncate">{comp.label}</div>
-                        <div className="text-[10px] text-muted-foreground/40 truncate">{comp.description}</div>
+                        <div className="text-[10px] text-muted-foreground/60 truncate">{comp.description}</div>
                       </div>
                     </button>
                   );
@@ -195,13 +195,13 @@ export function ComponentSidebar({
                     </div>
                     <div className="min-w-0">
                       <div className="text-xs font-medium truncate">{effect.name}</div>
-                      <div className="text-[10px] text-muted-foreground/40 truncate font-mono">{effect.className}</div>
+                      <div className="text-[10px] text-muted-foreground/60 truncate font-mono">{effect.className}</div>
                     </div>
                   </button>
                 );
               })}
               {filteredEffects.length === 0 && (
-                <div className="text-xs text-muted-foreground/40 text-center py-8">
+                <div className="text-xs text-muted-foreground/60 text-center py-8">
                   No effects found
                 </div>
               )}
