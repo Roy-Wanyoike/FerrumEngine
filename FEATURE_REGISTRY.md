@@ -1,15 +1,17 @@
 # Ferrum Feature Registry
-> Auto-generated from audit. Last updated: 2026-08-12
+> Auto-generated from audit. Last updated: 2026-08-19
 
 ## Summary
-- **Total Features**: 21
-- **Status**: 20 working, 1 partial, 0 missing (from implementation)
-- **Tested Features**: 2 (Collection Drawer, Footer)
-- **Components**: 69
-- **Routes**: 19 (4 pages, 13 API routes, 2 special)
-- **API Endpoints**: 18
-- **Source Lines of Code**: 23,999
-- **Last verified**: 2026-08-12 (Documentation Reconciliation — Task ID: 10)
+- **Total Features**: 25
+- **Status**: 23 working, 2 partial, 0 missing (from implementation)
+- **Tested Features**: 3 (Collection Drawer, Footer, Global Search)
+- **Components**: 82
+- **Routes**: 42 (4 static pages + 18 SPA routes + 19 API endpoints + 1 not-found)
+- **API Endpoints**: 19 (across 13 route files)
+- **Packages**: 27 (11 dependencies + 16 devDependencies)
+- **Documentation Files**: 20
+- **Source Lines of Code**: ~24,000
+- **Last verified**: 2026-08-19 (Registry Accuracy Agent — Task ID: p3)
 
 ---
 
@@ -37,7 +39,7 @@
 - **Tests**: Not tested
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Known Issues**: Theme toggle dropdown lacks `role="menuitem"` and keyboard arrow navigation (A11y K2, F2)
 
 ### F002: Color Customizer
@@ -51,7 +53,7 @@
 - **Tests**: Not tested
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Known Issues**: ~~No focus trap on the popup dialog~~ — **Fixed**: `useFocusTrap` hook added in Phase 13-14
 
 ### F003: Main Navigation Bar
@@ -62,10 +64,10 @@
 - **Dependencies**: `lucide-react`
 - **Rendering**: Client
 - **Documentation**: Inline section comment (nav.tsx:13-15)
-- **Tests**: Not tested
+- **Tests**: Tested in `__tests__/nav.test.tsx`
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Known Issues**: ~~NavButton lacks `aria-current="page"` when active~~ — **Fixed** in Phase 13-14
 
 ### F004: Mega Menu Navigation
@@ -76,10 +78,10 @@
 - **Dependencies**: `lucide-react`
 - **Rendering**: Client
 - **Documentation**: Inline comments (nav-mega-menu.tsx:119-161)
-- **Tests**: Not tested
+- **Tests**: Tested in `__tests__/nav-data.test.ts`
 - **Status**: ⚠️ Partial
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Known Issues**: Mega menu panel lacks keyboard navigation — only mouse/touch supported (A11y K4). 7 platform items are placeholders ("Coming soon" with badge)
 
 ### F005: Mobile Navigation Overlay
@@ -93,7 +95,7 @@
 - **Tests**: Not tested
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Known Issues**: ~~Missing 5 docsMenu items~~ — **Fixed**: Mobile nav now renders docsMenu with all items. ~~role="menu" without role="menuitem"~~ — **Fixed**: Changed to `role="navigation"`
 
 ### F006: Scroll Progress Bar
@@ -104,10 +106,10 @@
 - **Dependencies**: `lucide-react`
 - **Rendering**: Client
 - **Documentation**: Inline section comment (scroll-progress.tsx:6-9)
-- **Tests**: Not tested
+- **Tests**: Tested in `__tests__/scroll-progress.test.tsx`
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 
 ### F007: Hero Section with Aurora Animation
 - **Owner**: Platform
@@ -120,7 +122,7 @@
 - **Tests**: Not tested
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 
 ### F008: Effects Gallery with Search and Filter
 - **Owner**: Platform
@@ -130,10 +132,10 @@
 - **Dependencies**: `lucide-react`
 - **Rendering**: Client
 - **Documentation**: Inline section comment (effects-view.tsx:3-8)
-- **Tests**: Not tested
+- **Tests**: Tested in `__tests__/effects-view.test.tsx`, `__tests__/effects-data.test.ts`
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Known Issues**: ~~Search input has no `aria-label`~~ — **Fixed**: `aria-label="Search effects"` added in prior phase
 - **Bundle Note**: Prefetched after hydration (`webpackPrefetch: true`). Effects data is 3,806 LOC / ~424 KB — largest single data file
 
@@ -148,7 +150,7 @@
 - **Tests**: Not tested
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 
 ### F010: Collection Drawer
 - **Owner**: Platform
@@ -161,7 +163,7 @@
 - **Tests**: Tested in `__tests__/collection.test.ts`
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 
 ### F011: Playground 2.0
 - **Owner**: Platform
@@ -182,7 +184,7 @@
 - **Tests**: Not tested
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Bundle Note**: Prefetched after hydration (`webpackPrefetch: true`). Includes built-in WCAG contrast checker
 
 ### F012: Architecture Deep Dive
@@ -196,7 +198,7 @@
 - **Tests**: Not tested
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 
 ### F013: Documentation Viewer
 - **Owner**: Platform
@@ -206,10 +208,10 @@
 - **Dependencies**: `lucide-react`, `sonner`
 - **Rendering**: Client
 - **Documentation**: Inline section comments (docs-view.tsx:239-240, 369-371)
-- **Tests**: Not tested
+- **Tests**: Tested in `__tests__/docs-view.test.tsx`, `__tests__/docs-data.test.ts`
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Bundle Note**: Prefetched after hydration (`webpackPrefetch: true`)
 
 ### F014: SEO Structured Data and Content
@@ -220,10 +222,10 @@
 - **Dependencies**: None
 - **Rendering**: Server
 - **Documentation**: JSDoc comments (layout.tsx:117-118, seo-content.tsx:3-16)
-- **Tests**: Not tested
+- **Tests**: Tested in `__tests__/view-meta.test.ts`
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Notes**: seo-content.tsx renders before client-side SPA hydrates. The container is `sr-only` and ships zero JS. Adds ~2KB to initial HTML
 
 ### F015: Footer with Links
@@ -237,7 +239,7 @@
 - **Tests**: Tested in `__tests__/footer.test.tsx`
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 
 ### F016: Skip Link and Accessibility
 - **Owner**: Platform
@@ -257,7 +259,7 @@
 - **Tests**: Not tested
 - **Status**: ⚠️ Partial
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Known Issues**:
   - Contrast: `text-muted-foreground/40` used on readable text fails WCAG AA 4.5:1 (C1) — **systemic, not yet fixed**
   - ~~Color customizer popup lacks focus trap (F1)~~ — **Fixed**: `useFocusTrap` added
@@ -283,7 +285,7 @@
 - **Tests**: Not tested
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 
 ### F018: Cloud Dashboard
 - **Owner**: Platform
@@ -302,10 +304,10 @@
 - **Dependencies**: None (uses custom hooks)
 - **Rendering**: Hybrid
 - **Documentation**: Not documented
-- **Tests**: Cloud store tested in `__tests__/cloud-store.test.ts`; auth/routing tested in `__tests__/api-routes.test.ts`
+- **Tests**: Cloud store tested in `__tests__/cloud-store.test.ts`; auth/routing tested in `__tests__/api-routes.test.ts`; persistence in `__tests__/persistence.test.ts`; API types in `__tests__/api-types.test.ts`; rate limiting in `__tests__/rate-limit.test.ts`
 - **Status**: ✅ Active
 - **Git History**: Present since initial commit (`db3a4c9`)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Security Notes**:
   - Uses static shared API token (not per-session JWT) — demo mode only
   - Single shared password for all users
@@ -322,10 +324,10 @@
 - **Dependencies**: `lucide-react`
 - **Rendering**: Client
 - **Documentation**: Not documented
-- **Tests**: Not tested
+- **Tests**: Tested in `__tests__/blog-view.test.tsx`
 - **Status**: ✅ Active
 - **Git History**: Added in commit `88fa612` (2026-08-12)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Notes**: 497 LOC. Dynamically imported via `next/dynamic` with `ssr: false`. Content is hardcoded (no CMS). Accessible from mobile nav via Docs menu.
 
 ### F020: Changelog
@@ -336,10 +338,10 @@
 - **Dependencies**: `lucide-react`
 - **Rendering**: Client
 - **Documentation**: Not documented
-- **Tests**: Not tested
+- **Tests**: Tested in `__tests__/changelog-view.test.tsx`
 - **Status**: ✅ Active
 - **Git History**: Added in commit `88fa612` (2026-08-12)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Notes**: 510 LOC. Dynamically imported. Content is hardcoded. Accessible from mobile nav via "More" menu
 
 ### F021: Interactive Documentation
@@ -359,7 +361,7 @@
 - **Tests**: Not tested
 - **Status**: ✅ Active
 - **Git History**: Added in commit `88fa612` (2026-08-12)
-- **Last Verified**: 2026-08-12
+- **Last Verified**: 2026-08-19
 - **Notes**: 302 LOC (split into 5 modules in Phase 9: interactive-docs-view.tsx + 4 sub-modules). Dynamically imported. Content hardcoded in `LESSONS` array. Uses `dangerouslySetInnerHTML` for lesson explanation (safe — static content only). Accessible from mobile nav via Docs menu.
 
 ---
@@ -376,7 +378,7 @@ The following are referenced in documentation, blog content, and navigation as "
 | Framework Adapters (Vue, Svelte, Angular) | Docs, playground export | 📋 Concept-only |
 | Physics Engine (spring physics, RK4) | Docs, playground controls | 📋 Concept-only |
 | VFX Engine (particles, visual effects) | Docs | 📋 Concept-only |
-| Global Search (Cmd+K) | Platform audit | 🚫 Missing |
+| Global Search (Cmd+K) | `src/components/ferrum/global-search.tsx` | ✅ Implemented (F022) |
 
 ---
 
@@ -402,6 +404,7 @@ The following are referenced in documentation, blog content, and navigation as "
 | `/blog` | BlogView | F019 | ✅ Working |
 | `/changelog` | ChangelogView | F020 | ✅ Working |
 | `/interactive-docs` | InteractiveDocsView | F021 | ✅ Working |
+| `/component-catalog` | ComponentCatalog | F023 | ✅ Working |
 | `/cloud` | Cloud Dashboard | F018 | ✅ Working (separate page) |
 | `/terms` | Terms of Service | — | ✅ Working (separate page) |
 | `/privacy` | Privacy Policy | — | ✅ Working (separate page) |
@@ -420,8 +423,19 @@ The following are referenced in documentation, blog content, and navigation as "
 | `footer.test.tsx` | Footer component | F015 | ✅ Passing |
 | `utils.test.ts` | Utility functions | — | ✅ Passing |
 | `routing.test.ts` | pathnameToView mapping | — | ✅ Fixed (uses `VALID_VIEWS.length - 1` dynamically) |
+| `view-meta.test.ts` | VIEW_META consistency | F014 | ✅ Passing |
+| `effects-data.test.ts` | Effects data integrity | F008 | ✅ Passing |
+| `docs-data.test.ts` | Docs data structure | F013 | ✅ Passing |
+| `nav-data.test.ts` | Nav data menu structure | F004 | ✅ Passing |
+| `scroll-progress.test.tsx` | Scroll progress component | F006 | ✅ Passing |
+| `api-types.test.ts` | API type definitions | F018 | ✅ Passing |
+| `blog-view.test.tsx` | Blog view component | F019 | ✅ Passing |
+| `changelog-view.test.tsx` | Changelog view component | F020 | ✅ Passing |
+| `docs-view.test.tsx` | Docs view component | F013 | ✅ Passing |
+| `effects-view.test.tsx` | Effects view component | F008 | ✅ Passing |
+| `nav.test.tsx` | Navigation component | F003 | ✅ Passing |
 
-**Total**: 95/95 tests passing. Coverage gaps exist for component rendering, navigation, playground, and theme toggle.
+**Total**: All tests passing. 19 test files in `__tests__/`. Coverage gaps remain for playground, theme toggle, and most section views.
 
 ---
 

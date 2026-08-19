@@ -967,3 +967,140 @@ Stage Summary:
 - New files: 8 (1 component, 7 ADRs)
 - Modified files: 7 (types.ts, view-meta.ts, next.config.ts, nav-data.ts, home-client.tsx, 2 test files)
 - Icon: 'Layers' already mapped — no icon-resolver.tsx change needed
+---
+Task ID: p2
+Agent: DevOps Release Engineer
+Task: Rebuild ZIP + gitignore audit
+
+Work Log:
+- Ran fresh production build: `npx next build` — compiled successfully
+- Deleted outdated ferrum-launch-v1.2.0.zip
+- Created ferrum-launch-v1.3.0.zip (4.4 MB, 799 files) containing:
+  - .next/ production build, public/ static assets
+  - package.json, package-lock.json, bun.lock, next.config.ts, postcss.config.mjs, tsconfig.json
+  - .env.example, DEPLOY.md, Dockerfile, .dockerignore
+  - supabase/migrations/
+  - src/middleware.ts, src/lib/* (all runtime libs)
+  - src/app/api/** (all API routes), src/app/cloud/** (cloud dashboard)
+  - src/app/ pages: home-client, home-loader, layout, page, not-found, error, global-error, globals.css, critical.css, privacy, terms
+  - src/components/**, src/hooks/**
+  - Excludes: node_modules, tests, logs, .git, .next/cache, tsbuildinfo
+- Audited .gitignore with git check-ignore:
+  - All 11 "should be ignored" entries verified (after fixes)
+  - All 11 "should be tracked" entries verified correct
+- Fixed .gitignore issues:
+  - Added `*.db`, `*.db-journal`, `*.db-wal` (previously only /db/* was scoped)
+  - Added `ferrum-launch-*.zip` section for build artifact zips
+  - Ran `git rm --cached ferrum-launch-v1.2.0.zip` to untrack the old zip from index
+- Updated scripts/create-launch-zip.sh:
+  - Reads version from package.json via `node -p` (no more hardcoded v1.2.0)
+  - Uses exact file list matching the manually created zip
+  - Includes proper exclude flags (-x node_modules, tests, logs, .git, cache)
+- Verification: vitest 219/219 passed, next build passed, zip 4.4MB (>1MB)
+
+Stage Summary:
+- v1.3.0 launch zip: ✅ Created (4.4 MB, 799 files)
+- .gitignore audit: ✅ 3 issues found and fixed
+- create-launch-zip.sh: ✅ Updated with dynamic versioning
+- Tests: ✅ 219 passed
+- Build: ✅ Clean
+
+---
+Task ID: p3
+Agent: Registry Accuracy Engineer
+Task: Rebuild ALL registry JSON files to match exact current codebase state
+
+Work Log:
+- Scanned types.ts: 19 ViewId values in union type
+- Scanned view-meta.ts: 19 VIEW_META entries (matches types.ts exactly)
+- Scanned next.config.ts: 18 SPA_ROUTES (19 minus 'home')
+- Scanned home-client.tsx: 18 view-level dynamic imports (matches SPA_ROUTES)
+- **Consistency check PASSED**: 19 ViewIds = 19 VIEW_META = 18 SPA_ROUTES + home = 18 dynamic imports
+- Scanned all 13 API route files: found 19 exported HTTP methods (was 18 in old registry — missing DELETE /api/cloud/auth)
+- Scanned package.json: 11 dependencies + 16 devDependencies = 27 total (was 17 in old registry — missing @supabase/supabase-js, jose, @playwright/test, @types/node, @types/react, @types/react-dom, @vitejs/plugin-react, eslint, eslint-config-next, jsdom)
+- Scanned src/components/: 12 UI primitives, 53 ferrum .tsx files, 13 app components, 4 hooks = 82 total (was 69)
+- Scanned documentation: 9 reports, 7 ADRs, 4 other docs = 20 total
+- Identified 3 new features not in old registry: Global Search (F022), Component Catalog (F023), Content Sections (F024), Homepage Sections (F025) = 25 total features (was 21)
+- Fixed FEATURE_REGISTRY.md: updated summary numbers, added missing feature F022 (Global Search moved from 'Missing' to 'Implemented'), added /component-catalog to SPA route map, expanded test coverage table from 8 to 19 test files, updated all Last Verified dates from 2026-08-12 to 2026-08-19, updated test status for F003/F006/F008/F013/F014/F019/F020/F018
+- Rebuilt all 6 registry files + cross-reference.md with verified data
+- Fixed broken markdown bold syntax in FEATURE_REGISTRY.md
+- Identified 5 dead/unused files: illustrations.tsx, button.tsx, card.tsx, label.tsx, use-supabase.ts
+- Tests: ✅ 219/219 passed (19 test files)
+
+Registry Changes:
+- registry/routes.json: 5 static + 18 SPA + 19 API = 42 total routes
+- registry/components.json: 12 UI + 53 ferrum + 13 app + 4 hooks = 82 total
+- registry/apis.json: 19 API endpoints across 13 route files (added missing DELETE /api/cloud/auth)
+- registry/features.json: 25 features (added F022 Global Search, F023 Component Catalog, F024 Content Sections, F025 Homepage Sections)
+- registry/packages.json: 27 packages (11 deps + 16 devDeps, exact copy from package.json)
+- registry/documentation.json: 20 docs (9 reports, 7 ADRs, 4 other)
+- registry/cross-reference.md: Full feature→component→route→API mapping, consistency table, dead code list
+- FEATURE_REGISTRY.md: Updated summary, test table, feature status, dates
+
+---
+Task ID: p5
+Agent: Code Quality & E2E Verification Engineer
+Task: E2E test verification + dead code cleanup
+
+Work Log:
+
+PART A — E2E Test Compilation:
+- Read all 5 E2E test files: home.spec.ts, effects.spec.ts, navigation.spec.ts, global-search.spec.ts, auth.spec.ts
+- All tests use correct imports from @playwright/test, proper selectors, and correct page object patterns
+- TypeScript compilation check (`npx tsc --noEmit --skipLibCheck e2e/*.spec.ts`): ✅ 0 errors — all files compile cleanly
+- No type fixes needed
+
+PART B — Dead Code Audit:
+- `src/components/ferrum/sections/illustrations.tsx`: NOT dead code — imported by 2 files:
+  - showcase-gallery.tsx imports `{ ShowcaseIllustration }`
+  - hall-of-fame.tsx imports `{ DemoIllustration }`
+- `src/components/ferrum/sections/button.tsx`: File does not exist
+- `src/components/ferrum/sections/card.tsx`: File does not exist
+- No annotations needed — all identified files are either used or don't exist
+
+PART B — Code Hygiene:
+- `console.log` in src/: 2 benign occurrences found:
+  1. component-catalog.tsx:260 — inside a code example string (not executable)
+  2. architecture-data.ts:704 — inside a documentation/description string (not executable)
+  No action needed — both are within string literals, not runtime logging
+- TODO/FIXME in src/: 0 occurrences — codebase is clean
+
+PART C — Playwright Config WebServer:
+- Issue: `command: "npx next start"` only starts the server, doesn't build first
+  In a clean CI environment, this would fail because no `.next` directory exists
+- Fix: Changed to `command: "npx next build && npx next start"`
+- Port: ✅ 3000 (correct)
+- reuseExistingServer: ✅ `!process.env["CI"]` — true locally, false in CI (best practice)
+- Timeout: ✅ 60_000ms (reasonable for build + start)
+
+Final Verification:
+- `npx next build`: ✅ Successful (all pages compiled)
+- `npx vitest run`: ✅ 19 test files, 219 tests passed
+
+Changes Made:
+- playwright.config.ts: Updated webServer command from `npx next start` to `npx next build && npx next start`
+
+---
+Task ID: p3b
+Agent: Report Consistency Engineer
+Task: Update all audit/report .md files to reflect v1.3.0 state
+
+Work Log:
+- Read all 6 audit report files in project root
+- Added v1.3.0 update section (2026-08-19) to VERIFICATION_REPORT.md — updated test counts (219/219, 19 files), component counts (82), SPA views (19), auth migration status, search, effects lazy loading, Supabase, E2E, CI/CD, deploy options
+- Added v1.3.0 update section to PLATFORM_AUDIT_REPORT.md — updated metrics table, resolved all 5 original warnings, documented 9 key v1.3.0 changes, listed remaining open INFO items
+- Added v1.3.0 update section to SECURITY_AUDIT_REPORT.md — documented JWT migration complete (HIGH-1, HIGH-2 resolved), Supabase RLS ready, updated accepted risks table (2 of 3 HIGH resolved)
+- Added v1.3.0 update section to ACCESSIBILITY_AUDIT_REPORT.md — documented K4 mega menu keyboard nav resolved, verified all focus traps (+2 new in v1.3.0), updated category ratings table
+- Added v1.3.0 update section (Section 14) to PERFORMANCE_BASELINE_REPORT.md — documented effects lazy loading implemented (35 category files), updated bundle estimates, global search perf, component catalog perf, dependency growth analysis
+- Added v1.3.0 update section (Section 11) to FINAL_RECONCILIATION_REPORT.md — comprehensive delta table, 8 key features documented, reconciliation items status (8/14 resolved), platform health maintained at 100%
+- All edits used targeted Edit tool (no full rewrites), historical data preserved
+- Verified: `npx vitest run` — 19 test files, 219 tests passed, 0 failures
+
+Files Modified:
+- VERIFICATION_REPORT.md (added Section 9: v1.3.0 Update)
+- PLATFORM_AUDIT_REPORT.md (added v1.3.0 Update section)
+- SECURITY_AUDIT_REPORT.md (added v1.3.0 Update section)
+- ACCESSIBILITY_AUDIT_REPORT.md (added v1.3.0 Update section)
+- PERFORMANCE_BASELINE_REPORT.md (added Section 14: v1.3.0 Update)
+- FINAL_RECONCILIATION_REPORT.md (added Section 11: v1.3.0 Update)
+- worklog.md (this entry)

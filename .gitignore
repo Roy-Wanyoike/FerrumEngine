@@ -39,6 +39,9 @@
 /db/*.db
 /db/*.db-journal
 /db/*.db-wal
+*.db
+*.db-journal
+*.db-wal
 
 # Supabase migration artifacts (keep schema, ignore generated)
 supabase/.temp/
@@ -147,3 +150,8 @@ yarn-error.log*
 *.pem
 test
 prompt
+
+# ============================================================
+# Build artifacts (launch zips)
+# ============================================================
+ferrum-launch-*.zip

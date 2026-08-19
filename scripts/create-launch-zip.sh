@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 # ============================================================
-# FerrumEngine v1.2.0 — Launch ZIP Creator
+# FerrumEngine — Launch ZIP Creator
 # Creates a production-ready deployment archive
+# Version is read from package.json automatically
 # ============================================================
 set -euo pipefail
 
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-OUTPUT_ZIP="$PROJECT_DIR/ferrum-launch-v1.2.0.zip"
+
+# Read version from package.json
+VERSION=$(node -p "require('$PROJECT_DIR/package.json').version")
+OUTPUT_ZIP="$PROJECT_DIR/ferrum-launch-v${VERSION}.zip"
 
 echo "=== FerrumEngine Launch ZIP Creator ==="
+echo "Version: v${VERSION}"
 echo ""
 
 # Step 1: Run production build
@@ -29,76 +34,50 @@ fi
 # Step 3: Create the zip
 echo "[2/3] Creating deployment archive..."
 
-# Build the list of files to include
-INCLUDES=()
-
-# Production build
-INCLUDES+=(.next/)
-
-# Static assets
-INCLUDES+=(public/)
-
-# Package manifests
-INCLUDES+=(package.json)
-if [ -n "$LOCK_FILE" ]; then
-  INCLUDES+=("$LOCK_FILE")
-fi
-
-# Config files
-INCLUDES+=(next.config.ts)
-[ -f "$PROJECT_DIR/tailwind.config.ts" ] && INCLUDES+=(tailwind.config.ts)
-[ -f "$PROJECT_DIR/postcss.config.mjs" ] && INCLUDES+=(postcss.config.mjs)
-INCLUDES+=(tsconfig.json)
-
-# Env template
-[ -f "$PROJECT_DIR/.env.example" ] && INCLUDES+=(.env.example)
-
-# Database migrations
-[ -d "$PROJECT_DIR/supabase/migrations" ] && INCLUDES+=(supabase/migrations/)
-
-# Documentation
-[ -f "$PROJECT_DIR/README.md" ] && INCLUDES+=(README.md)
-[ -f "$PROJECT_DIR/DEPLOY.md" ] && INCLUDES+=(DEPLOY.md)
-[ -f "$PROJECT_DIR/Dockerfile" ] && INCLUDES+=(Dockerfile)
-[ -f "$PROJECT_DIR/.dockerignore" ] && INCLUDES+=(.dockerignore)
-
-# Create a temp directory with symlinks or use zip's exclusion
-TMPDIR=$(mktemp -d)
-
-# Copy includes to temp dir
-for item in "${INCLUDES[@]}"; do
-  if [ -d "$PROJECT_DIR/$item" ]; then
-    cp -r "$PROJECT_DIR/$item" "$TMPDIR/"
-  else
-    cp "$PROJECT_DIR/$item" "$TMPDIR/"
-  fi
-done
-
-# Remove unwanted files from the temp directory
-cd "$TMPDIR"
-
-# Remove any .env files except .env.example
-find . -name '.env' -o -name '.env.local' -o -name '.env.*.local' | while read -r f; do
-  rm -f "$f"
-done
-
-# Remove log files
-find . -name '*.log' -delete
-
-# Remove node_modules if it got copied
-[ -d node_modules ] && rm -rf node_modules
-
-# Remove .next/cache (not needed for deployment)
-[ -d .next/cache ] && rm -rf .next/cache
-
-# Remove .git if present
-[ -d .git ] && rm -rf .git
-
-# Create the zip
-zip -r "$OUTPUT_ZIP" .
-
-# Cleanup
-rm -rf "$TMPDIR"
+zip -r "$OUTPUT_ZIP" \
+  .next/ \
+  public/ \
+  package.json \
+  package-lock.json \
+  bun.lock \
+  next.config.ts \
+  postcss.config.mjs \
+  tsconfig.json \
+  .env.example \
+  supabase/migrations/ \
+  DEPLOY.md \
+  Dockerfile \
+  .dockerignore \
+  src/middleware.ts \
+  src/lib/supabase.ts \
+  src/lib/supabase-store.ts \
+  src/lib/auth.ts \
+  src/lib/cloud-store.ts \
+  src/lib/persist.ts \
+  src/lib/api-types.ts \
+  src/app/api/ \
+  src/app/cloud/ \
+  src/app/home-client.tsx \
+  src/app/home-loader.tsx \
+  src/app/layout.tsx \
+  src/app/page.tsx \
+  src/app/not-found.tsx \
+  src/app/error.tsx \
+  src/app/global-error.tsx \
+  src/app/globals.css \
+  src/app/critical.css \
+  src/app/privacy/ \
+  src/app/terms/ \
+  src/components/ \
+  src/hooks/ \
+  src/lib/ \
+  -x "node_modules/*" \
+  -x "src/**/*.test.*" \
+  -x "src/**/__tests__/*" \
+  -x "*.log" \
+  -x ".git/*" \
+  -x ".next/cache/*" \
+  -x "*.tsbuildinfo"
 
 echo "  ✅ Archive created"
 echo ""
@@ -115,5 +94,8 @@ echo "  • package.json + $LOCK_FILE"
 echo "  • next.config.ts, postcss.config.mjs, tsconfig.json"
 echo "  • .env.example"
 echo "  • supabase/migrations/"
-echo "  • README.md, DEPLOY.md"
-echo "  • Dockerfile, .dockerignore"
+echo "  • DEPLOY.md, Dockerfile, .dockerignore"
+echo "  • src/middleware.ts, src/lib/* (runtime deps)"
+echo "  • src/app/api/**, src/app/cloud/** (server routes)"
+echo "  • src/app/ pages (home, privacy, terms, error handlers)"
+echo "  • src/components/**, src/hooks/**"

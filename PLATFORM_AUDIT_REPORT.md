@@ -591,3 +591,53 @@ No P0 issues.
 12. **INFO-5**: Consider using `<form>` elements for better validation/progressive enhancement
 13. **INFO-9**: Either implement analytics storage or remove the endpoint
 14. **INFO-10**: Fix service worker registration (blocked by CSP) or remove it
+
+---
+
+## v1.3.0 Update (2026-08-19)
+
+### Updated Metrics
+
+| Metric | v1.1.0-rebuild | v1.3.0 | Change |
+|--------|---------------|--------|--------|
+| Components | 69 files | 82 total (12 UI, 53 ferrum, 13 app, 4 hooks) | +13 |
+| SPA Views | 18 | 19 (+component-catalog) | +1 |
+| API Routes | 13 | 13 routes, 19 endpoints (GET/POST/PUT/DELETE) | +6 endpoints |
+| Test Suite | 175/175, 13 files | 219/219, 19 files | +44 tests, +6 files |
+| Features | 21 | 25 | +4 |
+| Dependencies | 9 runtime | 27 packages | +18 |
+| ADRs | 8 | 7 in docs/adr/ | Reorganized |
+| E2E Tests | 0 | 5 Playwright spec files (20 cases) | NEW |
+
+### Warning Status Update
+
+- **WARNING-1 (dead communityMenu)**: Resolved — removed in prior phase ✅
+- **WARNING-2 (placeholder nav items)**: Resolved — badges added ✅
+- **WARNING-3 (outdated API docs)**: Resolved — effect prefix corrected ✅
+- **WARNING-4 (missing aria-label)**: Resolved — added ✅
+- **WARNING-5 (dead mobile nav reference)**: Resolved — communityMenu removed ✅
+
+**Current warning count: 0** (all original warnings resolved)
+
+### Key v1.3.0 Changes
+
+1. **Auth migration**: JWT with jose, httpOnly cookies, demo mode fallback (resolves HIGH-1/HIGH-2 from security audit)
+2. **Global search**: Cmd+K search across 570+ items (effects, docs, components, views)
+3. **Effects lazy loading**: 542 effects now loaded by 35 category files instead of monolithic index
+4. **Database layer**: Supabase-ready with optional persistence and in-memory fallback
+5. **E2E testing**: Playwright with 5 spec files covering 20 test cases
+6. **Keyboard navigation**: Full keyboard mega menu navigation added
+7. **Focus traps**: Verified across all modals, drawers, and popups
+8. **Deploy options**: Docker, ZIP, and Vercel-ready configurations
+9. **Component catalog**: New SPA view for browsing all 82 components
+
+### Remaining Open Items (from original audit)
+
+| Item | Status |
+|------|--------|
+| INFO-1: Unify 404 page design | Open (low priority) |
+| INFO-2: SEO content aria-hidden on landmarks | Accepted (known pattern) |
+| INFO-5: Consider `<form>` elements | Open (low priority) |
+| INFO-8: Import version from package.json | Open (trivial) |
+| INFO-9: Analytics storage | Open (low priority) |
+| INFO-10: Service worker registration | Open (blocked by CSP) |

@@ -1,193 +1,98 @@
 {
-  "generatedAt": "2026-08-12T00:00:00.000Z",
-  "lastVerified": "2026-08-12",
-  "verifiedBy": "Phase 17-18 Agent",
-  "totalFeatures": 21,
+  "lastVerified": "2026-08-19",
+  "verifiedBy": "Registry Accuracy Agent",
   "features": [
     {
       "id": "F001",
       "name": "Dark Theme Toggle",
-      "description": "Toggle between dark, light, and system color schemes with dropdown and cycle variants",
-      "category": "theme",
-      "implementation": ["src/components/theme-toggle.tsx", "src/components/theme-provider.tsx"],
-      "documentation": "JSDoc on ThemeToggleProps interface (theme-toggle.tsx:30-35)",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["next-themes", "lucide-react"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/theme-toggle.tsx", "src/components/theme-provider.tsx"]
+      "sourceFiles": [
+        "src/components/theme-toggle.tsx",
+        "src/components/theme-provider.tsx"
+      ]
     },
     {
       "id": "F002",
       "name": "Color Customizer",
-      "description": "Pick a custom accent color for CSS effects via preset palette or hex input, persisted to localStorage",
-      "category": "theme",
-      "implementation": ["src/components/ferrum/color-customizer.tsx"],
-      "documentation": "Inline comment block (color-customizer.tsx:6-9)",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/color-customizer.tsx"]
+      "sourceFiles": [
+        "src/components/ferrum/color-customizer.tsx"
+      ]
     },
     {
       "id": "F003",
       "name": "Main Navigation Bar",
-      "description": "Fixed top navigation with scroll-aware solid background, logo, desktop nav links, GitHub link, and hamburger toggle",
-      "category": "navigation",
-      "implementation": ["src/components/ferrum/nav.tsx"],
-      "documentation": "Inline section comment (nav.tsx:13-15)",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react", "next"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/nav.tsx"]
+      "sourceFiles": [
+        "src/components/ferrum/nav.tsx"
+      ]
     },
     {
       "id": "F004",
       "name": "Mega Menu Navigation",
-      "description": "Desktop dropdown mega menus for Platform, Docs, and More with hover interaction and keyboard support",
-      "category": "navigation",
-      "implementation": ["src/components/ferrum/nav-mega-menu.tsx", "src/components/ferrum/nav-data.ts"],
-      "documentation": "Inline comments (nav-mega-menu.tsx:119-161)",
-      "tests": "Tested in __tests__/nav-data.test.ts",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/nav-mega-menu.tsx", "src/components/ferrum/nav-data.ts"]
+      "sourceFiles": [
+        "src/components/ferrum/nav-mega-menu.tsx",
+        "src/components/ferrum/nav-data.ts"
+      ]
     },
     {
       "id": "F005",
       "name": "Mobile Navigation Overlay",
-      "description": "Full mobile nav overlay with expandable submenus, body scroll lock, focus trap, and escape key handling",
-      "category": "navigation",
-      "implementation": ["src/components/ferrum/nav-mobile.tsx"],
-      "documentation": "Inline section comment (nav-mobile.tsx:16-18)",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/nav-mobile.tsx"]
+      "sourceFiles": [
+        "src/components/ferrum/nav-mobile.tsx"
+      ]
     },
     {
       "id": "F006",
       "name": "Scroll Progress Bar",
-      "description": "rAF-throttled scroll progress indicator with gradient bar and circular scroll-to-top button, respects reduced motion",
-      "category": "navigation",
-      "implementation": ["src/components/ferrum/scroll-progress.tsx"],
-      "documentation": "Inline section comment (scroll-progress.tsx:6-9)",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/scroll-progress.tsx"]
+      "sourceFiles": [
+        "src/components/ferrum/scroll-progress.tsx"
+      ]
     },
     {
       "id": "F007",
       "name": "Hero Section with Aurora Animation",
-      "description": "Cinematic hero with aurora gradients, noise texture, grid pattern, animated badge rotation, parallax live demo cards, and floating particles",
-      "category": "hero",
-      "implementation": ["src/components/ferrum/sections/home/hero-section.tsx"],
-      "documentation": "Inline section comment (hero-section.tsx:11-14)",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react", "next"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/sections/home/hero-section.tsx"]
+      "sourceFiles": [
+        "src/components/ferrum/sections/home/hero-section.tsx"
+      ]
     },
     {
       "id": "F008",
       "name": "Effects Gallery with Search and Filter",
-      "description": "Browse 542+ CSS effects with sticky filter bar, search, category pills, infinite scroll pagination, and effect preview cards",
-      "category": "effects",
-      "implementation": ["src/components/ferrum/effects-view.tsx", "src/components/ferrum/effect-preview.tsx"],
-      "documentation": "Inline section comment (effects-view.tsx:3-8)",
-      "tests": "Tested in __tests__/effects-data.test.ts",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/effects-view.tsx", "src/components/ferrum/effect-preview.tsx"]
+      "sourceFiles": [
+        "src/components/ferrum/effects-view.tsx",
+        "src/components/ferrum/effect-preview.tsx",
+        "src/lib/ferrum-effects-data.ts",
+        "src/lib/ferrum-effects-index.ts",
+        "src/lib/effects/lazy-loader.ts"
+      ]
     },
     {
       "id": "F009",
       "name": "Effect Detail Modal",
-      "description": "View CSS source code, usage examples (HTML/React/Vue), copy to clipboard, and save to collection from a modal",
-      "category": "effects",
-      "implementation": ["src/components/ferrum/effects-detail-modal.tsx"],
-      "documentation": "Inline section comment (effects-detail-modal.tsx:16-18)",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react", "sonner"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/effects-detail-modal.tsx"]
+      "sourceFiles": [
+        "src/components/ferrum/effects-detail-modal.tsx"
+      ]
     },
     {
       "id": "F010",
       "name": "Collection Drawer",
-      "description": "Slide-in drawer to manage saved effects with copy-all and clear functionality",
-      "category": "effects",
-      "implementation": ["src/components/ferrum/collection-drawer.tsx"],
-      "documentation": "Inline section comment (collection-drawer.tsx:12-13)",
-      "tests": "Tested in __tests__/collection.test.ts",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react", "sonner"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/collection-drawer.tsx"]
+      "sourceFiles": [
+        "src/components/ferrum/collection-drawer.tsx"
+      ]
     },
     {
       "id": "F011",
       "name": "Playground 2.0",
-      "description": "Full IDE-like playground with code editor, live preview iframe, device presets, resizable panels, motion/physics/theme controls, export in 7 formats, and keyboard shortcuts",
-      "category": "playground",
-      "implementation": [
-        "src/components/ferrum/playground/index.tsx",
-        "src/components/ferrum/playground/code-editor.tsx",
-        "src/components/ferrum/playground/controls-panel.tsx",
-        "src/components/ferrum/playground/preview-panel.tsx",
-        "src/components/ferrum/playground/toolbar.tsx",
-        "src/components/ferrum/playground/effect-sidebar.tsx",
-        "src/components/ferrum/playground/types.ts",
-        "src/components/ferrum/playground-v2-data.ts"
-      ],
-      "documentation": "Inline section comments throughout playground files",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react", "sonner"],
-      "version": "2.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": [
+      "sourceFiles": [
         "src/components/ferrum/playground/index.tsx",
         "src/components/ferrum/playground/code-editor.tsx",
         "src/components/ferrum/playground/controls-panel.tsx",
@@ -201,90 +106,44 @@
     {
       "id": "F012",
       "name": "Architecture Deep Dive",
-      "description": "Full-screen architecture explorer with 10 subsystems, each with 10 tabbed sections, SVG diagrams, and sidebar navigation",
-      "category": "architecture",
-      "implementation": ["src/components/ferrum/architecture-deep-dive.tsx", "src/components/ferrum/architecture-data.ts"],
-      "documentation": "Inline section comments (architecture-deep-dive.tsx:17-19, 82-84)",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/architecture-deep-dive.tsx", "src/components/ferrum/architecture-data.ts"]
+      "sourceFiles": [
+        "src/components/ferrum/architecture-deep-dive.tsx",
+        "src/components/ferrum/architecture-data.ts"
+      ]
     },
     {
       "id": "F013",
       "name": "Documentation Viewer",
-      "description": "Full-screen docs viewer with sidebar navigation, search, code blocks with copy, callouts (info/warning/tip), data tables, API reference blocks, and prev/next navigation",
-      "category": "documentation",
-      "implementation": ["src/components/ferrum/docs-view.tsx", "src/lib/docs-data.ts"],
-      "documentation": "Inline section comments (docs-view.tsx:239-240, 369-371)",
-      "tests": "Tested in __tests__/docs-data.test.ts",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react", "sonner"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/docs-view.tsx", "src/lib/docs-data.ts"]
+      "sourceFiles": [
+        "src/components/ferrum/docs-view.tsx",
+        "src/lib/docs-data.ts"
+      ]
     },
     {
       "id": "F014",
       "name": "SEO Structured Data and Content",
-      "description": "JSON-LD structured data (Organization, WebSite, SoftwareApplication, BreadcrumbList, ItemList), comprehensive meta tags, OpenGraph/Twitter cards, and crawler-visible SEO content",
-      "category": "seo",
-      "implementation": ["src/app/layout.tsx", "src/components/ferrum/seo-content.tsx", "src/lib/view-meta.ts"],
-      "documentation": "JSDoc comments (layout.tsx:117-118, seo-content.tsx:3-16)",
-      "tests": "Tested in __tests__/view-meta.test.ts",
       "status": "active",
-      "owner": "platform",
-      "dependencies": [],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "server",
-      "sourcePaths": ["src/app/layout.tsx", "src/components/ferrum/seo-content.tsx", "src/lib/view-meta.ts"]
+      "sourceFiles": [
+        "src/app/layout.tsx",
+        "src/components/ferrum/seo-content.tsx",
+        "src/lib/view-meta.ts"
+      ]
     },
     {
       "id": "F015",
       "name": "Footer with Links",
-      "description": "Site footer with product, developer, legal, and resources link columns, GitHub link, sponsor button, and branding",
-      "category": "footer",
-      "implementation": ["src/components/ferrum/sections/footer.tsx"],
-      "documentation": "Inline section comment (footer.tsx:9-11)",
-      "tests": "Tested in __tests__/footer.test.tsx",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/sections/footer.tsx"]
+      "sourceFiles": [
+        "src/components/ferrum/sections/footer.tsx"
+      ]
     },
     {
       "id": "F016",
       "name": "Skip Link and Accessibility",
-      "description": "Skip-to-content link in navigation, focus management on route changes, focus-visible rings on interactive elements, reduced-motion support, body scroll lock, focus traps in modals/drawers/mobile nav",
-      "category": "accessibility",
-      "implementation": [
-        "src/components/ferrum/nav.tsx",
-        "src/components/ferrum/nav-mobile.tsx",
-        "src/components/ferrum/effects-detail-modal.tsx",
-        "src/components/ferrum/collection-drawer.tsx",
-        "src/components/ferrum/animated-components.tsx",
-        "src/lib/body-scroll-lock.ts",
-        "src/hooks/use-focus-trap.ts"
-      ],
-      "documentation": "Not documented as a cohesive feature",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": [],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": [
+      "sourceFiles": [
         "src/components/ferrum/nav.tsx",
         "src/components/ferrum/nav-mobile.tsx",
         "src/components/ferrum/effects-detail-modal.tsx",
@@ -297,25 +156,8 @@
     {
       "id": "F017",
       "name": "Error Handling and Loading States",
-      "description": "Global error boundary, route-level error page, 404 page, skeleton loading states for nav/cards/hero, and ViewErrorBoundary in the SPA router",
-      "category": "error-handling",
-      "implementation": [
-        "src/app/error.tsx",
-        "src/app/global-error.tsx",
-        "src/app/not-found.tsx",
-        "src/app/loading.tsx",
-        "src/components/error-page-content.tsx",
-        "src/app/home-client.tsx"
-      ],
-      "documentation": "Not documented",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "hybrid",
-      "sourcePaths": [
+      "sourceFiles": [
         "src/app/error.tsx",
         "src/app/global-error.tsx",
         "src/app/not-found.tsx",
@@ -327,31 +169,8 @@
     {
       "id": "F018",
       "name": "Cloud Dashboard",
-      "description": "Team collaboration dashboard with auth, team/project/token management, tab-based UI, breadcrumb, modals for creating teams/projects/tokens, and audit logs",
-      "category": "cloud",
-      "implementation": [
-        "src/app/cloud/page.tsx",
-        "src/app/cloud/layout.tsx",
-        "src/app/cloud/cloud-dashboard-client.tsx",
-        "src/app/cloud/cloud-loader.tsx",
-        "src/app/cloud/cloud-breadcrumb.tsx",
-        "src/app/cloud/cloud-modals.tsx",
-        "src/app/cloud/tab-panels.tsx",
-        "src/hooks/use-cloud-data.ts",
-        "src/hooks/use-cloud-auth.ts",
-        "src/lib/cloud-store.ts",
-        "src/lib/api-types.ts",
-        "src/middleware.ts"
-      ],
-      "documentation": "JSDoc in middleware.ts:3-6, api/cloud/auth/route.ts:4-10, api/health/route.ts:7-25",
-      "tests": "Tested in __tests__/cloud-store.test.ts, __tests__/api-routes.test.ts, __tests__/rate-limit.test.ts, __tests__/persistence.test.ts, __tests__/api-types.test.ts",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react", "sonner"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "hybrid",
-      "sourcePaths": [
+      "sourceFiles": [
         "src/app/cloud/page.tsx",
         "src/app/cloud/layout.tsx",
         "src/app/cloud/cloud-dashboard-client.tsx",
@@ -363,63 +182,33 @@
         "src/hooks/use-cloud-auth.ts",
         "src/lib/cloud-store.ts",
         "src/lib/api-types.ts",
+        "src/lib/auth.ts",
         "src/middleware.ts"
       ]
     },
     {
       "id": "F019",
       "name": "Blog",
-      "description": "Blog with 6 posts, search, category filter, and full article view with rich content rendering",
-      "category": "content",
-      "implementation": ["src/components/ferrum/blog-view.tsx"],
-      "documentation": "VIEW_META entry in src/lib/view-meta.ts",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/blog-view.tsx"]
+      "sourceFiles": [
+        "src/components/ferrum/blog-view.tsx",
+        "src/lib/blog-data.ts"
+      ]
     },
     {
       "id": "F020",
       "name": "Changelog",
-      "description": "Release history and update log with 8 version entries, timeline layout, and type filters",
-      "category": "content",
-      "implementation": ["src/components/ferrum/changelog-view.tsx"],
-      "documentation": "VIEW_META entry in src/lib/view-meta.ts",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": ["src/components/ferrum/changelog-view.tsx"]
+      "sourceFiles": [
+        "src/components/ferrum/changelog-view.tsx",
+        "src/lib/changelog-data.ts"
+      ]
     },
     {
       "id": "F021",
       "name": "Interactive Docs",
-      "description": "Hands-on interactive lessons where users edit code, see live results, and master CSS motion effects. 8 lessons with code editor, iframe live preview, device size toggles, and progress tracking",
-      "category": "documentation",
-      "implementation": [
-        "src/components/ferrum/interactive-docs-view.tsx",
-        "src/components/ferrum/interactive-docs/explanation-panel.tsx",
-        "src/components/ferrum/interactive-docs/lesson-sidebar.tsx",
-        "src/components/ferrum/interactive-docs/code-playground.tsx",
-        "src/components/ferrum/interactive-docs/lessons-data.ts",
-        "src/components/ferrum/interactive-docs/types.ts"
-      ],
-      "documentation": "VIEW_META entry in src/lib/view-meta.ts",
-      "tests": "Not tested",
       "status": "active",
-      "owner": "platform",
-      "dependencies": ["lucide-react"],
-      "version": "1.0.0",
-      "deprecation": null,
-      "rendering": "client",
-      "sourcePaths": [
+      "sourceFiles": [
         "src/components/ferrum/interactive-docs-view.tsx",
         "src/components/ferrum/interactive-docs/explanation-panel.tsx",
         "src/components/ferrum/interactive-docs/lesson-sidebar.tsx",
@@ -427,6 +216,62 @@
         "src/components/ferrum/interactive-docs/lessons-data.ts",
         "src/components/ferrum/interactive-docs/types.ts"
       ]
+    },
+    {
+      "id": "F022",
+      "name": "Global Search (Cmd+K)",
+      "status": "active",
+      "sourceFiles": [
+        "src/components/ferrum/global-search.tsx",
+        "src/lib/search-index.ts"
+      ]
+    },
+    {
+      "id": "F023",
+      "name": "Component Catalog",
+      "status": "active",
+      "sourceFiles": [
+        "src/components/ferrum/component-catalog.tsx"
+      ]
+    },
+    {
+      "id": "F024",
+      "name": "Content Section Views",
+      "status": "active",
+      "sourceFiles": [
+        "src/components/ferrum/sections/ferrum-principles.tsx",
+        "src/components/ferrum/sections/ferrum-story.tsx",
+        "src/components/ferrum/sections/platform-architecture.tsx",
+        "src/components/ferrum/sections/hall-of-fame.tsx",
+        "src/components/ferrum/sections/showcase-gallery.tsx",
+        "src/components/ferrum/sections/learning-center.tsx",
+        "src/components/ferrum/sections/enterprise.tsx",
+        "src/components/ferrum/sections/enterprise-components.tsx",
+        "src/components/ferrum/sections/vision-manifesto.tsx",
+        "src/components/ferrum/sections/illustrations.tsx",
+        "src/components/ferrum/sections/section-helpers.tsx"
+      ]
+    },
+    {
+      "id": "F025",
+      "name": "Homepage Sections",
+      "status": "active",
+      "sourceFiles": [
+        "src/components/ferrum/sections/home/hero-section.tsx",
+        "src/components/ferrum/sections/home/problem-section.tsx",
+        "src/components/ferrum/sections/home/marquee-section.tsx",
+        "src/components/ferrum/sections/home/playground-section.tsx",
+        "src/components/ferrum/sections/home/overview-section.tsx",
+        "src/components/ferrum/sections/home/architecture-section.tsx",
+        "src/components/ferrum/sections/home/dev-journey-section.tsx",
+        "src/components/ferrum/sections/home/live-examples-section.tsx",
+        "src/components/ferrum/sections/home/enterprise-section.tsx",
+        "src/components/ferrum/sections/home/roadmap-section.tsx",
+        "src/components/ferrum/sections/home/community-section.tsx",
+        "src/components/ferrum/sections/home/platform-footer-section.tsx",
+        "src/components/ferrum/sections/home/counter.tsx"
+      ]
     }
-  ]
+  ],
+  "totalFeatures": 25
 }

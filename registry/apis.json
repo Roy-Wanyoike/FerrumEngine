@@ -1,204 +1,140 @@
 {
-  "generatedAt": "2026-08-12T00:00:00.000Z",
-  "totalApis": 18,
+  "lastVerified": "2026-08-19",
+  "verifiedBy": "Registry Accuracy Agent",
   "apis": [
     {
       "id": "A001",
-      "path": "/api",
+      "route": "/api",
       "method": "GET",
-      "component": "src/app/api/route.ts",
       "auth": false,
-      "rateLimit": null,
-      "description": "API root endpoint returning FerrumEngine metadata, effect count, category list, and endpoint documentation",
-      "status": "active",
-      "calledBy": ["src/app/home-client.tsx (SPA — referenced via view-meta)"]
+      "description": "API root endpoint returning FerrumEngine metadata, effect count, category list, and endpoint documentation"
     },
     {
       "id": "A002",
-      "path": "/api/health",
+      "route": "/api/health",
       "method": "GET",
-      "component": "src/app/api/health/route.ts",
       "auth": false,
-      "rateLimit": null,
-      "description": "Health check endpoint returning service status, uptime, memory usage, cloud store stats, and persistence layer info",
-      "status": "active",
-      "calledBy": ["Monitoring tools, load balancers (external)"]
+      "description": "Health check endpoint returning service status, uptime, memory usage, cloud store stats, and persistence layer info"
     },
     {
       "id": "A003",
-      "path": "/api/css",
+      "route": "/api/css",
       "method": "GET",
-      "component": "src/app/api/css/route.ts",
       "auth": false,
-      "rateLimit": null,
-      "description": "Serve CSS effects — single effect, by category, or full library. Supports minification and JSON format. CORS-enabled with long-term caching for immutable bundles",
-      "status": "active",
-      "calledBy": ["src/components/ferrum/sections/footer.tsx (CSS Download link)"]
+      "description": "Serve CSS effects — single effect, by category, or full library. Supports minification and JSON format. CORS-enabled with long-term caching"
     },
     {
       "id": "A004",
-      "path": "/api/tokens",
+      "route": "/api/tokens",
       "method": "GET",
-      "component": "src/app/api/tokens/route.ts",
       "auth": false,
-      "rateLimit": null,
-      "description": "Returns design token metadata and sample values (colors, spacing, font sizes, shadows, etc.)",
-      "status": "active",
-      "calledBy": ["Not called by frontend code"]
+      "description": "Returns design token metadata and sample values (colors, spacing, font sizes, shadows, etc.)"
     },
     {
       "id": "A005",
-      "path": "/api/analytics",
+      "route": "/api/analytics",
       "method": "POST",
-      "component": "src/app/api/analytics/route.ts",
       "auth": false,
-      "rateLimit": "30 req/min per IP",
-      "description": "Accepts analytics payloads with name, value, rating, and id fields. Rate limited per IP",
-      "status": "active",
-      "calledBy": ["Not called by frontend code (planned integration)"]
+      "description": "Accepts analytics payloads with name, value, rating, and id fields. Rate limited per IP (30 req/min)"
     },
     {
       "id": "A006",
-      "path": "/api/cloud/auth",
+      "route": "/api/cloud/auth",
       "method": "POST",
-      "component": "src/app/api/cloud/auth/route.ts",
       "auth": false,
-      "rateLimit": "10 req/15min per IP (middleware)",
-      "description": "Authenticates with admin password and returns a bearer API token. Uses timing-safe comparison",
-      "status": "active",
-      "calledBy": ["src/hooks/use-cloud-auth.ts"]
+      "description": "Authenticates with admin password and returns a bearer API token. Uses timing-safe comparison. Rate limited (10 req/15min per IP)"
     },
     {
       "id": "A007",
-      "path": "/api/cloud/teams",
-      "method": "GET",
-      "component": "src/app/api/cloud/teams/route.ts",
-      "auth": true,
-      "rateLimit": "100 req/min per IP (middleware)",
-      "description": "List all teams with member and project counts",
-      "status": "active",
-      "calledBy": ["src/hooks/use-cloud-data.ts"]
+      "route": "/api/cloud/auth",
+      "method": "DELETE",
+      "auth": false,
+      "description": "Invalidates the current session token (logout)"
     },
     {
       "id": "A008",
-      "path": "/api/cloud/teams",
-      "method": "POST",
-      "component": "src/app/api/cloud/teams/route.ts",
+      "route": "/api/cloud/teams",
+      "method": "GET",
       "auth": true,
-      "rateLimit": "100 req/min per IP (middleware)",
-      "description": "Create a new team with name validation (2-50 chars)",
-      "status": "active",
-      "calledBy": ["src/app/cloud/cloud-modals.tsx"]
+      "description": "List all teams with member and project counts. Rate limited (100 req/min per IP)"
     },
     {
       "id": "A009",
-      "path": "/api/cloud/teams/[teamId]",
-      "method": "GET",
-      "component": "src/app/api/cloud/teams/[teamId]/route.ts",
+      "route": "/api/cloud/teams",
+      "method": "POST",
       "auth": true,
-      "rateLimit": "100 req/min per IP (middleware)",
-      "description": "Get a single team by ID with member and project counts",
-      "status": "active",
-      "calledBy": ["src/hooks/use-cloud-data.ts"]
+      "description": "Create a new team with name validation (2-50 chars). Rate limited (100 req/min per IP)"
     },
     {
       "id": "A010",
-      "path": "/api/cloud/teams/[teamId]",
-      "method": "PUT",
-      "component": "src/app/api/cloud/teams/[teamId]/route.ts",
+      "route": "/api/cloud/teams/[teamId]",
+      "method": "GET",
       "auth": true,
-      "rateLimit": "100 req/min per IP (middleware)",
-      "description": "Update team properties",
-      "status": "active",
-      "calledBy": ["src/hooks/use-cloud-data.ts"]
+      "description": "Get a single team by ID with member and project counts. Rate limited (100 req/min per IP)"
     },
     {
       "id": "A011",
-      "path": "/api/cloud/teams/[teamId]",
-      "method": "DELETE",
-      "component": "src/app/api/cloud/teams/[teamId]/route.ts",
+      "route": "/api/cloud/teams/[teamId]",
+      "method": "PUT",
       "auth": true,
-      "rateLimit": "100 req/min per IP (middleware)",
-      "description": "Delete a team by ID",
-      "status": "active",
-      "calledBy": ["src/hooks/use-cloud-data.ts"]
+      "description": "Update team properties. Rate limited (100 req/min per IP)"
     },
     {
       "id": "A012",
-      "path": "/api/cloud/teams/[teamId]/projects",
-      "method": "GET",
-      "component": "src/app/api/cloud/teams/[teamId]/projects/route.ts",
+      "route": "/api/cloud/teams/[teamId]",
+      "method": "DELETE",
       "auth": true,
-      "rateLimit": "100 req/min per IP (middleware)",
-      "description": "List all projects for a team with token and component counts",
-      "status": "active",
-      "calledBy": ["src/hooks/use-cloud-data.ts"]
+      "description": "Delete a team by ID. Rate limited (100 req/min per IP)"
     },
     {
       "id": "A013",
-      "path": "/api/cloud/teams/[teamId]/projects",
-      "method": "POST",
-      "component": "src/app/api/cloud/teams/[teamId]/projects/route.ts",
+      "route": "/api/cloud/teams/[teamId]/projects",
+      "method": "GET",
       "auth": true,
-      "rateLimit": "100 req/min per IP (middleware)",
-      "description": "Create a new project under a team with name and environment validation",
-      "status": "active",
-      "calledBy": ["src/app/cloud/cloud-modals.tsx"]
+      "description": "List all projects for a team with token and component counts. Rate limited (100 req/min per IP)"
     },
     {
       "id": "A014",
-      "path": "/api/cloud/projects/[projectId]/components",
-      "method": "GET",
-      "component": "src/app/api/cloud/projects/[projectId]/components/route.ts",
+      "route": "/api/cloud/teams/[teamId]/projects",
+      "method": "POST",
       "auth": true,
-      "rateLimit": "100 req/min per IP (middleware)",
-      "description": "List all components for a project",
-      "status": "active",
-      "calledBy": ["src/hooks/use-cloud-data.ts"]
+      "description": "Create a new project under a team with name and environment validation. Rate limited (100 req/min per IP)"
     },
     {
       "id": "A015",
-      "path": "/api/cloud/projects/[projectId]/tokens",
+      "route": "/api/cloud/projects/[projectId]/components",
       "method": "GET",
-      "component": "src/app/api/cloud/projects/[projectId]/tokens/route.ts",
       "auth": true,
-      "rateLimit": "100 req/min per IP (middleware)",
-      "description": "List all tokens for a project",
-      "status": "active",
-      "calledBy": ["src/hooks/use-cloud-data.ts"]
-    },
-    {
-      "id": "A015b",
-      "path": "/api/cloud/projects/[projectId]/tokens",
-      "method": "POST",
-      "component": "src/app/api/cloud/projects/[projectId]/tokens/route.ts",
-      "auth": true,
-      "rateLimit": "100 req/min per IP (middleware)",
-      "description": "Create a new token for a project",
-      "status": "active",
-      "calledBy": ["src/app/cloud/cloud-modals.tsx"]
+      "description": "List all components for a project. Rate limited (100 req/min per IP)"
     },
     {
       "id": "A016",
-      "path": "/api/cloud/tokens/[tokenId]",
-      "method": "PUT",
-      "component": "src/app/api/cloud/tokens/[tokenId]/route.ts",
+      "route": "/api/cloud/projects/[projectId]/tokens",
+      "method": "GET",
       "auth": true,
-      "rateLimit": "100 req/min per IP (middleware)",
-      "description": "Update a token by ID (name, value, namespace)",
-      "status": "active",
-      "calledBy": ["src/hooks/use-cloud-data.ts"]
+      "description": "List all tokens for a project. Rate limited (100 req/min per IP)"
     },
     {
       "id": "A017",
-      "path": "/api/cloud/audit",
-      "method": "GET",
-      "component": "src/app/api/cloud/audit/route.ts",
+      "route": "/api/cloud/projects/[projectId]/tokens",
+      "method": "POST",
       "auth": true,
-      "rateLimit": "100 req/min per IP (middleware)",
-      "description": "Get audit log entries for cloud operations",
-      "status": "active",
-      "calledBy": ["src/hooks/use-cloud-data.ts"]
+      "description": "Create a new token for a project. Rate limited (100 req/min per IP)"
+    },
+    {
+      "id": "A018",
+      "route": "/api/cloud/tokens/[tokenId]",
+      "method": "PUT",
+      "auth": true,
+      "description": "Update a token by ID (name, value, namespace). Rate limited (100 req/min per IP)"
+    },
+    {
+      "id": "A019",
+      "route": "/api/cloud/audit",
+      "method": "GET",
+      "auth": true,
+      "description": "Get audit log entries for cloud operations. Rate limited (100 req/min per IP)"
     }
-  ]
+  ],
+  "totalApis": 19
 }

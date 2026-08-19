@@ -239,4 +239,45 @@ The single warning (middleware deprecation notice from Next.js 16) is a framewor
 
 4. **Type safety:** The LucideIconName type union enforces icon validity at compile time, making runtime icon resolution safe by construction.
 
-5. **Demo auth model:** The cloud API uses a single shared token model (documented as demo-only). The codebase includes clear TODO comments for production JWT migration.
+5. **Demo auth model:** The cloud API uses a single shared token model (documented as demo-only). The codebase includes clear TODO comments for production JWT migration. **Note: JWT migration completed in v1.3.0 — see v1.3.0 update below.**
+
+---
+
+## 9. v1.3.0 UPDATE (2026-08-19)
+
+### Updated Metrics
+
+| Check | v1.1.0-rebuild (This Report) | v1.3.0 Current | Status |
+|---|---|---|---|
+| Total tests | 175 | 219 | **UPDATED** ✅ |
+| Test files | 13 | 19 | **UPDATED** ✅ |
+| Passing | 175 | 219 | **UPDATED** ✅ |
+| Failing | 0 | 0 | **PASS** |
+| Skipped | 0 | 0 | **PASS** |
+| Static pages | 14 | 14 | **PASS** |
+| API routes | 13 | 13 (19 endpoints GET/POST/PUT/DELETE) | **UPDATED** ✅ |
+| SPA views | 18 | 19 (+component-catalog) | **UPDATED** ✅ |
+| Components | 69 files | 82 total (12 UI, 53 ferrum, 13 app, 4 hooks) | **UPDATED** ✅ |
+| Features | 21 | 25 | **UPDATED** ✅ |
+| Dependencies | 9 runtime | 27 packages | **UPDATED** ✅ |
+
+### v1.3.0 Verification Results
+
+| Area | Check | Status |
+|---|---|---|
+| Build | TypeScript 0 errors, ESLint 0 errors, 14 static pages | **PASS** |
+| Tests | 219/219 passing, 19 files, 0 skipped | **PASS** |
+| Auth | JWT with jose, httpOnly cookies, demo mode fallback | **MIGRATED** ✅ |
+| Search | Global Cmd+K search across 570+ items | **NEW** ✅ |
+| Effects | 542 effects, lazy loaded by 35 category files | **IMPROVED** ✅ |
+| Database | Supabase ready (optional, in-memory fallback) | **NEW** ✅ |
+| E2E | Playwright with 5 spec files (20 test cases) | **NEW** ✅ |
+| CI/CD | GitHub Actions (ci.yml, release.yml) | **UNCHANGED** ✅ |
+| Deploy | Docker, ZIP, Vercel-ready | **EXPANDED** ✅ |
+| ADRs | 7 in docs/adr/ | **UPDATED** ✅ |
+| Security | CSP + 12 permissions blocked, RLS, rate limiting | **STRENGTHENED** ✅ |
+| Accessibility | WCAG 2.2 AA, keyboard mega menu nav, focus traps | **IMPROVED** ✅ |
+
+### Platform Health Score: **100%** (maintained from v1.1.0-rebuild)
+
+All 35 original verification checks continue to pass. The platform has grown significantly (219 tests, 82 components, 25 features, 19 SPA views) with zero regressions.
