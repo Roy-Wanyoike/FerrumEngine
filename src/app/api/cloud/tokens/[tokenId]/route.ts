@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { getCloudStore } from "@/lib/cloud-store";
+import { supabaseUpdateToken } from "@/lib/supabase-store";
 
 const VALID_UPDATE_FIELDS = ["name", "value", "namespace"] as const;
 
@@ -38,8 +38,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ toke
       return NextResponse.json({ error: "No valid fields to update. Accepted fields: name, value, namespace" }, { status: 400 });
     }
 
-    const store = getCloudStore();
-    const token = store.updateToken(tokenId, validFields);
+    const token = await supabaseUpdateToken(tokenId, validFields);
     if (!token) return NextResponse.json({ error: "Token not found" }, { status: 404 });
     return NextResponse.json(token);
   } catch (error) {

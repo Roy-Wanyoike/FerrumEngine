@@ -78,6 +78,10 @@ export const VIEW_META: Record<string, { title: string; description: string }> =
     title: "Interactive Docs — Learn by Doing — FerrumEngine",
     description: "Hands-on interactive lessons for FerrumEngine effects. Edit code, see live results, and master CSS motion.",
   },
+  "component-catalog": {
+    title: "Component Catalog — FerrumEngine",
+    description: "Visual catalog of all UI components: Button, Badge, Card, Input, Select, Slider, Tooltip, Table, and more. With props documentation and code snippets.",
+  },
 };
 
 /* ═══════════════════════════════════════════════════════════════
@@ -89,7 +93,7 @@ export const VALID_VIEWS: ViewId[] = [
   "hall-of-fame", "showcase", "learning", "community", "story",
   "enterprise", "enterprise-components", "vision",
   "effects", "docs", "playground", "blog", "changelog",
-  "interactive-docs",
+  "interactive-docs", "component-catalog",
 ];
 
 export function pathnameToView(pathname: string): ViewId | null {

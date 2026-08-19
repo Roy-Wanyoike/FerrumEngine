@@ -88,6 +88,10 @@ const InteractiveDocsView = dynamic(
   () => import("@/components/ferrum/interactive-docs-view").then((m) => ({ default: m.InteractiveDocsView })),
   { ssr: false }
 );
+const ComponentCatalog = dynamic(
+  () => import("@/components/ferrum/component-catalog").then((m) => ({ default: m.ComponentCatalog })),
+  { ssr: false }
+);
 
 /* Nav is the heaviest sync import (~678 LOC with megamenu).
    Defer it via dynamic import — ssr:false avoids pulling Radix primitives
@@ -464,6 +468,10 @@ function ViewRouter() {
 
       {currentView === "changelog" && (
         <Suspense fallback={<ViewSkeleton />}><ChangelogView /><Footer /></Suspense>
+      )}
+
+      {currentView === "component-catalog" && (
+        <Suspense fallback={<ViewSkeleton />}><ComponentCatalog /><Footer /></Suspense>
       )}
 
       {currentView === "effects" && (

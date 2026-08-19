@@ -1,17 +1,19 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { getCloudStore } from "@/lib/cloud-store";
+import { supabaseGetTeam, supabaseGetProjects, supabaseCreateProject, supabaseGetProjectTokenCount, supabaseGetProjectComponentCount } from "@/lib/supabase-store";
 import type { CreateProjectBody } from "@/lib/api-types";
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ teamId: string }> }) {
   try {
     const { teamId } = await params;
-    const store = getCloudStore();
-    const projects = store.getProjects(teamId).map(p => ({
-      ...p,
-      tokenCount: store.getProjectTokenCount(p.id),
-      componentCount: store.getProjectComponentCount(p.id),
-    }));
-    return NextResponse.json(projects);
+    const projects = await supabaseGetProjects(teamId);
+    const enriched = await Promise.all(
+      projects.map(async (p) => ({
+        ...p,
+        tokenCount: await supabaseGetProjectTokenCount(p.id),
+        componentCount: await supabaseGetProjectComponentCount(p.id),
+      }))
+    );
+    return NextResponse.json(enriched);
   } catch (error) {
     console.error("[API] /api/cloud/teams/[teamId]/projects error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
@@ -35,11 +37,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tea
     if (!["dev", "staging", "production"].includes(env)) {
       return NextResponse.json({ error: "Invalid environment" }, { status: 400 });
     }
-    const store = getCloudStore();
-    if (!store.getTeam(teamId)) {
+    const team = await supabaseGetTeam(teamId);
+    if (!team) {
       return NextResponse.json({ error: "Team not found" }, { status: 404 });
     }
-    const project = store.createProject(teamId, name, env);
+    const project = await supabaseCreateProject(teamId, name, env);
     return NextResponse.json(project, { status: 201 });
   } catch (error) {
     console.error("[API] /api/cloud/teams/[teamId]/projects error:", error);

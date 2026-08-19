@@ -11,7 +11,7 @@ const VALID_VIEW_IDS: ViewId[] = [
   "hall-of-fame", "showcase", "learning", "community", "story",
   "enterprise", "enterprise-components", "vision",
   "effects", "docs", "playground", "blog", "changelog",
-  "interactive-docs",
+  "interactive-docs", "component-catalog",
 ];
 
 describe("view-meta — VALID_VIEWS matches ViewId type", () => {

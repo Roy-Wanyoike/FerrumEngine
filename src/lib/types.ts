@@ -30,7 +30,8 @@ export type ViewId =
   | "playground"
   | "blog"
   | "changelog"
-  | "interactive-docs";
+  | "interactive-docs"
+  | "component-catalog";
 
 export interface NavProps {
   currentView: ViewId;

@@ -1124,6 +1124,25 @@ Layer 3: Effects CSS (570 KB, on-demand)
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+### 10.1.1 Next.js 16 Middleware → Proxy Migration Status
+
+Next.js 16 shows a deprecation advisory for middleware ("use proxy instead").
+Audit completed — all static concerns already live in `next.config.ts`:
+
+| Concern | Location | Status |
+|---------|----------|--------|
+| Security headers (CSP, HSTS, COOP, CORP, X-Frame-Options, etc.) | `next.config.ts → headers()` | ✅ Already migrated |
+| SPA route rewrites (17 routes → /) | `next.config.ts → rewrites()` | ✅ Already migrated |
+| Static asset caching (immutable) | `next.config.ts → headers()` | ✅ Already migrated |
+| ferrum-effects.css SWR caching | `next.config.ts → headers()` | ✅ Already migrated |
+| JWT auth (per-request crypto) | `src/middleware.ts` | ⚙️ Requires Edge Runtime |
+| Rate limiting (in-memory state) | `src/middleware.ts` | ⚙️ Requires per-request state |
+
+**Remaining in middleware** — JWT authentication and rate limiting are fundamentally
+per-request, stateful operations that cannot be expressed as static config. They
+will remain in `src/middleware.ts` until the Next.js 16 proxy feature matures to
+support Edge-compatible per-request logic.
+
 ### 10.2 CSP Migration Path
 
 ```

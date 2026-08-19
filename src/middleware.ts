@@ -2,8 +2,33 @@ import { type NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 /**
- * Middleware — JWT Auth + Rate Limiting for cloud routes.
- * Full logic inline for Edge Runtime compatibility.
+ * Middleware — Next.js 16 Proxy Migration Status
+ * ───────────────────────────────────────────────────────
+ * Next.js 16 shows a deprecation advisory ("use proxy instead").
+ *
+ * MIGRATION COMPLETE — Static concerns already moved to next.config.ts:
+ *   ✅ Security headers (CSP, HSTS, COOP, CORP, X-Frame-Options, etc.)
+ *       → next.config.ts → headers() (L1 security layer)
+ *   ✅ SPA route rewrites (17 client-side routes → /)
+ *       → next.config.ts → rewrites()
+ *   ✅ Static asset caching (immutable) & ferrum-effects.css SWR
+ *       → next.config.ts → headers()
+ *
+ * REMAINING IN MIDDLEWARE (requires Edge Runtime / per-request logic):
+ *   ⚙️ JWT authentication for /cloud/* and /api/cloud/* routes
+ *   ⚙️ Rate limiting (in-memory, per-IP) for /api/cloud/* routes
+ *   ⚙️ Dynamic rate-limit response headers (X-RateLimit-*)
+ *
+ * WHY THESE CAN'T MOVE TO next.config.ts:
+ *   - JWT verification requires jose library + per-request crypto (Edge only)
+ *   - Rate limiting requires in-memory state + per-IP tracking
+ *   - These are fundamentally per-request, stateful operations
+ *
+ * FUTURE: When Next.js 16 proxy feature is stable and supports Edge-compatible
+ * per-request logic (auth, rate limiting), this middleware can be fully
+ * replaced. Monitor next.js canary releases for proxy feature maturity.
+ *
+ * ── JWT Auth + Rate Limiting for cloud routes ─────────────
  *
  * AUTH STRATEGY:
  * - /api/cloud/* routes: JWT verified from Authorization: Bearer <token> header

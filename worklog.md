@@ -804,3 +804,166 @@ Stage Summary:
 - Playground: Same optimization as detail modal
 - Proactive preloading: Category filter in gallery + playground sidebar both trigger prefetch
 - Backward compatibility: ferrum-effects-data.ts kept intact, all existing imports unchanged
+
+---
+Task ID: x1
+Agent: Test Reliability Engineer
+Task: Fix api-routes test + E2E setup
+
+Work Log:
+- **PART A — Fix 17 API Route Tests:**
+  - Root cause: `__tests__/api-routes.test.ts` used `next({ dev: false })` which requires `.next/BUILD_ID` to exist. If the build is missing (fresh clone, vitest file ordering), all 17 tests would fail silently.
+  - Fix: Added self-contained build check in `beforeAll` — if `.next/BUILD_ID` doesn't exist, automatically runs `npx next build` before initializing the Next.js server.
+  - Added imports: `existsSync` from `node:fs`, `join` from `node:path`.
+  - Increased `beforeAll` timeout from 30s to 180s to accommodate auto-build.
+  - Verified: All 17 tests pass after the change.
+
+- **PART B — Playwright E2E Setup:**
+  - Installed `@playwright/test` and Chromium browser (`npx playwright install chromium`).
+  - Created `playwright.config.ts`:
+    - Chromium only, Desktop Chrome device
+    - baseURL: http://localhost:3000
+    - webServer: `npx next start` with 60s timeout, reuseExistingServer in non-CI
+    - Single worker (no parallelism) to avoid port conflicts
+  - Created 5 E2E test files in `e2e/`:
+    - `home.spec.ts` (5 tests): title, hero section, nav presence, theme toggle, footer
+    - `effects.spec.ts` (3 tests): grid loads, search filters, category buttons
+    - `navigation.spec.ts` (4 tests): route URLs, home link, mobile menu open/close, URL changes
+    - `global-search.spec.ts` (4 tests): Cmd+K opens, typing shows results, Escape closes, click navigates
+    - `auth.spec.ts` (4 tests): login form visible, submit button, demo mode login, dashboard tabs
+  - Added `"e2e": "playwright test"` and `"e2e:ui": "playwright test --ui"` to package.json scripts.
+  - All E2E test files compile cleanly with `tsc --noEmit`.
+
+Stage Summary:
+- API route tests: ✅ All 17 pass (self-contained with auto-build)
+- Full unit test suite: ✅ All 219 tests pass across 19 files
+- TypeScript: ✅ Clean (0 errors in project files)
+- E2E framework: ✅ Playwright installed, configured, 20 tests written
+- E2E tests: ✅ TypeScript compiles (cannot run — no browser in sandbox)
+
+---
+Task ID: x2
+Agent: Supabase Integration Engineer
+Task: Set up complete Supabase integration to replace in-memory cloud store (keys added later)
+
+Work Log:
+- Installed @supabase/supabase-js (8 packages added, 0 vulnerabilities)
+- Created src/lib/supabase.ts — Supabase client factory with isSupabaseConfigured(), getSupabaseClient() (anon), getServerSupabaseClient() (service role)
+- Created supabase/migrations/001_initial_schema.sql — Full schema: teams, projects, components, tokens, audit_log tables with RLS policies (service_role only), indexes, and CHECK constraints
+- Created supabase/types.ts — TypeScript interfaces for all DB rows (TeamRow, ProjectRow, ComponentRow, TokenRow, AuditLogRow) with Insert/Update variants and Database composite type
+- Created src/lib/supabase-store.ts — 15 async functions mirroring cloud-store API with automatic fallback: supabaseGetTeams, supabaseGetTeam, supabaseCreateTeam, supabaseUpdateTeam, supabaseDeleteTeam, supabaseGetTeamMemberCount, supabaseGetTeamProjectCount, supabaseGetProjects, supabaseGetProject, supabaseCreateProject, supabaseGetProjectTokenCount, supabaseGetProjectComponentCount, supabaseGetTokens, supabaseCreateToken, supabaseUpdateToken, supabaseGetComponents, supabaseCreateComponent, supabaseDeleteComponent, supabaseGetAuditLogs, supabaseLogAudit
+- Updated 7 API routes (teams, teams/[teamId], teams/[teamId]/projects, projects/[projectId]/tokens, projects/[projectId]/components, tokens/[tokenId], audit) to import from supabase-store instead of cloud-store
+- Updated .env.example with NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+- Created src/hooks/use-supabase.ts — useSupabaseQuery (fetch with loading/error) and useSupabaseMutation (insert/update/delete) React hooks for client-side Supabase
+- Design decisions:
+  - Used untyped SupabaseClient (no Database generic) to avoid complex generic gymnastics with strict TS config (noUncheckedIndexedAccess, noUnusedLocals)
+  - Explicit `as RowType` casts on query results for type safety
+  - DB token table is team-scoped (no project_id); supabase-store looks up team_id from project for token operations
+  - Environment mapping: DB 'development' ↔ in-memory 'dev'
+  - Component status mapping: DB 'active'/'archived'/'draft' ↔ in-memory 'published'/'deprecated'/'draft'
+  - supabaseGetTeamMemberCount returns 1 for Supabase (no members table in schema)
+
+Stage Summary:
+- Build: ✅ Passed (14 pages, 12 dynamic API routes)
+- Tests: ✅ All 219 tests pass (19 files)
+- Backward compatibility: ✅ All API routes fall back to in-memory store when Supabase env vars are not set
+- Files created: 6 new, 7 modified
+- Zero breaking changes
+
+---
+Task ID: x3
+Agent: Next.js 16 Proxy Migration Engineer
+Task: Address Next.js 16 middleware deprecation — migrate to proxy pattern where possible
+
+Work Log:
+- Audited src/middleware.ts and next.config.ts for migration candidates
+- Finding: Migration was ALREADY COMPLETE — all static concerns already lived in next.config.ts:
+  - Security headers (CSP, HSTS, COOP, CORP, X-Frame-Options, Referrer-Policy, Permissions-Policy, X-DNS-Prefetch-Control, X-Permitted-Cross-Domain-Policies) → next.config.ts headers()
+  - SPA route rewrites (17 routes → /) → next.config.ts rewrites()
+  - Static asset immutable caching → next.config.ts headers()
+  - ferrum-effects.css SWR caching → next.config.ts headers()
+- Remaining in middleware (fundamentally per-request/stateful): JWT auth, rate limiting
+- Added migration status comment block at top of src/middleware.ts documenting what moved, what remains, and why
+- Added section 10.1.1 to ARCHITECTURE_DESIGN.md: "Next.js 16 Middleware → Proxy Migration Status" with migration table
+- Build: ✅ `npx next build` passes (14 static pages, 13 dynamic routes)
+- Tests: ✅ `npx vitest run` — 219/219 tests pass (19 files)
+- Files modified: 2 (src/middleware.ts, ARCHITECTURE_DESIGN.md)
+- Zero breaking changes
+
+---
+Task ID: x6
+Agent: DevOps & Release Engineer
+Task: Production .gitignore + launch ZIP + DEPLOY.md
+
+Work Log:
+- Replaced .gitignore with production-ready rules organized by category
+- Fixed `.env*` broad ignore → specific `.env`, `.env.local`, `.env*.local` patterns so `.env.example` stays tracked
+- Removed `/download/` from ignore (template/screenshot files should be tracked)
+- Added 20+ new ignore categories: IDE (.idea/, .vscode/), OS (Thumbs.db), test artifacts, tool output, runtime data, pids, backups, etc.
+- Verified: `.env.example` NOT ignored, `.env` IS ignored, `.gitignore` itself NOT ignored
+- Created `scripts/create-launch-zip.sh` — production zip builder script (executable)
+- Created `DEPLOY.md` — deployment instructions (self-hosted, Vercel, Docker, Docker Compose, troubleshooting)
+- Created `Dockerfile` — multi-stage production Docker image (node:18-alpine, non-root user)
+- Created `.dockerignore` — optimized Docker build context (excludes src, tests, docs, tools)
+- Ran `npx next build` — ✅ passes (14 static, 13 dynamic)
+- Ran `npx vitest run` — ✅ 219/219 tests pass (19 files)
+- Ran `scripts/create-launch-zip.sh` — ✅ `ferrum-launch-v1.2.0.zip` created (4.0 MB)
+
+Files created:
+- scripts/create-launch-zip.sh
+- DEPLOY.md
+- Dockerfile
+- .dockerignore
+- ferrum-launch-v1.2.0.zip (4.0 MB)
+
+Files modified:
+- .gitignore (complete rewrite for production)
+- worklog.md
+
+Stage Summary:
+- .gitignore: ✅ Production-ready (32 categories, .env.example tracked)
+- Build: ✅ Clean
+- Tests: ✅ 219/219 pass
+- Launch ZIP: ✅ 4.0 MB at ferrum-launch-v1.2.0.zip
+- Docker: ✅ Dockerfile + .dockerignore ready
+- DEPLOY.md: ✅ Self-hosted, Vercel, Docker instructions
+
+---
+Task ID: x5
+Agent: Visual Regression & Documentation Engineer
+Task: Component Storybook-style Documentation + Architecture Decision Records
+
+Work Log:
+- Created src/components/ferrum/component-catalog.tsx — lightweight Storybook-style SPA view
+  - Shows 15 component entries across 2 categories (shadcn/ui, Ferrum Custom)
+  - Components: Button (3 variants + disabled), Badge (4 variants), Card (composed), Input (4 types), Label, Select, Slider, Tooltip (4 sides), ScrollArea, Table, Skeleton, ThemeToggle, SearchButton, Nav
+  - Each entry: live render, props display, copyable code snippet
+  - Sticky toolbar with search/filter (text + category toggle) and theme toggle
+  - Groups by category with empty-state handling
+- Registered 'component-catalog' as a new SPA view:
+  - Added to ViewId union in src/lib/types.ts
+  - Added metadata in src/lib/view-meta.ts (title, description)
+  - Added to VALID_VIEWS array in src/lib/view-meta.ts
+  - Added to SPA_ROUTES in next.config.ts
+  - Added to 'More' menu (new 'Developer Tools' group) in src/components/ferrum/nav-data.ts
+  - Added dynamic import + render case in src/app/home-client.tsx
+  - 'Layers' icon already present in icon-resolver.tsx — no change needed
+- Created 7 ADR documents in docs/adr/:
+  - 001-spa-routing.md: Client-side SPA routing with next/dynamic (ssr:false)
+  - 002-tailwind-css-4.md: Tailwind CSS v4 with @tailwindcss/postcss
+  - 003-shadcn-ui-components.md: shadcn/ui as component primitive library
+  - 004-jwt-authentication.md: JWT with httpOnly cookies for cloud dashboard auth
+  - 005-supabase-integration.md: Supabase as optional database layer with in-memory fallback
+  - 006-effects-lazy-loading.md: Per-category lazy loading of effects data
+  - 007-security-headers-csp.md: Comprehensive security headers with strict CSP
+- Updated test fixtures:
+  - __tests__/view-meta.test.ts: added 'component-catalog' to VALID_VIEW_IDS
+  - __tests__/nav-data.test.ts: added 'component-catalog' to VALID_VIEW_IDS
+- Fixed TypeScript errors in component-catalog.tsx (Select requires children, no className prop)
+
+Stage Summary:
+- Build: ✅ Clean (compiled successfully in 2.5s)
+- Tests: ✅ 219/219 pass
+- New files: 8 (1 component, 7 ADRs)
+- Modified files: 7 (types.ts, view-meta.ts, next.config.ts, nav-data.ts, home-client.tsx, 2 test files)
+- Icon: 'Layers' already mapped — no icon-resolver.tsx change needed

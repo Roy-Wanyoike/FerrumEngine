@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { getCloudStore } from "@/lib/cloud-store";
+import { supabaseGetProject, supabaseGetTokens, supabaseCreateToken } from "@/lib/supabase-store";
 import type { CreateTokenBody } from "@/lib/api-types";
 import type { TokenType } from "@/lib/types";
 
@@ -8,8 +8,7 @@ const VALID_TOKEN_TYPES: TokenType[] = ["color", "spacing", "typography", "shado
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ projectId: string }> }) {
   try {
     const { projectId } = await params;
-    const store = getCloudStore();
-    const tokens = store.getTokens(projectId);
+    const tokens = await supabaseGetTokens(projectId);
     return NextResponse.json(tokens);
   } catch (error) {
     console.error("[API] /api/cloud/projects/[projectId]/tokens error:", error);
@@ -41,11 +40,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ pro
       return NextResponse.json({ error: `Invalid type. Must be one of: ${VALID_TOKEN_TYPES.join(", ")}` }, { status: 400 });
     }
 
-    const store = getCloudStore();
-    if (!store.getProject(projectId)) {
+    const project = await supabaseGetProject(projectId);
+    if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
-    const token = store.createToken(projectId, { name, value, type, namespace });
+    const token = await supabaseCreateToken(projectId, { name, value, type, namespace });
     return NextResponse.json(token, { status: 201 });
   } catch (error) {
     console.error("[API] /api/cloud/projects/[projectId]/tokens error:", error);

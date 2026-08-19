@@ -12,10 +12,15 @@
  *
  * Uses Next.js's programmatic API to handle requests in-process
  * via an HTTP server, so no external server process is needed.
+ *
+ * Self-contained: automatically runs `next build` if the .next
+ * directory is missing or stale, ensuring tests never skip.
  * ════════════════════════════════════════════════════════════════
  */
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createServer as createHttpServer, type Server, type IncomingMessage, type ServerResponse } from "node:http";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { parse } from "node:url";
 
 const PORT = 3099;
@@ -24,6 +29,17 @@ let httpServer: Server | null = null;
 let nextHandler: ((req: IncomingMessage, res: ServerResponse, parsedUrl: ReturnType<typeof parse>) => Promise<void>) | null = null;
 
 beforeAll(async () => {
+  // ─── Ensure production build exists ─────────────────────────
+  // If .next/BUILD_ID is missing (e.g. fresh clone, vitest file
+  // ordering), run a production build automatically so the 17
+  // integration tests can always run — never silently skip.
+  const buildIdPath = join(process.cwd(), ".next", "BUILD_ID");
+  if (!existsSync(buildIdPath)) {
+    const { execSync } = await import("node:child_process");
+    console.log("[api-routes] No .next/BUILD_ID found — running next build...");
+    execSync("npx next build", { stdio: "inherit", timeout: 120_000 });
+  }
+
   // Dynamic import of Next.js
   const Next = await import("next");
   const next = (Next as any).default ?? Next;
@@ -51,7 +67,7 @@ beforeAll(async () => {
     httpServer!.listen(PORT, "127.0.0.1", () => resolve());
     httpServer!.on("error", reject);
   });
-}, 30000);
+}, 180000);
 
 afterAll(async () => {
   if (httpServer) {

@@ -79,4 +79,10 @@ export const moreMenu: MegaMenuGroup[] = [
       { icon: "ScrollText", label: "Changelog", description: "Release history & updates", view: "changelog" },
     ],
   },
+  {
+    heading: "Developer Tools",
+    items: [
+      { icon: "Layers", label: "Component Catalog", description: "Visual component reference & props", view: "component-catalog" },
+    ],
+  },
 ];

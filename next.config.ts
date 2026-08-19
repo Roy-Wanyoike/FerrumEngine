@@ -23,6 +23,7 @@ const SPA_ROUTES = [
   "blog",
   "changelog",
   "interactive-docs",
+  "component-catalog",
 ];
 
 const nextConfig: NextConfig = {
