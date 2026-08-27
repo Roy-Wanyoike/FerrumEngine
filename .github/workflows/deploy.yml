@@ -1,0 +1,59 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+# Only allow one deploy at a time
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Standalone
+        env:
+          DATABASE_URL: file:/tmp/test.db
+          CLOUD_API_TOKEN: ${{ secrets.CLOUD_API_TOKEN }}
+          CLOUD_ADMIN_PASSWORD: ${{ secrets.CLOUD_ADMIN_PASSWORD }}
+        run: npm run build
+
+      - name: Verify build artifacts
+        run: |
+          if [ ! -d ".next/standalone" ]; then
+            echo "FAIL: Standalone output not found"
+            exit 1
+          fi
+          echo "PASS: Standalone build ready"
+          du -sh .next/standalone
+
+      - name: Deploy
+        run: |
+          echo "Deploy step — configure for your hosting provider"
+          echo "Supported targets: Vercel, Docker, AWS ECS, Railway"
+          echo "Standalone output is at .next/standalone/"
+          # Example: vercel deploy --prod
+          # Example: docker build -t ferrumengine .
+          # Example: fly deploy

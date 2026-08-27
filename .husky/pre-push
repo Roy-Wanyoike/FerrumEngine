@@ -1,0 +1,22 @@
+#!/bin/sh
+# FerrumEngine pre-push hook
+# Runs build and budget checks before allowing a push
+# Prevents regressions from reaching the remote repository
+
+echo "🚀 Running pre-push quality gates..."
+
+echo "  → Building for production..."
+npm run build --silent
+if [ $? -ne 0 ]; then
+  echo "❌ Build failed. Fix errors before pushing."
+  exit 1
+fi
+
+echo "  → Checking performance budget..."
+npm run budget --silent
+if [ $? -ne 0 ]; then
+  echo "❌ Performance budget exceeded. Reduce bundle size before pushing."
+  exit 1
+fi
+
+echo "✅ Pre-push checks passed."

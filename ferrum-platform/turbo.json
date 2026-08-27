@@ -1,0 +1,39 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
+      "inputs": ["src/**", "*.json", "*.ts", "*.tsx", "*.js", "*.jsx", "tsconfig.json", "tsup.config.ts"]
+    },
+    "build:ts": {
+      "dependsOn": ["^build:ts"],
+      "outputs": ["dist/index.js", "dist/index.cjs", "dist/index.d.ts", "dist/index.d.cts", "dist/cli.js", "dist/*.map"],
+      "inputs": ["src/**", "tsconfig.json", "tsup.config.ts"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "inputs": ["src/**", "*.json", "*.ts", "*.tsx", "*.js", "*.jsx"]
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "*.json", "*.ts", "*.tsx", "*.js", "*.jsx"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "test/**", "*.json", "*.ts", "*.tsx", "vitest.config.ts"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "*.json", "*.ts", "*.tsx", "tsconfig.json"]
+    },
+    "clean": {
+      "cache": false
+    }
+  },
+  "remoteCache": {
+    "enabled": false
+  }
+}

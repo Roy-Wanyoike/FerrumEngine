@@ -1,0 +1,83 @@
+name: Canary Release
+
+on:
+  push:
+    branches: [canary]
+
+concurrency:
+  group: canary-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-publish:
+    name: Build & Publish Canary
+    runs-on: ubuntu-latest
+    outputs:
+      previewUrls: ${{ steps.meta.outputs.urls }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          registry-url: https://registry.npmjs.org/
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Publish canary versions
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          TIMESTAMP=$(date +%s)
+          pnpm -r exec -- npx tsx scripts/canary-version.ts "$SHORT_SHA" "$TIMESTAMP"
+          pnpm -r publish --access public --no-git-checks --tag canary
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Collect preview info
+        id: meta
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          CANARY_TAG="canary.${SHORT_SHA}"
+          # Build JSON array of published packages
+          PACKAGES=$(ls -d packages/*/ | xargs -I{} basename {} | grep -v testing)
+          URLS=""
+          for pkg in $PACKAGES; do
+            URLS="${URLS}https://www.npmjs.com/package/@ferrum/${pkg}/v/${CANARY_TAG}\n"
+          done
+          echo "urls<<EOF" >> "$GITHUB_OUTPUT"
+          echo -e "$URLS" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+  comment:
+    name: Comment Preview URLs
+    runs-on: ubuntu-latest
+    needs: build-and-publish
+    if: always() && needs.build-and-publish.result == 'success'
+    steps:
+      - name: Post commit comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const urls = `${{ needs.build-and-publish.outputs.previewUrls }}`;
+            const shortSha = context.sha.substring(0, 7);
+            const body = [
+              `## 🚧 Canary Release \`${shortSha}\``,
+              '',
+              'Published packages:',
+              '',
+              ...urls.trimEnd().split('\n').map((url) => `- ${url}`),
+              '',
+              'Install with:',
+              '```bash',
+              `pnpm add @ferrum/core@canary.${shortSha}`,
+              '```',
+            ].join('\n');
+            await github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.sha,
+              body,
+            });

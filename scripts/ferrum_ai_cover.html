@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 794px; height: 1123px; margin: 0; padding: 0; overflow: hidden; }
+  body {
+    background: #ffffff;
+    font-family: 'Inter', sans-serif;
+    color: #161818;
+  }
+  .cover-page {
+    position: relative;
+    width: 794px;
+    height: 1123px;
+    border: none;
+    outline: none;
+  }
+
+  /* Layer 0: Background */
+  .layer-0 {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: #ffffff;
+  }
+
+  /* Layer 1: Background decorative - grid pattern */
+  .layer-1 {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .grid-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(62, 79, 89, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(62, 79, 89, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .accent-block {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 320px;
+    height: 180px;
+    background: linear-gradient(135deg, rgba(32, 108, 145, 0.08), rgba(78, 129, 155, 0.04));
+    border-radius: 0;
+  }
+  .bottom-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #206c91, #4e819b);
+  }
+
+  /* Layer 2: Structure */
+  .layer-2 {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+  .anchor-line {
+    position: absolute;
+    left: 95px;
+    top: 112px;
+    bottom: 112px;
+    width: 5px;
+    background: #3c4f59;
+  }
+  .horizontal-rule {
+    position: absolute;
+    left: 130px;
+    right: 60px;
+    top: 780px;
+    height: 1px;
+    background: #c0d1d9;
+  }
+
+  /* Layer 3: Content */
+  .layer-3 {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+  }
+  .kicker {
+    position: absolute;
+    left: 130px;
+    top: 130px;
+    font-size: 13pt;
+    font-weight: 400;
+    letter-spacing: 4pt;
+    text-transform: uppercase;
+    color: #7c8386;
+    opacity: 0.7;
+  }
+  .hero-title {
+    position: absolute;
+    left: 130px;
+    top: 250px;
+    max-width: 560px;
+    font-size: 48pt;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #161818;
+    letter-spacing: -0.5pt;
+  }
+  .hero-title .accent { color: #206c91; }
+  .summary {
+    position: absolute;
+    left: 130px;
+    top: 480px;
+    max-width: 480px;
+    font-size: 15pt;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #161818;
+    opacity: 0.8;
+  }
+  .meta {
+    position: absolute;
+    left: 130px;
+    top: 810px;
+    display: flex;
+    gap: 36px;
+    font-size: 11pt;
+    font-weight: 400;
+    color: #7c8386;
+  }
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .meta-label {
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 2pt;
+    color: #7c8386;
+    opacity: 0.6;
+  }
+  .footer-tag {
+    position: absolute;
+    left: 130px;
+    bottom: 40px;
+    font-size: 10pt;
+    font-weight: 400;
+    letter-spacing: 3pt;
+    text-transform: uppercase;
+    color: #7c8386;
+    opacity: 0.5;
+  }
+</style>
+</head>
+<body>
+<div class="cover-page">
+  <div class="layer-0"></div>
+  <div class="layer-1">
+    <div class="grid-pattern"></div>
+    <div class="accent-block"></div>
+    <div class="bottom-line"></div>
+  </div>
+  <div class="layer-2">
+    <div class="anchor-line"></div>
+    <div class="horizontal-rule"></div>
+  </div>
+  <div class="layer-3">
+    <div class="kicker">Architecture Document</div>
+    <div class="hero-title">Ferrum AI<br><span class="accent">Design Intelligence</span></div>
+    <div class="summary">The intelligence layer of the Ferrum Universal UI Engine. A system that generates complete interface systems, not merely frontend code. From intent understanding to design reasoning, component planning, motion generation, and production-grade output.</div>
+    <div class="meta">
+      <div class="meta-item">
+        <span class="meta-label">Author</span>
+        <span>Ferrum Architecture Team</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Version</span>
+        <span>1.0</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Date</span>
+        <span>July 2026</span>
+      </div>
+    </div>
+    <div class="footer-tag">Ferrum Universal UI Engine</div>
+  </div>
+</div>
+</body>
+</html>

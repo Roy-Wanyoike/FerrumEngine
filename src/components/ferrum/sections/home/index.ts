@@ -1,0 +1,12 @@
+export { HeroSection } from "./hero-section";
+export { ProblemSection } from "./problem-section";
+export { PlatformMarquee } from "./marquee-section";
+export { PlaygroundSection } from "./playground-section";
+export { PlatformOverviewSection } from "./overview-section";
+export { ArchitectureSection } from "./architecture-section";
+export { DeveloperJourneySection } from "./dev-journey-section";
+export { LiveExamplesSection } from "./live-examples-section";
+export { EnterpriseSection } from "./enterprise-section";
+export { RoadmapSection } from "./roadmap-section";
+export { CommunitySection } from "./community-section";
+export { PlatformFooter } from "./platform-footer-section";
