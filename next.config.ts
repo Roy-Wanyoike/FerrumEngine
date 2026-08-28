@@ -56,16 +56,18 @@ const nextConfig: NextConfig = {
         source: "/(.*)",
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), ambient-light-sensor=(), autoplay=(), encrypted-media=(), picture-in-picture=()" },
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
           { key: "X-DNS-Prefetch-Control", value: "on" },
           /* Content-Security-Policy is set via middleware (src/middleware.ts)
            * to prevent Next.js 16 from stripping 'unsafe-inline' from script-src. */
-          /* Cross-Origin headers — prevent Spectre-class attacks */
-          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-          { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
+          /* Cross-Origin headers — relaxed for preview proxy compatibility.
+           * Re-enable same-origin for dedicated production deployments behind
+           * your own reverse proxy where the origin is guaranteed. */
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
+          { key: "Cross-Origin-Resource-Policy", value: "cross-origin" },
           /* Prevent Adobe crossdomain policy abuse */
           { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
         ],
