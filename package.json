@@ -30,7 +30,7 @@
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
-    "start": "bash scripts/start-server.sh",
+    "start": "node server.cjs",
     "start:raw": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

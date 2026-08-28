@@ -1782,3 +1782,26 @@ Stage Summary:
 - Report: engineering/AUDIT_REPORT.md
 - Analysis script: scripts/find-dead-exports.js
 
+---
+Task ID: 1
+Agent: Main Agent
+Task: Comprehensive fix to make FerrumEngine project run in sandboxed environment
+
+Work Log:
+- Diagnosed root cause: Next.js internally calls process.on('SIGTERM'/'SIGINT') which crashes with uv_signal_start EINVAL in sandboxed environments
+- Created src/instrumentation.ts — Next.js loads this at process startup, patching process.on/off before Next.js registers signal handlers (works for both `next dev` and `next start`)
+- Updated package.json: `start` script now uses `node server.cjs` (custom server with built-in signal patch)
+- Simplified server.cjs — removed fragile CSP interception, clean production server
+- Created server-preload.cjs as fallback preload script
+- Simplified scripts/start-server.sh to use exec with preload
+- Dispatched 2 audit agents: verified all 35+ source files (middleware, API routes, cloud routes, lib, hooks) — zero blocking issues found
+- Fixed instrumentation.ts TypeScript types (used `any` cast for process.on/off override, added Edge Runtime guard)
+- Verified sandbox blocks `-r` flag in NODE_OPTIONS — removed from dev script, rely on instrumentation.ts instead
+
+Stage Summary:
+- next build: SUCCESS (17 routes, 0 errors)
+- npm start (node server.cjs): SUCCESS — server starts, stays alive, all routes return 200
+- npx next start: SUCCESS — instrumentation.ts patch works, server stays alive
+- All 11 routes verified: /, /api/health, /api/tokens, /api/css, /api/analytics, /cloud, /privacy, /terms, /api, /api/cloud/auth (405 correct), /api/cloud/teams (401 correct)
+- Homepage renders full HTML with fonts and CSS
+- Health endpoint returns {"status":"ok"} with correct memory thresholds
