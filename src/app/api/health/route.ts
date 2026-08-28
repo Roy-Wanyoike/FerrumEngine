@@ -59,7 +59,8 @@ export async function GET() {
   // Check memory usage (Node.js process)
   const memUsage = process.memoryUsage();
   const memUsedMB = Math.round(memUsage.rss / 1024 / 1024);
-  const memWarning = memUsedMB > 500; // >500MB = warning
+  const memThresholdMB = process.env.NODE_ENV === 'production' ? 1024 : 1500;
+  const memWarning = memUsedMB > memThresholdMB;
 
   const services = {
     cloudStore: {
@@ -80,7 +81,7 @@ export async function GET() {
     memory: {
       status: memWarning ? "warning" : "ok",
       usedMB: memUsedMB,
-      thresholdMB: 500,
+      thresholdMB: memThresholdMB,
     },
   };
 
