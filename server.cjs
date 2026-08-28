@@ -2,7 +2,8 @@
  * Custom Next.js production server.
  *
  * 1. Patches process.on to prevent uv_signal_start EINVAL crashes in sandbox.
- * 2. Starts Next.js in production mode on 0.0.0.0:3000.
+ * 2. Starts Next.js in production mode.
+ * 3. Reads port from FC_CUSTOM_LISTEN_PORT > PORT > 3000.
  */
 
 // Block signal handlers that crash in sandboxed environments

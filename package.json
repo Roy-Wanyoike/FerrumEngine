@@ -32,6 +32,7 @@
     "build": "next build",
     "start": "node server.cjs",
     "start:raw": "next start",
+    "start:loop": "while true; do node server.cjs; sleep 1; done",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
