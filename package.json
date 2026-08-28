@@ -28,7 +28,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "next dev -p 3000",
+    "dev": "node ./node_modules/.bin/next build && node server.cjs",
     "build": "next build",
     "start": "node server.cjs",
     "start:raw": "next start",
