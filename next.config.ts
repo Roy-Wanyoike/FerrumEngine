@@ -43,50 +43,14 @@ const nextConfig: NextConfig = {
 
   /* ── Security & Performance Headers ── */
   async headers() {
-    const isDev = process.env.NODE_ENV === "development";
-
     /*
-     * Content-Security-Policy
-     * ────────────────────────────
-     * WHY certain directives remain permissive:
+     * Content-Security-Policy is managed in src/middleware.ts.
+     * Next.js 16 strips 'unsafe-inline' from script-src in config-level
+     * headers, so CSP must be set from middleware to preserve it.
      *
-     * 1. script-src 'unsafe-inline' (DEV ONLY):
-     *    Turbopack / Next.js HMR injects inline <script> tags for hot reloading.
-     *    In development mode, 'unsafe-inline' is required. In production, scripts
-     *    are bundled and can use strict 'self' — but Tailwind's JIT compiler
-     *    in dev may still inject. Production CSP omits 'unsafe-inline'.
-     *
-     * 2. style-src 'unsafe-inline':
-     *    Tailwind CSS generates styles at build time and injects them via
-     *    <style> tags at runtime (especially in development). This is a
-     *    well-known trade-off. For stricter CSP, you would need to hash
-     *    all Tailwind style blocks and add 'sha256-...' tokens. This is
-     *    documented here as accepted risk; replace with hashes in production
-     *    if your threat model requires it.
-     *
-     * 3. connect-src 'self' blob:
-     *    blob: is needed for client-side blob URL workers (e.g., pdf.js,
-     *    chart rendering). Remove if your app doesn't use blob workers.
-     *
-     * 4. base-uri 'self' + form-action 'self':
-     *    Prevents injection of <base> tags and restricts form submissions
-     *    to same-origin only, mitigating phishing and form hijacking.
+     * style-src 'unsafe-inline' is required for Tailwind CSS runtime injection.
+     * connect-src blob: is needed for client-side blob URL workers.
      */
-    const scriptSrc = isDev
-      ? "'self' 'unsafe-inline'"
-      : "'self'";
-
-    const csp = [
-      "default-src 'self'",
-      `script-src ${scriptSrc}`,
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data: blob:",
-      "connect-src 'self' blob:",
-      "base-uri 'self'",
-      "form-action 'self'",
-    ].join("; ");
-
     return [
       {
         source: "/(.*)",
@@ -97,7 +61,8 @@ const nextConfig: NextConfig = {
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), ambient-light-sensor=(), autoplay=(), encrypted-media=(), picture-in-picture=()" },
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
           { key: "X-DNS-Prefetch-Control", value: "on" },
-          { key: "Content-Security-Policy", value: csp },
+          /* Content-Security-Policy is set via middleware (src/middleware.ts)
+           * to prevent Next.js 16 from stripping 'unsafe-inline' from script-src. */
           /* Cross-Origin headers — prevent Spectre-class attacks */
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
           { key: "Cross-Origin-Resource-Policy", value: "same-origin" },

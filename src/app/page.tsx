@@ -2,6 +2,18 @@ import { SeoContent } from "@/components/ferrum/seo-content";
 import { HomeLoader } from "./home-loader";
 
 /**
+ * Override Next.js 16 auto-CSP to allow inline RSC scripts.
+ * Next.js 16 generates script-src 'self' which blocks the inline
+ * <script> tags that deliver RSC flight data, preventing hydration.
+ */
+export function headers() {
+  return {
+    "Content-Security-Policy":
+      "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' blob:; base-uri 'self'; form-action 'self'",
+  };
+}
+
+/**
  * Server Component — Root page.
  *
  * Renders SEO content (visible to crawlers, hidden from interactive users)

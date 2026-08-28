@@ -1,11 +1,15 @@
-:81 {
-	encode gzip
-	handle {
-		reverse_proxy 127.0.0.1:3000 {
-			header_up Host {host}
-			header_up X-Forwarded-For {remote_host}
-			header_up X-Forwarded-Proto {scheme}
-			header_up X-Real-IP {remote_host}
-		}
-	}
+:8080 {
+    encode gzip
+    handle {
+        # Override Next.js 16 auto-CSP to allow inline RSC scripts.
+        # Must be inside handle block before reverse_proxy.
+        header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' blob:; base-uri 'self'; form-action 'self'"
+
+        reverse_proxy 127.0.0.1:3000 {
+            header_up Host {host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Real-IP {remote_host}
+        }
+    }
 }
