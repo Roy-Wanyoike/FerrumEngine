@@ -63,3 +63,14 @@ export { optimize } from './optimizer';
 export { generateCSS } from './generator';
 export { checkCompatibility, getRequiredPrefixes, BROWSER_TARGETS } from './browsers';
 export type { BrowserTarget } from './browsers';
+
+// Subset / tree-shaking
+export {
+  SubsetSelector,
+  buildSubsetCSS,
+  generateSubsetImports,
+  getCategoryTree,
+} from './subset';
+export type { SubsetResult, CategoryTreeNode, CategoryTree, BuildSubsetCSSOptions } from './subset';
+export { writeSubsetCSS, writeSubsetManifest, writeSubsetPackageJson } from './subset-writer';
+export type { SubsetManifest } from './subset-writer';
