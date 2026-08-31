@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   workflow_run:
-    workflows: [CI]
+    workflows: ["CI"]
     types: [completed]
     branches: [main]
 
@@ -14,46 +14,70 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    name: Deploy to Production
+  # ── Docker Build & Push ──────────────────────────────────────
+  docker:
+    name: Build & Push Docker Image
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
-    environment: production
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-          node-version: 22
-          cache: npm
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=sha
+            type=raw,value=latest,enable={{is_default_branch}}
 
-      - name: Build Standalone
-        env:
-          DATABASE_URL: file:/tmp/test.db
-          CLOUD_API_TOKEN: ${{ secrets.CLOUD_API_TOKEN }}
-          CLOUD_ADMIN_PASSWORD: ${{ secrets.CLOUD_ADMIN_PASSWORD }}
-        run: npm run build
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          target: runner
 
-      - name: Verify build artifacts
+  # ── Verify deployment ───────────────────────────────────────
+  verify:
+    name: Verify Deploy
+    runs-on: ubuntu-latest
+    needs: [docker]
+    if: ${{ github.event_name == 'push' }}
+    steps:
+      - name: Deploy Summary
         run: |
-          if [ ! -d ".next/standalone" ]; then
-            echo "FAIL: Standalone output not found"
-            exit 1
-          fi
-          echo "PASS: Standalone build ready"
-          du -sh .next/standalone
-
-      - name: Deploy
-        run: |
-          echo "Deploy step — configure for your hosting provider"
-          echo "Supported targets: Vercel, Docker, AWS ECS, Railway"
-          echo "Standalone output is at .next/standalone/"
-          # Example: vercel deploy --prod
-          # Example: docker build -t ferrumengine .
-          # Example: fly deploy
+          echo "## Deployment Summary :shipit:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Item | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Image** | \`ghcr.io/${{ github.repository }}:latest\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Author** | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Time** | $(date -u '+%Y-%m-%d %H:%M UTC') |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Pull & Run" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ghcr.io/${{ github.repository }}:latest" >> $GITHUB_STEP_SUMMARY
+          echo "docker run -p 3000:3000 --env-file .env ghcr.io/${{ github.repository }}:latest" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
