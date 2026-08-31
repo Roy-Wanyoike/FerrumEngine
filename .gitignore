@@ -87,6 +87,21 @@ components.json
 /skills/
 
 # ============================================================
+# Internal — sandbox tooling & screenshots
+# ============================================================
+/screenshots/
+/examples/
+/mini-services/
+/.zscripts/
+debug-csp.cjs
+serve_static.py
+.budget-baseline.json
+bun.lock
+pnpm-lock.yaml
+next.config.minimal.ts
+/DEPLOY.md
+
+# ============================================================
 # Editor/IDE specific
 # ============================================================
 .idea/

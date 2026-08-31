@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 import { ensureCsrfCookie } from "@/lib/csrf";
+import { getClientIP } from "@/lib/get-client-ip";
+import { RateLimiter } from "@/lib/rate-limit";
 
 /**
  * Middleware — Next.js 16 Proxy Migration Status
@@ -18,12 +20,12 @@ import { ensureCsrfCookie } from "@/lib/csrf";
  * REMAINING IN MIDDLEWARE (requires Edge Runtime / per-request logic):
  *   ⚙️ CSRF token cookie issuance (all routes)
  *   ⚙️ JWT authentication for /cloud/* and /api/cloud/* routes
- *   ⚙️ Rate limiting (in-memory, per-IP) for /api/cloud/* routes
+ *   ⚙️ Rate limiting (in-memory, per-session/IP) for /api/cloud/* routes
  *   ⚙️ Dynamic rate-limit response headers (X-RateLimit-*)
  *
  * WHY THESE CAN'T MOVE TO next.config.ts:
  *   - JWT verification requires jose library + per-request crypto (Edge only)
- *   - Rate limiting requires in-memory state + per-IP tracking
+ *   - Rate limiting requires in-memory state + per-session/IP tracking
  *   - These are fundamentally per-request, stateful operations
  *
  * FUTURE: When Next.js 16 proxy feature is stable and supports Edge-compatible
@@ -37,31 +39,15 @@ import { ensureCsrfCookie } from "@/lib/csrf";
  * - /cloud/* page routes: JWT verified from httpOnly cookie (ferrum-cloud-session)
  * - /api/cloud/auth: exempt from JWT check (login/logout endpoint)
  *
- * SECURITY NOTE — Rate Limiting Limitations:
- * ──────────────────────────────────────────────
- * This rate limiter is an in-memory, best-effort protection. Key limitations:
+ * SECURITY IMPROVEMENTS:
+ * ─────────────────────
+ * T-H04: IP Spoofing Prevention — getClientIP() now validates that proxy
+ *   headers (x-real-ip, x-forwarded-for) are only trusted when the direct
+ *   connection comes from a known reverse proxy (TRUSTED_PROXY_IPS env var).
  *
- * 1. IP Spoofing: We read the `x-real-ip` header as provided by the reverse
- *    proxy. An attacker who can reach the server directly (bypassing the proxy)
- *    can forge this header. This is acceptable because in production the server
- *    is always behind a trusted reverse proxy (Caddy / Nginx) that overwrites
- *    the header.
- *
- * 2. Serverless Ephemeral Store: The in-memory Map resets on every cold start.
- *    In a serverless environment (Vercel, AWS Lambda), each function instance
- *    has its own independent counter. An attacker making requests across
- *    instances gets a higher effective limit. For global rate limiting, use
- *    Redis / Upstash / a dedicated rate-limiting service.
- *
- * 3. No Distributed Coordination: Multiple instances don't share counters.
- *
- * Despite these limitations, this middleware still provides meaningful defense:
- * it raises the cost of brute-force attacks and absorbs traffic spikes.
- * Consider it a first line of defense, not the only one.
- *
- * GRACEFUL DEGRADATION:
- * If CLOUD_API_TOKEN is not configured, cloud auth falls back to a demo secret
- * so the rest of the app (non-cloud routes) can function in development/demo.
+ * T-H05: Per-Session Rate Limiting — RateLimiter class with pluggable store.
+ *   Uses session token as key when available, falls back to IP. Accepts
+ *   an optional external store (Redis/Upstash) for distributed deployments.
  */
 
 const JWT_SECRET_RAW = process.env.CLOUD_API_TOKEN || "ferrum-demo-secret";
@@ -75,12 +61,9 @@ const AUTH_MAX_REQUESTS = 10;
 const API_WINDOW_MS = 60 * 1000; // 1 minute
 const API_MAX_REQUESTS = 100;
 
-/*
- * In-memory rate limit store (per-instance, resets on cold start).
- * See SECURITY NOTE at top of file for known limitations.
- */
-const authAttempts = new Map<string, { count: number; resetAt: number }>();
-const apiRequests = new Map<string, { count: number; resetAt: number }>();
+// Rate limiter instances (one per rate-limit tier)
+const authLimiter = new RateLimiter();
+const apiLimiter = new RateLimiter();
 
 // Cleanup old entries every 5 minutes to prevent memory leak
 const CLEANUP_INTERVAL_MS = 5 * 60 * 1000;
@@ -90,24 +73,8 @@ function cleanupOldEntries() {
   const now = Date.now();
   if (now - lastCleanup < CLEANUP_INTERVAL_MS) return;
   lastCleanup = now;
-  for (const [key, entry] of authAttempts) {
-    if (now > entry.resetAt) authAttempts.delete(key);
-  }
-  for (const [key, entry] of apiRequests) {
-    if (now > entry.resetAt) apiRequests.delete(key);
-  }
-}
-
-/**
- * Extract client IP from trusted reverse proxy headers.
- * Priority: x-real-ip > first entry of x-forwarded-for > "unknown".
- */
-function getClientIP(request: NextRequest): string {
-  const xri = request.headers.get("x-real-ip");
-  if (xri && xri.length > 0) return xri;
-  const xff = request.headers.get("x-forwarded-for");
-  if (xff && xff.length > 0) return xff.split(",")[0] ?? "unknown";
-  return "unknown";
+  authLimiter.cleanup();
+  apiLimiter.cleanup();
 }
 
 function isCloudPageRoute(pathname: string): boolean {
@@ -123,28 +90,18 @@ function isAuthRoute(pathname: string): boolean {
   return pathname === "/api/cloud/auth";
 }
 
-function checkRateLimit(
-  store: Map<string, { count: number; resetAt: number }>,
-  key: string,
-  maxRequests: number,
-  windowMs: number
-): { allowed: boolean; remaining: number; resetAt: number } {
-  const now = Date.now();
-  const existing = store.get(key);
+/**
+ * Derive the rate-limit key: prefer session token, fall back to client IP.
+ */
+function getRateLimitKey(request: NextRequest, clientIP: string): string {
+  const authHeader = request.headers.get("authorization");
+  const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  if (token) return `session:${token.slice(0, 32)}`;
 
-  if (!existing || now > existing.resetAt) {
-    const resetAt = now + windowMs;
-    store.set(key, { count: 1, resetAt });
-    return { allowed: true, remaining: maxRequests - 1, resetAt };
-  }
+  const cookie = request.cookies.get(COOKIE_NAME);
+  if (cookie?.value) return `session:${cookie.value.slice(0, 32)}`;
 
-  existing.count++;
-  const allowed = existing.count <= maxRequests;
-  return {
-    allowed,
-    remaining: Math.max(0, maxRequests - existing.count),
-    resetAt: existing.resetAt,
-  };
+  return `ip:${clientIP}`;
 }
 
 /**
@@ -195,6 +152,7 @@ export default async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
   const clientIP = getClientIP(request);
+  const rlKey = getRateLimitKey(request, clientIP);
 
   // ── Cloud page routes (/cloud, /cloud/*) ──────────────────────────
   // Verify JWT from httpOnly cookie. If invalid, let the page render
@@ -213,7 +171,7 @@ export default async function middleware(request: NextRequest) {
 
   // Rate limit /api/cloud/auth (stricter — prevents brute force)
   if (isAuthRoute(pathname)) {
-    const rl = checkRateLimit(authAttempts, clientIP, AUTH_MAX_REQUESTS, AUTH_WINDOW_MS);
+    const rl = authLimiter.check(rlKey, AUTH_MAX_REQUESTS, AUTH_WINDOW_MS);
     if (!rl.allowed) {
       return NextResponse.json(
         {
@@ -236,7 +194,7 @@ export default async function middleware(request: NextRequest) {
   }
 
   // Rate limit other /api/cloud/* routes
-  const rl = checkRateLimit(apiRequests, clientIP, API_MAX_REQUESTS, API_WINDOW_MS);
+  const rl = apiLimiter.check(rlKey, API_MAX_REQUESTS, API_WINDOW_MS);
   if (!rl.allowed) {
     return NextResponse.json(
       {
@@ -257,7 +215,7 @@ export default async function middleware(request: NextRequest) {
 
   // JWT auth for protected API routes — check Authorization header first,
   // fall back to cookie for cookie-based auth
-  const payload = await verifyBearerToken(request) || await verifyCookieToken(request);
+  const payload = (await verifyBearerToken(request)) || (await verifyCookieToken(request));
 
   if (!payload) {
     return NextResponse.json(
