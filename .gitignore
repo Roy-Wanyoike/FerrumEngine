@@ -19,20 +19,16 @@ node_modules/
 out/
 build/
 dist/
-.next/analyze/
 
 # ============================================================
-# Supabase secrets
+# Environment files (keep .env.example)
 # ============================================================
-.env.local
-.env.production.local
-.env*.local
-
-# Environment files — specific ignores to allow .env.example
 .env
+.env.local
 .env.development
 .env.test
 .env.production
+.env*.local
 
 # ============================================================
 # Database
@@ -46,9 +42,6 @@ db/*.db-wal
 *.sqlite
 *.sqlite3
 
-# Supabase migration artifacts (keep schema, ignore generated)
-supabase/.temp/
-
 # ============================================================
 # Test artifacts
 # ============================================================
@@ -58,16 +51,40 @@ supabase/.temp/
 /blob-report/
 
 # ============================================================
-# Tool output
+# Internal — engineering & planning docs
 # ============================================================
-/tool-results/
-/tools/output/
-/tools/generated/
+/engineering/
+/registry/
+/agent-ctx/
+/worklog.md
 
-# ============================================================
-# Build analysis
-# ============================================================
-/.next/analyze/
+# Internal — audit/spec/reconciliation reports
+ACCESSIBILITY_AUDIT_REPORT.md
+ARCHITECTURE_DESIGN.md
+FEATURE_RECOVERY_MATRIX.md
+FEATURE_REGISTRY.md
+FINAL_RECONCILIATION_REPORT.md
+GIT_FORENSICS_REPORT.md
+PERFORMANCE_BASELINE_REPORT.md
+PLATFORM_AUDIT_REPORT.md
+SECURITY_AUDIT_REPORT.md
+VERIFICATION_REPORT.md
+
+# Internal — scripts (tooling, data scraping, PDF generation)
+/scripts/
+/tools/
+
+# Internal — sandbox/CI artifacts
+/tool-results/
+src/instrumentation.ts
+server-preload.cjs
+components.json
+
+# Internal — monorepo source (published separately)
+/ferrum-platform/
+
+# Internal — AI/skill system
+/skills/
 
 # ============================================================
 # Editor/IDE specific
@@ -88,9 +105,6 @@ Thumbs.db
 # Server logs
 # ============================================================
 *.log
-server.log
-dev.log
-dev.out.log
 
 # ============================================================
 # Local development
@@ -98,18 +112,16 @@ dev.out.log
 local-*/
 
 # ============================================================
-# Agent context (internal)
+# AI tool configs
 # ============================================================
-/agent-ctx/
-
-# Claude/AI tools
 .claude
 .z-ai-config
 
 # ============================================================
-# Upload/download directories (user content)
+# Upload/download directories
 # ============================================================
 /upload/
+/download/
 
 # ============================================================
 # Backup files
@@ -130,12 +142,7 @@ local-*/
 next-env.d.ts
 
 # ============================================================
-# Skills directory (internal)
-# ============================================================
-/skills/
-
-# ============================================================
-# Debug
+# Debug logs
 # ============================================================
 npm-debug.log*
 yarn-debug.log*
@@ -143,21 +150,15 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # ============================================================
-# Vercel
+# Platform configs
 # ============================================================
 .vercel
 
 # ============================================================
-# Misc
-# ============================================================
-*.pem
-test
-prompt
-
-# ============================================================
-# Secrets
+# Secrets & credentials
 # ============================================================
 secrets/
+*.pem
 
 # ============================================================
 # Deployment artifacts
@@ -165,5 +166,9 @@ secrets/
 *.zip
 *.tar.gz
 *.tgz
-ferrum-launch-*.zip
-/download/
+
+# ============================================================
+# Misc clutter
+# ============================================================
+test
+prompt
