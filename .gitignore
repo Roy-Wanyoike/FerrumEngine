@@ -31,11 +31,12 @@ dist/
 .env*.local
 
 # ============================================================
-# Database
+# Database (all runtime data — schema is in prisma/ and supabase/)
 # ============================================================
 db/*.db
 db/*.db-journal
 db/*.db-wal
+db/*.json
 *.db
 *.db-journal
 *.db-wal
