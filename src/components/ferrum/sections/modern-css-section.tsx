@@ -159,7 +159,7 @@ export function ModernCSS() {
 
         <Reveal delay={0.2}>
           <div className="mt-12 text-center">
-            <code className="text-xs text-muted-foreground/40 font-mono bg-foreground/[0.03] px-4 py-2 rounded-lg border border-border">
+            <code className="text-xs text-muted-foreground/70 font-mono bg-foreground/[0.03] px-4 py-2 rounded-lg border border-border">
               import &#123; generateModernCSS, generateCascadeLayerCSS &#125; from &apos;@ferrum/modern-css&apos;
             </code>
           </div>

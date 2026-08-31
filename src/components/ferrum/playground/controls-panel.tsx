@@ -460,7 +460,7 @@ export function ControlsPanel({
                 className="w-full h-9 text-[11px] bg-foreground/[0.04] border border-border rounded-lg pl-3 pr-3 text-foreground placeholder:text-muted-foreground/30 disabled:opacity-40 cursor-not-allowed"
               />
             </div>
-            <div className="text-[10px] text-center text-muted-foreground/30">
+            <div className="text-[10px] text-center text-muted-foreground/60">
               Coming in v2.1
             </div>
           </div>

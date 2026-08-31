@@ -43,11 +43,11 @@ function CodeBlock({ code, lang, onCopy, copied }: {
       <div className="flex items-center justify-between px-4 py-2 bg-foreground/[0.04] border-b border-border/50">
         <div className="flex items-center gap-2">
           <Terminal className="w-3.5 h-3.5 text-muted-foreground/40" />
-          <span className="text-[11px] font-mono text-muted-foreground/40 uppercase">{lang}</span>
+          <span className="text-[11px] font-mono text-muted-foreground/60 uppercase">{lang}</span>
         </div>
         <button
           onClick={onCopy}
-          className="flex items-center gap-1.5 text-[11px] text-muted-foreground/40 hover:text-muted-foreground transition-colors px-2 py-1 rounded-md hover:bg-foreground/[0.06]"
+          className="flex items-center gap-1.5 text-[11px] text-muted-foreground/60 hover:text-muted-foreground transition-colors px-2 py-1 rounded-md hover:bg-foreground/[0.06]"
         >
           {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
           {copied ? "Copied" : "Copy"}

@@ -141,6 +141,7 @@ describe("DesktopMegaTrigger", () => {
     onMenuEnter: vi.fn(),
     onMenuLeave: vi.fn(),
     onToggle: vi.fn(),
+    allMenuIds: ['platform', 'docs', 'more'],
   };
 
   it("renders the trigger button with the label", () => {

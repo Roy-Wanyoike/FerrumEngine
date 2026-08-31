@@ -228,7 +228,7 @@ function DataFlowDiagram({ flow, color }: { flow: Subsystem["dataFlow"]; color: 
           </div>
           <div className="flex flex-col items-center gap-0.5 shrink-0">
             <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/40" />
-            <span className="text-[9px] text-muted-foreground/40 max-w-[100px] text-center leading-tight">{step.via}</span>
+            <span className="text-[9px] text-muted-foreground/60 max-w-[100px] text-center leading-tight">{step.via}</span>
           </div>
           <div className={`shrink-0 px-3 py-1.5 rounded-lg border ${cls} text-xs font-medium bg-foreground/[0.02] min-w-[140px] text-center`}>
             {step.to}
@@ -252,19 +252,19 @@ function SubsystemDetail({ system }: { system: Subsystem }) {
 
       {/* Purpose */}
       <div>
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/40 mb-2">Purpose</h4>
+        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">Purpose</h4>
         <p className="text-sm text-muted-foreground/60 leading-relaxed">{system.purpose}</p>
       </div>
 
       {/* Problem Solved */}
       <div>
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/40 mb-2">Problem Solved</h4>
+        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">Problem Solved</h4>
         <p className="text-sm text-muted-foreground/60 leading-relaxed">{system.problemSolved}</p>
       </div>
 
       {/* Architecture */}
       <div>
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/40 mb-2">Architecture</h4>
+        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-2">Architecture</h4>
         <p className="text-sm text-muted-foreground/60 leading-relaxed">{system.architecture}</p>
       </div>
 
@@ -273,7 +273,7 @@ function SubsystemDetail({ system }: { system: Subsystem }) {
 
       {/* Algorithms */}
       <div>
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/40 mb-3">Key Algorithms</h4>
+        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3">Key Algorithms</h4>
         <div className="flex flex-wrap gap-2">
           {system.algorithms.map((algo) => (
             <span key={algo} className="px-3 py-1.5 rounded-lg border border-border/40 bg-foreground/[0.02] text-xs text-muted-foreground/50">
@@ -285,7 +285,7 @@ function SubsystemDetail({ system }: { system: Subsystem }) {
 
       {/* Future Roadmap */}
       <div>
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/40 mb-3">Future Roadmap</h4>
+        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-3">Future Roadmap</h4>
         <div className="space-y-2">
           {system.futureRoadmap.map((item) => (
             <div key={item} className="flex items-center gap-2 text-sm text-muted-foreground/50">
@@ -351,7 +351,7 @@ export function ArchitectureBook({ onNavigate: _onNavigate }: { onNavigate: (vie
                       <Icon className="w-5 h-5 text-muted-foreground/50 group-hover:text-purple-400 transition-colors" />
                     </div>
                     <h3 className="text-base font-semibold text-foreground mb-1">{sys.name}</h3>
-                    <p className="text-xs text-muted-foreground/40 mb-3">{sys.tagline}</p>
+                    <p className="text-xs text-muted-foreground/70 mb-3">{sys.tagline}</p>
                     <p className="text-xs text-muted-foreground/50 leading-relaxed line-clamp-3">
                       {sys.purpose}
                     </p>

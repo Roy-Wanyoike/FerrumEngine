@@ -75,7 +75,7 @@ function NodeCard({ node, size = "sm", highlight = false }: {
         </div>
         <div className="min-w-0">
           <div className="text-xs font-semibold text-foreground/80 truncate">{node.name}</div>
-          <div className="text-[10px] text-muted-foreground/40 truncate">{node.desc}</div>
+          <div className="text-[10px] text-muted-foreground/70 truncate">{node.desc}</div>
         </div>
       </div>
     </AnimatedCard>

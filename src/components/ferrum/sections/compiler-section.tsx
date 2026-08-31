@@ -129,7 +129,7 @@ export function CompilerSection() {
                 <AnimatedCard spotlightColor="rgba(59, 130, 246, 0.04)" glowColor="rgba(59, 130, 246, 0.10)" className="border border-border bg-foreground/[0.02] min-w-[100px]">
                   <div className="px-4 py-2.5 text-center relative z-20">
                     <div className={`text-sm font-semibold ${phase.color}`}>{phase.label}</div>
-                    <div className="text-[10px] text-muted-foreground/40 mt-0.5">{phase.sub}</div>
+                    <div className="text-[10px] text-muted-foreground/60 mt-0.5">{phase.sub}</div>
                   </div>
                 </AnimatedCard>
                 {i < 3 && <Zap className="w-4 h-4 text-muted-foreground/20 shrink-0 hidden sm:block" />}
@@ -151,7 +151,7 @@ export function CompilerSection() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className={`text-sm font-semibold ${p.text}`}>{p.name}</h3>
-                      <code className="text-[10px] text-muted-foreground/30 font-mono">{p.fn}()</code>
+                      <code className="text-[10px] text-muted-foreground/60 font-mono">{p.fn}()</code>
                       <p className="text-xs text-muted-foreground/50 mt-1.5 leading-relaxed">{p.desc}</p>
                     </div>
                   </div>
@@ -172,7 +172,7 @@ export function CompilerSection() {
             ].map((s) => (
               <div key={s.l} className="p-4 rounded-xl border border-border/50 bg-foreground/[0.01] text-center">
                 <div className="text-lg font-bold text-foreground/80">{s.v}</div>
-                <div className="text-[10px] text-muted-foreground/40 mt-0.5">{s.l}</div>
+                <div className="text-[10px] text-muted-foreground/60 mt-0.5">{s.l}</div>
               </div>
             ))}
           </div>
@@ -180,7 +180,7 @@ export function CompilerSection() {
 
         <Reveal delay={0.25}>
           <div className="mt-8 text-center">
-            <code className="text-xs text-muted-foreground/40 font-mono bg-foreground/[0.03] px-4 py-2 rounded-lg border border-border">
+            <code className="text-xs text-muted-foreground/70 font-mono bg-foreground/[0.03] px-4 py-2 rounded-lg border border-border">
               import &#123; compile, compileMultiple, clearCache &#125; from &apos;@ferrum/compiler&apos;
             </code>
           </div>

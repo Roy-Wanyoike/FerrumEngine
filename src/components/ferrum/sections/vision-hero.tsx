@@ -62,7 +62,7 @@ function LiveDemo() {
         </div>
         <div className="flex items-baseline gap-1">
           <span className="text-xl sm:text-2xl font-bold text-foreground tabular-nums">60</span>
-          <span className="text-[10px] text-muted-foreground/40">fps</span>
+          <span className="text-[10px] text-muted-foreground/60">fps</span>
           <span className="ml-auto text-[10px] text-emerald-400/60 font-medium">GPU</span>
         </div>
         <div className="mt-2 h-1 rounded-full bg-foreground/[0.06] overflow-hidden">
@@ -89,7 +89,7 @@ function LiveDemo() {
         <div className="space-y-1.5">
           {["Spring", "Physics", "Gesture"].map((label, i) => (
             <div key={label} className="flex items-center gap-2">
-              <span className="text-[9px] text-muted-foreground/40 w-10">{label}</span>
+              <span className="text-[9px] text-muted-foreground/60 w-10">{label}</span>
               <div className="flex-1 h-1 rounded-full bg-foreground/[0.06] overflow-hidden">
                 <div
                   className="h-full rounded-full bg-pink-400/40"
@@ -182,7 +182,7 @@ function LiveDemo() {
           <div className="w-2 h-2 rounded-full bg-red-400/40" />
           <div className="w-2 h-2 rounded-full bg-yellow-400/40" />
           <div className="w-2 h-2 rounded-full bg-green-400/40" />
-          <span className="ml-1.5 text-[8px] text-muted-foreground/40 font-mono">ferrum.config.ts</span>
+          <span className="ml-1.5 text-[8px] text-muted-foreground/60 font-mono">ferrum.config.ts</span>
         </div>
         <div className="font-mono text-[8px] sm:text-[9px] leading-relaxed text-muted-foreground/40">
           <div><span className="text-purple-400/50">.rc-float</span> {"{"}</div>
@@ -217,7 +217,7 @@ function LiveDemo() {
       {/* "LIVE DEMO" label */}
       <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2 py-1 rounded-md bg-foreground/[0.04] border border-border/30">
         <PulsingDot color="bg-emerald-500 dark:bg-emerald-400" />
-        <span className="text-[9px] font-medium text-muted-foreground/40 uppercase tracking-wider">Live Demo</span>
+        <span className="text-[9px] font-medium text-muted-foreground/60 uppercase tracking-wider">Live Demo</span>
       </div>
     </div>
   );
@@ -297,7 +297,7 @@ function ScrollNarrative() {
                         activeStep >= i
                           ? step.highlight
                             ? "text-purple-400"
-                            : "text-muted-foreground/40"
+                            : "text-muted-foreground/60"
                           : "text-muted-foreground/50"
                       }`}
                     >

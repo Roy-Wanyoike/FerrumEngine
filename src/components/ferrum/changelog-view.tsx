@@ -189,7 +189,7 @@ export function ChangelogView() {
                               <span className={`text-xs font-semibold ${cConfig.color.split(" ")[0]}`}>
                                 {cConfig.label}
                               </span>
-                              <span className="text-xs text-muted-foreground/30">({change.items.length})</span>
+                              <span className="text-xs text-muted-foreground/60">({change.items.length})</span>
                             </div>
                             <ul className="space-y-1.5 ml-8">
                               {change.items.map((item, i) => (
@@ -214,7 +214,7 @@ export function ChangelogView() {
             <div className="absolute left-0 top-0 w-[31px] h-[31px] rounded-full border-2 border-border bg-background flex items-center justify-center">
               <ArrowDown className="w-3.5 h-3.5 text-muted-foreground/30" />
             </div>
-            <p className="text-sm text-muted-foreground/30 italic">Earlier releases available on GitHub</p>
+            <p className="text-sm text-muted-foreground/60 italic">Earlier releases available on GitHub</p>
           </div>
         </div>
       </div>

@@ -208,7 +208,7 @@ export function Navbar({ onGetStarted, onOpenPlayground, activeCategory, onCateg
                               >
                                 <Icon className="w-3 h-3 shrink-0 opacity-60" />
                                 <span className="truncate flex-1">{cat.name}</span>
-                                <span className="text-[10px] text-muted-foreground/40 tabular-nums">{count}</span>
+                                <span className="text-[10px] text-muted-foreground/60 tabular-nums">{count}</span>
                               </button>
                             );
                           })}

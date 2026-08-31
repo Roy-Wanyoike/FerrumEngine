@@ -471,7 +471,7 @@ export function ArchitectureDeepDive({ onBack }: ArchitectureDeepDiveProps) {
 
           {/* Sidebar footer */}
           <div className="p-4 border-t border-border/30">
-            <p className="text-[10px] text-muted-foreground/30 font-mono">
+            <p className="text-[10px] text-muted-foreground/60 font-mono">
               Ferrum Architecture v2.0
             </p>
             <p className="text-[10px] text-muted-foreground/50 mt-0.5">

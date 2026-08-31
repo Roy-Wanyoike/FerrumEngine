@@ -110,7 +110,7 @@ function AIDemo() {
                       <span className="w-1.5 h-1.5 rounded-full bg-purple-400/40 animate-bounce" style={{ animationDelay: "150ms" }} />
                       <span className="w-1.5 h-1.5 rounded-full bg-purple-400/40 animate-bounce" style={{ animationDelay: "300ms" }} />
                     </div>
-                    <span className="text-[11px] text-muted-foreground/30">Generating...</span>
+                    <span className="text-[11px] text-muted-foreground/60">Generating...</span>
                   </div>
                 )}
               </div>

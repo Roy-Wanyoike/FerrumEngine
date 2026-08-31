@@ -148,7 +148,7 @@ export function MarketplaceSection() {
                       <div className={`w-9 h-9 rounded-lg ${c.iconBg} ${c.iconBorder} flex items-center justify-center ferrum-icon-bounce`}>
                         <cat.icon className={`w-4 h-4 ${c.iconText}`} />
                       </div>
-                      <span className="text-xs font-mono text-muted-foreground/40">{cat.count}</span>
+                      <span className="text-xs font-mono text-muted-foreground/60">{cat.count}</span>
                     </div>
                     <h4 className="text-sm font-semibold text-foreground mt-3 group-hover:text-foreground/90">{cat.label}</h4>
                     <p className="text-xs text-muted-foreground/60 mt-1.5 leading-relaxed line-clamp-2">{cat.desc}</p>
@@ -297,7 +297,7 @@ export function MarketplaceSection() {
                   <ExternalLink className="w-3.5 h-3.5" />
                 </button>
               </div>
-              <div className="mt-6 flex items-center justify-center gap-6 text-xs text-muted-foreground/40">
+              <div className="mt-6 flex items-center justify-center gap-6 text-xs text-muted-foreground/60">
                 <span className="flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5" />3-Gate Quality</span>
                 <span className="flex items-center gap-1.5"><Heart className="w-3.5 h-3.5" />80-90% Revenue</span>
                 <span className="flex items-center gap-1.5"><Users className="w-3.5 h-3.5" />Creator Profiles</span>

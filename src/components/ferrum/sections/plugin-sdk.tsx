@@ -113,7 +113,7 @@ export function PluginSDK() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <code className={`text-xs font-mono ${c.text}`}>{phase.name}</code>
-                            <span className="text-[10px] text-muted-foreground/30 font-mono">phase {i + 1}</span>
+                            <span className="text-[10px] text-muted-foreground/60 font-mono">phase {i + 1}</span>
                           </div>
                           <p className="text-xs text-muted-foreground/50 mt-0.5 leading-relaxed">{phase.desc}</p>
                         </div>

@@ -60,7 +60,7 @@ export function DeveloperJourneySection() {
             return (
               <div key={step.num} className="animate-in fade-in-0 slide-in-from-bottom-2" style={{ animationDelay: `${0.12 + idx * 0.06}s`, animationFillMode: "both" }}>
                 <div className="group relative h-full rounded-2xl border border-border/50 bg-foreground/[0.015] hover:bg-foreground/[0.03] transition-all duration-300 p-6">
-                  <div className="text-[10px] font-mono font-bold text-muted-foreground/30 mb-4">{step.num}</div>
+                  <div className="text-[10px] font-mono font-bold text-muted-foreground/60 mb-4">{step.num}</div>
                   <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/15 flex items-center justify-center mb-4">
                     <Icon className="w-5 h-5 text-purple-400" />
                   </div>

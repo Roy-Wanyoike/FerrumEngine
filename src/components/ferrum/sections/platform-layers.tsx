@@ -129,7 +129,7 @@ const colorMap: Record<string, { bg: string; border: string; text: string; glow:
 const statusStyles: Record<string, { label: string; className: string }> = {
   stable: { label: "Stable", className: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" },
   beta:   { label: "Beta", className: "bg-amber-500/10 text-amber-400 border-amber-500/20" },
-  soon:   { label: "Coming Soon", className: "bg-foreground/[0.04] text-muted-foreground/40 border-border" },
+  soon:   { label: "Coming Soon", className: "bg-foreground/[0.04] text-muted-foreground/60 border-border" },
 };
 
 function ModuleCard({ mod }: { mod: PlatformModule }) {
@@ -162,7 +162,7 @@ function ModuleCard({ mod }: { mod: PlatformModule }) {
           {/* Feature list */}
           <ul className="space-y-1.5">
             {mod.features.map((f) => (
-              <li key={f} className="flex items-center gap-2 text-[11px] text-muted-foreground/40">
+              <li key={f} className="flex items-center gap-2 text-[11px] text-muted-foreground/60">
                 <span className={`w-1 h-1 rounded-full ${colors.bg} shrink-0`} />
                 {f}
               </li>

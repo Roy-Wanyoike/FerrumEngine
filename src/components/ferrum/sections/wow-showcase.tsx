@@ -65,7 +65,7 @@ function BorderBeamDemo() {
       <BorderBeam className="absolute inset-0" duration={6} />
       <div className="relative z-20 text-center">
         <div className="text-lg font-bold text-foreground mb-1">Premium Card</div>
-        <p className="text-xs text-muted-foreground/40">Beam travels the border</p>
+        <p className="text-xs text-muted-foreground/70">Beam travels the border</p>
       </div>
     </div>
   );
@@ -101,25 +101,25 @@ function TickerDemo() {
           <div className="text-3xl font-bold text-foreground">
             <NumberTicker value={366} suffix="+" />
           </div>
-          <div className="text-xs text-muted-foreground/40 mt-1">Effects</div>
+          <div className="text-xs text-muted-foreground/60 mt-1">Effects</div>
         </div>
         <div>
           <div className="text-3xl font-bold text-foreground">
             <NumberTicker value={11} />
           </div>
-          <div className="text-xs text-muted-foreground/40 mt-1">Categories</div>
+          <div className="text-xs text-muted-foreground/60 mt-1">Categories</div>
         </div>
         <div>
           <div className="text-3xl font-bold text-foreground">
             <NumberTicker value={20} suffix="+" />
           </div>
-          <div className="text-xs text-muted-foreground/40 mt-1">Packages</div>
+          <div className="text-xs text-muted-foreground/60 mt-1">Packages</div>
         </div>
         <div>
           <div className="text-3xl font-bold text-foreground">
             <NumberTicker value={8} />
           </div>
-          <div className="text-xs text-muted-foreground/40 mt-1">Adapters</div>
+          <div className="text-xs text-muted-foreground/60 mt-1">Adapters</div>
         </div>
       </div>
     </div>
@@ -207,7 +207,7 @@ export function WowShowcase() {
                         </div>
                         <h3 className="text-sm font-semibold text-foreground">{demo.title}</h3>
                       </div>
-                      <p className="text-xs text-muted-foreground/40 leading-relaxed">{demo.description}</p>
+                      <p className="text-xs text-muted-foreground/70 leading-relaxed">{demo.description}</p>
                     </div>
                   </div>
                 </AnimatedCard>

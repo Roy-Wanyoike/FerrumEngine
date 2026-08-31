@@ -151,7 +151,7 @@ export function Layouts() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <h3 className={`text-base font-semibold ${l.text}`}>{l.name}</h3>
-                        <code className="text-[10px] text-muted-foreground/30 font-mono">{l.file}.ts</code>
+                        <code className="text-[10px] text-muted-foreground/60 font-mono">{l.file}.ts</code>
                       </div>
                       <p className="text-sm text-muted-foreground/50 mt-1.5 leading-relaxed">{l.desc}</p>
                       <div className="mt-3 flex flex-wrap gap-1.5">
@@ -170,7 +170,7 @@ export function Layouts() {
 
         <Reveal delay={0.2}>
           <div className="mt-12 text-center">
-            <code className="text-xs text-muted-foreground/40 font-mono bg-foreground/[0.03] px-4 py-2 rounded-lg border border-border">
+            <code className="text-xs text-muted-foreground/70 font-mono bg-foreground/[0.03] px-4 py-2 rounded-lg border border-border">
               import &#123; generateLayoutCSS, generateDashboardCSS &#125; from &apos;@ferrum/layout&apos;
             </code>
           </div>

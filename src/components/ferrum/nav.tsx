@@ -45,28 +45,9 @@ export function Nav({ currentView, onNavigate, onSearchOpen }: NavProps) {
     return () => document.removeEventListener("click", handleClick);
   }, [activeMenu]);
 
-  // Keyboard navigation for desktop mega menu (Escape + ArrowRight/ArrowLeft panel switching)
-  useEffect(() => {
-    if (!activeMenu) return;
-    const MEGA_MENU_IDS = ['platform', 'docs', 'more'] as const;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setActiveMenu(null);
-        return;
-      }
-      const idx = MEGA_MENU_IDS.indexOf(activeMenu as typeof MEGA_MENU_IDS[number]);
-      if (idx === -1) return;
-      if (e.key === "ArrowRight") {
-        e.preventDefault();
-        setActiveMenu(MEGA_MENU_IDS[(idx + 1) % MEGA_MENU_IDS.length]!);
-      } else if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        setActiveMenu(MEGA_MENU_IDS[(idx - 1 + MEGA_MENU_IDS.length) % MEGA_MENU_IDS.length]!);
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [activeMenu]);
+  // All mega‑menu keyboard navigation (Escape, Arrow keys, focus management)
+  // is now handled within DesktopMegaTrigger / useFocusTrap so there is
+  // no conflicting document‑level listener here.
 
   const handleNav = useCallback((view: ViewId) => { onNavigate(view); setMobileOpen(false); setActiveMenu(null); }, [onNavigate]);
   const handleMenuEnter = useCallback((menu: string) => { if (menuTimeoutRef.current) clearTimeout(menuTimeoutRef.current); setActiveMenu(menu); }, []);
@@ -110,12 +91,12 @@ export function Nav({ currentView, onNavigate, onSearchOpen }: NavProps) {
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-0.5" data-nav-menu>
-            <DesktopMegaTrigger label="Platform" menuId="platform" groups={platformMenu} activeMenu={activeMenu} onNavigate={onNavigate} onMenuEnter={handleMenuEnter} onMenuLeave={handleMenuLeave} onToggle={handleMenuToggle} />
+            <DesktopMegaTrigger label="Platform" menuId="platform" groups={platformMenu} activeMenu={activeMenu} onNavigate={onNavigate} onMenuEnter={handleMenuEnter} onMenuLeave={handleMenuLeave} onToggle={handleMenuToggle} allMenuIds={['platform', 'docs', 'more']} />
             <NavButton view="playground" label="Playground" currentView={currentView} onClick={handleNav} />
             <NavButton view="showcase" label="Showcase" currentView={currentView} onClick={handleNav} />
-            <DesktopMegaTrigger label="Docs" menuId="docs" groups={docsMenu} activeMenu={activeMenu} onNavigate={onNavigate} onMenuEnter={handleMenuEnter} onMenuLeave={handleMenuLeave} onToggle={handleMenuToggle} />
+            <DesktopMegaTrigger label="Docs" menuId="docs" groups={docsMenu} activeMenu={activeMenu} onNavigate={onNavigate} onMenuEnter={handleMenuEnter} onMenuLeave={handleMenuLeave} onToggle={handleMenuToggle} allMenuIds={['platform', 'docs', 'more']} />
             <NavButton view="community" label="Community" currentView={currentView} onClick={handleNav} />
-            <DesktopMegaTrigger label="More" menuId="more" groups={moreMenu} activeMenu={activeMenu} onNavigate={onNavigate} onMenuEnter={handleMenuEnter} onMenuLeave={handleMenuLeave} onToggle={handleMenuToggle} />
+            <DesktopMegaTrigger label="More" menuId="more" groups={moreMenu} activeMenu={activeMenu} onNavigate={onNavigate} onMenuEnter={handleMenuEnter} onMenuLeave={handleMenuLeave} onToggle={handleMenuToggle} allMenuIds={['platform', 'docs', 'more']} />
             <NavButton view="enterprise" label="Pricing" currentView={currentView} onClick={handleNav} />
           </div>
 

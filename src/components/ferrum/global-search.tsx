@@ -208,7 +208,7 @@ export function GlobalSearch({ onNavigate, open, onClose }: GlobalSearchProps) {
                     <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/50">
                       {GROUP_LABELS[type]}
                     </span>
-                    <span className="text-[11px] text-muted-foreground/30">({items.length})</span>
+                    <span className="text-[11px] text-muted-foreground/60">({items.length})</span>
                   </div>
 
                   {/* Group items */}

@@ -3,8 +3,11 @@
 import { ChevronDown } from "lucide-react";
 import { resolveIcon } from "@/lib/icon-resolver";
 import type { ViewId, MegaMenuGroup } from "@/lib/types";
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { useFocusTrap } from "@/hooks/use-focus-trap";
+
+const INTERACTIVE_SELECTOR =
+  'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
 
 export interface MegaMenuPanelProps {
   groups: MegaMenuGroup[];
@@ -84,6 +87,7 @@ export function MegaMenuPanel({
                           href={item.href}
                           target="_blank"
                           rel="noopener noreferrer"
+                          role="menuitem"
                           className="block w-full text-left focus-visible:outline-none rounded-xl"
                           onClick={onClose}
                         >
@@ -97,6 +101,7 @@ export function MegaMenuPanel({
                       return (
                         <button
                           key={item.label}
+                          role="menuitem"
                           onClick={() => {
                             onNavigate(item.view!);
                             onClose();
@@ -138,16 +143,35 @@ export interface DesktopMegaTriggerProps {
   onMenuEnter: (menu: string) => void;
   onMenuLeave: () => void;
   onToggle: (menu: string) => void;
+  allMenuIds: string[];
+}
+
+/** Focus the trigger button of a sibling mega menu by its menuId. */
+function focusSiblingTrigger(targetMenuId: string) {
+  const el = document.querySelector<HTMLButtonElement>(
+    `[aria-controls="mega-menu-panel-${targetMenuId}"]`,
+  );
+  el?.focus();
+}
+
+/** Get the index of the next/previous menu in the cycle, or -1 if not found. */
+function cycleMenuIdx(
+  currentIdx: number,
+  direction: 1 | -1,
+  total: number,
+): number {
+  if (currentIdx === -1 || total === 0) return -1;
+  return (currentIdx + direction + total) % total;
 }
 
 export function DesktopMegaTrigger({
-  label, menuId, groups, activeMenu, onNavigate, onMenuEnter, onMenuLeave, onToggle,
+  label, menuId, groups, activeMenu, onNavigate, onMenuEnter, onMenuLeave, onToggle, allMenuIds,
 }: DesktopMegaTriggerProps) {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const isOpen = activeMenu === menuId;
 
-  // Focus trap within the open panel
+  // Focus trap within the open panel (handles Tab wrap & Escape → close + refocus trigger)
   useFocusTrap(panelRef, isOpen, {
     onEscape: () => {
       onToggle(menuId);
@@ -158,46 +182,121 @@ export function DesktopMegaTrigger({
   // Auto-focus first interactive item when panel opens
   useEffect(() => {
     if (!isOpen || !panelRef.current) return;
-    const first = panelRef.current.querySelector<HTMLElement>(
-      'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
-    );
+    const first = panelRef.current.querySelector<HTMLElement>(INTERACTIVE_SELECTOR);
     const raf = requestAnimationFrame(() => first?.focus());
     return () => cancelAnimationFrame(raf);
   }, [isOpen]);
 
-  // Arrow key navigation within the panel (Up/Down, Home/End)
-  const handlePanelKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (!panelRef.current) return;
-    const selector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
-    const items = Array.from(panelRef.current.querySelectorAll<HTMLElement>(selector));
-    if (items.length === 0) return;
-    const idx = items.indexOf(document.activeElement as HTMLElement);
+  /* ── Trigger button keyboard handler ────────────────────────── */
+  const handleTriggerKeyDown = useCallback(
+    (e: ReactKeyboardEvent<HTMLButtonElement>) => {
+      const myIdx = allMenuIds.indexOf(menuId);
 
-    switch (e.key) {
-      case 'ArrowDown': {
-        e.preventDefault();
-        const next = idx < items.length - 1 ? idx + 1 : 0;
-        items[next]?.focus();
-        break;
+      switch (e.key) {
+        // Open the panel (or move focus into it if already open)
+        case 'ArrowDown': {
+          e.preventDefault();
+          if (!isOpen) {
+            // Opening — the isOpen‑effect will auto‑focus the first item
+            onToggle(menuId);
+          } else {
+            // Already open; just push focus into the first panel item
+            const first = panelRef.current?.querySelector<HTMLElement>(
+              INTERACTIVE_SELECTOR,
+            );
+            first?.focus();
+          }
+          break;
+        }
+
+        // Cycle to the next / previous mega‑menu trigger (top‑level, panel closed)
+        case 'ArrowRight': {
+          if (!isOpen) {
+            e.preventDefault();
+            const nextIdx = cycleMenuIdx(myIdx, 1, allMenuIds.length);
+            if (nextIdx !== -1) focusSiblingTrigger(allMenuIds[nextIdx]!);
+          }
+          // When open, ArrowRight is handled by the panel keydown handler
+          break;
+        }
+        case 'ArrowLeft': {
+          if (!isOpen) {
+            e.preventDefault();
+            const prevIdx = cycleMenuIdx(myIdx, -1, allMenuIds.length);
+            if (prevIdx !== -1) focusSiblingTrigger(allMenuIds[prevIdx]!);
+          }
+          break;
+        }
       }
-      case 'ArrowUp': {
-        e.preventDefault();
-        const prev = idx > 0 ? idx - 1 : items.length - 1;
-        items[prev]?.focus();
-        break;
+    },
+    [isOpen, menuId, allMenuIds, onToggle],
+  );
+
+  /* ── Panel keyboard handler (Up/Down, Home/End, Left/Right, Space) ── */
+  const handlePanelKeyDown = useCallback(
+    (e: ReactKeyboardEvent) => {
+      if (!panelRef.current) return;
+      const items = Array.from(
+        panelRef.current.querySelectorAll<HTMLElement>(INTERACTIVE_SELECTOR),
+      );
+      if (items.length === 0) return;
+      const idx = items.indexOf(document.activeElement as HTMLElement);
+
+      switch (e.key) {
+        case 'ArrowDown': {
+          e.preventDefault();
+          const next = idx < items.length - 1 ? idx + 1 : 0;
+          items[next]?.focus();
+          break;
+        }
+        case 'ArrowUp': {
+          e.preventDefault();
+          const prev = idx > 0 ? idx - 1 : items.length - 1;
+          items[prev]?.focus();
+          break;
+        }
+        case 'Home': {
+          e.preventDefault();
+          items[0]?.focus();
+          break;
+        }
+        case 'End': {
+          e.preventDefault();
+          items[items.length - 1]?.focus();
+          break;
+        }
+        // Space activates the focused menuitem (needed for <a> which ignores Space)
+        case ' ': {
+          if (idx !== -1) {
+            e.preventDefault();
+            items[idx]?.click();
+          }
+          break;
+        }
+        // Switch to adjacent mega menu panel
+        case 'ArrowRight': {
+          e.preventDefault();
+          const myIdx = allMenuIds.indexOf(menuId);
+          const nextIdx = cycleMenuIdx(myIdx, 1, allMenuIds.length);
+          if (nextIdx !== -1) {
+            onMenuEnter(allMenuIds[nextIdx]!);
+            // The new panel's isOpen‑effect will auto‑focus its first item
+          }
+          break;
+        }
+        case 'ArrowLeft': {
+          e.preventDefault();
+          const myIdx = allMenuIds.indexOf(menuId);
+          const prevIdx = cycleMenuIdx(myIdx, -1, allMenuIds.length);
+          if (prevIdx !== -1) {
+            onMenuEnter(allMenuIds[prevIdx]!);
+          }
+          break;
+        }
       }
-      case 'Home': {
-        e.preventDefault();
-        items[0]?.focus();
-        break;
-      }
-      case 'End': {
-        e.preventDefault();
-        items[items.length - 1]?.focus();
-        break;
-      }
-    }
-  }, []);
+    },
+    [menuId, allMenuIds, onMenuEnter],
+  );
 
   return (
     <div className="relative" onMouseEnter={() => onMenuEnter(menuId)} onMouseLeave={onMenuLeave}>
@@ -210,6 +309,7 @@ export function DesktopMegaTrigger({
             : "text-muted-foreground/60 hover:text-foreground hover:bg-foreground/[0.03]"
         }`}
         onClick={() => onToggle(menuId)}
+        onKeyDown={handleTriggerKeyDown}
         aria-expanded={isOpen}
         aria-haspopup="true"
         aria-controls={`mega-menu-panel-${menuId}`}

@@ -124,7 +124,7 @@ export function Hero({ onGetStarted, onOpenPlayground }: HeroProps) {
 
         {/* Trust line */}
         <Reveal delay={0.4}>
-          <p className="mt-10 text-xs text-muted-foreground/40">
+          <p className="mt-10 text-xs text-muted-foreground/60">
             Open Source &middot; MIT License &middot; Zero Dependencies &middot; 8 Framework Adapters
           </p>
         </Reveal>

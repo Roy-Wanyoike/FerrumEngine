@@ -160,7 +160,7 @@ export function PaintAPI() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <h3 className={`text-base font-semibold ${w.text}`}>{w.label}</h3>
-                        <code className="text-[10px] text-muted-foreground/40 font-mono">{w.name}</code>
+                        <code className="text-[10px] text-muted-foreground/60 font-mono">{w.name}</code>
                       </div>
                       <p className="text-sm text-muted-foreground/50 mt-1.5 leading-relaxed">{w.desc}</p>
                       <div className="mt-3 flex flex-wrap gap-1.5">
@@ -179,7 +179,7 @@ export function PaintAPI() {
 
         <Reveal delay={0.2}>
           <div className="mt-12 text-center">
-            <code className="text-xs text-muted-foreground/40 font-mono bg-foreground/[0.03] px-4 py-2 rounded-lg border border-border">
+            <code className="text-xs text-muted-foreground/70 font-mono bg-foreground/[0.03] px-4 py-2 rounded-lg border border-border">
               import &#123; registerAllWorklets, generatePaintCSS &#125; from &apos;@ferrum/paint&apos;
             </code>
           </div>
