@@ -15,8 +15,8 @@ const roadmapItems = [
   { name: "Ferrum A11y", status: "Beta" },
   { name: "Ferrum CLI", status: "Alpha" },
   { name: "Ferrum Plugin SDK", status: "Alpha" },
-  { name: "Ferrum Studio", status: "Planned" },
-  { name: "Ferrum AI", status: "Research" },
+  { name: "Ferrum Studio", status: "Alpha" },
+  { name: "Ferrum AI", status: "Alpha" },
 ];
 
 const roadmapStatusStyles: Record<string, string> = {
