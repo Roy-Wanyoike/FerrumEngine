@@ -1,15 +1,61 @@
-:8080 {
-    encode gzip
-    handle {
-        # Override Next.js 16 auto-CSP to allow inline RSC scripts.
-        # Must be inside handle block before reverse_proxy.
-        header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' blob:; base-uri 'self'; form-action 'self'"
+# ═══════════════════════════════════════════════════════════════
+# FerrumEngine — Caddy Configuration (Production)
+# ═══════════════════════════════════════════════════════════════
+# Usage:
+#   caddy run                 # Auto-HTTPS via Let's Encrypt
+#   caddy run --adapter json  # JSON config
+#
+# Environment variables:
+#   FERRUM_PORT  — listen port (default: 8080)
+#   FERRUM_HOST  — upstream host (default: 127.0.0.1:3000)
+# ═══════════════════════════════════════════════════════════════
 
-        reverse_proxy 127.0.0.1:3000 {
-            header_up Host {host}
-            header_up X-Forwarded-For {remote_host}
-            header_up X-Forwarded-Proto {scheme}
-            header_up X-Real-IP {remote_host}
-        }
-    }
+{$FERRUM_PORT:8080} {
+	# ── Compression ─────────────────────────────────────────
+	encode gzip zstd
+
+	# ── Override Next.js CSP for RSC inline scripts ──────────
+	header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' blob:; base-uri 'self'; form-action 'self'"
+
+	# ── HSTS (Caddy auto-redirects HTTP→HTTPS, this enforces) ──
+	header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+
+	# ── Static assets: long cache ────────────────────────────
+	handle_path /_next/static/* {
+		header Cache-Control "public, max-age=31536000, immutable"
+		reverse_proxy {$FERRUM_HOST:127.0.0.1:3000}
+	}
+
+	handle_path /worklets/*.js {
+		header Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+		reverse_proxy {$FERRUM_HOST:127.0.0.1:3000}
+	}
+
+	# ── HTML pages: short cache for SPA rewrites ──────────────
+	handle_path /ferrum-effects.css {
+		header Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+		reverse_proxy {$FERRUM_HOST:127.0.0.1:3000}
+	}
+
+	# ── API routes: no cache ─────────────────────────────────
+	handle_path /api/* {
+		header Cache-Control "no-store, no-cache, must-revalidate"
+		reverse_proxy {$FERRUM_HOST:127.0.0.1:3000}
+	}
+
+	# ── Health check: no cache ────────────────────────────────
+	handle_path /api/health {
+		header Cache-Control "no-store"
+		reverse_proxy {$FERRUM_HOST:127.0.0.1:3000}
+	}
+
+	# ── Everything else ───────────────────────────────────────
+	handle {
+		reverse_proxy {$FERRUM_HOST:127.0.0.1:3000} {
+			header_up Host {host}
+			header_up X-Forwarded-For {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+			header_up X-Real-IP {remote_host}
+		}
+	}
 }

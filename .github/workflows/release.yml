@@ -111,7 +111,7 @@ jobs:
           path: ./release-artifacts/
       - name: Create tarball
         working-directory: ./release-artifacts
-        run: tar -czf ../ferrumcss-${{ steps.version.outputs.VERSION }}.tar.gz .next/ public/
+        run: tar -czf ../ferrumengine-${{ steps.version.outputs.VERSION }}.tar.gz .next/ public/
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -120,5 +120,5 @@ jobs:
           body: ${{ steps.changelog.outputs.BODY }}
           draft: false
           prerelease: ${{ contains(github.ref_name, '-rc') || contains(github.ref_name, '-beta') || contains(github.ref_name, '-alpha') }}
-          files: ferrumcss-${{ steps.version.outputs.VERSION }}.tar.gz
+          files: ferrumengine-${{ steps.version.outputs.VERSION }}.tar.gz
           generate_release_notes: false

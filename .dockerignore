@@ -1,15 +1,63 @@
-node_modules
-.next
-.git
-src
-e2e
-__tests__
-tools
-agent-ctx
-coverage
-test-results
-*.md
-!DEPLOY.md
-.env*
-!.env.example
-supabase/.temp
+# Dependencies
+node_modules/
+
+
+# Build output (recreated in container)
+.next/
+out/
+
+
+# Environment files
+.env
+.env.*
+
+
+# Internal directories
+engineering/
+registry/
+agent-ctx/
+ferrum-platform/
+skills/
+tool-results/
+
+
+# Test artifacts
+coverage/
+test-results/
+playwright-report/
+
+
+# Git
+.git/
+
+
+# Editor
+.vscode/
+.idea/
+
+
+# OS
+.DS_Store
+Thumbs.db
+
+
+# Sandbox artifacts
+screenshots/
+examples/
+mini-services/
+.zscripts/
+upload/
+download/
+
+
+# Misc
+db/*.db
+db/*.json
+*.log
+.budget-baseline.json
+bun.lock
+pnpm-lock.yaml
+worklog.md
+*.bak
+*.zip
+*.tar.gz
