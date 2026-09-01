@@ -363,13 +363,17 @@ export function resolveImportPath(
     resolved = [...parts.slice(0, -ups), resolved.replace(/\.\.\//g, "")].join("/");
   }
 
-  // Try extensions
+  // Try extensions — return the first one that exists on disk
+  const fs = require("fs") as typeof import("fs");
+  const fullPath = (p: string) => p.startsWith("/") ? p : `${rootPath}/${p}`;
   for (const ext of ["", ".ts", ".tsx", ".js", ".jsx", "/index.ts", "/index.tsx", "/index.js", "/index.jsx"]) {
-    // This is a virtual resolution — actual file existence is checked by the caller
-    return resolved + ext;
+    const candidate = fullPath(resolved + ext);
+    if (fs.existsSync(candidate)) {
+      return resolved + ext;
+    }
   }
 
-  return resolved;
+  return null;
 }
 
 /** Check if a path should be excluded. */

@@ -222,9 +222,12 @@ export class AgentGateway {
       });
     }
 
-    const autoBlocked = this.config.autoBlockThreshold
-      ? ["critical"].includes(this.config.autoBlockThreshold) &&
-        findings.some((f) => f.severity === "critical")
+    const SEVERITY_ORDER: Record<RiskLevel, number> = { low: 1, medium: 2, high: 3, critical: 4 };
+    const threshold = this.config.autoBlockThreshold;
+    const autoBlocked = threshold
+      ? findings.some((f) =>
+          (SEVERITY_ORDER[f.severity as RiskLevel] ?? 0) >= (SEVERITY_ORDER[threshold] ?? 0)
+        )
       : false;
 
     return {

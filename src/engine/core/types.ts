@@ -61,7 +61,7 @@ export type EdgeKind =
   | "fetches"
   | "provides"
   | "consumes"
-  | " guards"
+  | "guards"
   | "configures";
 
 /** Severity levels for findings. */
