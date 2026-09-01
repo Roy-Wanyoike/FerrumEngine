@@ -95,6 +95,78 @@ export { calculateScores, formatScoreReport, scoreToGrade, type ScoringOptions }
 // Agent gateway
 export { AgentGateway, type GatewayConfig, type AuditEntry } from './agent/gateway';
 
+// Flight recorder
+export {
+  startSession,
+  recordEvent,
+  endSession,
+  analyzeSession,
+  findErrorChain,
+  reconstructNavigationPath,
+  buildRenderTimeline,
+  detectAnomalies,
+  resetCounters as resetFlightCounters,
+  type FlightEvent,
+  type FlightSession,
+  type FlightAnalysis,
+  type SessionMetadata,
+} from './flight-recorder';
+
+// Journey engine
+export {
+  mapJourney,
+  findJourneyBottlenecks,
+  detectDeadEnds,
+  detectUnreachablePages,
+  analyzeJourneyCoverage,
+  suggestJourneys,
+  resetJourneyCounters,
+  type JourneyStep,
+  type JourneyResult,
+  type JourneyCoverage,
+} from './journey';
+
+// Drift detector
+export {
+  captureBaseline,
+  compareWithBaseline,
+  detectStructuralDrift,
+  detectRuleDrift,
+  defaultLayerRules,
+  calculateDriftScore,
+  type ArchitectureBaseline,
+  type LayerRule,
+  type DriftResult,
+} from './drift';
+
+// Codebase intelligence
+export {
+  analyzeCodebase,
+  queryIntel,
+  inferPurpose,
+  inferDomain,
+  assessChangeFrequency,
+  estimateComplexity,
+  assessHealth,
+  findCoChangedFiles,
+  type CodeIntel,
+  type IntelQuery,
+} from './intelligence';
+
+// Journey engine
+export {
+  mapJourney,
+  findJourneyBottlenecks,
+  detectDeadEnds,
+  detectUnreachablePages,
+  analyzeJourneyCoverage,
+  suggestJourneys,
+  resetJourneyCounters,
+  type JourneyStep,
+  type JourneyResult,
+  type JourneyCoverage,
+} from './journey';
+
 // ──────────────────────────────────────────────────────────────────────
 // HIGH-LEVEL API
 // ──────────────────────────────────────────────────────────────────────
