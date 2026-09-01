@@ -1,29 +1,38 @@
 {
-  "name": "ferrumcss-landing",
-  "version": "1.0.0",
+  "name": "ferrum-engine",
+  "version": "0.1.0",
   "private": true,
-  "description": "FerrumEngine — a CSS effects engine and design system platform. Browse 540+ effects, design tokens, and live playground.",
+  "description": "FerrumEngine — Frontend Intelligence & Reliability Engine. Software engineering intelligence infrastructure for understanding, analyzing, and protecting any frontend application.",
   "license": "MIT",
   "author": "FerrumEngine Contributors",
-  "homepage": "https://ferrumcss.space-z.ai",
+  "homepage": "https://github.com/Roy-Wanyoike/FerrumEngine",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ferrumcss/ferrumengine"
+    "url": "https://github.com/Roy-Wanyoike/FerrumEngine"
   },
   "bugs": {
-    "url": "https://github.com/ferrumcss/ferrumengine/issues"
+    "url": "https://github.com/Roy-Wanyoike/FerrumEngine/issues"
   },
   "keywords": [
-    "css",
-    "effects",
-    "design-system",
-    "design-tokens",
-    "tailwind",
-    "react",
-    "nextjs",
-    "animation",
-    "ui"
+    "frontend",
+    "intelligence",
+    "reliability",
+    "analysis",
+    "code-analysis",
+    "architecture",
+    "change-impact",
+    "ai-agent",
+    "safety-gate",
+    "testing",
+    "security",
+    "graph",
+    "dependency-analysis",
+    "performance",
+    "accessibility"
   ],
+  "bin": {
+    "ferrum": "./src/engine/cli/index.ts"
+  },
   "engines": {
     "node": ">=20"
   },
