@@ -301,3 +301,117 @@ export function getGraphStats(graph: ApplicationGraph) {
     analysisDurationMs: graph.analysisDurationMs,
   };
 }
+
+// ──────────────────────────────────────────────────────────────────────
+// GRAPH MUTATION
+// ──────────────────────────────────────────────────────────────────────
+
+/** Remove a node and all its connected edges, cleaning up all adjacency indexes. */
+export function removeNode(graph: ApplicationGraph, id: FerrumId): boolean {
+  const node = graph.nodes.get(id);
+  if (!node) return false;
+
+  // Collect all edge IDs connected to this node (both outgoing and incoming)
+  const edgeIdsToRemove = new Set<FerrumId>();
+  const outEdges = graph.outgoing.get(id);
+  if (outEdges) for (const eId of outEdges) edgeIdsToRemove.add(eId);
+  const inEdges = graph.incoming.get(id);
+  if (inEdges) for (const eId of inEdges) edgeIdsToRemove.add(eId);
+
+  // Remove each connected edge
+  for (const eId of edgeIdsToRemove) {
+    removeEdge(graph, eId);
+  }
+
+  // Remove from nodes map
+  graph.nodes.delete(id);
+
+  // Remove from path index
+  const pathSet = graph.byPath.get(node.path);
+  if (pathSet) {
+    pathSet.delete(id);
+    if (pathSet.size === 0) graph.byPath.delete(node.path);
+  }
+
+  // Remove from kind index
+  const kindSet = graph.byKind.get(node.kind);
+  if (kindSet) {
+    kindSet.delete(id);
+    if (kindSet.size === 0) graph.byKind.delete(node.kind);
+  }
+
+  // Remove adjacency entries
+  graph.outgoing.delete(id);
+  graph.incoming.delete(id);
+
+  return true;
+}
+
+/** Remove an edge by ID, cleaning up all adjacency indexes. */
+export function removeEdge(graph: ApplicationGraph, id: FerrumId): boolean {
+  const edge = graph.edges.get(id);
+  if (!edge) return false;
+
+  // Remove from edges map
+  graph.edges.delete(id);
+
+  // Remove from outgoing index of source
+  const outSet = graph.outgoing.get(edge.source);
+  if (outSet) {
+    outSet.delete(id);
+    if (outSet.size === 0) graph.outgoing.delete(edge.source);
+  }
+
+  // Remove from incoming index of target
+  const inSet = graph.incoming.get(edge.target);
+  if (inSet) {
+    inSet.delete(id);
+    if (inSet.size === 0) graph.incoming.delete(edge.target);
+  }
+
+  return true;
+}
+
+/** Topological sort of the graph using Kahn's algorithm. Returns node IDs in dependency order. */
+export function topologicalSort(graph: ApplicationGraph): FerrumId[] {
+  // Compute in-degree for each node (only counting edges between existing nodes)
+  const inDegree = new Map<FerrumId, number>();
+  for (const nodeId of graph.nodes.keys()) {
+    inDegree.set(nodeId, 0);
+  }
+
+  for (const edge of graph.edges.values()) {
+    if (graph.nodes.has(edge.source) && graph.nodes.has(edge.target)) {
+      inDegree.set(edge.target, (inDegree.get(edge.target) ?? 0) + 1);
+    }
+  }
+
+  // Start with nodes that have zero in-degree
+  const queue: FerrumId[] = [];
+  for (const [nodeId, degree] of inDegree) {
+    if (degree === 0) queue.push(nodeId);
+  }
+
+  const sorted: FerrumId[] = [];
+
+  while (queue.length > 0) {
+    const current = queue.shift()!;
+    sorted.push(current);
+
+    const outEdges = graph.outgoing.get(current);
+    if (outEdges) {
+      for (const eId of outEdges) {
+        const edge = graph.edges.get(eId);
+        if (edge) {
+          const newDegree = (inDegree.get(edge.target) ?? 1) - 1;
+          inDegree.set(edge.target, newDegree);
+          if (newDegree === 0) {
+            queue.push(edge.target);
+          }
+        }
+      }
+    }
+  }
+
+  return sorted;
+}

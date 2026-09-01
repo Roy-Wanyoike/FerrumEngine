@@ -220,8 +220,8 @@ export function buildGraph(
 
 /**
  * Detect routes based on framework conventions.
- * Next.js App Router: src/app/**/page.tsx → routes
- * Next.js Pages Router: src/pages/**/*.tsx → routes
+ * Next.js App Router: src/app glob matching page.tsx files
+ * Next.js Pages Router: src/pages glob matching .tsx files
  * Generic: files named [route].tsx or index.tsx in route-like dirs
  */
 function detectRoutes(graph: ApplicationGraph, rootPath: string, framework: string): void {
