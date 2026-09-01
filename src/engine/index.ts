@@ -79,6 +79,12 @@ export {
 
 // Analyzers
 export { analyzeArchitecture, type ArchitectureConfig } from './analyzer/architecture';
+export { analyzePerformance, type PerformanceConfig } from './analyzer/performance';
+export { analyzeSecurity, type SecurityConfig } from './analyzer/security';
+export { analyzeReliability, type ReliabilityConfig } from './analyzer/reliability';
+export { analyzeTesting, type TestingConfig } from './analyzer/testing';
+export { analyzeAccessibility, type AccessibilityConfig } from './analyzer/accessibility';
+export { analyzeDependencies, type DependenciesConfig } from './analyzer/dependencies';
 
 // Impact engine
 export { analyzeImpact, diffGraphs, type ImpactOptions } from './impact/impact';
@@ -89,12 +95,90 @@ export { calculateScores, formatScoreReport, scoreToGrade, type ScoringOptions }
 // Agent gateway
 export { AgentGateway, type GatewayConfig, type AuditEntry } from './agent/gateway';
 
+// Flight recorder
+export {
+  startSession,
+  recordEvent,
+  endSession,
+  analyzeSession,
+  findErrorChain,
+  reconstructNavigationPath,
+  buildRenderTimeline,
+  detectAnomalies,
+  resetCounters as resetFlightCounters,
+  type FlightEvent,
+  type FlightSession,
+  type FlightAnalysis,
+  type SessionMetadata,
+} from './flight-recorder';
+
+// Journey engine
+export {
+  mapJourney,
+  findJourneyBottlenecks,
+  detectDeadEnds,
+  detectUnreachablePages,
+  analyzeJourneyCoverage,
+  suggestJourneys,
+  resetJourneyCounters,
+  type JourneyStep,
+  type JourneyResult,
+  type JourneyCoverage,
+} from './journey';
+
+// Drift detector
+export {
+  captureBaseline,
+  compareWithBaseline,
+  detectStructuralDrift,
+  detectRuleDrift,
+  defaultLayerRules,
+  calculateDriftScore,
+  type ArchitectureBaseline,
+  type LayerRule,
+  type DriftResult,
+} from './drift';
+
+// Codebase intelligence
+export {
+  analyzeCodebase,
+  queryIntel,
+  inferPurpose,
+  inferDomain,
+  assessChangeFrequency,
+  estimateComplexity,
+  assessHealth,
+  findCoChangedFiles,
+  type CodeIntel,
+  type IntelQuery,
+} from './intelligence';
+
+// Journey engine
+export {
+  mapJourney,
+  findJourneyBottlenecks,
+  detectDeadEnds,
+  detectUnreachablePages,
+  analyzeJourneyCoverage,
+  suggestJourneys,
+  resetJourneyCounters,
+  type JourneyStep,
+  type JourneyResult,
+  type JourneyCoverage,
+} from './journey';
+
 // ──────────────────────────────────────────────────────────────────────
 // HIGH-LEVEL API
 // ──────────────────────────────────────────────────────────────────────
 
 import { buildGraph } from './graph/builder';
 import { analyzeArchitecture } from './analyzer/architecture';
+import { analyzePerformance } from './analyzer/performance';
+import { analyzeSecurity } from './analyzer/security';
+import { analyzeReliability } from './analyzer/reliability';
+import { analyzeTesting } from './analyzer/testing';
+import { analyzeAccessibility } from './analyzer/accessibility';
+import { analyzeDependencies } from './analyzer/dependencies';
 import { calculateScores, formatScoreReport } from './scoring/scoring';
 import type { ApplicationGraph, FullAnalysis, FerrumConfig } from './core/types';
 
@@ -115,6 +199,12 @@ export function analyze(
   // Run all analyzers
   const results = [
     analyzeArchitecture(graph),
+    analyzePerformance(graph),
+    analyzeSecurity(graph),
+    analyzeReliability(graph),
+    analyzeTesting(graph),
+    analyzeAccessibility(graph),
+    analyzeDependencies(graph),
   ];
 
   // Calculate scores
