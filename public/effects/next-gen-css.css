@@ -1,0 +1,426 @@
+@property --ng-grad-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.roycss-ng-houdini-gradient {
+  --ng-grad-angle: 0deg;
+  background: conic-gradient(from var(--ng-grad-angle), #f43f5e, #7e2d8b, #06b6d4, #f43f5e);
+  border-radius: 16px;
+  animation: roy-ng-grad-spin 3s linear infinite;
+}
+@keyframes roy-ng-grad-spin {
+  to { --ng-grad-angle: 360deg; }
+}
+
+@property --ng-hue {
+  syntax: '<number>';
+  initial-value: 0;
+  inherits: false;
+}
+.roycss-ng-houdini-hue {
+  --ng-hue: 0;
+  background: hsl(var(--ng-hue), 80%, 55%);
+  border-radius: 16px;
+  animation: roy-ng-hue-cycle 4s linear infinite;
+}
+@keyframes roy-ng-hue-cycle {
+  to { --ng-hue: 360; }
+}
+
+@property --ng-border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.roycss-ng-border-rainbow {
+  --ng-border-angle: 0deg;
+  border: 3px solid transparent;
+  background: linear-gradient(#0f172a, #1e293b) padding-box, conic-gradient(from var(--ng-border-angle), #f43f5e, #f59e0b, #10b981, #06b6d4, #8b5cf6, #f43f5e) border-box;
+  border-radius: 16px;
+  animation: roy-ng-border-spin 3s linear infinite;
+}
+@keyframes roy-ng-border-spin {
+  to { --ng-border-angle: 360deg; }
+}
+
+@property --ng-pct {
+  syntax: '<percentage>';
+  initial-value: 0%;
+  inherits: false;
+}
+.roycss-ng-progress-ring {
+  --ng-pct: 0%;
+  background: conic-gradient(#06b6d4 var(--ng-pct), #1e293b var(--ng-pct));
+  border-radius: 50%;
+  animation: roy-ng-progress 2s ease-in-out infinite alternate;
+}
+@keyframes roy-ng-progress {
+  to { --ng-pct: 75%; }
+}
+
+@property --ng-glow {
+  syntax: '<length>';
+  initial-value: 0px;
+  inherits: false;
+}
+.roycss-ng-glow-pulse {
+  --ng-glow: 0px;
+  background: #0f172a;
+  border-radius: 16px;
+  box-shadow: 0 0 var(--ng-glow) rgba(6,182,212,0.6);
+  animation: roy-ng-glow 2s ease-in-out infinite alternate;
+}
+@keyframes roy-ng-glow {
+  to { --ng-glow: 40px; }
+}
+
+@property --ng-mc1 {
+  syntax: '<color>';
+  initial-value: #f43f5e;
+  inherits: false;
+}
+@property --ng-mc2 {
+  syntax: '<color>';
+  initial-value: #06b6d4;
+  inherits: false;
+}
+.roycss-ng-gradient-morph {
+  --ng-mc1: #f43f5e;
+  --ng-mc2: #06b6d4;
+  background: linear-gradient(135deg, var(--ng-mc1), var(--ng-mc2));
+  border-radius: 16px;
+  animation: roy-ng-morph 4s ease-in-out infinite alternate;
+}
+@keyframes roy-ng-morph {
+  0% { --ng-mc1: #f43f5e; --ng-mc2: #06b6d4; }
+  50% { --ng-mc1: #8b5cf6; --ng-mc2: #f59e0b; }
+  100% { --ng-mc1: #10b981; --ng-mc2: #ec4899; }
+}
+
+.roycss-ng-scroll-scale {
+  background: linear-gradient(135deg, #7e2d8b, #06b6d4);
+  border-radius: 16px;
+  animation: roy-ng-scroll-scale-in linear both;
+  animation-timeline: scroll();
+  animation-range: entry 0% entry 100%;
+}
+@keyframes roy-ng-scroll-scale-in {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.roycss-ng-scroll-fade {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border-radius: 16px;
+  animation: roy-ng-scroll-fade-in linear both;
+  animation-timeline: scroll();
+  animation-range: entry 0% entry 80%;
+}
+@keyframes roy-ng-scroll-fade-in {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.roycss-ng-scroll-rotate {
+  background: linear-gradient(135deg, #7e2d8b, #06b6d4);
+  border-radius: 16px;
+  animation: roy-ng-scroll-rot-in linear both;
+  animation-timeline: scroll();
+  animation-range: entry 0% entry 100%;
+}
+@keyframes roy-ng-scroll-rot-in {
+  from { opacity: 0; transform: rotate(-15deg) scale(0.9); }
+  to { opacity: 1; transform: rotate(0deg) scale(1); }
+}
+
+.roycss-ng-vt-morph {
+  view-transition-name: roy-ng-morph;
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  animation: roy-ng-vt-shape 4s ease-in-out infinite;
+}
+@keyframes roy-ng-vt-shape {
+  0%, 100% { border-radius: 16px; transform: scale(1); }
+  25% { border-radius: 50% 16px 50% 16px; transform: scale(1.05); }
+  50% { border-radius: 50%; transform: scale(0.95); }
+  75% { border-radius: 16px 50% 16px 50%; transform: scale(1.02); }
+}
+
+.roycss-ng-vt-swap {
+  view-transition-name: roy-ng-color-swap;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  animation: roy-ng-vt-swap 6s ease-in-out infinite;
+}
+@keyframes roy-ng-vt-swap {
+  0%, 20% { background: linear-gradient(135deg, #f43f5e, #ec4899); }
+  25%, 45% { background: linear-gradient(135deg, #06b6d4, #0ea5e9); }
+  50%, 70% { background: linear-gradient(135deg, #8b5cf6, #6366f1); }
+  75%, 95% { background: linear-gradient(135deg, #10b981, #059669); }
+}
+
+.roycss-ng-anchor-tooltip {
+  anchor-name: --ng-tip;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border-radius: 12px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  color: #06b6d4;
+}
+.roycss-ng-anchor-tooltip::after {
+  content: 'Tooltip';
+  position: absolute;
+  bottom: anchor(top);
+  left: anchor(center);
+  translate: -50% 8px;
+  background: #06b6d4;
+  color: #0f172a;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.roycss-ng-anchor-callout {
+  anchor-name: --ng-callout;
+  background: linear-gradient(135deg, #7e2d8b, #4c1d95);
+  border-radius: 16px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  color: #e2e8f0;
+}
+.roycss-ng-anchor-callout::before {
+  content: '';
+  position: absolute;
+  top: anchor(bottom);
+  left: anchor(center);
+  translate: -50% -6px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #f59e0b;
+}
+.roycss-ng-anchor-callout::after {
+  content: 'Callout';
+  position: absolute;
+  top: anchor(bottom);
+  left: anchor(center);
+  translate: -50% 6px;
+  background: #f59e0b;
+  color: #0f172a;
+  padding: 6px 14px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.roycss-ng-nesting-card {
+  background: #1e293b;
+  border-radius: 16px;
+  border: 2px solid #334155;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  color: #94a3b8;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  &:hover {
+    border-color: #06b6d4;
+    box-shadow: 0 0 20px rgba(6,182,212,0.2);
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(99,102,241,0.1));
+    opacity: 0;
+    border-radius: inherit;
+    transition: opacity 0.3s;
+  }
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+.roycss-ng-nesting-btn {
+  background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(6,182,212,0.4);
+  }
+  &:active {
+    transform: translateY(0);
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #fff;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  &:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+.roycss-ng-has-focus {
+  background: #1e293b;
+  border-radius: 16px;
+  border: 2px solid #334155;
+  display: grid;
+  place-items: center;
+  color: #94a3b8;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.roycss-ng-has-focus:has(:focus-visible) {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 4px rgba(139,92,246,0.2);
+  color: #c4b5fd;
+}
+
+.roycss-ng-has-checked {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border-radius: 16px;
+  border: 2px solid #334155;
+  display: grid;
+  place-items: center;
+  color: #94a3b8;
+  position: relative;
+  transition: border-color 0.3s, color 0.3s;
+}
+.roycss-ng-has-checked:has(:checked) {
+  border-color: #10b981;
+  color: #6ee7b7;
+  background: linear-gradient(135deg, #0f172a, #064e3b);
+}
+
+.roycss-ng-has-empty {
+  background: #1e293b;
+  border-radius: 16px;\  border: 2px dashed #475569;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.3s, background 0.3s;
+}
+.roycss-ng-has-empty:has(:not(:empty)) {
+  border-style: solid;
+  border-color: #06b6d4;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+}
+
+.roycss-ng-cq-stack {
+  container-type: inline-size;
+  background: #0f172a;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+@container (min-width: 200px) {
+  .roycss-ng-cq-stack {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.roycss-ng-cq-adaptive {
+  container-type: inline-size;
+  background: linear-gradient(135deg, #1e293b, #334155);
+  border-radius: 16px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+@container (min-width: 180px) {
+  .roycss-ng-cq-adaptive {
+    grid-template-columns: 1fr 1fr;
+    background: linear-gradient(135deg, #1e293b, #06b6d4);
+  }
+}
+@container (min-width: 280px) {
+  .roycss-ng-cq-adaptive {
+    grid-template-columns: 1fr 1fr 1fr;
+    background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+  }
+}
+
+.roycss-ng-color-mix-blend {
+  background: radial-gradient(circle at 30% 40%, color-mix(in srgb, #f43f5e 70%, #06b6d4) 0%, transparent 50%), radial-gradient(circle at 70% 60%, color-mix(in srgb, #06b6d4 70%, #f43f5e) 0%, transparent 50%), linear-gradient(135deg, #0f172a, #1e293b);
+  border-radius: 16px;
+}
+
+.roycss-ng-color-mix-opacity {
+  background: linear-gradient(135deg, color-mix(in srgb, #06b6d4 90%, white), color-mix(in srgb, #06b6d4 40%, black));
+  border-radius: 16px;
+  box-shadow: 0 4px 30px color-mix(in srgb, #06b6d4 30%, transparent);
+  border: 1px solid color-mix(in srgb, #06b6d4 40%, white);
+}
+
+.roycss-ng-conic-pie {
+  background: conic-gradient(#f43f5e 0deg 90deg, #f59e0b 90deg 180deg, #10b981 180deg 270deg, #06b6d4 270deg 360deg);
+  border-radius: 50%;
+  position: relative;
+}
+.roycss-ng-conic-pie::after {
+  content: '';
+  position: absolute;
+  inset: 25%;
+  border-radius: 50%;
+  background: #0f172a;
+}
+
+.roycss-ng-repeating-motion {
+  background: repeating-linear-gradient(45deg, transparent 0px, transparent 8px, rgba(6,182,212,0.15) 8px, rgba(6,182,212,0.15) 16px), linear-gradient(135deg, #0f172a, #1e293b);
+  border-radius: 16px;
+  animation: roy-ng-repeat-shift 1s linear infinite;
+}
+@keyframes roy-ng-repeat-shift {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 22.6px 0, 0 0; }
+}
+
+.roycss-ng-text-balance {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border-radius: 16px;
+  padding: 16px;
+  color: #e2e8f0;
+  text-wrap: balance;
+  max-width: 240px;
+}
+
+.roycss-ng-discrete-transition {
+  background: #1e293b;
+  border-radius: 16px;
+  border: 2px solid #334155;
+  display: grid;
+  place-items: center;
+  color: #94a3b8;
+  overflow: hidden;
+  transition: border-radius 0.5s, background 0.5s, overflow 0.5s, border-color 0.5s;
+  transition-behavior: allow-discrete;
+}
+.roycss-ng-discrete-transition:hover {
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  border-color: transparent;
+  overflow: hidden;
+  color: #fff;
+}

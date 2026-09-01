@@ -1,6 +1,6 @@
 // ============================================================
 // RoyCSS v3.0 — Effect Library Index (lightweight, no CSS)
-// Effects: 542 | Categories: 35
+// Effects: 568 | Categories: 36
 // Auto-generated — do not edit manually.
 // ============================================================
 
@@ -30,6 +30,7 @@ export const categories: Category[] = [
   { id: "micro-interaction", name: "Micro", icon: "Zap" },
   { id: "misc", name: "Misc", icon: "Zap" },
   { id: "modern-css", name: "Modern CSS", icon: "Code" },
+  { id: "next-gen-css", name: "Next-Gen CSS", icon: "Sparkles" },
   { id: "nature", name: "Nature", icon: "Sparkles" },
   { id: "navigation", name: "Navigation", icon: "Menu" },
   { id: "offset-path", name: "Offset Path", icon: "Move3D" },
@@ -410,6 +411,33 @@ export const effects: FerrumEffectIndex[] = [
   { name: "Starting Style Fade", className: "roycss-starting-style-fade", category: "modern-css", displayType: "box" },
   { name: "View Timeline Reveal", className: "roycss-view-timeline-reveal", category: "modern-css", displayType: "box" },
   { name: "View Transition Snapshot", className: "roycss-view-transition-snapshot", category: "modern-css", displayType: "box" },
+  { name: "Houdini Animated Gradient", className: "roycss-ng-houdini-gradient", category: "next-gen-css", displayType: "box" },
+  { name: "Houdini Hue Cycle", className: "roycss-ng-houdini-hue", category: "next-gen-css", displayType: "box" },
+  { name: "Houdini Border Rainbow", className: "roycss-ng-border-rainbow", category: "next-gen-css", displayType: "box" },
+  { name: "Houdini Progress Ring", className: "roycss-ng-progress-ring", category: "next-gen-css", displayType: "box" },
+  { name: "Houdini Glow Pulse", className: "roycss-ng-glow-pulse", category: "next-gen-css", displayType: "box" },
+  { name: "Houdini Gradient Morph", className: "roycss-ng-gradient-morph", category: "next-gen-css", displayType: "box" },
+  { name: "Scroll Scale Reveal", className: "roycss-ng-scroll-scale", category: "next-gen-css", displayType: "box" },
+  { name: "Scroll Opacity Fade", className: "roycss-ng-scroll-fade", category: "next-gen-css", displayType: "box" },
+  { name: "Scroll Rotate In", className: "roycss-ng-scroll-rotate", category: "next-gen-css", displayType: "box" },
+  { name: "View Transition Morph Shape", className: "roycss-ng-vt-morph", category: "next-gen-css", displayType: "box" },
+  { name: "View Transition Color Swap", className: "roycss-ng-vt-swap", category: "next-gen-css", displayType: "box" },
+  { name: "Anchor Tooltip", className: "roycss-ng-anchor-tooltip", category: "next-gen-css", displayType: "box" },
+  { name: "Anchor Callout", className: "roycss-ng-anchor-callout", category: "next-gen-css", displayType: "box" },
+  { name: "Nesting Hover Card", className: "roycss-ng-nesting-card", category: "next-gen-css", displayType: "box" },
+  { name: "Nesting Interactive Button", className: "roycss-ng-nesting-btn", category: "next-gen-css", displayType: "box" },
+  { name: "Has Focus Glow", className: "roycss-ng-has-focus", category: "next-gen-css", displayType: "box" },
+  { name: "Has Checked Toggle", className: "roycss-ng-has-checked", category: "next-gen-css", displayType: "box" },
+  { name: "Has Empty State", className: "roycss-ng-has-empty", category: "next-gen-css", displayType: "box" },
+  { name: "Container Query Stack", className: "roycss-ng-cq-stack", category: "next-gen-css", displayType: "box" },
+  { name: "Container Query Adaptive", className: "roycss-ng-cq-adaptive", category: "next-gen-css", displayType: "box" },
+  { name: "Color Mix Blend", className: "roycss-ng-color-mix-blend", category: "next-gen-css", displayType: "box" },
+  { name: "Color Mix Opacity", className: "roycss-ng-color-mix-opacity", category: "next-gen-css", displayType: "box" },
+  { name: "Conic Gradient Pie", className: "roycss-ng-conic-pie", category: "next-gen-css", displayType: "box" },
+  { name: "Repeating Gradient Motion", className: "roycss-ng-repeating-motion", category: "next-gen-css", displayType: "box" },
+  { name: "Text Wrap Balance", className: "roycss-ng-text-balance", category: "next-gen-css", displayType: "box" },
+  { name: "Discrete Transition", className: "roycss-ng-discrete-transition", category: "next-gen-css", displayType: "box" },
+
   { name: "Deep Sea", className: "roycss-deep-sea", category: "nature", displayType: "box" },
   { name: "Frozen Ice", className: "roycss-frozen-ice", category: "nature", displayType: "box" },
   { name: "Gold Leaf", className: "roycss-gold-leaf", category: "nature", displayType: "box" },
@@ -616,6 +644,7 @@ export const categoryCounts: Record<string, number> = {
   "micro-interaction": 12,
   "misc": 30,
   "modern-css": 7,
+  "next-gen-css": 26,
   "nature": 15,
   "navigation": 10,
   "offset-path": 3,

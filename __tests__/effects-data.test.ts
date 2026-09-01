@@ -3,12 +3,12 @@ import { effects } from "@/lib/ferrum-effects-data";
 import { categories } from "@/lib/ferrum-effects-index";
 
 /* ════════════════════════════════════════════════════════════════
-   Tests for effects-data.ts — 542 CSS effects data integrity
+   Tests for effects-data.ts — 568 CSS effects data integrity
    ════════════════════════════════════════════════════════════════ */
 
 describe("effects-data — Total count", () => {
-  it("should contain exactly 542 effects", () => {
-    expect(effects.length).toBe(542);
+  it("should contain exactly 568 effects", () => {
+    expect(effects.length).toBe(568);
   });
 });
 
@@ -142,6 +142,7 @@ describe("effects-data — Category distribution", () => {
     "unique": 7,
     "property": 7,
     "modern-css": 7,
+    "next-gen-css": 26,
     "image-hover": 7,
     "svg": 3,
     "offset-path": 3,
@@ -152,7 +153,7 @@ describe("effects-data — Category distribution", () => {
 
   it("should have exactly 35 unique categories", () => {
     const cats = new Set(effects.map((e) => e.category));
-    expect(cats.size).toBe(35);
+    expect(cats.size).toBe(36);
   });
 
   it("category counts should match expected distribution", () => {
@@ -171,7 +172,7 @@ describe("effects-data — Category distribution", () => {
       counts[effect.category] = (counts[effect.category] || 0) + 1;
     }
     const total = Object.values(counts).reduce((sum, c) => sum + c, 0);
-    expect(total).toBe(542);
+    expect(total).toBe(568);
   });
 
   it("every effect's category should exist in the categories index", () => {
@@ -182,6 +183,6 @@ describe("effects-data — Category distribution", () => {
   });
 
   it("categories index should have exactly 35 entries", () => {
-    expect(categories.length).toBe(35);
+    expect(categories.length).toBe(36);
   });
 });

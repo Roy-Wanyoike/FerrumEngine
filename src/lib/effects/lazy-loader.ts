@@ -48,6 +48,7 @@ const categoryImportMap: Record<string, () => Promise<CategoryModule>> = {
   "micro-interaction": () => import("./by-category/micro-interaction"),
   misc:              () => import("./by-category/misc"),
   "modern-css":     () => import("./by-category/modern-css"),
+  "next-gen-css":    () => import("./by-category/next-gen-css"),
   nature:            () => import("./by-category/nature"),
   navigation:        () => import("./by-category/navigation"),
   "offset-path":    () => import("./by-category/offset-path"),

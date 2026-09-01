@@ -208,5 +208,11 @@
     "size": 23227,
     "effectCount": 28,
     "keyframeCount": 28
+  },
+  "next-gen-css": {
+    "file": "next-gen-css.css",
+    "size": 11027,
+    "effectCount": 26,
+    "keyframeCount": 14
   }
 }
