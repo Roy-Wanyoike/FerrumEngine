@@ -79,6 +79,12 @@ export {
 
 // Analyzers
 export { analyzeArchitecture, type ArchitectureConfig } from './analyzer/architecture';
+export { analyzePerformance, type PerformanceConfig } from './analyzer/performance';
+export { analyzeSecurity, type SecurityConfig } from './analyzer/security';
+export { analyzeReliability, type ReliabilityConfig } from './analyzer/reliability';
+export { analyzeTesting, type TestingConfig } from './analyzer/testing';
+export { analyzeAccessibility, type AccessibilityConfig } from './analyzer/accessibility';
+export { analyzeDependencies, type DependenciesConfig } from './analyzer/dependencies';
 
 // Impact engine
 export { analyzeImpact, diffGraphs, type ImpactOptions } from './impact/impact';
@@ -95,6 +101,12 @@ export { AgentGateway, type GatewayConfig, type AuditEntry } from './agent/gatew
 
 import { buildGraph } from './graph/builder';
 import { analyzeArchitecture } from './analyzer/architecture';
+import { analyzePerformance } from './analyzer/performance';
+import { analyzeSecurity } from './analyzer/security';
+import { analyzeReliability } from './analyzer/reliability';
+import { analyzeTesting } from './analyzer/testing';
+import { analyzeAccessibility } from './analyzer/accessibility';
+import { analyzeDependencies } from './analyzer/dependencies';
 import { calculateScores, formatScoreReport } from './scoring/scoring';
 import type { ApplicationGraph, FullAnalysis, FerrumConfig } from './core/types';
 
@@ -115,6 +127,12 @@ export function analyze(
   // Run all analyzers
   const results = [
     analyzeArchitecture(graph),
+    analyzePerformance(graph),
+    analyzeSecurity(graph),
+    analyzeReliability(graph),
+    analyzeTesting(graph),
+    analyzeAccessibility(graph),
+    analyzeDependencies(graph),
   ];
 
   // Calculate scores
