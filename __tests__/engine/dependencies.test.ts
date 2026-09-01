@@ -84,8 +84,8 @@ describe('Dependencies Analyzer', () => {
   });
 
   it('should detect heavy dependencies', () => {
-    const pkg = makeNode('pkg:three', 'package', 'node_modules/three');
-    pkg.name = 'three';
+    const pkg = makeNode('pkg:three.js', 'package', 'node_modules/three.js');
+    pkg.name = 'three.js';
     addNode(graph, pkg);
 
     const result = analyzeDependencies(graph);
