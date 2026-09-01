@@ -1,15 +1,11 @@
 /**
- * Tests for the middleware's rate-limit key derivation logic.
+ * Tests for the middleware's rate-limit key derivation logic (T-H05).
  *
- * The key hierarchy is: Bearer token > httpOnly session cookie > client IP.
+ * Key hierarchy: Bearer token > httpOnly session cookie > client IP.
  */
 
 import { describe, it, expect } from "vitest";
 
-/**
- * Re-implement the key derivation logic from middleware.ts for testing.
- * We cannot import middleware directly (Edge Runtime), so we test the logic.
- */
 const COOKIE_NAME = "ferrum-cloud-session";
 
 function getRateLimitKey(
@@ -17,12 +13,9 @@ function getRateLimitKey(
   cookieValue: string | null,
   clientIP: string
 ): string {
-  const token =
-    authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
   if (token) return `session:${token.slice(0, 32)}`;
-
   if (cookieValue) return `session:${cookieValue.slice(0, 32)}`;
-
   return `ip:${clientIP}`;
 }
 
@@ -38,11 +31,7 @@ describe("Middleware rate-limit key derivation (T-H05)", () => {
   });
 
   it("should fall back to httpOnly cookie when no Bearer token", () => {
-    const key = getRateLimitKey(
-      null,
-      "zyxwvutsrqponmlkzyxwvutsrqponmlk",
-      "1.2.3.4"
-    );
+    const key = getRateLimitKey(null, "zyxwvutsrqponmlkzyxwvutsrqponmlk", "1.2.3.4");
     expect(key).toBe("session:zyxwvutsrqponmlkzyxwvutsrqponmlk");
   });
 
@@ -58,18 +47,13 @@ describe("Middleware rate-limit key derivation (T-H05)", () => {
     expect(key.length).toBe("session:".length + 32);
   });
 
-  it("should handle empty Bearer token (no value after 'Bearer ')", () => {
+  it("should handle empty Bearer token (no value after Bearer)", () => {
     const key = getRateLimitKey("Bearer ", "cookie-val", "1.2.3.4");
-    // Empty string after slice is falsy, falls to cookie
     expect(key).toBe("session:cookie-val");
   });
 
   it("should ignore non-Bearer auth headers", () => {
-    const key = getRateLimitKey(
-      "Basic dXNlcjpwYXNz",
-      null,
-      "1.2.3.4"
-    );
+    const key = getRateLimitKey("Basic dXNlcjpwYXNz", null, "1.2.3.4");
     expect(key).toBe("ip:1.2.3.4");
   });
 

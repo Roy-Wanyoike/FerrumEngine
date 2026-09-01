@@ -38,7 +38,7 @@ We implement a **token-bucket-style rate limiter** with a pluggable `RateLimitSt
 
 ### Negative
 - **In-memory default**: Single-instance only without external store. Must configure Redis for multi-instance.
-- **No distributed coordination**: In-memory store doesn't share state across instances.
+- **No distributed coordination**: In-memory store does not share state across instances.
 
 ## Implementation
 
