@@ -1,167 +1,183 @@
 # FerrumEngine
 
-> A CSS effects engine and design system platform — browse 542 production-ready effects across 35 categories, manage design tokens, and prototype in a live playground.
+> **Frontend Intelligence & Reliability Engine** — Software engineering intelligence infrastructure for understanding, analyzing, and protecting any frontend application.
 
-[![Live Site](https://img.shields.io/badge/Live-ferrumcss.space--z.ai-0ea5e9?style=flat-square)](https://ferrumcss.space-z.ai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](./LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-78%20passing-22c55e?style=flat-square)](./__tests__)
-[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue?style=flat-square)](https://www.typescriptlang.org)
 [![Node](https://img.shields.io/badge/Node-%E2%89%A520-green?style=flat-square)](./package.json)
+[![Tests: 210 passing](https://img.shields.io/badge/Tests-210%20passing-22c55e?style=flat-square)](src/engine)
+[![Engine Modules: 13](https://img.shields.io/badge/Engine-13%20modules-8b5cf6?style=flat-square)](src/engine)
+
+FerrumEngine sits **above your framework** (React, Vue, Svelte, Angular) and provides application graph analysis, change impact assessment, AI agent safety gates, reliability scoring, and runtime observability — zero collision with visual/CSS tools like RoyCSS.
 
 ---
 
-## ✨ Features
+## Core Capabilities
 
-- **542 CSS Effects** across 35 categories (3D, attention, background, hover, loading, text, and more)
-- **Design Token Platform** — manage teams, projects, tokens, and components with audit logs
-- **Live Playground** — interactive prototype environment with real-time preview
-- **Architecture Deep-Dive** — system design and subsystem documentation
-- **Cloud Dashboard** — authenticated design-token management with persistence
-- **SSR + SEO** — server-rendered hero content, JSON-LD structured data, sitemap, robots.txt
-- **Production Hardened** — rate-limited auth, persistent DB, health endpoint, error/loading/404 pages
-- **78 passing tests** covering store, persistence, rate limiting, routing, and utilities
+### 1. Application Graph
 
-## 🚀 Quick Start
+Builds a persistent, machine-readable representation of your entire frontend system — components, pages, routes, APIs, hooks, stores, middleware, tests, and their relationships.
 
-### Prerequisites
+- **22 node types** and **18 edge types** covering the full frontend surface
+- Adjacency indexes for O(1) lookups by path, kind, and relationships
+- Cycle detection, topological sort, and transitive dependency tracing
+- Framework adapters for React, Next.js, Vue, Svelte, Angular
+- Graph serialization and caching for incremental analysis
 
-- Node.js 20+ (Node 22 LTS recommended)
-- npm, pnpm, or bun
+### 2. Change Impact Analysis
 
-### Install & Run
+Before merging code, trace exactly what changes affect — routes, tests, APIs, user journeys, and security surfaces.
 
-```bash
-# Clone the repo
-git clone https://github.com/ferrumcss/ferrumengine.git
-cd ferrumengine
+- Risk classification: **LOW / MEDIUM / HIGH / CRITICAL** with evidence
+- Direct + transitive dependent tracing through the dependency graph
+- Security-sensitive file detection (auth, middleware, API routes)
+- Verification recommendations generated automatically
+- CI/CD ready: JSON output for GitHub Actions, GitLab CI, SARIF
 
-# Install dependencies (pick one)
-npm install        # or: pnpm install / bun install
+### 3. AI Agent Safety Gateway
 
-# Start the dev server
-npm run dev        # → http://localhost:3000
+Structured API for AI coding agents with scope-based permissions, sandboxing, and audit logging.
 
-# Or run the production build
-npm run build
-npm start
-```
+- 7 operations: `inspect_project`, `analyze_change`, `verify_change`, `propose_change`, `apply_safe_change`, `suggest_refactor`, `run_tests`
+- Scope levels: `read`, `analyze`, `test`, `suggest`, `modify`, `deploy`
+- Configurable auto-block thresholds (block critical/high severity changes)
+- Human approval workflows for `modify` operations
+- Full audit log with agent identity, operation, files, and findings
 
-### Environment Variables
+### 4. Reliability Scoring
 
-Create a `.env` file in the project root:
+Evidence-based scoring across 7 dimensions — every deduction traceable to actual findings.
 
-```env
-DATABASE_URL=file:/home/z/my-project/db/custom.db
-CLOUD_API_TOKEN=ferrum-dev-2024    # Bearer token for /api/cloud/* endpoints
-```
+| Dimension | What It Measures |
+|-----------|-----------------|
+| Architecture | Circular deps, layer violations, coupling, dead code |
+| Performance | Large bundles, missing dynamic imports, oversized components |
+| Security | Dangerous patterns, hardcoded secrets, missing CSRF, non-HTTPS calls |
+| Reliability | Missing error boundaries, unhandled promises, bare fetches |
+| Testing | Untested modules, coverage gaps, test anti-patterns |
+| Accessibility | Missing alt text, form labels, ARIA, keyboard navigation |
+| Dependencies | Outdated, unused, duplicate, heavy, non-semver packages |
 
-The cloud dashboard login password defaults to `ferrum-admin` (override via `CLOUD_DASHBOARD_PASSWORD`).
+Letter grades A–F. Compared to Lighthouse: Ferrum analyzes **code structure**, not just runtime performance.
 
-## 📜 Scripts
+### 5. Flight Recorder
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start dev server on port 3000 |
-| `npm run build` | Production build |
-| `npm start` | Start production server |
-| `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Auto-fix lint issues |
-| `npm run typecheck` | TypeScript strict type-check (no emit) |
-| `npm test` | Run vitest test suite |
-| `npm run test:watch` | Watch-mode tests |
-| `npm run test:coverage` | Tests with coverage report |
-| `npm run analyze` | Bundle analyzer |
+Runtime observability that reconstructs frontend execution paths for failure root cause analysis.
 
-## 🏗️ Architecture
+- Session lifecycle: start → record events → end → analyze
+- 6 root cause types: network-failure, state-corruption, render-loop, missing-data, race-condition, error-boundary
+- Error chain tracing through event streams
+- Navigation path reconstruction and render timeline building
 
-```
-src/
-├── app/                          # Next.js App Router
-│   ├── api/                      # REST endpoints
-│   │   ├── cloud/                # Authenticated design-token API
-│   │   ├── css/                  # Effect CSS export
-│   │   ├── health/               # Health check endpoint
-│   │   └── tokens/               # Public design-tokens API
-│   ├── cloud/                    # Cloud dashboard (login-gated)
-│   ├── layout.tsx                # Root layout w/ SSR hero + JSON-LD
-│   ├── page.tsx                  # Server-rendered homepage
-│   ├── error.tsx                 # Error recovery boundary
-│   ├── global-error.tsx          # Global error boundary
-│   ├── loading.tsx               # Skeleton loading state
-│   └── not-found.tsx             # Branded 404
-├── components/
-│   └── ferrum/                   # Core UI components
-│       ├── effects-view.tsx      # 542 effects browser
-│       ├── playground-v2.tsx     # Live playground
-│       ├── docs-view.tsx         # Documentation viewer
-│       ├── architecture-deep-dive.tsx
-│       ├── nav.tsx               # SPA navigation
-│       └── ...
-├── lib/
-│   ├── cloud-store.ts            # Design-token store (persistent)
-│   ├── persist.ts                # File-based JSON persistence
-│   ├── ferrum-effects-data.ts    # 542 effects catalog
-│   └── ...
-└── middleware.ts                 # Auth + rate-limit middleware
+## Additional Modules
 
-__tests__/                        # 78 tests across 7 files
-db/                               # SQLite + JSON persistence
-prisma/                           # Prisma schema
-public/                           # Static assets (robots.txt, sitemap.xml, logos)
-```
+| Module | Purpose |
+|--------|---------|
+| **User Journey Engine** | Map journeys through the graph, detect dead ends and unreachable pages |
+| **Architecture Drift Detector** | Capture baselines, compare structural and rule-based drift over time |
+| **Codebase Intelligence** | Purpose inference, domain classification, complexity estimation, health scoring |
+| **Plugin Runtime** | 15 lifecycle hooks, custom analyzers, framework adapters, config loading |
+| **CLI** | `ferrum analyze`, `ferrum doctor`, `ferrum impact`, `ferrum verify`, `ferrum graph`, `ferrum history` |
 
-## 🔌 API Reference
-
-| Endpoint | Method | Auth | Description |
-|----------|--------|------|-------------|
-| `/api` | GET | — | Library stats (542 effects, 35 categories) |
-| `/api/health` | GET | — | Service health + persistence status |
-| `/api/css` | GET | — | CSS export of effects |
-| `/api/tokens` | GET | — | Public design tokens |
-| `/api/cloud/auth` | POST | — | Login → returns bearer token |
-| `/api/cloud/teams` | GET, POST | Bearer | List/create teams |
-| `/api/cloud/teams/[id]` | GET, PATCH, DELETE | Bearer | Team CRUD |
-| `/api/cloud/teams/[id]/projects` | GET, POST | Bearer | Projects under team |
-| `/api/cloud/projects/[id]/tokens` | GET, POST | Bearer | Design tokens |
-| `/api/cloud/projects/[id]/components` | GET, POST | Bearer | Components |
-| `/api/cloud/tokens/[id]` | PATCH | Bearer | Update token (auto-versions) |
-| `/api/cloud/audit` | GET | Bearer | Audit log |
-
-### Rate Limits
-
-- `/api/cloud/auth`: 10 requests / 15 min / IP (brute-force protection)
-- `/api/cloud/*` (other): 100 requests / min / IP
-
-## 🧪 Testing
+## CLI Usage
 
 ```bash
-npm test
+# Full analysis with all 7 dimensions
+ferrum analyze ./my-app
+
+# Human-readable health check
+ferrum doctor ./my-app
+
+# Change impact analysis
+ferrum impact ./my-app --file src/lib/auth.ts --file src/middleware.ts
+
+# JSON output for CI/CD
+ferrum analyze ./my-app --json
+
+# AI agent verification
+ferrum verify ./my-app --agent copilot --operation apply_safe_change --json
+
+# Graph statistics
+ferrum graph ./my-app --stats
 ```
 
-Test suite covers:
+Exit codes: `0` (clean), `1` (findings present), `2` (error).
 
-- `cloud-store.test.ts` (20 tests) — Teams, projects, tokens, audit
-- `persistence.test.ts` (8 tests) — Round-trip, atomic writes, restart survival
-- `rate-limit.test.ts` (9 tests) — Auth brute-force protection, API limits
-- `utils.test.ts` (21 tests) — Utility helpers
-- `routing.test.ts` (6 tests) — SPA navigation
-- `collection.test.ts` (6 tests) — Effects catalog integrity
-- `footer.test.tsx` (8 tests) — Footer component rendering
+## Programmatic API
 
-## 🛡️ Production Hardening
+```typescript
+import { analyze, doctor, impact, AgentGateway } from 'ferrum-engine';
 
-- **Persistent DB** — File-based JSON snapshot at `db/cloud-store.json` (atomic writes, debounced, survives restarts)
-- **Rate Limiting** — Auth + API rate limits in middleware
-- **Health Endpoint** — `/api/health` reports cloud store, persistence, and memory status
-- **Error Boundaries** — `error.tsx`, `global-error.tsx`, `not-found.tsx`, `loading.tsx`
-- **SSR/SEO** — Server-rendered hero, JSON-LD structured data, sitemap, robots.txt
-- **Security Headers** — X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy
+// Full analysis
+const report = analyze('./my-app');
+console.log(report.scores); // { architecture: 92, performance: 85, ... }
 
-## 🤝 Contributing
+// Health check
+console.log(doctor('./my-app'));
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup, commit conventions, and PR process.
+// Impact analysis
+const impactResult = impact('./my-app', ['src/lib/utils.ts']);
+console.log(impactResult.riskLevel); // 'HIGH'
 
-## 📄 License
+// AI Agent gateway
+const gateway = new AgentGateway({
+  autoBlockThreshold: 'critical',
+  maxFilesPerRequest: 10,
+});
+const response = await gateway.handleRequest(agentRequest, graph);
+```
+
+## Architecture
+
+```
+src/engine/
+├── core/           # Types, graph data structure, graph algorithms
+├── graph/          # Parser, builder, serialization
+├── analyzer/       # 7 analyzers (architecture, performance, security, reliability, testing, a11y, deps)
+├── impact/         # Change impact analysis engine
+├── scoring/        # Evidence-based reliability scoring
+├── agent/          # AI Agent safety gateway
+├── flight-recorder/ # Runtime observability
+├── journey/        # User journey engine
+├── drift/          # Architecture drift detector
+├── intelligence/   # Codebase intelligence engine
+├── plugin/         # Plugin runtime, built-in adapters, config loader
+├── cli/            # CLI entry point and output formatting
+└── index.ts        # Public API barrel
+```
+
+## Testing
+
+```bash
+npm test                                # 210 engine tests
+npx vitest run __tests__/engine/       # Engine tests only
+npx vitest run __tests__/engine/integration.test.ts  # Integration tests
+```
+
+## Framework Support
+
+| Framework | Adapter | Route Detection | Layer Rules |
+|-----------|---------|----------------|-------------|
+| React | Built-in | Component/Hook inference | Yes |
+| Next.js (App + Pages) | Built-in | page/layout/route/middleware | Yes |
+| Vue | Built-in | .vue files, composables | Yes |
+| Svelte/SvelteKit | Built-in | +page/+layout/+server | Yes |
+| Angular | Built-in | .component/.service/.module | Yes |
+| Generic JS/TS | Built-in | Basic patterns | Yes |
+
+## What FerrumEngine Is NOT
+
+FerrumEngine is **not** a CSS effects library, visual design tool, or component framework. That's [RoyCSS](https://github.com/Roy-Wanyoike/RoyCSS)'s domain. FerrumEngine operates at the **engineering intelligence** layer — analyzing, protecting, and understanding your application's structure and behavior.
+
+## Documentation
+
+- [Architecture Overview](docs/architecture/overview.md)
+- [Application Graph Deep Dive](docs/architecture/application-graph.md)
+- [Change Impact Analysis](docs/architecture/change-impact.md)
+- [AI Agent Gateway](docs/architecture/agent-gateway.md)
+- [Reliability Scoring](docs/architecture/reliability-scoring.md)
+- [Plugin Architecture RFC](docs/rfc/002-plugin-architecture.md)
+
+## License
 
 [MIT](./LICENSE) © FerrumEngine Contributors
