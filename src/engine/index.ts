@@ -153,19 +153,37 @@ export {
   type IntelQuery,
 } from './intelligence';
 
-// Journey engine
+// Graph serialization
 export {
-  mapJourney,
-  findJourneyBottlenecks,
-  detectDeadEnds,
-  detectUnreachablePages,
-  analyzeJourneyCoverage,
-  suggestJourneys,
-  resetJourneyCounters,
-  type JourneyStep,
-  type JourneyResult,
-  type JourneyCoverage,
-} from './journey';
+  serializeGraph,
+  deserializeGraph,
+  saveGraph,
+  loadGraph,
+  isCacheValid,
+  invalidateCache,
+  type SerializedGraph,
+  type SerializedNode,
+  type SerializedEdge,
+} from './graph/serialization';
+
+// Plugin system
+export {
+  createPluginManager,
+  type FerrumPlugin,
+  type PluginHook,
+  type PluginEventType,
+  type PluginContext,
+  type CustomAnalyzer,
+  type FrameworkAdapter,
+  type PluginLogger,
+  type PluginManager,
+} from './plugin';
+
+// Built-in adapters
+export { builtInAdapters } from './plugin/builtins';
+
+// Config loader
+export { loadFerrumConfig, loadFerrumConfigAsync } from './plugin/config-loader';
 
 // ──────────────────────────────────────────────────────────────────────
 // HIGH-LEVEL API
