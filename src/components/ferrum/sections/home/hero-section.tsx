@@ -49,13 +49,13 @@ function HeroLiveDemo() {
         onMouseEnter={() => setHoveredCard("glass")} onMouseLeave={() => setHoveredCard(null)}>
         <div className="flex items-center gap-2 mb-2">
           <div className="w-6 h-6 rounded-md bg-purple-500/20 flex items-center justify-center"><Box className="w-3 h-3 text-purple-400" /></div>
-          <span className="text-[10px] sm:text-xs font-medium text-foreground/60">Glass Component</span>
+          <span className="text-[10px] sm:text-xs font-medium text-foreground/60">Application Graph</span>
           {hoveredCard === "glass" && <PulsingDot color="bg-purple-500 dark:bg-purple-400" className="ml-auto" />}
         </div>
         <div className="flex items-baseline gap-1">
-          <span className="text-xl sm:text-2xl font-bold text-foreground tabular-nums">60</span>
-          <span className="text-[10px] text-muted-foreground/60">fps</span>
-          <span className="ml-auto text-[10px] text-emerald-400/60 font-medium">GPU</span>
+          <span className="text-xl sm:text-2xl font-bold text-foreground tabular-nums">22</span>
+          <span className="text-[10px] text-muted-foreground/60">node types</span>
+          <span className="ml-auto text-[10px] text-emerald-400/60 font-medium">Graph</span>
         </div>
         <div className="mt-2 h-1 rounded-full bg-foreground/[0.06] overflow-hidden">
           <div className="h-full w-[92%] rounded-full bg-gradient-to-r from-purple-500/60 to-pink-500/40 animate-[ferrum-shimmer-bar_2s_ease-in-out_infinite]" />
@@ -68,11 +68,11 @@ function HeroLiveDemo() {
         onMouseEnter={() => setHoveredCard("motion")} onMouseLeave={() => setHoveredCard(null)}>
         <div className="flex items-center gap-2 mb-2">
           <div className="w-6 h-6 rounded-md bg-pink-500/20 flex items-center justify-center"><Zap className="w-3 h-3 text-pink-400" /></div>
-          <span className="text-[10px] sm:text-xs font-medium text-foreground/60">Motion Physics</span>
+          <span className="text-[10px] sm:text-xs font-medium text-foreground/60">7 Analyzers</span>
           {hoveredCard === "motion" && <PulsingDot color="bg-pink-500 dark:bg-pink-400" className="ml-auto" />}
         </div>
         <div className="space-y-1.5">
-          {[{ l: "Spring", v: 88 }, { l: "Physics", v: 72 }, { l: "Gesture", v: 65 }].map((item, i) => (
+          {[{ l: "Arch", v: 88 }, { l: "Perf", v: 95 }, { l: "Sec", v: 78 }].map((item, i) => (
             <div key={item.l} className="flex items-center gap-2">
               <span className="text-[9px] text-muted-foreground/60 w-10">{item.l}</span>
               <div className="flex-1 h-1 rounded-full bg-foreground/[0.06] overflow-hidden">
@@ -89,11 +89,11 @@ function HeroLiveDemo() {
         onMouseEnter={() => setHoveredCard("layout")} onMouseLeave={() => setHoveredCard(null)}>
         <div className="flex items-center gap-2 mb-2">
           <div className="w-6 h-6 rounded-md bg-emerald-500/20 flex items-center justify-center"><Monitor className="w-3 h-3 text-emerald-400" /></div>
-          <span className="text-[10px] sm:text-xs font-medium text-foreground/60">Adaptive Layout</span>
+          <span className="text-[10px] sm:text-xs font-medium text-foreground/60">Reliability Score</span>
           {hoveredCard === "layout" && <PulsingDot color="bg-emerald-500 dark:bg-emerald-400" className="ml-auto" />}
         </div>
         <div className="flex gap-1">
-          {[{ w: 24, l: "S" }, { w: 32, l: "M" }, { w: 40, l: "L" }].map((s, i) => (
+          {[{ w: 24, l: "A" }, { w: 32, l: "B" }, { w: 40, l: "C" }].map((s, i) => (
             <div key={s.l} className="flex-1 flex flex-col items-center gap-1">
               <div className="rounded border border-foreground/[0.08] bg-foreground/[0.03] flex items-center justify-center transition-all duration-300 hover:border-emerald-500/30"
                 style={{ width: s.w, height: 16, animationDelay: `${i * 100}ms` }}>
@@ -111,11 +111,11 @@ function HeroLiveDemo() {
         onMouseEnter={() => setHoveredCard("compiler")} onMouseLeave={() => setHoveredCard(null)}>
         <div className="flex items-center gap-2 mb-2">
           <div className="w-6 h-6 rounded-md bg-amber-500/20 flex items-center justify-center"><Cpu className="w-3 h-3 text-amber-400" /></div>
-          <span className="text-[10px] sm:text-xs font-medium text-foreground/60">Compiler Pipeline</span>
+          <span className="text-[10px] sm:text-xs font-medium text-foreground/60">Change Impact</span>
           {hoveredCard === "compiler" && <PulsingDot color="bg-amber-500 dark:bg-amber-400" className="ml-auto" />}
         </div>
         <div className="flex items-center gap-1">
-          {["Parse", "Analyze", "Optimize", "Output"].map((step, i) => (
+          {["Detect", "Classify", "Assess", "Report"].map((step, i) => (
             <div key={step} className="flex items-center gap-1">
               <div className="px-1.5 py-0.5 rounded text-[8px] font-mono font-medium"
                 style={{ color: `hsl(${270 + i * 25}, 70%, 65%)`, backgroundColor: `hsl(${270 + i * 25}, 70%, 65%, 0.08)`, animation: `ferrum-pipeline-pulse ${1.2 + i * 0.2}s ease-in-out ${i * 0.15}s infinite` }}>
@@ -132,12 +132,12 @@ function HeroLiveDemo() {
         style={{ transform: `translate(calc(-50% + ${(mx - 0.5) * -15}px), calc(-50% + ${(my - 0.5) * -12}px))`, willChange: 'transform' }}>
         <div className="flex items-center gap-1 mb-1.5">
           <div className="w-2 h-2 rounded-full bg-red-400/40" /><div className="w-2 h-2 rounded-full bg-yellow-400/40" /><div className="w-2 h-2 rounded-full bg-green-400/40" />
-          <span className="ml-1.5 text-[8px] text-muted-foreground/60 font-mono">ferrum.config.ts</span>
+          <span className="ml-1.5 text-[8px] text-muted-foreground/60 font-mono">ferrum.analyze()</span>
         </div>
         <div className="font-mono text-[8px] sm:text-[9px] leading-relaxed text-muted-foreground/60">
-          <div><span className="text-purple-400/50">.rc-float</span> {"{"}</div>
-          <div className="pl-2"><span className="text-amber-400/40">animation</span>: spring <span className="text-pink-400/40">0.5s</span>;</div>
-          <div className="pl-2"><span className="text-amber-400/40">transform</span>: <span className="text-emerald-400/40">translateY(-8px)</span>;</div>
+          <div><span className="text-purple-400/50">graph</span> {"{"}</div>
+          <div className="pl-2"><span className="text-amber-400/40">nodes</span>: <span className="text-emerald-400/40">22 types</span>;</div>
+          <div className="pl-2"><span className="text-amber-400/40">edges</span>: <span className="text-emerald-400/40">18 types</span>;</div>
           <div>{"}"}</div>
         </div>
       </div>
@@ -161,7 +161,7 @@ function HeroLiveDemo() {
   );
 }
 
-const badges = ["Universal UI Platform", "542+ Motion Effects", "9 Framework Adapters", "Zero Dependencies", "AI-Ready Architecture"];
+const badges = ["Frontend Intelligence Engine", "7 Analyzers", "Application Graph", "Reliability Scoring", "AI Agent Gateway"];
 
 export function HeroSection() {
   const router = useRouter();
@@ -195,19 +195,19 @@ export function HeroSection() {
 
         <div className="animate-in fade-in-0 slide-in-from-bottom-3" style={{ animationDelay: "0.06s", animationFillMode: "both" }}>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] max-w-4xl">
-            The operating system
+            FerrumEngine
             <br />
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-[ferrum-gradient-shift_6s_ease-in-out_infinite]">
-              for modern interfaces.
+              Frontend Intelligence &amp; Reliability.
             </span>
           </h1>
         </div>
 
         <div className="animate-in fade-in-0 slide-in-from-bottom-3" style={{ animationDelay: "0.12s", animationFillMode: "both" }}>
           <p className="text-base sm:text-lg text-muted-foreground/80 max-w-2xl leading-relaxed mt-6">
-            Ferrum is a universal UI platform that unifies motion, visual effects, components,
-            design tokens, and compiler optimization into one coherent system. Works with every
-            framework. Zero runtime dependencies. Built for the age of AI-generated interfaces.
+            Application Graph, 7 Analyzers, Reliability Scoring, Change Impact Analysis, AI Agent
+            Gateway — everything you need to engineer reliable frontends. Understand your codebase.
+            Ship with confidence. Prevent regressions before they happen.
           </p>
         </div>
 
@@ -231,10 +231,10 @@ export function HeroSection() {
         <div className="animate-in fade-in-0 slide-in-from-bottom-3" style={{ animationDelay: "0.24s", animationFillMode: "both" }}>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-8">
             {[
-              { icon: Globe, label: "Framework Agnostic" },
+              { icon: Globe, label: "7 Analyzers" },
               { icon: Code, label: "TypeScript Native" },
-              { icon: Shield, label: "MIT Licensed" },
-              { icon: Zap, label: "GPU Accelerated" },
+              { icon: Shield, label: "A-F Reliability Grades" },
+              { icon: Zap, label: "Change Impact" },
             ].map((item) => { const Icon = item.icon; return (
               <div key={item.label} className="flex items-center gap-1.5 text-xs text-muted-foreground/50">
                 <Icon className="w-3.5 h-3.5" /><span>{item.label}</span>
@@ -247,7 +247,7 @@ export function HeroSection() {
 
         <div className="animate-in fade-in-0 slide-in-from-bottom-3" style={{ animationDelay: "0.36s", animationFillMode: "both" }}>
           <p className="text-center text-sm text-muted-foreground/50 mt-8 italic">
-            Describe the experience. Ferrum handles the rendering.
+            Understand the codebase. Engineer reliable frontends.
           </p>
         </div>
       </div>

@@ -6,12 +6,12 @@ import { ArrowRight, Timer, Puzzle, Gauge, Shield, Cpu, AlertTriangle } from "lu
    ═══════════════════════════════════════════════════════════════ */
 
 const problems = [
-  { icon: Timer, title: "Weeks of rebuild", description: "Every new project starts with the same work: motion systems, responsive layouts, accessible components, theme management. Teams spend 30-40% of their time on undifferentiated infrastructure that should already exist." },
-  { icon: Puzzle, title: "The integration nightmare", description: "Framer Motion for animation. Tailwind for styling. Radix for components. Storybook for docs. Each has its own API, its own mental model, its own version conflicts. The glue code becomes your largest module." },
-  { icon: Gauge, title: "Performance is an afterthought", description: "Animations jank on mobile. CSS bundles bloat to 200KB+. GPU layers stack uncontrollably. Accessibility gets bolted on during QA. Nobody optimizes the rendering pipeline because it's nobody's job." },
-  { icon: Shield, title: "No shared philosophy", description: "React teams write hooks. Vue teams use composables. Svelte teams write runes. There's no universal language for interface engineering. Every framework reinvents the wheel with different names." },
-  { icon: Cpu, title: "AI changes everything", description: "Generated UI needs runtime intelligence. A static CSS class can't adapt to context. The future requires an engine that understands intent, not just implementation — and that engine doesn't exist yet." },
-  { icon: AlertTriangle, title: "The scale problem", description: "Ferrum ships 542+ CSS effects, 35 categories, and 20+ packages. Without a coherent architecture, it's just a large collection. Size without structure is noise, not a platform." },
+  { icon: Timer, title: "Flying blind in production", description: "Frontends ship without visibility. No reliability scores, no impact analysis, no understanding of what breaks when you change a component. Teams discover regressions in production — after users do." },
+  { icon: Puzzle, title: "Fragmented tooling", description: "ESLint for code quality. Lighthouse for performance. npm audit for security. axe for accessibility. Each runs in isolation, produces different output formats, and can't correlate findings across dimensions." },
+  { icon: Gauge, title: "No reliability measure", description: "Teams say 'it feels stable' or 'we haven't had bugs lately'. There's no objective, reproducible score that says your frontend is a B+ on reliability — and tells you exactly what to fix to get to A." },
+  { icon: Shield, title: "Change impact is guesswork", description: "Who knows what breaks when you refactor this utility? Without an application graph, impact analysis is tribal knowledge and hope. PR reviews catch syntax errors, not architectural regressions." },
+  { icon: Cpu, title: "AI tools need guardrails", description: "AI coding agents can modify codebases at scale, but they lack scoped access and structured APIs. Without an intelligence layer, AI changes are uncontrolled — fast but dangerous." },
+  { icon: AlertTriangle, title: "Architecture drift accumulates", description: "Codebases slowly diverge from intended architecture. Components bypass abstraction layers. Dependencies form cycles. Nobody notices until the refactor costs 10x what it should." },
 ];
 
 export function ProblemSection() {
@@ -27,15 +27,15 @@ export function ProblemSection() {
         </div>
         <div className="animate-in fade-in-0 slide-in-from-bottom-3" style={{ animationDelay: "0.05s", animationFillMode: "both" }}>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight max-w-3xl">
-            The web moved forward.<br /><span className="text-muted-foreground/50">Our tools didn&apos;t.</span>
+            The web moved forward.<br /><span className="text-muted-foreground/50">Our intelligence didn&apos;t.</span>
           </h2>
         </div>
         <div className="animate-in fade-in-0 slide-in-from-bottom-3" style={{ animationDelay: "0.1s", animationFillMode: "both" }}>
           <p className="text-lg text-muted-foreground/60 max-w-2xl leading-relaxed mt-6">
-            Modern interfaces demand motion that means something, layouts that respond to context,
-            and accessibility that ships by default. Today&apos;s frontend toolchain was designed for
-            a simpler era. The gap between what users expect and what developers can deliver is growing —
-            and it&apos;s growing fast.
+            Modern frontends are complex graphs of components, routes, and dependencies — yet teams
+            manage them with linters and hope. There&apos;s no reliability score, no impact analysis,
+            no way to predict what breaks. The gap between what we ship and what we understand
+            is growing — and it&apos;s growing fast.
           </p>
         </div>
         <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-4">

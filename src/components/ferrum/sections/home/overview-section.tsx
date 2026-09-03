@@ -27,27 +27,27 @@ interface Pillar {
 
 const pillars: Pillar[] = [
   {
-    icon: Zap, title: "Motion Engine", tagline: "Physics-based animation that means something",
-    description: "Spring dynamics, scroll-driven animations, gesture recognition, and timeline composition. Not just movement — motion with purpose. Every animation tells a story, guides attention, and reinforces interaction patterns.",
-    features: ["Spring physics engine", "Scroll-driven animations", "Gesture recognition", "Timeline composition", "542+ ready-to-use effects", "Zero jank on mobile"],
+    icon: Zap, title: "Application Graph", tagline: "Map your entire frontend as a queryable graph",
+    description: "22 node types and 18 edge types capture every component, route, dependency, and relationship. Query the graph to understand impact, find orphans, and trace data flows. The foundation for all other analyzers.",
+    features: ["22 node types", "18 edge types", "Query language", "Dependency tracing", "Orphan detection", "Data flow analysis"],
     color: "violet",
   },
   {
-    icon: Eye, title: "Visual Effects", tagline: "GPU-accelerated VFX for the web",
-    description: "Glass morphism, liquid effects, atmospheric particles, distortion shaders, energy fields, and neon borders — all running at 60fps via Houdini Paint API worklets. No WebGL required. No canvas overhead. Pure CSS.",
-    features: ["Glass & liquid morphism", "Atmospheric particles", "Distortion shaders", "Energy systems", "7 Paint API worklets", "Hardware accelerated"],
+    icon: Eye, title: "7 Analyzers", tagline: "One pass, seven dimensions of insight",
+    description: "Architecture, performance, security, reliability, testing, accessibility, and dependency analysis — all running in a single unified pass. Each analyzer produces structured, actionable findings that feed into reliability scoring.",
+    features: ["Architecture analyzer", "Performance profiler", "Security scanner", "Reliability assessor", "Testing analyzer", "Accessibility audit", "Dependency checker"],
     color: "pink",
   },
   {
-    icon: Blocks, title: "Component System", tagline: "Semantic primitives, accessible by default",
-    description: "16 production-ready components designed around intent, not implementation. A hero section knows it's a hero. A pricing card knows it's a pricing card. Semantic HTML with ARIA built in, theme-aware, and composable.",
-    features: ["16 semantic components", "ARIA-first design", "Theme-aware styling", "Composable patterns", "Framework adapters", "TypeScript native"],
+    icon: Blocks, title: "Reliability Scoring", tagline: "A-F grades across 7 dimensions",
+    description: "Score your frontend's reliability across architecture, performance, security, testing, accessibility, dependencies, and code quality. Get an overall grade and per-dimension breakdown. Track scores over time to measure improvement.",
+    features: ["7 scoring dimensions", "A-F grade scale", "Per-dimension breakdown", "Trend tracking", "Configurable weights", "Actionable recommendations"],
     color: "cyan",
   },
   {
-    icon: Terminal, title: "Compiler & Tokens", tagline: "Optimized output from a single source of truth",
-    description: "A 9-pass compilation pipeline that parses, analyzes, tree-shakes, and optimizes your CSS. Design tokens flow from a single definition to CSS, SCSS, JSON, TypeScript, and Tailwind — automatically.",
-    features: ["9-pass optimization", "Tree-shaking & DCE", "5 output formats", "Runtime theming", "Cross-platform tokens", "Dead code elimination"],
+    icon: Terminal, title: "Change Impact & AI Gateway", tagline: "Predict breakage. Enable AI safely.",
+    description: "Classify every change by risk level — breaking, degraded, or safe. The AI Agent Gateway exposes structured APIs with scope permissions so AI tools can analyze and improve codebases without unrestricted access.",
+    features: ["Risk classification", "Breaking change detection", "Structured API", "Scope permissions", "Audit trail", "Safe AI integration"],
     color: "amber",
   },
 ];
@@ -64,14 +64,14 @@ export function PlatformOverviewSection() {
         <div className="animate-in fade-in-0 slide-in-from-bottom-3"><p className="text-xs font-semibold uppercase tracking-[0.15em] text-purple-400 mb-4">Platform</p></div>
         <div className="animate-in fade-in-0 slide-in-from-bottom-3" style={{ animationDelay: "0.05s", animationFillMode: "both" }}>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight max-w-3xl">
-            Four pillars.<br /><span className="text-muted-foreground/50">One unified system.</span>
+            Four pillars.<br /><span className="text-muted-foreground/50">One intelligence engine.</span>
           </h2>
         </div>
         <div className="animate-in fade-in-0 slide-in-from-bottom-3" style={{ animationDelay: "0.1s", animationFillMode: "both" }}>
           <p className="text-lg text-muted-foreground/60 max-w-2xl leading-relaxed mt-5">
-            Ferrum isn&apos;t a collection of libraries. It&apos;s a platform where motion, effects,
-            components, and optimization work together by design — not by integration. Import what
-            you need. The coherence is built in.
+            Ferrum isn&apos;t a collection of linters. It&apos;s an intelligence engine where graph analysis,
+            reliability scoring, change impact, and AI gateway work together by design — not by
+            integration. Run one command. Get the full picture.
           </p>
         </div>
         <div className="mt-16 grid md:grid-cols-2 gap-5">

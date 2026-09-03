@@ -3,10 +3,10 @@
    ═══════════════════════════════════════════════════════════════ */
 
 const marqueeItems = [
-  "CSS Animations", "Houdini Paint API", "Scroll-Driven Animations", "Container Queries",
-  "Cascade Layers", "View Transitions", "GPU Accelerated", "Zero Dependencies",
-  "Tree Shaking", "TypeScript Native", "Framework Agnostic", "Plugin SDK",
-  "Design Tokens", "VFX Engine", "Motion Engine", "9 Framework Adapters",
+  "Application Graph", "7 Analyzers", "Reliability Scoring", "Change Impact",
+  "AI Agent Gateway", "Flight Recorder", "Architecture Drift", "Codebase Intelligence",
+  "22 Node Types", "18 Edge Types", "A-F Grades", "Scope Permissions",
+  "Risk Classification", "Runtime Observability", "Structured API", "TypeScript Native",
 ];
 
 export function PlatformMarquee() {

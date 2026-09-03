@@ -24,12 +24,12 @@ function Counter({ target, suffix = "", duration = 1600 }: { target: number; suf
 }
 
 const stats = [
-  { value: 866, suffix: "+", label: "Motion Effects" },
-  { value: 20, suffix: "+", label: "Packages" },
-  { value: 8, suffix: "", label: "Adapters" },
-  { value: 16, suffix: "+", label: "Components" },
-  { value: 11, suffix: "", label: "Categories" },
-  { value: 7, suffix: "", label: "Houdini Worklets" },
+  { value: 22, suffix: "", label: "Node Types" },
+  { value: 18, suffix: "", label: "Edge Types" },
+  { value: 7, suffix: "", label: "Analyzers" },
+  { value: 7, suffix: "", label: "Scoring Dims" },
+  { value: 6, suffix: "", label: "Risk Classes" },
+  { value: 3, suffix: "", label: "Agent Scopes" },
 ];
 
 export function StatsBar() {
