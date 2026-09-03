@@ -19,6 +19,29 @@ const COOKIE_NAME = "ferrum-cloud-session";
 
 const DEMO_SECRET = "ferrum-demo-secret";
 
+/**
+ * Returns true when running with the insecure demo secret.
+ * In production, this should NEVER be true — it means anyone who
+ * reads this source code can forge valid JWTs.
+ */
+export function isUsingDemoSecret(): boolean {
+  return !process.env.CLOUD_API_TOKEN;
+}
+
+/**
+ * Production guard: throws if the demo secret would be used in production.
+ * Call this at app startup (middleware init, API route init, etc.)
+ * to prevent accidental deployment with the hardcoded fallback.
+ */
+export function enforceProductionSecret(): void {
+  if (process.env.NODE_ENV === 'production' && !process.env.CLOUD_API_TOKEN) {
+    throw new Error(
+      'SECURITY: CLOUD_API_TOKEN must be set in production. ' +
+      'Refusing to start with the demo JWT secret.'
+    );
+  }
+}
+
 // ── Environment helpers ──────────────────────────────────────────────────
 
 /**
@@ -26,6 +49,7 @@ const DEMO_SECRET = "ferrum-demo-secret";
  * Falls back to DEMO_SECRET when CLOUD_API_TOKEN is not set.
  */
 export function getJWTSecret(): Uint8Array {
+  enforceProductionSecret();
   const secret = process.env.CLOUD_API_TOKEN || DEMO_SECRET;
   return new TextEncoder().encode(secret);
 }

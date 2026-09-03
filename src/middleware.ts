@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { jwtVerify } from "jose";
+import { getJWTSecret, verifyToken, COOKIE_NAME } from "@/lib/auth";
 import { ensureCsrfCookie } from "@/lib/csrf";
 import { getClientIP } from "@/lib/get-client-ip";
 import { RateLimiter } from "@/lib/rate-limit";
@@ -10,7 +10,7 @@ import { RateLimiter } from "@/lib/rate-limit";
  * Next.js 16 shows a deprecation advisory ("use proxy instead").
  *
  * MIGRATION COMPLETE — Static concerns already moved to next.config.ts:
- *   ✅ Security headers (CSP, HSTS, COOP, CORP, X-Frame-Options, etc.)
+ *   ✅ Security headers (CSP, Hsts, COOP, CORP, X-Frame-Options, etc.)
  *       → next.config.ts → headers() (L1 security layer)
  *   ✅ SPA route rewrites (17 client-side routes → /)
  *       → next.config.ts → rewrites()
@@ -48,12 +48,14 @@ import { RateLimiter } from "@/lib/rate-limit";
  * T-H05: Per-Session Rate Limiting — RateLimiter class with pluggable store.
  *   Uses session token as key when available, falls back to IP. Accepts
  *   an optional external store (Redis/Upstash) for distributed deployments.
+ *
+ * JWT SECRET:
+ *   All JWT constants (secret, algorithm, cookie name) are now imported from
+ *   @/lib/auth to eliminate duplication. A production guard in auth.ts
+ *   refuses to start if CLOUD_API_TOKEN is not set in production.
  */
 
-const JWT_SECRET_RAW = process.env.CLOUD_API_TOKEN || "ferrum-demo-secret";
-const JWT_SECRET = new TextEncoder().encode(JWT_SECRET_RAW);
 const JWT_ALGORITHM = "HS256";
-const COOKIE_NAME = "ferrum-cloud-session";
 
 // Rate limit windows (in milliseconds)
 const AUTH_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
@@ -105,17 +107,11 @@ function getRateLimitKey(request: NextRequest, clientIP: string): string {
 }
 
 /**
- * Verify a JWT token string. Returns the payload if valid, null otherwise.
+ * Verify a JWT token string using the shared auth module.
+ * Returns the payload if valid, null otherwise.
  */
 async function verifyJWT(token: string) {
-  try {
-    const { payload } = await jwtVerify(token, JWT_SECRET, {
-      algorithms: [JWT_ALGORITHM],
-    });
-    return payload;
-  } catch {
-    return null;
-  }
+  return verifyToken(token);
 }
 
 /**
