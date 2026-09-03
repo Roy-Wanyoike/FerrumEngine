@@ -1,0 +1,64 @@
+{
+  "name": "@roycss/effects",
+  "version": "0.1.0",
+  "description": "RoyCSS — Production-ready CSS effects library",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./ferrum-vfx": {
+      "types": "./src/ferrum-vfx/index.d.ts",
+      "default": "./src/ferrum-vfx/index.ts"
+    },
+    "./ferrum-motion": {
+      "types": "./src/ferrum-motion/index.d.ts",
+      "default": "./src/ferrum-motion/index.ts"
+    },
+    "./ferrum-tokens": {
+      "types": "./src/ferrum-tokens/index.d.ts",
+      "default": "./src/ferrum-tokens/index.cjs"
+    },
+    "./ferrum-paint": {
+      "types": "./src/ferrum-paint/index.d.ts",
+      "default": "./src/ferrum-paint/index.ts"
+    },
+    "./ferrum-effects-data": {
+      "types": "./src/ferrum-effects-data.d.ts",
+      "default": "./src/ferrum-effects-data.ts"
+    },
+    "./ferrum-effects-index": {
+      "types": "./src/ferrum-effects-index.d.ts",
+      "default": "./src/ferrum-effects-index.ts"
+    },
+    "./ferrum-effects-loader": {
+      "types": "./src/ferrum-effects-loader.d.ts",
+      "default": "./src/ferrum-effects-loader.ts"
+    },
+    "./effects": {
+      "types": "./src/effects/lazy-loader.d.ts",
+      "default": "./src/effects/lazy-loader.ts"
+    },
+    "./roycss-data": {
+      "default": "./src/roycss-data.ts"
+    },
+    "./roycss-index": {
+      "default": "./src/roycss-index.ts"
+    },
+    "./roycss-loader": {
+      "default": "./src/roycss-loader.ts"
+    },
+    "./animation-colors": {
+      "default": "./src/animation-colors.ts"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "src",
+    "public"
+  ]
+}

@@ -1,11 +1,13 @@
-// Ferrum Motion — Main Entry Point
+// ════════════════════════════════════════════════════════════════
+// Re-export stub — code moved to @roycss/effects (ADR-011)
+// ════════════════════════════════════════════════════════════════
 
-export { spring } from './spring';
-export { decay } from './decay';
-export { timeline } from './timeline';
-export { stagger, chain } from './stagger';
-export { onScroll, inView } from './scroll';
+export { spring } from '@roycss/effects/ferrum-motion';
+export { decay } from '@roycss/effects/ferrum-motion';
+export { timeline } from '@roycss/effects/ferrum-motion';
+export { stagger, chain } from '@roycss/effects/ferrum-motion';
+export { onScroll, inView } from '@roycss/effects/ferrum-motion';
 
-export type { SpringController, SpringConfig, DecayController, DecayConfig } from './types';
-export type { TimelineSequence, TimelineOptions, TimelineController } from './types';
-export type { ScrollOptions, ScrollCallback, StaggerOptions } from './types';
+export type { SpringController, SpringConfig, DecayController, DecayConfig } from '@roycss/effects/ferrum-motion';
+export type { TimelineSequence, TimelineOptions, TimelineController } from '@roycss/effects/ferrum-motion';
+export type { ScrollOptions, ScrollCallback, StaggerOptions } from '@roycss/effects/ferrum-motion';

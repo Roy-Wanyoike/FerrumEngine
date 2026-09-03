@@ -28,6 +28,12 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@roycss/effects": [
+        "./packages/roycss-effects"
+      ],
+      "@roycss/effects/*": [
+        "./packages/roycss-effects/src/*"
       ]
     }
   },
