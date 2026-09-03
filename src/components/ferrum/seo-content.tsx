@@ -36,14 +36,13 @@ export function SeoContent() {
       }}
     >
       <nav aria-label="Site sections">
-        <h1>FerrumEngine — The Universal UI Platform</h1>
+        <h1>FerrumEngine — Frontend Intelligence & Reliability Engine</h1>
         <p>
-          FerrumEngine is the universal UI platform that unifies motion, VFX,
-          components, design tokens, and compiler optimization into one coherent
-          system. With {totalEffects} production-ready CSS effects across{" "}
-          {totalCategories} categories, 9 framework adapters (React, Vue, Svelte,
-          Angular, Solid, Lit, Astro, Next.js), and zero runtime dependencies,
-          FerrumEngine is the production-grade choice for modern web UI.
+          FerrumEngine is a Frontend Intelligence & Reliability Engine that provides
+          Application Graph analysis, 7 Analyzers (architecture, performance, security,
+          reliability, testing, accessibility, dependencies), Reliability Scoring with
+          A-F grades across 7 dimensions, Change Impact Analysis with risk classification,
+          and an AI Agent Gateway with structured API and scope permissions.
         </p>
         <ul>
           <li><a href="/effects">Browse all {totalEffects} effects</a></li>
@@ -60,11 +59,10 @@ export function SeoContent() {
       </nav>
 
       <article>
-      <section aria-label="Effects Library">
-        <h2>Effects Library</h2>
+      <section aria-label="Intelligence Engine">
+        <h2>Intelligence Engine</h2>
         <p>
-          Browse {totalEffects} production-ready CSS motion effects across{" "}
-          {totalCategories} categories including:
+          FerrumEngine provides {totalCategories} analysis categories across {totalEffects} capabilities:
         </p>
         <ul>
           {topCategories.map((cat) => (
@@ -92,34 +90,28 @@ export function SeoContent() {
         <h2>Platform Capabilities</h2>
         <ul>
           <li>
-            <strong>Motion Library</strong>: Entrance, hover, attention, loading,
-            exit, and text animations with zero JavaScript runtime.
+            <strong>Application Graph</strong>: 22 node types, 18 edge types mapping
+            components, routes, and dependencies into a queryable graph.
           </li>
           <li>
-            <strong>Visual Effects (VFX)</strong>: Glass morphism, neon borders,
-            gradient meshes, ripple effects, skeletons, and Houdini Paint API
-            worklets.
+            <strong>7 Analyzers</strong>: Architecture, performance, security,
+            reliability, testing, accessibility, and dependency analysis in one pass.
           </li>
           <li>
-            <strong>Design Tokens</strong>: A single source of truth for colors,
-            spacing, typography, motion, elevation, radius, breakpoints, z-index,
-            and opacity — with transforms for CSS, SCSS, Tailwind, TypeScript, and
-            JSON.
+            <strong>Reliability Scoring</strong>: A-F grades across 7 dimensions
+            with per-dimension breakdown and trend tracking.
           </li>
           <li>
-            <strong>UI Compiler</strong>: A 9-pass optimization pipeline that
-            analyzes intent, resolves tokens, eliminates dead code, and produces
-            minimal output bundles.
+            <strong>Change Impact Analysis</strong>: Risk classification for every
+            change — breaking, degraded, or safe.
           </li>
           <li>
-            <strong>Framework Adapters</strong>: First-class support for React,
-            Vue, Svelte, Angular, Solid, Lit, Astro, and Next.js — same API,
-            same effects, same performance.
+            <strong>AI Agent Gateway</strong>: Structured API with scope permissions
+            for safe AI codebase access and modification.
           </li>
           <li>
-            <strong>Cloud Platform</strong>: Team collaboration, design token
-            management, version control, and audit logs with secure
-            authentication.
+            <strong>Flight Recorder</strong>: Runtime observability for frontends.
+            Capture, replay, and debug production issues.
           </li>
         </ul>
       </section>
@@ -127,31 +119,31 @@ export function SeoContent() {
       <section aria-label="Getting Started">
         <h2>Getting Started</h2>
         <p>
-          Install FerrumEngine via npm, pnpm, or yarn. Import the CSS bundle, add
-          the className to any element, and ship. No build step required for
-          basic usage. For advanced use cases, use the CLI or framework adapter
-          for tree-shaking and token customization.
+          Install FerrumEngine via npm, pnpm, or yarn. Run the analyze command to
+          build the Application Graph, execute all 7 analyzers, and get your
+          reliability score. Use the AI Agent Gateway for structured codebase access.
+          Zero config required for basic usage.
         </p>
       </section>
 
       <section aria-label="Why FerrumEngine">
         <h2>Why FerrumEngine?</h2>
         <p>
-          Most animation libraries force you to choose: rich effects OR small
-          bundle size OR framework lock-in. FerrumEngine breaks this trade-off.
-          The core runtime is under 2KB gzipped. Effects are pure CSS — they
-          work in any framework, any browser, any build setup. The compiler
-          ensures you ship only the effects you actually use.
+          Most frontend tooling analyzes one dimension at a time. ESLint catches code
+          issues. Lighthouse measures performance. npm audit finds vulnerabilities.
+          FerrumEngine unifies all analysis through an Application Graph, giving you
+          correlated findings, reliability scores, and change impact analysis in a
+          single pass.
         </p>
       </section>
 
       <section aria-label="Performance">
         <h2>Performance</h2>
         <p>
-          Zero runtime dependencies. The entire motion library is pure CSS — no
-          JavaScript animation engine, no requestAnimationFrame loops, no layout
-          thrashing. Effects are GPU-accelerated where possible and respect{" "}
-          <code>prefers-reduced-motion</code> by default.
+          The Application Graph is built once and queried many times. Analyzers
+          run in parallel where possible. Reliability scoring uses configurable
+          weights and caching for fast incremental updates. The Flight Recorder
+          has minimal runtime overhead and respects user preferences.
         </p>
       </section>
       </article>
