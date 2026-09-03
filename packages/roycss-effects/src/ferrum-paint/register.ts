@@ -6,7 +6,7 @@
  *
  * @example
  * ```ts
- * import { registerFerrumPaintWorklets, isPaintAPISupported } from '@/lib/ferrum-paint';
+ * import { registerFerrumPaintWorklets, isPaintAPISupported } from '@roycss/effects/ferrum-paint';
  *
  * if (isPaintAPISupported()) {
  *   registerFerrumPaintWorklets();
