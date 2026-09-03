@@ -54,7 +54,7 @@ describe('Security Analyzer', () => {
 
   it('should detect hardcoded secrets', () => {
     const config = makeNode('file:config', 'file', 'src/lib/config.ts', {
-      code: "const API_KEY = 'sk-abcdefghijklmnopqrstuvwxyzaabbccddeeffgggghhhhiiiiiiiiiiiiii';",
+      code: "const API_KEY = 'sk-TESTFAKEDONOTUSEaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'; /* nogil */",
     });
     addNode(graph, config);
 

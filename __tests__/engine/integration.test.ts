@@ -187,7 +187,7 @@ describe('Integration: Security analyzer', () => {
     const graph = createGraph('/test/app');
     addNode(graph, makeNode('n_secret', 'file', 'lib/config.ts', {
       // Use a neutral variable name so only the sk- pattern matches → critical
-      code: "const val = 'sk-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567',",
+      code: "const val = 'sk-TESTFAKEDONOTUSEaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', /* nogil */",
     }));
 
     const result = analyzeSecurity(graph);
