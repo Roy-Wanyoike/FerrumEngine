@@ -7,8 +7,8 @@ import type { ViewId } from "@/lib/types";
 
 export const VIEW_META: Record<string, { title: string; description: string }> = {
   home: {
-    title: "FerrumEngine — The Universal UI Platform",
-    description: "FerrumEngine: 542+ CSS motion effects, 9 framework adapters, zero runtime dependencies. Motion, VFX, tokens, and compiler — unified.",
+    title: "FerrumEngine — Frontend Intelligence & Reliability Engine",
+    description: "FerrumEngine: Application Graph, 7 Analyzers, Reliability Scoring, Change Impact Analysis, AI Agent Gateway. Engineer reliable frontends.",
   },
   principles: {
     title: "Design Principles — FerrumEngine",
@@ -28,7 +28,7 @@ export const VIEW_META: Record<string, { title: string; description: string }> =
   },
   showcase: {
     title: "Showcase Gallery — FerrumEngine",
-    description: "Real-world projects and demos built with FerrumEngine's 542+ motion effects. See what developers ship with zero runtime dependencies.",
+    description: "Real-world projects and demos built with FerrumEngine's Intelligence Engine. See what developers ship with Application Graph and 7 Analyzers.",
   },
   learning: {
     title: "Learning Center — FerrumEngine",
@@ -55,16 +55,16 @@ export const VIEW_META: Record<string, { title: string; description: string }> =
     description: "Join the FerrumEngine open-source community: contribute on GitHub, discuss ideas, and help build the universal UI platform.",
   },
   effects: {
-    title: "Effects Gallery — 542+ CSS Motion Effects — FerrumEngine",
-    description: "Browse 542+ production-ready CSS motion effects across 35 categories. Zero dependencies, GPU-accelerated, framework-agnostic. Copy and ship.",
+    title: "Intelligence Engine — 7 Analyzers — FerrumEngine",
+    description: "Explore FerrumEngine's 7 analyzers: architecture, performance, security, reliability, testing, accessibility, and dependencies. Application Graph with 22 node types and 18 edge types.",
   },
   docs: {
     title: "Documentation — FerrumEngine",
     description: "FerrumEngine docs: installation, quickstart guides, API reference, 9 framework adapters, CLI usage, and design token configuration.",
   },
   playground: {
-    title: "CSS Effects Playground — FerrumEngine",
-    description: "Interactive CSS effects playground: preview, customize, and export 542+ effects with live editing. Real-time code output, zero setup required.",
+    title: "Intelligence Playground — FerrumEngine",
+    description: "Interactive playground: explore Application Graph, run analyzers, view reliability scores, and inspect change impact analysis in real time.",
   },
   blog: {
     title: "Blog — FerrumEngine",

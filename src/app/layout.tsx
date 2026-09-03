@@ -24,9 +24,9 @@ const geistMono = Geist_Mono({
 });
 
 const SITE_NAME = "FerrumEngine";
-const SITE_TAGLINE = "The Universal UI Platform";
+const SITE_TAGLINE = "Frontend Intelligence & Reliability Engine";
 const SITE_DESCRIPTION =
-  "FerrumEngine: 542+ CSS motion effects, 9 framework adapters, zero dependencies. The universal UI platform for motion, VFX, tokens & compiler optimization.";
+  "FerrumEngine: Application Graph, 7 Analyzers, Reliability Scoring, Change Impact Analysis, AI Agent Gateway — everything you need to engineer reliable frontends.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -38,21 +38,19 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   keywords: [
     "FerrumEngine",
-    "UI platform",
-    "CSS engine",
-    "motion platform",
-    "CSS animations",
-    "visual effects",
-    "design system",
-    "web animations",
-    "micro-interactions",
-    "Houdini Paint API",
-    "framework agnostic",
-    "design tokens",
-    "React",
-    "Vue",
-    "Svelte",
-    "Astro",
+    "frontend intelligence",
+    "reliability engine",
+    "application graph",
+    "change impact analysis",
+    "reliability scoring",
+    "AI agent gateway",
+    "architecture drift",
+    "codebase intelligence",
+    "flight recorder",
+    "frontend observability",
+    "frontend analyzers",
+    "TypeScript",
+    "frontend reliability",
   ],
   authors: [{ name: "FerrumEngine", url: SITE_URL }],
   creator: "FerrumEngine",
@@ -142,7 +140,7 @@ const softwareLd = {
   "@type": "SoftwareApplication",
   name: SITE_NAME,
   url: SITE_URL,
-  description: "The universal UI platform — 542+ CSS motion effects, 9 framework adapters, zero dependencies.",
+  description: "Frontend Intelligence & Reliability Engine — Application Graph, 7 Analyzers, Reliability Scoring, Change Impact, AI Agent Gateway.",
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Any",
   version: version,
@@ -168,22 +166,22 @@ const breadcrumbLd = {
 const itemListLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "FerrumEngine CSS Effects Library",
-  description: "542+ production-ready CSS motion effects across 35 categories",
-  numberOfItems: 542,
+  name: "FerrumEngine Intelligence Engine",
+  description: "7 Analyzers, Application Graph, Reliability Scoring, Change Impact Analysis, and more",
+  numberOfItems: 7,
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Entrance Animations", url: `${SITE_URL}/effects` },
-    { "@type": "ListItem", position: 2, name: "Hover Effects", url: `${SITE_URL}/effects` },
-    { "@type": "ListItem", position: 3, name: "Glass & Morphism", url: `${SITE_URL}/effects` },
-    { "@type": "ListItem", position: 4, name: "Loading States", url: `${SITE_URL}/effects` },
-    { "@type": "ListItem", position: 5, name: "Text Effects", url: `${SITE_URL}/effects` },
-    { "@type": "ListItem", position: 6, name: "Background Effects", url: `${SITE_URL}/effects` },
-    { "@type": "ListItem", position: 7, name: "Micro-interactions", url: `${SITE_URL}/effects` },
-    { "@type": "ListItem", position: 8, name: "Scroll Animations", url: `${SITE_URL}/effects` },
-    { "@type": "ListItem", position: 9, name: "3D Transforms", url: `${SITE_URL}/effects` },
-    { "@type": "ListItem", position: 10, name: "Neon & Glow", url: `${SITE_URL}/effects` },
-    { "@type": "ListItem", position: 11, name: "Layout Transitions", url: `${SITE_URL}/effects` },
-    { "@type": "ListItem", position: 12, name: "Attention & Status", url: `${SITE_URL}/effects` },
+    { "@type": "ListItem", position: 1, name: "Application Graph", url: `${SITE_URL}/effects` },
+    { "@type": "ListItem", position: 2, name: "7 Analyzers", url: `${SITE_URL}/effects` },
+    { "@type": "ListItem", position: 3, name: "Reliability Scoring", url: `${SITE_URL}/effects` },
+    { "@type": "ListItem", position: 4, name: "Change Impact", url: `${SITE_URL}/effects` },
+    { "@type": "ListItem", position: 5, name: "AI Agent Gateway", url: `${SITE_URL}/effects` },
+    { "@type": "ListItem", position: 6, name: "Flight Recorder", url: `${SITE_URL}/effects` },
+    { "@type": "ListItem", position: 7, name: "Architecture Drift", url: `${SITE_URL}/effects` },
+    { "@type": "ListItem", position: 8, name: "Codebase Intelligence", url: `${SITE_URL}/effects` },
+    { "@type": "ListItem", position: 9, name: "Dependency Analysis", url: `${SITE_URL}/effects` },
+    { "@type": "ListItem", position: 10, name: "Security Scanner", url: `${SITE_URL}/effects` },
+    { "@type": "ListItem", position: 11, name: "Accessibility Audit", url: `${SITE_URL}/effects` },
+    { "@type": "ListItem", position: 12, name: "Performance Profiler", url: `${SITE_URL}/effects` },
   ],
 };
 

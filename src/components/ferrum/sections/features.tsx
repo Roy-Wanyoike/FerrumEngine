@@ -1,19 +1,19 @@
 "use client";
 
-import { Puzzle, Zap, Gauge, Shield, MonitorSmartphone, Cpu, Wand2, Timer } from "lucide-react";
+import { Network, Zap, Gauge, Shield, GitCompare, Bot, Radio, Layers, ScanSearch } from "lucide-react";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/ferrum/scroll-reveal";
 import { AnimatedCard } from "@/components/ferrum/animated-components";
 
 const features = [
-  { icon: Puzzle, title: "Unified Platform", desc: "Motion, VFX, components, utilities, and theming in one cohesive engine.", color: "purple" },
-  { icon: Zap, title: "Zero Dependencies", desc: "Pure CSS with no runtime dependencies. Ship less, do more.", color: "amber" },
-  { icon: Gauge, title: "GPU Accelerated", desc: "All motion uses transform and opacity for 60fps rendering.", color: "emerald" },
-  { icon: Shield, title: "Accessibility First", desc: "WCAG contrast engine, ARIA validator, reduced-motion support.", color: "green" },
-  { icon: MonitorSmartphone, title: "Framework Agnostic", desc: "React, Vue, Svelte, Angular, Solid, Astro, Lit — 8 adapters.", color: "cyan" },
-  { icon: Cpu, title: "Tree Shakeable", desc: "Import only what you need. Modular architecture.", color: "blue" },
-  { icon: Wand2, title: "VFX Engine", desc: "14 visual effect categories — liquid, glass, energy, distortion, lighting.", color: "pink" },
-  { icon: Timer, title: "Motion Engine", desc: "Physics, timeline, depth, interaction, morph, organic animation.", color: "violet" },
-  { icon: Cpu, title: "Plugin SDK", desc: "Sandboxed extensions with 7-phase hook lifecycle.", color: "orange" },
+  { icon: Network, title: "Application Graph", desc: "22 node types, 18 edge types. Map every component, route, and dependency into a queryable graph.", color: "purple" },
+  { icon: ScanSearch, title: "7 Analyzers", desc: "Architecture, performance, security, reliability, testing, accessibility, and dependencies — in one pass.", color: "amber" },
+  { icon: Gauge, title: "Reliability Scoring", desc: "7 dimensions, A-F grades. Know exactly how reliable your frontend is — and where it's not.", color: "emerald" },
+  { icon: GitCompare, title: "Change Impact Analysis", desc: "Classify every change by risk. Know what breaks before it breaks.", color: "green" },
+  { icon: Bot, title: "AI Agent Gateway", desc: "Structured API with scope permissions. Let AI tools analyze and improve your codebase safely.", color: "cyan" },
+  { icon: Radio, title: "Flight Recorder", desc: "Runtime observability for frontends. Capture, replay, and debug production issues.", color: "blue" },
+  { icon: Layers, title: "Architecture Drift", desc: "Detect when your codebase diverges from intended architecture. Stop drift before it spreads.", color: "pink" },
+  { icon: Zap, title: "Codebase Intelligence", desc: "Deep understanding of structure, patterns, and relationships across your entire frontend.", color: "violet" },
+  { icon: Shield, title: "Security Scanner", desc: "Identify vulnerabilities, outdated dependencies, and insecure patterns automatically.", color: "orange" },
 ];
 
 const colorMap: Record<string, { iconBg: string; iconBorder: string; iconText: string; spotlight: string; glow: string }> = {
@@ -29,12 +29,12 @@ const colorMap: Record<string, { iconBg: string; iconBorder: string; iconText: s
 };
 
 const pills = [
-  "Animations", "VFX Engine", "Motion Engine", "Components", "Utilities",
-  "Dark Mode", "Glassmorphism", "Responsive", "Themes", "CSS Variables",
-  "RTL Support", "Accessibility", "GPU Motion", "Tree Shaking", "CLI Tools",
-  "Houdini Paint API", "Cascade Layers", "Scroll-Driven", "View Transitions",
-  "Anchor Positioning", "Container Queries", "Layout Generators",
-  "Plugin SDK", "Design Tokens", "Testing",
+  "Application Graph", "7 Analyzers", "Reliability Scoring", "Change Impact", "AI Gateway",
+  "Flight Recorder", "Architecture Drift", "Codebase Intel", "Security Scanner",
+  "A-F Grades", "22 Node Types", "18 Edge Types", "Scope Permissions",
+  "Risk Classification", "Runtime Observability", "Dependency Analysis",
+  "Performance Profiler", "Accessibility Audit", "Testing Analyzer",
+  "Architecture Analyzer", "Structured API", "TypeScript Native",
 ];
 
 export function Features() {
@@ -46,15 +46,16 @@ export function Features() {
         </Reveal>
         <Reveal delay={0.05}>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
-            Everything You Need.
+            Intelligence, not just effects.
             <br />
-            <span className="text-muted-foreground/70">Nothing You Don&apos;t.</span>
+            <span className="text-muted-foreground/70">Reliability by design.</span>
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed mt-5">
-            Powerful utilities, reusable components, advanced motion, VFX, theming,
-            and developer tools — eliminating the need to combine multiple libraries.
+            Application Graph, 7 Analyzers, Reliability Scoring, Change Impact Analysis,
+            AI Agent Gateway, Flight Recorder, and Architecture Drift Detection —
+            eliminating the need to stitch together fragmented tooling.
           </p>
         </Reveal>
 
