@@ -12,6 +12,7 @@ import type { ApplicationGraph, FerrumConfig, GraphNode } from "../core/types";
 import { createGraph, addNode, connect } from "../core/graph";
 import type { GraphNode as GNode } from "../core/types";
 import { parseFile, resolveImportPath, shouldExclude, isSourceFile, detectFramework, contentHash } from "./parser";
+import { parseFileWithAst, isAstParserAvailable } from "./ast-parser";
 
 // ──────────────────────────────────────────────────────────────────────
 // INCREMENTAL CACHE
@@ -136,7 +137,13 @@ export function buildGraph(
     }
 
     filesParsed++;
-    const result = parseFile(filePath, content, { rootPath, framework, exclude });
+    // Try AST parser first (more accurate), fall back to regex parser
+    let result = isAstParserAvailable()
+      ? parseFileWithAst(filePath, content, { rootPath, framework, exclude })
+      : null;
+    if (!result) {
+      result = parseFile(filePath, content, { rootPath, framework, exclude });
+    }
 
     const fileNodeIds: string[] = [];
 
