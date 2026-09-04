@@ -40,7 +40,17 @@ export type NodeKind =
   | "type"
   | "enum"
   | "interface"
-  | "utility";
+  | "utility"
+  // ── Infrastructure & Deployment ──
+  | "database"              // Database connections/models
+  | "queue"                 // Message queues/event buses
+  | "infrastructure"        // IaC, containers, deployments
+  | "deployment"            // Deployment targets/configs
+  // ── Runtime & Behavior ──
+  | "worker"                // Background workers/cron jobs
+  // ── Domain & Security ──
+  | "journey"               // User journey nodes
+  | "security-boundary"     // Auth/authorization boundaries;
 
 /** Edge kinds that describe relationships between nodes. */
 export type EdgeKind =
@@ -111,6 +121,20 @@ export interface GraphNode {
   meta: Record<string, unknown>;
   /** Hash of the node's source content (for change detection). */
   contentHash: string;
+
+  // ── Ownership & Git Metadata ──────────────────────────────────────
+  /** CODEOWNERS or git blame owner. */
+  owner?: string;
+  /** Owning team. */
+  team?: string;
+  /** Last modifying commit SHA. */
+  gitCommit?: string;
+  /** Last modifying author. */
+  gitAuthor?: string;
+  /** Primary author (most lines, from git blame). */
+  gitBlame?: string;
+  /** Timestamp of last modification (epoch ms). */
+  lastModified?: number;
 }
 
 // ──────────────────────────────────────────────────────────────────────

@@ -41,6 +41,13 @@ export interface SerializedNode {
   loc: [number, number];
   hash: string | null;
   meta: Record<string, unknown>;
+  // Ownership & Git metadata
+  owner?: string;
+  team?: string;
+  gitCommit?: string;
+  gitAuthor?: string;
+  gitBlame?: string;
+  lastModified?: number;
 }
 
 export interface SerializedEdge {
@@ -100,7 +107,7 @@ export function serializeGraph(
 ): SerializedGraph {
   const nodes: SerializedNode[] = [];
   for (const node of graph.nodes.values()) {
-    nodes.push({
+    const sNode: SerializedNode = {
       id: node.id,
       kind: node.kind,
       name: node.name,
@@ -109,7 +116,14 @@ export function serializeGraph(
       loc: node.loc,
       hash: node.contentHash,
       meta: node.meta,
-    });
+    };
+    if (node.owner) sNode.owner = node.owner;
+    if (node.team) sNode.team = node.team;
+    if (node.gitCommit) sNode.gitCommit = node.gitCommit;
+    if (node.gitAuthor) sNode.gitAuthor = node.gitAuthor;
+    if (node.gitBlame) sNode.gitBlame = node.gitBlame;
+    if (node.lastModified) sNode.lastModified = node.lastModified;
+    nodes.push(sNode);
   }
 
   const edges: SerializedEdge[] = [];
@@ -162,6 +176,12 @@ export function deserializeGraph(data: SerializedGraph): ApplicationGraph {
       loc: sNode.loc,
       meta: sNode.meta,
       contentHash: sNode.hash ?? '',
+      owner: sNode.owner,
+      team: sNode.team,
+      gitCommit: sNode.gitCommit,
+      gitAuthor: sNode.gitAuthor,
+      gitBlame: sNode.gitBlame,
+      lastModified: sNode.lastModified,
     };
     graph.nodes.set(node.id, node);
 
