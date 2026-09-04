@@ -196,6 +196,50 @@ export { builtInAdapters } from './plugin/builtins';
 // Config loader
 export { loadFerrumConfig, loadFerrumConfigAsync } from './plugin/config-loader';
 
+// Application IR (language-independent intermediate representation)
+export type {
+  IRSymbolKind,
+  IRModifier,
+  IRReferenceKind,
+  IRTypeRef,
+  IRLocation,
+  IRPointLocation,
+  IRLineLocation,
+  IRSymbol,
+  IRReference,
+  IRControlFlow,
+  IRDataFlow,
+  ApplicationIR,
+  IRBuilderConfig,
+  IRLanguageAdapter,
+  IRQueryResult,
+  IRStats,
+} from './ir/ir-types';
+
+export {
+  IR_VERSION,
+  generateSymbolId,
+  generateCFId,
+  generateIRId,
+  fnv1aHash,
+  buildIR,
+  buildControlFlow,
+  mergeIR,
+  queryIR,
+  computeIRStats,
+  getSymbolById,
+  getOutgoingReferences,
+  getIncomingReferences,
+  serializeIR,
+  deserializeIR,
+  computeIRHash,
+  isIRCacheValid,
+  serializeIRCompact,
+  isTypeScriptAdapterAvailable,
+  buildTypeScriptIR,
+  typescriptAdapter,
+} from './ir';
+
 // ──────────────────────────────────────────────────────────────────────
 // HIGH-LEVEL API
 // ──────────────────────────────────────────────────────────────────────
