@@ -1,7 +1,7 @@
 # RFC-001: FerrumEngine v2 — Product Reinvention
 
 ## Status
-Accepted
+**Superseded** — This RFC has been fully implemented. See RFC-002 for the plugin architecture and the current product spec for the long-term vision.
 
 ## Summary
 
