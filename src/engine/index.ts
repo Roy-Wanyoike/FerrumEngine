@@ -240,6 +240,20 @@ export {
   typescriptAdapter,
 } from './ir';
 
+// Autonomous Verification
+export {
+  AutonomousVerifier,
+} from './verify';
+
+export type {
+  VerificationVerdict,
+  VerificationRequirement,
+  VerificationDiagnostic,
+  VerificationResult,
+  VerificationConfig,
+  SuggestedFix,
+} from './verify';
+
 // ──────────────────────────────────────────────────────────────────────
 // HIGH-LEVEL API
 // ──────────────────────────────────────────────────────────────────────
