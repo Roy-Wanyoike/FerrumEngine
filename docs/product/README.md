@@ -8,7 +8,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Framework-agnostic-6366f1?style=for-the-badge" alt="Framework Agnostic" />
-  <img src="https://img.shields.io/badge/Zero_AI_Dependency-✓-22c55e?style=for-the-badge" alt="Zero AI Dependency" />
+  <img src="https://img.shields.io/badge/AI_Native-✓-22c55e?style=for-the-badge" alt="AI Native" />
   <img src="https://img.shields.io/badge/Analysis-7_Dimensions-f59e0b?style=for-the-badge" alt="7 Dimensions" />
   <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="MIT License" />
 </p>
@@ -28,7 +28,7 @@ FerrumEngine is a **build-time analysis tool** that sits above your framework (R
 ### What FerrumEngine is NOT
 
 - **NOT a CSS effects library** — That's [RoyCSS](https://github.com/roycss/roycss)'s domain. FerrumEngine does not generate or analyze CSS effects.
-- **NOT an AI model** — FerrumEngine uses zero AI. It's deterministic static analysis. AI agents are *consumers* of Ferrum's API, not dependencies.
+- **NOT an AI model** — FerrumEngine's core analysis is deterministic. AI agents are *consumers* of Ferrum's API, not dependencies. AI can provide explanations, remediation suggestions, and natural-language queries, but deterministic evidence is always the source of truth.
 - **NOT a framework** — FerrumEngine doesn't render UI or manage state. It *analyzes* the tools that do.
 
 ---
