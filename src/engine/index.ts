@@ -254,6 +254,47 @@ export type {
   SuggestedFix,
 } from './verify';
 
+// Software Time Machine
+export type {
+  GraphStats as TimeMachineGraphStats,
+  TimeSnapshot,
+  TemporalQuery,
+  TemporalResult,
+  Regression as TimeRegression,
+  Improvement as TimeImprovement,
+  DriftEvent,
+  Introduction as FindingIntroduction,
+  Resolution as FindingResolution,
+  CommitInfo,
+  DiffStats,
+  DiffFile,
+} from './time-machine';
+
+export {
+  getCommitRange,
+  getCommitInfo,
+  getCommitCount,
+  getCommitDiff,
+  getChangedFiles,
+  findLastModification,
+  findIntroduction as findFindingIntroduction,
+  getFileBlame,
+  checkoutCommit,
+  getCurrentHead,
+  getCurrentBranch,
+  resolveRef,
+  isGitRepo,
+  getRepoRoot,
+  captureSnapshot,
+  analyzeTimeRange,
+  findRegressions as findTimeRegressions,
+  findImprovements as findTimeImprovements,
+  findIntroductions as findFindingIntroductions,
+  findResolutions as findFindingResolutions,
+  trackDriftOverTime,
+  answerTemporalQuestion,
+} from './time-machine';
+
 // ──────────────────────────────────────────────────────────────────────
 // HIGH-LEVEL API
 // ──────────────────────────────────────────────────────────────────────
