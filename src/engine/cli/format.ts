@@ -415,3 +415,176 @@ export function formatDoctor(report: string): string {
 export function formatError(message: string): string {
   return `${RED}${BOLD}\u2717 Error:${RESET} ${message}`;
 }
+
+// ──────────────────────────────────────────────────────────────────────
+// NEW COMMAND FORMATTERS
+// ──────────────────────────────────────────────────────────────────────
+
+/** Format the result of `ferrum init`. */
+export function formatInitResult(configPath: string, framework: string, json: boolean): string {
+  if (json) {
+    return JSON.stringify({ configPath, framework, created: true }, null, 2);
+  }
+
+  const lines: string[] = [];
+  lines.push('');
+  lines.push(`${BOLD}${CYAN}  FERRUM INIT${RESET}`);
+  lines.push(`  ${DIM}${'─'.repeat(50)}${RESET}`);
+  lines.push(`  ${GREEN}${BOLD}\u2713${RESET} Created ${CYAN}${configPath}${RESET}`);
+  lines.push(`  Framework: ${framework}`);
+  lines.push('');
+  lines.push(`  Edit ${configPath} to customize analysis behavior.`);
+  lines.push('');
+  return lines.join('\n');
+}
+
+/** Data for `ferrum inspect <path>`. */
+export interface InspectData {
+  node: {
+    id: string;
+    name: string;
+    kind: string;
+    path: string;
+    language: string;
+    loc: [number, number];
+    owner?: string;
+    team?: string;
+    gitCommit?: string;
+    gitAuthor?: string;
+    gitBlame?: string;
+    lastModified?: number;
+  };
+  dependencies: { id: string; name: string; kind: string; path: string }[];
+  dependents: { id: string; name: string; kind: string; path: string }[];
+  findings: Finding[];
+  scoreContribution?: { category: string; score: number; grade: string };
+}
+
+/** Format the result of `ferrum inspect <path>`. */
+export function formatInspectResult(data: InspectData, json: boolean): string {
+  if (json) {
+    return JSON.stringify(data, null, 2);
+  }
+
+  const lines: string[] = [];
+  lines.push('');
+  lines.push(`${BOLD}${CYAN}  FERRUM INSPECT${RESET}`);
+  lines.push(`  ${DIM}${'─'.repeat(50)}${RESET}`);
+
+  // Node info card
+  lines.push(`  ${BOLD}Node:${RESET}       ${data.node.name}`);
+  lines.push(`  ${BOLD}Kind:${RESET}       ${data.node.kind}`);
+  lines.push(`  ${BOLD}Path:${RESET}       ${data.node.path}`);
+  lines.push(`  ${BOLD}Language:${RESET}   ${data.node.language}`);
+  lines.push(`  ${BOLD}Lines:${RESET}      ${data.node.loc[0]}–${data.node.loc[1]}`);
+
+  // Ownership info
+  if (data.node.owner) lines.push(`  ${BOLD}Owner:${RESET}      ${data.node.owner}`);
+  if (data.node.team) lines.push(`  ${BOLD}Team:${RESET}       ${data.node.team}`);
+  if (data.node.gitCommit) lines.push(`  ${BOLD}Commit:${RESET}     ${data.node.gitCommit.slice(0, 12)}`);
+  if (data.node.gitAuthor) lines.push(`  ${BOLD}Author:${RESET}     ${data.node.gitAuthor}`);
+  if (data.node.gitBlame) lines.push(`  ${BOLD}Blame:${RESET}      ${data.node.gitBlame}`);
+
+  // Dependencies
+  lines.push('');
+  lines.push(`  ${BOLD}Dependencies (${data.dependencies.length}):${RESET}`);
+  if (data.dependencies.length === 0) {
+    lines.push(`    ${DIM}None${RESET}`);
+  } else {
+    for (const dep of data.dependencies.slice(0, 20)) {
+      lines.push(`    ${DIM}${padEnd(dep.kind, 16)}${RESET} ${dep.name} ${DIM}← ${dep.path}${RESET}`);
+    }
+    if (data.dependencies.length > 20) {
+      lines.push(`    ${DIM}... and ${data.dependencies.length - 20} more${RESET}`);
+    }
+  }
+
+  // Dependents
+  lines.push('');
+  lines.push(`  ${BOLD}Dependents (${data.dependents.length}):${RESET}`);
+  if (data.dependents.length === 0) {
+    lines.push(`    ${DIM}None${RESET}`);
+  } else {
+    for (const dep of data.dependents.slice(0, 20)) {
+      lines.push(`    ${DIM}${padEnd(dep.kind, 16)}${RESET} ${dep.name} ${DIM}→ ${dep.path}${RESET}`);
+    }
+    if (data.dependents.length > 20) {
+      lines.push(`    ${DIM}... and ${data.dependents.length - 20} more${RESET}`);
+    }
+  }
+
+  // Findings
+  if (data.findings.length > 0) {
+    lines.push('');
+    lines.push(`  ${BOLD}Findings (${data.findings.length}):${RESET}`);
+    lines.push(formatFindingsTable(data.findings));
+  }
+
+  // Score contribution
+  if (data.scoreContribution) {
+    lines.push('');
+    lines.push(`  ${BOLD}Score Contribution:${RESET} ${data.scoreContribution.category} = ${data.scoreContribution.score}/100 (${gradeColor(data.scoreContribution.grade)}${data.scoreContribution.grade}${RESET})`);
+  }
+
+  lines.push('');
+  return lines.join('\n');
+}
+
+/** Format the result of `ferrum config`. */
+export function formatConfigResult(config: Record<string, unknown>, configPath: string, json: boolean): string {
+  if (json) {
+    return JSON.stringify({ configPath, config }, null, 2);
+  }
+
+  const lines: string[] = [];
+  lines.push('');
+  lines.push(`${BOLD}${CYAN}  FERRUM CONFIG${RESET}`);
+  lines.push(`  ${DIM}${'─'.repeat(50)}${RESET}`);
+  lines.push(`  Path: ${configPath}`);
+  lines.push('');
+  lines.push(`  ${BOLD}Current configuration:${RESET}`);
+  lines.push(`  ${JSON.stringify(config, null, 2).split('\n').join('\n  ')}`);
+  lines.push('');
+  return lines.join('\n');
+}
+
+/** Format a single-dimension analysis result. */
+export function formatDimensionResult(
+  dimension: string,
+  result: FullAnalysis,
+  json: boolean,
+): string {
+  if (json) {
+    return JSON.stringify({
+      dimension,
+      rootPath: result.rootPath,
+      durationMs: result.totalDurationMs,
+      scores: result.scores,
+      results: result.results,
+    }, null, 2);
+  }
+
+  const lines: string[] = [];
+  lines.push('');
+  lines.push(`${BOLD}${CYAN}  FERRUM ${dimension.toUpperCase()} ANALYSIS${RESET}`);
+  lines.push(`  ${DIM}${'─'.repeat(50)}${RESET}`);
+  lines.push(`  Path:     ${result.rootPath}`);
+  lines.push(`  Duration: ${formatMs(result.totalDurationMs)}`);
+  lines.push('');
+
+  // Score card
+  lines.push(formatScoreCard(result.scores));
+
+  // Findings
+  const allFindings = result.results.flatMap(r => r.findings);
+  if (allFindings.length > 0) {
+    lines.push('');
+    lines.push(formatFindingsTable(allFindings));
+  } else {
+    lines.push('');
+    lines.push(`  ${GREEN}\u2713 No findings for ${dimension}.${RESET}`);
+  }
+
+  lines.push('');
+  return lines.join('\n');
+}

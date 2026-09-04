@@ -204,6 +204,9 @@ export function buildGraph(
   // ── Phase 4: Detect tests ──────────────────────────────────────
   detectTests(graph, rootPath);
 
+  // ── Phase 5: Detect infrastructure & runtime nodes ────────────
+  detectInfrastructureNodes(graph, rootPath);
+
   const durationMs = performance.now() - startTime;
   graph.analysisDurationMs = durationMs;
   graph.analyzedAt = Date.now();
@@ -352,6 +355,131 @@ function detectTests(graph: ApplicationGraph, rootPath: string): void {
             }
           }
         }
+      }
+    }
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// INFRASTRUCTURE & RUNTIME NODE DETECTION
+// ──────────────────────────────────────────────────────────────────────
+
+/**
+ * Detect infrastructure, deployment, database, queue, worker, journey,
+ * and security-boundary nodes based on file patterns and content heuristics.
+ */
+function detectInfrastructureNodes(graph: ApplicationGraph, rootPath: string): void {
+  // ── Directory-based detection ──────────────────────────────────
+  const detectionRules: { dir: string; kind: import("../core/types").NodeKind; patterns: string[] }[] = [
+    // Database
+    { dir: "db", kind: "database", patterns: ["schema.prisma", "migrations", ".sql", "drizzle", "knexfile"] },
+    { dir: "prisma", kind: "database", patterns: ["schema.prisma"] },
+    { dir: "drizzle", kind: "database", patterns: [] },
+    // Queue
+    { dir: "queues", kind: "queue", patterns: ["bull", "bullmq", "rabbitmq", "kafka", "sqs"] },
+    { dir: "jobs", kind: "queue", patterns: [] },
+    // Infrastructure
+    { dir: "infra", kind: "infrastructure", patterns: ["terraform", "cloudformation", "docker-compose", ".tf"] },
+    { dir: "terraform", kind: "infrastructure", patterns: [] },
+    { dir: "docker", kind: "infrastructure", patterns: ["Dockerfile", "docker-compose"] },
+    // Deployment
+    { dir: "deploy", kind: "deployment", patterns: [] },
+    { dir: ".github/workflows", kind: "deployment", patterns: [] },
+    // Worker
+    { dir: "workers", kind: "worker", patterns: [] },
+    { dir: "cron", kind: "worker", patterns: [] },
+    // Journey
+    { dir: "journeys", kind: "journey", patterns: [] },
+    // Security boundary
+    { dir: "auth", kind: "security-boundary", patterns: [] },
+    { dir: "middleware", kind: "security-boundary", patterns: ["auth", "guard", "permission", "rbac"] },
+  ];
+
+  for (const rule of detectionRules) {
+    const absDir = path.join(rootPath, rule.dir);
+    if (!fs.existsSync(absDir)) continue;
+
+    const relDir = rule.dir;
+    const nodeId = generateId(relDir, `__${rule.kind}__`);
+    const node: GraphNode = {
+      id: nodeId,
+      name: relDir,
+      kind: rule.kind,
+      path: relDir,
+      language: "ts",
+      loc: [1, 1],
+      meta: { directory: relDir },
+      contentHash: "",
+    };
+
+    // Avoid duplicate nodes for the same directory
+    if (!graph.nodes.has(nodeId)) {
+      addNode(graph, node);
+    }
+  }
+
+  // ── Content-based detection for existing file nodes ────────────
+  const CONTENT_KIND_HINTS: { pattern: RegExp; kind: import("../core/types").NodeKind }[] = [
+    // Database patterns
+    { pattern: /(?:prisma|drizzle|sequelize|typeorm|mongoose|knex|mikro-orm)/i, kind: "database" },
+    // Queue patterns
+    { pattern: /(?:Queue|Bull|BullMQ|Worker|Consumer|Subscribe|amqp|kafka)/i, kind: "queue" },
+    // Infrastructure patterns
+    { pattern: /(?:Dockerfile|terraform|cloudformation|serverless|kubernetes|helm)/i, kind: "infrastructure" },
+    // Deployment patterns
+    { pattern: /(?:deploy|pipeline|workflow|ci|cd|release)/i, kind: "deployment" },
+    // Worker patterns
+    { pattern: /(?:cron|scheduler|background.*worker|job.*runner|task.*queue)/i, kind: "worker" },
+    // Journey patterns
+    { pattern: /(?:journey|user.*flow|e2e.*test|playwright|cypress)/i, kind: "journey" },
+    // Security boundary patterns
+    { pattern: /(?:middleware.*auth|guard|rbac|acl|permission|authorize|authenticate)/i, kind: "security-boundary" },
+  ];
+
+  for (const node of graph.nodes.values()) {
+    if (node.kind !== "file") continue;
+
+    // Check path-based hints
+    for (const hint of CONTENT_KIND_HINTS) {
+      if (hint.pattern.test(node.path) || hint.pattern.test(node.name)) {
+        // Tag the file node's meta with the inferred kind hint
+        const meta = node.meta as Record<string, unknown>;
+        if (!meta.kindHints) meta.kindHints = [];
+        (meta.kindHints as string[]).push(hint.kind);
+        break;
+      }
+    }
+  }
+
+  // ── Detect special config files ────────────────────────────────
+  const SPECIAL_FILES: { name: string; kind: import("../core/types").NodeKind }[] = [
+    { name: "Dockerfile", kind: "infrastructure" },
+    { name: "docker-compose.yml", kind: "infrastructure" },
+    { name: "docker-compose.yaml", kind: "infrastructure" },
+    { name: ".github", kind: "deployment" },
+    { name: "serverless.yml", kind: "infrastructure" },
+    { name: "serverless.yaml", kind: "infrastructure" },
+    { name: "schema.prisma", kind: "database" },
+  ];
+
+  for (const special of SPECIAL_FILES) {
+    const specialPath = path.join(rootPath, special.name);
+    if (fs.existsSync(specialPath)) {
+      const relPath = special.name;
+      const nodeId = generateId(relPath, `__${special.kind}__`);
+      if (!graph.nodes.has(nodeId)) {
+        const stat = fs.statSync(specialPath);
+        const node: GraphNode = {
+          id: nodeId,
+          name: special.name,
+          kind: special.kind,
+          path: relPath,
+          language: "yaml",
+          loc: [1, 1],
+          meta: { specialFile: true, size: stat.size },
+          contentHash: "",
+        };
+        addNode(graph, node);
       }
     }
   }
