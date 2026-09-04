@@ -29,6 +29,7 @@ export type {
   Severity,
   RiskLevel,
   AnalysisCategory,
+  EvidenceType,
   ScoreDimension,
   ReliabilityScores,
   ImpactAnalysis,
@@ -85,6 +86,16 @@ export { analyzeReliability, type ReliabilityConfig } from './analyzer/reliabili
 export { analyzeTesting, type TestingConfig } from './analyzer/testing';
 export { analyzeAccessibility, type AccessibilityConfig } from './analyzer/accessibility';
 export { analyzeDependencies, type DependenciesConfig } from './analyzer/dependencies';
+export { analyzeMaintainability, type MaintainabilityConfig } from './analyzer/maintainability';
+export { analyzeComplexity, type ComplexityConfig } from './analyzer/complexity';
+export { analyzeConfiguration, type ConfigurationConfig } from './analyzer/configuration';
+export { analyzeApiContracts, type ApiContractsConfig } from './analyzer/api-contracts';
+export { analyzeDataFlow, type DataFlowConfig } from './analyzer/data-flow';
+export { analyzeInfrastructure, type InfrastructureConfig } from './analyzer/infrastructure';
+export { analyzeDeploymentRisk, type DeploymentRiskConfig } from './analyzer/deployment-risk';
+export { analyzeOwnership, type OwnershipConfig } from './analyzer/ownership';
+export { analyzeCompliance, type ComplianceConfig } from './analyzer/compliance';
+export { analyzeObservability, type ObservabilityConfig } from './analyzer/observability';
 
 // Impact engine
 export { analyzeImpact, diffGraphs, type ImpactOptions } from './impact/impact';
@@ -197,6 +208,16 @@ import { analyzeReliability } from './analyzer/reliability';
 import { analyzeTesting } from './analyzer/testing';
 import { analyzeAccessibility } from './analyzer/accessibility';
 import { analyzeDependencies } from './analyzer/dependencies';
+import { analyzeMaintainability } from './analyzer/maintainability';
+import { analyzeComplexity } from './analyzer/complexity';
+import { analyzeConfiguration } from './analyzer/configuration';
+import { analyzeApiContracts } from './analyzer/api-contracts';
+import { analyzeDataFlow } from './analyzer/data-flow';
+import { analyzeInfrastructure } from './analyzer/infrastructure';
+import { analyzeDeploymentRisk } from './analyzer/deployment-risk';
+import { analyzeOwnership } from './analyzer/ownership';
+import { analyzeCompliance } from './analyzer/compliance';
+import { analyzeObservability } from './analyzer/observability';
 import { calculateScores, formatScoreReport } from './scoring/scoring';
 import type { ApplicationGraph, FullAnalysis, FerrumConfig } from './core/types';
 
@@ -214,7 +235,7 @@ export function analyze(
   // Build the application graph
   const { graph } = buildGraph(rootPath, config);
 
-  // Run all analyzers
+  // Run all analyzers (17 dimensions)
   const results = [
     analyzeArchitecture(graph),
     analyzePerformance(graph),
@@ -223,6 +244,16 @@ export function analyze(
     analyzeTesting(graph),
     analyzeAccessibility(graph),
     analyzeDependencies(graph),
+    analyzeMaintainability(graph),
+    analyzeComplexity(graph),
+    analyzeConfiguration(graph),
+    analyzeApiContracts(graph),
+    analyzeDataFlow(graph),
+    analyzeInfrastructure(graph),
+    analyzeDeploymentRisk(graph),
+    analyzeOwnership(graph),
+    analyzeCompliance(graph),
+    analyzeObservability(graph),
   ];
 
   // Calculate scores

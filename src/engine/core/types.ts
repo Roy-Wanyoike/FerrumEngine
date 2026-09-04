@@ -78,7 +78,17 @@ export type AnalysisCategory =
   | "reliability"
   | "testing"
   | "accessibility"
-  | "dependencies";
+  | "dependencies"
+  | "maintainability"
+  | "complexity"
+  | "configuration"
+  | "api-contracts"
+  | "data-flow"
+  | "infrastructure"
+  | "deployment-risk"
+  | "ownership"
+  | "compliance"
+  | "observability";
 
 // ──────────────────────────────────────────────────────────────────────
 // GRAPH NODE
@@ -148,6 +158,13 @@ export interface ApplicationGraph {
 }
 
 // ──────────────────────────────────────────────────────────────────────
+// EVIDENCE CLASSIFICATION
+// ──────────────────────────────────────────────────────────────────────
+
+/** How a finding's evidence was obtained. */
+export type EvidenceType = 'measured' | 'detected' | 'estimated' | 'predicted' | 'ai-suggested';
+
+// ──────────────────────────────────────────────────────────────────────
 // FINDINGS & EVIDENCE
 // ──────────────────────────────────────────────────────────────────────
 
@@ -185,6 +202,10 @@ export interface Finding {
   suggestion?: string;
   /** Rule ID that generated this finding. */
   ruleId?: string;
+  /** How the evidence for this finding was obtained. */
+  evidenceType?: EvidenceType;
+  /** Confidence level 0-1 for this finding. */
+  confidence?: number;
 }
 
 // ──────────────────────────────────────────────────────────────────────

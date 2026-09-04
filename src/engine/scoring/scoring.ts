@@ -30,13 +30,23 @@ const SEVERITY_PENALTY: Record<Severity, number> = {
 
 /** Weight of each dimension in the overall score (must sum to 1). */
 const DEFAULT_WEIGHTS: Record<AnalysisCategory, number> = {
-  architecture: 0.15,
-  performance: 0.15,
-  security: 0.20,
-  reliability: 0.15,
-  testing: 0.15,
-  accessibility: 0.10,
-  dependencies: 0.10,
+  architecture: 0.08,
+  performance: 0.08,
+  security: 0.10,
+  reliability: 0.08,
+  testing: 0.08,
+  accessibility: 0.06,
+  dependencies: 0.06,
+  maintainability: 0.06,
+  complexity: 0.06,
+  configuration: 0.05,
+  "api-contracts": 0.05,
+  "data-flow": 0.05,
+  infrastructure: 0.04,
+  "deployment-risk": 0.04,
+  ownership: 0.04,
+  compliance: 0.04,
+  observability: 0.03,
 };
 
 /** Base score for each dimension (before deductions). */

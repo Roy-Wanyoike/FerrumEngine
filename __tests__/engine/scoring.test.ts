@@ -67,7 +67,7 @@ describe('Reliability Scoring', () => {
       { analyzer: 's', category: 'security', durationMs: 0, findings: [], summary: { critical: 0, high: 0, medium: 0, low: 0, info: 0 } },
     ];
     const scores = calculateScores(emptyGraph, results);
-    expect(scores.overall).toBe(98);
+    expect(scores.overall).toBe(99);
   });
 });
 
