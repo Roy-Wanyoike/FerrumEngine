@@ -1,8 +1,8 @@
 {
   "name": "ferrum-engine",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
-  "description": "FerrumEngine — Frontend Intelligence & Reliability Engine. Software engineering intelligence infrastructure for understanding, analyzing, and protecting any frontend application.",
+  "description": "FerrumEngine — Engineering Intelligence for AI-native Software. Analyze, verify, secure, optimize, and evolve applications.",
   "license": "MIT",
   "author": "FerrumEngine Contributors",
   "homepage": "https://github.com/Roy-Wanyoike/FerrumEngine",
@@ -28,7 +28,13 @@
     "graph",
     "dependency-analysis",
     "performance",
-    "accessibility"
+    "accessibility",
+    "engineering-intelligence",
+    "verification",
+    "ir",
+    "time-machine",
+    "autonomous",
+    "ai-native"
   ],
   "bin": {
     "ferrum": "./src/engine/cli/index.ts"

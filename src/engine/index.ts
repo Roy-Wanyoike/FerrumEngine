@@ -254,6 +254,16 @@ export type {
   SuggestedFix,
 } from './verify';
 
+// Doctor Module
+export { runDoctor, generateFixSuggestions, applyFixes } from './doctor';
+
+export type {
+  DoctorDiagnosis,
+  DoctorFixSuggestion,
+  DoctorConfig,
+  RemediationResult,
+} from './doctor';
+
 // Software Time Machine
 export type {
   GraphStats as TimeMachineGraphStats,
@@ -319,6 +329,7 @@ import { analyzeCompliance } from './analyzer/compliance';
 import { analyzeObservability } from './analyzer/observability';
 import { calculateScores, formatScoreReport } from './scoring/scoring';
 import type { ApplicationGraph, FullAnalysis, FerrumConfig } from './core/types';
+import { runDoctor as runDoctorInternal } from './doctor';
 
 /**
  * Run a full Ferrum analysis on a project.
@@ -371,13 +382,51 @@ export function analyze(
  * Run `ferrum doctor` — a health check for a project.
  *
  * Returns a human-readable report string.
+ * Uses the dedicated Doctor module for full diagnosis.
  */
 export function doctor(
   rootPath: string,
   config: FerrumConfig = {},
 ): string {
-  const analysis = analyze(rootPath, config);
-  return formatScoreReport(analysis.scores);
+  const diagnosis = runDoctorInternal(rootPath, {}, config);
+  return formatDoctorReport(diagnosis);
+}
+
+/**
+ * Format a DoctorDiagnosis into a human-readable report.
+ */
+function formatDoctorReport(diagnosis: import('./doctor/types').DoctorDiagnosis): string {
+  const lines: string[] = [];
+  lines.push('');
+  lines.push('  FERRUM DOCTOR REPORT');
+  lines.push('  ' + '─'.repeat(40));
+  lines.push('');
+  lines.push(`  Health: ${diagnosis.healthScore}/100 (Grade: ${diagnosis.grade})`);
+  lines.push('');
+
+  if (diagnosis.findings.length > 0) {
+    lines.push(`  Findings: ${diagnosis.findings.length}`);
+    lines.push(`  Fix suggestions: ${diagnosis.fixSuggestions.length}`);
+
+    const autoFixable = diagnosis.fixSuggestions.filter((s) => s.autoFixable).length;
+    lines.push(`  Auto-fixable: ${autoFixable}`);
+  } else {
+    lines.push('  ✓ No issues found. Project is healthy!');
+  }
+
+  if (diagnosis.remediation) {
+    lines.push('');
+    lines.push(`  Fixes applied: ${diagnosis.remediation.applied.length}`);
+    lines.push(`  Fixes skipped: ${diagnosis.remediation.skipped.length}`);
+    if (diagnosis.remediation.dryRun) {
+      lines.push('  (dry-run mode — no files modified)');
+    }
+  }
+
+  lines.push('');
+  lines.push('  ' + '─'.repeat(40));
+  lines.push('');
+  return lines.join('\n');
 }
 
 /**

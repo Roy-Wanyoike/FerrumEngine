@@ -1,650 +1,547 @@
-<h1 align="center">FerrumEngine</h1>
+<div align="center">
 
-<p align="center"><strong>Engineering Intelligence Platform</strong></p>
+# FerrumEngine
 
-<p align="center">
-  A living understanding of software systems -- analyzing changes, detecting risks,<br>
-  verifying AI-generated code, and continuously improving software quality.
-</p>
+**Engineering intelligence for AI-native software**
 
-<p align="center">
-  <a href="https://github.com/Roy-Wanyoike/FerrumEngine/actions/workflows/ci.yml">
-    <img alt="CI" src="https://img.shields.io/badge/CI-passing-22c55e?style=flat-square&label=build" />
-  </a>
-  <a href="https://github.com/Roy-Wanyoike/FerrumEngine">
-    <img alt="Tests" src="https://img.shields.io/badge/tests-494%2B%20passing-22c55e?style=flat-square" />
-  </a>
-  <a href="./LICENSE">
-    <img alt="License" src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square" />
-  </a>
-  <a href="./package.json">
-    <img alt="Version" src="https://img.shields.io/badge/version-0.2.0-6e7681?style=flat-square" />
-  </a>
-  <a href="https://www.typescriptlang.org">
-    <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-strict-blue?style=flat-square" />
-  </a>
-  <a href="./src/engine/analyzer">
-    <img alt="Analyzers" src="https://img.shields.io/badge/analyzers-17-e67e22?style=flat-square" />
-  </a>
-  <a href="./src/engine/cli">
-    <img alt="CLI Commands" src="https://img.shields.io/badge/CLI-17%20commands-8b5cf6?style=flat-square" />
-  </a>
-  <a href="./src/adapters">
-    <img alt="Framework Adapters" src="https://img.shields.io/badge/adapters-8-16a085?style=flat-square" />
-  </a>
-</p>
+<br />
 
----
+[![Version](https://img.shields.io/badge/version-0.2.0-6e7681?style=flat-square)](./package.json)
+[![License](https://img.shields.io/badge/license-MIT-yellow?style=flat-square)](./LICENSE)
+[![Tests](https://img.shields.io/badge/tests-494%2B%20passing-22c55e?style=flat-square)](https://github.com/Roy-Wanyoike/FerrumEngine)
+[![Node](https://img.shields.io/badge/node-%E2%89%A518-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Analyzers](https://img.shields.io/badge/analyzers-17-e67e22?style=flat-square)](./src/engine/analyzer)
+[![CLI](https://img.shields.io/badge/CLI-17%20commands-8b5cf6?style=flat-square)](./src/engine/cli)
+[![Adapters](https://img.shields.io/badge/adapters-6-16a085?style=flat-square)](./src/adapters)
+
+<br />
 
 > **AI can write software. Ferrum makes sure it works.**
 
----
+FerrumEngine is an Engineering Intelligence platform that analyzes, verifies,
+secures, optimizes, and evolves your applications — purpose-built for a world
+where AI agents write code and humans need confidence it ships safely.
 
-## What FerrumEngine Is
-
-FerrumEngine is an **engineering intelligence platform** that builds a living understanding of software systems and uses that understanding to analyze changes, detect architectural and reliability risks, verify AI-generated code, understand application behavior, and continuously improve software quality.
-
-FerrumEngine is the **engineering layer between software creation and software confidence**.
-
-It operates above your framework -- not beside it, not beneath it. It constructs a persistent, machine-readable model of your entire application and turns that model into deterministic, evidence-backed intelligence: reliability scores, change impact reports, architecture drift detection, and safe AI agent boundaries.
-
-## What FerrumEngine Is NOT
-
-- **NOT a CSS framework** -- FerrumEngine does not generate, compile, or analyze CSS stylesheets.
-- **NOT a UI library** -- FerrumEngine does not render components or manage UI state.
-- **NOT a design system** -- FerrumEngine does not enforce visual design tokens or component APIs.
-- **NOT an animation library** -- FerrumEngine does not produce motion, transitions, or visual effects.
-- **NOT an AI website builder** -- FerrumEngine verifies AI output; it does not generate it.
-- **NOT an AI model** -- FerrumEngine's core analysis is deterministic. AI agents are consumers of Ferrum's API, not dependencies. Deterministic evidence is always the source of truth.
-
----
-
-## Core Architecture
-
-```
-                    HUMAN / AI AGENTS
-                           |
-                           v
-                  +-------------------+
-                  |   Ferrum Gateway  |
-                  | Permissions       |
-                  | Policies          |
-                  | Sandboxing        |
-                  | Audit             |
-                  +---------+---------+
-                            |
-                            v
-                  +-------------------+
-                  |   Ferrum Core     |
-                  | Application IR    |
-                  | Application Graph |
-                  | Knowledge Model   |
-                  +---------+---------+
-                            |
-          +-----------------+-----------------+
-          v                 v                 v
-   Architecture       Reliability       Security
-   Intelligence       Intelligence      Intelligence
-          |                 |                 |
-          +-----------------+-----------------+
-          v                 v                 v
-     Performance       Testing          Dependency
-     Intelligence      Intelligence     Intelligence
-          |                 |                 |
-          +-----------------+-----------------+
-                            v
-                   Change Impact Engine
-                            |
-                            v
-                  Autonomous Verification
-                            |
-                            v
-                  CI/CD + Developer Tools
-```
-
----
-
-## Primary Components
-
-### 1. Application Graph
-
-The persistent, machine-readable model of the full software system.
-
-| Property | Value |
-|---|---|
-| Node kinds | 30 (files, components, pages, routes, hooks, stores, APIs, tests, providers, middleware, etc.) |
-| Edge types | 18+ (imports, renders, calls, fetches, test-of, guards, provides, subscribes, etc.) |
-| Adjacency indexes | 4 indexes for O(1) lookups by ID, path, kind, and adjacency |
-| Incremental builds | Content hashing skips unchanged files; single-file change resolves in <1s |
-| Cycle detection | DFS-based cycle detection across the full dependency graph |
-| Topological sort | Deterministic ordering for analysis pipeline execution |
-| Transitive closure | Full reachability computation for impact tracing |
-| Serialization | JSON export/import for caching, diffing, and cross-process communication |
-
-```bash
-ferrum graph stats
-ferrum graph dependents src/lib/auth.ts
-ferrum graph path src/lib/auth.ts src/app/dashboard/page.tsx
-ferrum graph cycles
-ferrum graph export --format json
-```
-
-### 2. Application IR
-
-A language-independent intermediate representation of the application. The IR decouples analysis from source language syntax, enabling FerrumEngine to analyze TypeScript, JavaScript, and future language frontends through a uniform representation. The IR preserves structural semantics (declarations, references, control flow hints, ownership) while discarding cosmetic detail.
-
-### 3. Change Impact Engine
-
-Traces changed files through the full dependency graph to compute blast radius.
-
-| Capability | Detail |
-|---|---|
-| Transitive tracing | Follows the graph forward and backward from change points |
-| Risk classification | LOW / MEDIUM / HIGH / CRITICAL with evidence chains |
-| Route impact | Identifies which user-facing URLs are affected |
-| Test impact | Identifies which test files may need updates |
-| Security flags | Detects changes to auth, CSRF, session, and permission code |
-| Verification recommendations | Concrete steps to verify the change is safe |
-
-```bash
-ferrum impact --git-staged
-ferrum impact src/lib/auth.ts src/hooks/use-user.ts --format json
-```
-
-### 4. 17 Intelligence Engines (Analyzers)
-
-Every analyzer returns `Finding[]` where each finding carries `severity`, `evidence` (file path + line), `suggestion`, and `classification` (Measured / Detected / Estimated / Predicted / AI-suggested).
-
-| Analyzer | What It Detects |
-|---|---|
-| Architecture | Circular dependencies, layer violations, coupling, dead code |
-| Performance | Large bundles, missing dynamic imports, oversized components |
-| Security | Dangerous patterns, hardcoded secrets, missing CSRF, non-HTTPS calls |
-| Reliability | Missing error boundaries, unhandled promises, bare fetches |
-| Testing | Untested modules, coverage gaps, test anti-patterns |
-| Accessibility | Missing alt text, form labels, ARIA roles, keyboard navigation |
-| Dependencies | Outdated, unused, duplicate, heavy, non-semver packages |
-| Complexity | Cyclomatic complexity, cognitive complexity, nesting depth |
-| Maintainability | God modules, long files, tight coupling, shallow exports |
-| Data Flow | State mutation paths, prop drilling, context dependency chains |
-| API Contracts | Endpoint consistency, type safety, error schema coverage |
-| Configuration | Environment variable usage, config drift, secret exposure |
-| Infrastructure | Docker, CI/CD, deployment risk, build configuration |
-| Observability | Logging coverage, tracing gaps, metric instrumentation |
-| Compliance | License compliance, data handling, regulatory flags |
-| Ownership | Code ownership, review coverage, orphan modules |
-| Deployment Risk | Rollback safety, canary coverage, migration risk |
-
-### 5. Autonomous Verification
-
-Verification outcomes are tri-state: **PASS**, **WARN**, or **BLOCK**.
-
-- **PASS** -- All analyzers report below threshold. Change is safe to proceed.
-- **WARN** -- One or more findings exceed the warning threshold but not the block threshold. Change proceeds with advisory.
-- **BLOCK** -- One or more findings exceed the block threshold. Change must not proceed without explicit override.
-
-Verification integrates with CI/CD pipelines, pre-commit hooks, and the AI Agent Gateway to enforce quality gates automatically.
-
-```bash
-ferrum verify --patch ai-changes.patch --threshold warn
-ferrum verify --agent copilot --operation apply_safe_change
-```
-
-### 6. Agent Gateway
-
-The safety layer between autonomous AI agents and production code.
-
-| Feature | Detail |
-|---|---|
-| Permission scopes | read, analyze, test, suggest, modify, deploy |
-| Scope validation | Agents can only perform operations within their authorized scopes |
-| Risk assessment | Every proposed change is impact-analyzed before approval |
-| Content hash validation | Prevents stale and race-condition changes |
-| Auto-blocking | Configurable risk threshold for automatic denial |
-| Audit logging | Immutable record of every agent request and outcome |
-| Sandboxing | Isolated execution context for untrusted agent operations |
-| Verification loop | Agent writes -> Ferrum analyzes -> feedback -> Agent fixes -> PASS |
-
-```typescript
-const gateway = new AgentGateway({
-  autoBlockThreshold: 'critical',
-  maxFilesPerRequest: 20,
-  requireApprovalFor: ['modify', 'deploy'],
-});
-
-const response = await gateway.handleRequest({
-  agent: { id: 'copilot', type: 'ai-assistant', scopes: ['read', 'analyze', 'modify'] },
-  operation: 'apply_safe_change',
-  params: { changes: [...] },
-}, graph);
-
-// response.allowed: boolean
-// response.verification: 'PASS' | 'WARN' | 'BLOCK'
-// response.findings: Finding[]
-```
-
-### 7. User Journey Intelligence
-
-Maps user journeys through the application graph from entry point to destination.
-
-| Capability | Detail |
-|---|---|
-| Journey mapping | Trace paths from route A to route B through the graph |
-| Dead-end detection | Identify pages with no outgoing navigation |
-| Unreachable detection | Identify pages not reachable from any entry point |
-| Critical path scoring | Weight journeys by business importance and reliability |
-
-```typescript
-const journey = mapJourney(graph, '/checkout', '/confirmation');
-const deadEnds = detectDeadEnds(graph);
-```
-
-### 8. Flight Recorder
-
-Runtime observability and root cause analysis for production incidents.
-
-| Feature | Detail |
-|---|---|
-| Session lifecycle | Start, record events, end sessions with full timeline |
-| Event recording | Navigation, error, render, network, and custom events |
-| Root cause analysis | 6 root cause types: network-failure, render-error, state-corruption, timeout, auth-failure, resource-exhaustion |
-| Render timeline | Ordered sequence of component renders with timing |
-| Session replay | Reconstruct the event sequence for post-incident analysis |
-
-```typescript
-const session = startSession({ userId: 'abc', route: '/dashboard' });
-recordEvent(session.id, { type: 'error', error: new Error('fetch failed') });
-const analysis = analyzeSession(endSession(session.id));
-// analysis.rootCause: 'network-failure'
-```
-
-### 9. Architecture Drift
-
-Baseline capture and structural drift detection over time.
-
-| Feature | Detail |
-|---|---|
-| Baseline capture | Snapshot the current graph structure as a reference |
-| Structural drift | Compare current graph against baseline for added/removed nodes and edges |
-| Rule-based drift | Detect layer violations, new circular dependencies, coupling increases |
-| Drift scoring | 0--100 score where 0 = identical to baseline, 100 = fully drifted |
-| History tracking | Time-series of drift measurements for trend analysis |
-
-```bash
-ferrum history --baseline ./baseline.json
-ferrum drift capture --output baseline.json
-```
-
-### 10. Time Machine (Software Time Machine)
-
-Navigate the application's structural history across commits and time ranges.
-
-| Capability | Detail |
-|---|---|
-| Commit navigation | Reconstruct the graph at any historical commit |
-| Time-range analysis | Compare structural metrics across a date range |
-| Diff computation | Compute added, removed, and modified structural elements between any two points |
-| Trend visualization | Plot architecture, reliability, and complexity metrics over time |
-
-```bash
-ferrum history --from 2024-01-01 --to 2024-06-01
-ferrum history --commit abc123
-```
-
-### 11. Reliability Score
-
-Evidence-based A--F grades across multiple dimensions. Every deduction is traceable to specific code.
-
-| Dimension | Weight | What It Measures |
-|---|---|---|
-| Architecture | 1.0x | Circular deps, coupling, layer violations, dead code |
-| Performance | 1.0x | Bundle risks, render cycles, lazy loading |
-| Security | 1.5x | Auth flows, XSS, secrets, dependency CVEs |
-| Reliability | 1.2x | Error boundaries, loading states, retry logic |
-| Testing | 0.8x | Test coverage, critical path coverage, test quality |
-| Accessibility | 1.0x | ARIA labels, keyboard support, form labels |
-| Dependencies | 0.7x | Outdated deps, duplicates, abandoned packages |
-
-Grade scale: A (90--100), B (80--89), C (70--79), D (60--69), F (0--59).
-
-### 12. Ferrum Doctor
-
-Human-readable health check for the entire codebase. Produces a structured report with overall grade, per-dimension scores with visual bars, top findings ranked by severity, and actionable remediation steps.
-
-```bash
-ferrum doctor ./my-app
-```
-
-```
-  FERRUM RELIABILITY REPORT
-  -------------------------
-
-  Overall: 78/100 (B)
-
-  architecture      [################....]  72/100 (C)
-  performance       [##################..]  88/100 (B)
-  security          [###################.]  91/100 (A)
-  reliability       [##############......]  67/100 (C)
-  testing           [##########..........]  45/100 (D)
-  accessibility     [####################]  97/100 (A)
-  dependencies      [##################..]  89/100 (B)
-```
+</div>
 
 ---
 
 ## Quick Start
 
 ```bash
-# Install
-npm install ferrum-engine
+# One-command health check — zero config
+npx ferrum-engine doctor
 
-# Run a full analysis across all 17 intelligence engines
-npx ferrum analyze ./my-app
-
-# Human-readable health check
+# Or install locally
+npm install --save-dev ferrum-engine
 npx ferrum doctor ./my-app
-
-# Assess change impact before merging
-npx ferrum impact ./my-app --file src/lib/auth.ts --file src/middleware.ts
-
-# Verify AI agent operations against safety policy
-npx ferrum verify ./my-app --agent copilot --operation apply_safe_change
-
-# Output graph statistics
-npx ferrum graph ./my-app --stats
-
-# View architecture drift history
-npx ferrum history ./my-app
-
-# Check reliability score
-npx ferrum score ./my-app
 ```
-
-**Exit codes:** `0` clean, `1` findings present, `2` error.
-
-**CI/CD integration:**
 
 ```bash
-# JSON output for GitHub Actions, GitLab CI, or SARIF consumers
-npx ferrum analyze ./my-app --json
+$ npx ferrum-engine doctor
 
-# Fail the pipeline on HIGH or CRITICAL findings
-npx ferrum analyze ./my-app --threshold high
-```
+  ══════════════════════════════════════════════════
+  FERRUM DOCTOR — Health Check
+  ══════════════════════════════════════════════════
 
-```yaml
-# .github/workflows/ferrum.yml
-name: Ferrum Quality Gate
-on: [pull_request]
+  Overall Score: 78/100  (B+)
 
-jobs:
-  quality:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - run: npm install -g ferrum-engine
+  ✓ architecture    82/100  A-   · 3 findings
+  ⚠ security        68/100  C+   · 7 findings
+  ✓ performance     85/100  A    · 2 findings
+  ✓ reliability     79/100  B+   · 4 findings
+  ⚠ testing         62/100  C    · 9 findings
+  ✓ accessibility   88/100  A    · 1 finding
+  ✓ dependencies    75/100  B    · 3 findings
 
-      - name: Full analysis
-        run: ferrum analyze --format json --output report.json
-
-      - name: Impact check
-        run: |
-          CHANGED=$(git diff --name-only origin/main...HEAD | grep -E '\.(ts|tsx|js|jsx)$')
-          if [ -n "$CHANGED" ]; then
-            ferrum impact $CHANGED --severity high
-          fi
-
-      - name: Upload SARIF
-        if: always()
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: ferrum.sarif
+  Completed in 342ms
 ```
 
 ---
 
-## CLI Commands
+## Why Ferrum?
 
-| Command | Purpose | Key Flags |
-|---|---|---|
-| `ferrum analyze <path>` | Full multi-engine analysis | `--json`, `--threshold <level>`, `--config <file>` |
-| `ferrum doctor <path>` | Human-readable health check | `--config <file>` |
-| `ferrum impact <path>` | Change impact assessment | `--file <path>` (repeatable), `--git-staged`, `--json` |
-| `ferrum verify <path>` | AI agent safety verification | `--agent <id>`, `--operation <op>`, `--threshold <level>`, `--json` |
-| `ferrum graph <path>` | Graph statistics and export | `--stats`, `--export <format>`, `--json` |
-| `ferrum score <path>` | Reliability score report | `--dimensions`, `--json` |
-| `ferrum history <path>` | Architecture drift history | `--baseline <file>`, `--from <date>`, `--to <date>`, `--json` |
-| `ferrum drift <path>` | Drift detection and capture | `--capture`, `--baseline <file>`, `--json` |
-| `ferrum journey <path>` | User journey analysis | `--from <route>`, `--to <route>`, `--dead-ends`, `--json` |
-| `ferrum flight <path>` | Flight recorder session analysis | `--session <id>`, `--root-cause`, `--json` |
-| `ferrum gateway <path>` | Agent gateway operations | `--scopes <list>`, `--audit`, `--json` |
-| `ferrum baseline <path>` | Baseline capture for drift | `--output <file>`, `--json` |
-| `ferrum config <path>` | Configuration validation | `--show`, `--validate` |
-| `ferrum plugins <path>` | Plugin system management | `--list`, `--install <name>`, `--enable <name>` |
-| `ferrum adapt <path>` | Framework adapter operations | `--detect`, `--list` |
-| `ferrum export <path>` | Export analysis results | `--format sarif`, `--format json`, `--output <file>` |
-| `ferrum init` | Initialize FerrumEngine configuration | `--framework <name>`, `--interactive` |
+| | FerrumEngine | SonarQube | ESLint | CodeClimate |
+|---|---|---|---|---|
+| **AI agent safety** | Agent Gateway with scoped permissions | ❌ | ❌ | ❌ |
+| **Autonomous verification** | PASS / WARN / BLOCK loop | ❌ | ❌ | ❌ |
+| **Application Graph** | 28 node types, 19 edge types | Partial | ❌ | ❌ |
+| **Temporal queries** | Software Time Machine | ❌ | ❌ | ❌ |
+| **Language-independent IR** | Application IR | ❌ | ❌ | ❌ |
+| **Multi-dimensional scoring** | 17 engines → unified score | 1 metric | ❌ | 1 metric |
+| **Framework adapters** | React, Vue, Svelte, Angular, Lit, Vanilla | ❌ | Plugin | ❌ |
+| **Change impact analysis** | Built-in, graph-based | ❌ | ❌ | ❌ |
+| **Deterministic core** | 100% deterministic analysis | Heuristic | Rule | Heuristic |
 
-All commands support `--format text` (default), `--format json`, and `--format sarif`.
+**Ferrum is not a linter.** It's an engineering intelligence system that builds a living model of your software — then uses that model to verify AI-generated code, predict change impact, track architectural drift, and answer questions about your codebase that no other tool can.
 
 ---
 
-## Evidence Classification
+## Architecture
 
-Every finding produced by FerrumEngine carries an evidence classification indicating how the finding was determined:
+```
+┌──────────────────────────────────────────────────────────────┐
+│                        Ferrum CLI                            │
+│  analyze │ doctor │ impact │ verify │ history │ inspect │ …  │
+├──────────────────────────────────────────────────────────────┤
+│                    High-Level API                             │
+│       analyze() │ doctor() │ impact() │ verify()             │
+├──────────────────────────────────────────────────────────────┤
+│                 Intelligence Engines (17)                     │
+│  Architecture │ Security │ Performance │ Reliability          │
+│  Testing │ Accessibility │ Dependencies │ Maintainability     │
+│  Complexity │ Configuration │ API Contracts │ Data Flow       │
+│  Infrastructure │ Deployment │ Ownership │ Compliance         │
+│  Observability                                               │
+├──────────────────────────────────────────────────────────────┤
+│                   Core Infrastructure                         │
+│  Application Graph │ Application IR │ Scoring                 │
+│  Time Machine │ Flight Recorder │ Journey Engine              │
+│  Drift Detector │ Agent Gateway │ Plugin System               │
+├──────────────────────────────────────────────────────────────┤
+│                    Deterministic Core                         │
+│        Pure functions │ No I/O │ No network │ No AI          │
+└──────────────────────────────────────────────────────────────┘
+```
 
-| Classification | Meaning | Example |
-|---|---|---|
-| **Measured** | Directly observed from the codebase. No inference required. | File size in bytes, number of exports, cyclomatic complexity |
-| **Detected** | Pattern-matched from structural analysis. Deterministic. | Circular import, missing error boundary, hardcoded secret |
-| **Estimated** | Computed from measured data using a defined formula. | Bundle size impact, test coverage gap percentage, drift score |
-| **Predicted** | Extrapolated from historical trend data. | Likelihood of future layer violation, projected debt growth |
-| **AI-suggested** | Generated by an AI intelligence layer. Always marked as non-deterministic. | Remediation suggestion, natural-language explanation, risk narrative |
-
-Deterministic evidence (Measured, Detected, Estimated) is always preferred. Predicted and AI-suggested findings are explicitly labeled and never trigger automatic BLOCK decisions without human or policy override.
-
----
-
-## Architecture Principles
-
-### Deterministic Core
-
-FerrumEngine's core analysis is fully deterministic. Given the same source code and configuration, it produces identical results on every run. No randomness, no model inference, no non-deterministic ordering. This is a hard constraint: deterministic evidence is the foundation of trust.
-
-### AI as Intelligence Layer
-
-AI is an intelligence layer on top of the deterministic core, not a replacement for it. AI agents consume Ferrum's API for context and submit proposed changes through the Agent Gateway for verification. AI-suggested findings are always classified separately and never override deterministic findings.
-
-### Incremental Everything
-
-Every computation in FerrumEngine is incremental. The Application Graph uses content hashing to skip unchanged files. Analysis only re-runs on affected subgraphs. Scoring only recomputes dimensions with changed findings. Impact tracing only traverses from change points. Single-file changes resolve in under 1 second.
-
-### Privacy First
-
-FerrumEngine runs locally. No source code is transmitted to any external service. AI-suggested classifications require explicit opt-in. Audit logs are stored locally. The Agent Gateway enforces scope boundaries that prevent unauthorized data access.
+Every analysis starts at the **Deterministic Core** — pure functions with zero side effects. Intelligence engines layer on top, producing findings and scores. The High-Level API composes engines into workflows. The CLI exposes everything to humans; the Agent Gateway exposes it to AI.
 
 ---
 
-## Product Separation
+## Intelligence Engines
 
-FerrumEngine is part of a three-product system with clear, non-overlapping boundaries:
+Ferrum ships **17 specialized analyzers**, each producing structured findings with evidence, severity, and suggested fixes:
 
-| Product | Domain | Responsibility |
-|---|---|---|
-| **FerrumEngine** | Engineer | Analyze, score, protect -- engineering intelligence infrastructure |
-| **RoyCSS** | Create | Visual effects, animations, CSS tooling -- creation layer |
-| **Ferrum Cloud** | Operate | Host, deploy, monitor -- runtime operations platform |
+| # | Engine | Analyzes | Key Checks |
+|---|--------|----------|------------|
+| 1 | **Architecture** | Structural patterns, layer violations | Dependency direction, module coupling, bounded contexts |
+| 2 | **Security** | Vulnerabilities, auth patterns | Secret exposure, injection vectors, permission models |
+| 3 | **Performance** | Rendering, bundle, runtime | Bundle size, lazy loading, render bottlenecks |
+| 4 | **Reliability** | Error handling, resilience | Error boundaries, retry logic, graceful degradation |
+| 5 | **Testing** | Coverage, test quality | Test-to-source ratio, assertion quality, test isolation |
+| 6 | **Accessibility** | A11y compliance | ARIA semantics, keyboard nav, screen reader support |
+| 7 | **Dependencies** | Supply chain, freshness | Outdated packages, license compliance, transitive risk |
+| 8 | **Maintainability** | Code health | Naming, documentation, module cohesion |
+| 9 | **Complexity** | Cognitive load | Cyclomatic, cognitive complexity, nesting depth |
+| 10 | **Configuration** | Config correctness | Type safety, environment handling, defaults |
+| 11 | **API Contracts** | Interface stability | Breaking changes, type compatibility, versioning |
+| 12 | **Data Flow** | Data patterns | State mutations, data leakage, transform chains |
+| 13 | **Infrastructure** | Infra-as-code | IaC patterns, deployment config, resource limits |
+| 14 | **Deployment** | Release risk | Rollback safety, feature flags, canary readiness |
+| 15 | **Ownership** | Code ownership | Bus factor, CODEOWNERS coverage, orphaned modules |
+| 16 | **Compliance** | Regulatory adherence | GDPR, SOC2, HIPAA indicators |
+| 17 | **Observability** | Monitoring gaps | Logging, tracing, alerting coverage |
 
-**FerrumEngine** is the engineering layer. **RoyCSS** is the creation layer. **Ferrum Cloud** is the operations layer. These products are separate, complementary, and have zero functional overlap.
-
----
-
-## Framework Adapters
-
-FerrumEngine works with any JavaScript/TypeScript project. Framework adapters translate framework-specific patterns into the universal Application Graph model.
-
-| Framework | Route Detection | Component Inference | Layer Rules |
-|---|---|---|---|
-| React | JSX/TSX component scanning | Hook + context inference | Yes |
-| Next.js (App + Pages) | `page.tsx`, `layout.tsx`, `route.ts`, middleware | Server/client boundary | Yes |
-| Vue | `.vue` SFC parsing | Composable + provide/inject | Yes |
-| Svelte / SvelteKit | `+page`, `+layout`, `+server` | Store + action inference | Yes |
-| Angular | `.component`, `.service`, `.module` | DI + decorator inference | Yes |
-| Lit | Web component scanning | Reactive property inference | Yes |
-| Vanilla JS | Script scanning | Module + IIFE detection | Yes |
-| Astro | `.astro` page scanning | Island architecture inference | Yes |
+Each engine returns `AnalysisResult` with structured `Finding[]` — every finding has `severity`, `evidence`, `affectedNodes`, `ruleId`, and `suggestion`.
 
 ---
 
-## Programmatic API
+## CLI
+
+```bash
+ferrum <command> [path] [options]
+```
+
+| Command | Description |
+|---------|-------------|
+| `analyze` | Full multi-engine analysis (all 17 dimensions) |
+| `doctor` | Quick health check with scored report |
+| `impact` | Change impact analysis (`--file` for changed files) |
+| `verify` | Agent operation verification (`--agent` + `--operation`) |
+| `graph` | Application graph statistics |
+| `history` | Analysis history and timeline |
+| `init` | Generate `ferrum.config.ts` based on framework detection |
+| `inspect` | Deep inspect a file or module |
+| `architecture` | Architecture analyzer only |
+| `security` | Security analyzer only |
+| `performance` | Performance analyzer only |
+| `accessibility` | Accessibility analyzer only |
+| `reliability` | Reliability analyzer only |
+| `dependencies` | Dependencies analyzer only |
+| `test` | Testing analyzer only |
+| `config` | View or edit Ferrum configuration |
+| `agent` | Interactive agent REPL |
+
+**Options:** `--json`, `--dimension <dim>`, `--file <path>`, `--agent <name>`, `--operation <op>`, `--limit <N>`, `--root <path>`
+
+**Exit codes:** `0` = clean, `1` = findings, `2` = error
+
+---
+
+## Autonomous Verification
+
+The verification loop that makes AI-generated code safe to ship:
+
+```
+  ┌──────────────┐
+  │  AI writes   │
+  │    code      │
+  └──────┬───────┘
+         │
+         ▼
+  ┌──────────────┐     ┌─────────────────────────────────────┐
+  │   Ferrum     │────▶│  VerificationResult                 │
+  │  analyzes    │     │                                     │
+  └──────┬───────┘     │  verdict:  PASS │ WARN │ BLOCK      │
+         │             │  diagnostics[]                       │
+         ▼             │  suggestedFixes[]                    │
+  ┌──────────────┐     │  iteration:  N of max              │
+  │  Verdict?    │     │  reAnalysisRequired: bool           │
+  └──────┬───────┘     └─────────────────────────────────────┘
+         │
+    ┌────┼────┐
+    │    │    │
+    ▼    ▼    ▼
+  PASS  WARN  BLOCK
+    │    │    │
+    │    │    ▼
+    │    │  ┌──────────────┐
+    │    │  │  AI receives  │
+    │    │  │  diagnostics  │
+    │    │  └──────┬───────┘
+    │    │         │
+    │    │         ▼
+    │    │  ┌──────────────┐
+    │    │  │  AI modifies  │
+    │    │  │    code       │
+    │    │  └──────┬───────┘
+    │    │         │
+    │    │         └──────▶ re-analyze (up to maxIterations)
+    │    │
+    ▼    ▼
+  Ship  Ship with
+        review
+```
+
+The `AutonomousVerifier` implements this as an iterative loop:
+
+```typescript
+import { AutonomousVerifier, analyze } from 'ferrum-engine';
+
+const verifier = new AutonomousVerifier({
+  requirements: [
+    { dimension: 'security',    minScore: 70, blocking: true  },
+    { dimension: 'reliability',  minScore: 65, blocking: false },
+    { dimension: 'architecture', minScore: 60, blocking: false },
+  ],
+  maxIterations: 5,
+  autoBlockOnCritical: true,
+});
+
+// One-shot verification
+const analysis = analyze('./my-app');
+const result = verifier.verify(analysis);
+// result.verdict → 'PASS' | 'WARN' | 'BLOCK'
+
+// Iterative loop (AI agent workflow)
+const finalResult = await verifier.iterativeVerify(
+  analysis,
+  async () => {
+    // AI agent applies suggested fixes, then re-analyze
+    await applyFixes(result.diagnostics);
+    return analyze('./my-app');
+  },
+  changedFiles,
+);
+```
+
+---
+
+## Application IR
+
+A **language-independent intermediate representation** that decouples analysis from source language:
+
+```
+  TypeScript ──┐
+  JavaScript ──┤                    ┌──────────────┐
+  Vue SFC   ───┤──▶  IR Builder  ──▶│ Application  │
+  JSX/TSX   ───┤    (per-language  │     IR       │
+  Svelte    ───┘     adapter)      └──────┬───────┘
+                                          │
+                           ┌──────────────┼──────────────┐
+                           ▼              ▼              ▼
+                      queryIR()    computeIRStats()  mergeIR()
+```
+
+Every symbol, reference, control-flow edge, and data-flow edge is captured in a portable, serializable, hashable IR. Add a new language by implementing `IRLanguageAdapter` — all 17 engines work immediately.
+
+```typescript
+import { buildIR, queryIR, computeIRStats } from 'ferrum-engine';
+
+const ir = buildIR('./my-app', { language: 'typescript' });
+
+// Query for all exported functions
+const exportedFns = queryIR(ir, {
+  kind: 'function',
+  modifiers: ['export'],
+});
+
+// Portable stats across languages
+const stats = computeIRStats(ir);
+// stats.symbols, stats.references, stats.controlFlowEdges, stats.dataFlowEdges
+```
+
+---
+
+## Software Time Machine
+
+Temporal querying over your codebase's history:
+
+```typescript
+import {
+  captureSnapshot,
+  findTimeRegressions,
+  findFindingIntroductions,
+  answerTemporalQuestion,
+} from 'ferrum-engine';
+
+// Capture the state of the codebase at a commit
+const snapshot = captureSnapshot('./my-app', 'a1b2c3d');
+
+// Find regressions between two points in time
+const regressions = findTimeRegressions('./my-app', {
+  from: 'v1.0.0',
+  to: 'v2.0.0',
+});
+
+// When was this finding introduced?
+const intro = findFindingIntroductions('./my-app', findingId);
+
+// Natural-language temporal queries
+const answer = answerTemporalQuestion(
+  './my-app',
+  'When did the security score drop below 70?',
+);
+```
+
+The Time Machine integrates with Git to provide point-in-time analysis snapshots, regression detection, and temporal queries — turning your version control history into a queryable knowledge base.
+
+---
+
+## API Example
 
 ```typescript
 import {
   analyze,
   doctor,
   impact,
-  scoreToGrade,
   buildGraph,
-  calculateScores,
   AgentGateway,
-  mapJourney,
-  detectDeadEnds,
-  captureBaseline,
-  compareWithBaseline,
-  startSession,
-  recordEvent,
-  endSession,
-  analyzeSession,
+  AutonomousVerifier,
+  getDependencies,
+  getDependents,
+  analyzeCodebase,
+  queryIntel,
 } from 'ferrum-engine';
 
-// Full analysis across all 17 engines
-const report = analyze('./my-app');
-console.log(report.scores.architecture);  // 92
-console.log(scoreToGrade(92));            // 'A'
+// ── Full Analysis ─────────────────────────────────────────────
+const report = analyze('./my-project');
+// report.results     → AnalysisResult[] (one per engine)
+// report.scores      → ReliabilityScores (per-dimension + overall)
+// report.graph       → ApplicationGraph
 
-// Change impact
-const result = impact('./my-app', ['src/lib/auth.ts', 'src/middleware.ts']);
-console.log(result.riskLevel);           // 'CRITICAL'
-console.log(result.affectedAreas);       // [{ area: 'authentication', ... }]
+// ── Health Check ──────────────────────────────────────────────
+const health = doctor('./my-project');
+// → "Overall Score: 78/100 (B+) ..."
 
-// AI Agent Gateway
-const gateway = new AgentGateway({ autoBlockThreshold: 'critical' });
-const response = await gateway.handleRequest(agentRequest, graph);
-console.log(response.allowed);           // true
-console.log(response.verification);      // 'PASS'
+// ── Change Impact ─────────────────────────────────────────────
+const impactResult = impact('./my-project', [
+  'src/lib/auth.ts',
+  'src/middleware.ts',
+]);
+// impactResult.affected        → AffectedArea[]
+// impactResult.risk            → 'low' | 'medium' | 'high' | 'critical'
+// impactResult.securityImplications → string[]
 
-// Architecture drift
-const baseline = captureBaseline(graph);
-const drift = compareWithBaseline(baseline, graph);
-console.log(drift.driftScore);           // 23
+// ── Application Graph ─────────────────────────────────────────
+const { graph } = buildGraph('./my-project');
+const deps      = getDependencies(graph, 'src/lib/auth.ts');
+const dependents = getDependents(graph, 'src/lib/auth.ts');
 
-// Flight recorder
-const session = startSession({ userId: 'abc', route: '/dashboard' });
-recordEvent(session.id, { type: 'error', error: new Error('fetch failed') });
-const analysis = analyzeSession(endSession(session.id));
-console.log(analysis.rootCause);         // 'network-failure'
+// ── Codebase Intelligence ─────────────────────────────────────
+const intel = analyzeCodebase(graph);
+// → Map<nodeId, CodeIntel> with purpose, domain, complexity, health
+
+const authIntel = queryIntel(graph, { domain: 'auth' });
+// → CodeIntel[] for all auth-related nodes
+
+// ── Agent Gateway ─────────────────────────────────────────────
+const gateway = new AgentGateway({
+  requireHumanApproval: true,
+  autoBlockThreshold: 'critical',
+  maxFilesPerRequest: 20,
+});
+
+const response = await gateway.handleRequest({
+  requestId: 'req-001',
+  agent: { id: 'copilot', type: 'ai-assistant', scopes: ['read', 'analyze'] },
+  operation: 'analyze_security',
+  params: {},
+  timestamp: Date.now(),
+}, graph);
+// response.allowed → boolean
+// response.risk    → RiskLevel
+// response.findings → Finding[]
 ```
 
 ---
 
-## Long-Term Vision
+## Plugin System
 
-FerrumEngine evolves through six stages of increasing scope:
-
-1. **CLI** -- Local engineering intelligence. Analyze, score, protect on the command line.
-2. **Developer Platform** -- IDE integrations, real-time feedback, interactive exploration.
-3. **Engineering Intelligence Platform** -- Team-level insights, cross-repository analysis, organizational patterns.
-4. **AI Agent Verification Layer** -- The standard safety layer for all autonomous coding agents.
-5. **Software Knowledge Graph** -- A living, cross-organization graph of software structure, behavior, and quality.
-6. **Infrastructure Control Plane** -- Autonomous infrastructure management driven by engineering intelligence.
-
-The current release (v0.2.0) implements stages 1 through 3 with partial support for stage 4.
-
----
-
-## Testing
-
-| Metric | Count |
-|---|---|
-| Passing engine tests | 494+ |
-| Test files | 31 |
-| E2E test suites | 4 (Playwright) |
-| Intelligence engines | 17 |
-| CLI commands | 17 |
-| Framework adapters | 8 |
-| Node kinds in Application Graph | 30 |
-
-```bash
-# Run all tests
-npm test
-
-# Engine tests only
-npx vitest run __tests__/engine/
-
-# Integration test (all analyzers + scoring)
-npx vitest run __tests__/engine/integration.test.ts
-
-# End-to-end
-npx playwright test
-```
-
----
-
-## Configuration
-
-Create a `ferrum.config.ts` in your project root:
+Extend Ferrum with custom analyzers, framework adapters, and hooks:
 
 ```typescript
-import { defineConfig } from 'ferrum-engine';
+import type { FerrumPlugin, FrameworkAdapter, CustomAnalyzer } from 'ferrum-engine';
 
-export default defineConfig({
-  name: 'my-app',
-  srcDirs: ['src', 'app', 'lib', 'components'],
-  exclude: ['generated/**', 'node_modules/**'],
-  framework: 'nextjs',
+// Custom analyzer
+const myAnalyzer: CustomAnalyzer = {
+  id: 'my-domain-rules',
+  analyze: (graph) => ({
+    category: 'architecture',
+    findings: [/* ... */],
+  }),
+};
 
-  scoringWeights: {
-    security: 1.5,
-    testing: 0.8,
+// Framework adapter
+const solidAdapter: FrameworkAdapter = {
+  name: 'solid',
+  detect: (pkg) => 'solid-js' in pkg.dependencies,
+  resolvers: [/* import/component resolvers */],
+};
+
+// Plugin definition
+const myPlugin: FerrumPlugin = {
+  name: 'ferrum-domain-plugin',
+  version: '1.0.0',
+  analyzers: [myAnalyzer],
+  adapters: [solidAdapter],
+  hooks: {
+    'before:analyze': (ctx) => { /* ... */ },
+    'after:analyze':  (ctx) => { /* ... */ },
   },
+};
+```
 
-  policies: [
-    { category: 'security', minScore: 80, action: 'block' },
-    { category: 'architecture', minScore: 60, action: 'warn' },
-  ],
+**Built-in adapters:** React, Vue, Svelte, Angular, Lit, Vanilla
 
-  plugins: [
-    { name: '@ferrum/plugin-react', enabled: true },
-    { name: '@ferrum/plugin-nextjs', enabled: true },
-  ],
-});
+---
+
+## Integrations
+
+| Integration | Status | Description |
+|-------------|--------|-------------|
+| **GitHub Actions** | ✅ | CI/CD gate with `ferrum verify` on PRs |
+| **GitLab CI** | ✅ | Pipeline step with quality gates |
+| **VS Code** | 🔄 | Extension with inline diagnostics |
+| **JetBrains** | 🔄 | Plugin for IntelliJ / WebStorm |
+| **Copilot** | ✅ | Agent Gateway integration for AI safety |
+| **Cursor** | ✅ | Agent Gateway integration for AI safety |
+
+**GitHub Actions example:**
+
+```yaml
+name: Ferrum Gate
+on: [pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx ferrum-engine verify --agent copilot --operation apply_safe_change
+      - run: npx ferrum-engine doctor
 ```
 
 ---
 
-## Documentation
+## Architecture Principles
 
-- [Architecture Overview](docs/architecture/overview.md)
-- [Application Graph Deep Dive](docs/architecture/application-graph.md)
-- [Change Impact Analysis](docs/architecture/change-impact.md)
-- [AI Agent Gateway](docs/architecture/agent-gateway.md)
-- [Reliability Scoring](docs/architecture/reliability-scoring.md)
-- [Plugin Architecture RFC](docs/rfc/002-plugin-architecture.md)
+### 1. Deterministic Core
+
+All analysis functions are **pure** — no I/O, no network, no randomness. Same input always produces same output. The intelligence engines layer on top of this core; they never bypass it.
+
+```typescript
+// Pure function — no side effects
+function analyzeArchitecture(graph: ApplicationGraph): AnalysisResult { ... }
+
+// Impure wrapper — composes pure functions with I/O
+function analyze(rootPath: string): FullAnalysis {
+  const { graph } = buildGraph(rootPath);  // I/O here
+  return {
+    results: [analyzeArchitecture(graph), ...],  // pure from here
+    scores: calculateScores(graph, results),      // pure
+  };
+}
+```
+
+### 2. AI as Intelligence Layer
+
+AI agents interact with Ferrum through the **Agent Gateway** — a capability-based security layer. Agents authenticate with identity + scopes, request operations, and Ferrum validates before allowing changes. The gateway produces a full audit trail.
+
+```
+Agent ──▶ Gateway ──▶ Permission Check ──▶ Impact Analysis ──▶ Verdict
+                 │                                            │
+                 └── Audit Log ◀──────────────────────────────┘
+```
+
+### 3. Incremental Everything
+
+Ferrum is designed for continuous operation, not batch runs:
+- **Incremental graph updates** — only re-parse changed files
+- **Cache-valid re-analysis** — content-hash-based cache invalidation
+- **Flight Recorder** — real-time session tracking with anomaly detection
+- **Journey Engine** — live user journey analysis
+
+### 4. Privacy First
+
+- All analysis runs **locally** — no data leaves your machine
+- No telemetry, no phone-home, no analytics
+- Agent audit logs stay in your repository
+- Config files are local (`ferrum.config.ts`)
+
+---
+
+## Stats
+
+| Metric | Value |
+|--------|-------|
+| Engine source files | 49 |
+| Lines of TypeScript | ~17,528 |
+| Intelligence engines | 17 |
+| CLI commands | 17 |
+| Engine test files | 31 |
+| Total test files | 69 |
+| Graph node types | 28 |
+| Graph edge types | 19 |
+| Framework adapters | 6 (React, Vue, Svelte, Angular, Lit, Vanilla) |
+| IR symbol kinds | 12 |
+| IR reference kinds | 8 |
+| TypeScript | Strict mode (`strict: true`) |
 
 ---
 
 ## Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup, conventions, and the PR process.
+We welcome contributions. See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+```bash
+# Setup
+git clone https://github.com/Roy-Wanyoike/FerrumEngine.git
+cd FerrumEngine
+npm install
+
+# Development
+npm run test          # Run test suite (Vitest)
+npm run test:watch    # Watch mode
+npm run test:coverage # Coverage report
+npm run lint          # ESLint
+npm run typecheck     # TypeScript strict check
+npm run e2e           # Playwright end-to-end
+npm run ci            # Full CI pipeline
+```
 
 ---
 
 ## License
 
-[MIT](./LICENSE) -- FerrumEngine Contributors
-
----
-
-**Create with anything. Verify with Ferrum.**
+[MIT](./LICENSE) — use freely, build confidently.
